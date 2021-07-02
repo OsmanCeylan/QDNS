@@ -93,7 +93,9 @@ class Kernel(architecture_tools.Layer):
             else:
                 raise ValueError("Unrecognized action for kernel. What \"{}\"?".format(action))
 
-        self.logger.warning("Simulation is ended in {} seconds.".format(time.time() - start_time))
+        self.logger.warning("Simulation is ended in {} seconds. Raw {} seconds.".format(
+            time.time() - start_time, time.time() - start_time - 4.5)
+        )
 
         dump_list = dict()
         dump_list["SimulationLogs"] = self.logger.logs
