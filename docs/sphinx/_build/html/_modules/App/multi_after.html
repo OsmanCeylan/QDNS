@@ -1,0 +1,282 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>App.multi_after &mdash; QDNS 0.49 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> QDNS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/Install.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/Design.html">Design Principles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/Hello.html">Hello QDNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/App.html">Application Writing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/Hardware.html">Hardware Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/cheats.html">???</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">QDNS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>App.multi_after</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for App.multi_after</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">We need to create more applications along side to default application to enable this design.</span>
+<span class="sd">Creating Alice applications::</span>
+
+<span class="sd">    def alice_default_app(app: QDNS.Application, *user_args):</span>
+<span class="sd">        # Using localhost queue</span>
+<span class="sd">        app.put_localhost(&quot;Hello second application!&quot;)</span>
+
+
+<span class="sd">    def alice_second_app(app: QDNS.Application, *user_args):</span>
+<span class="sd">        print(app.localhost_queue.get())</span>
+
+<span class="sd">Creating Bob applications::</span>
+
+<span class="sd">    def bob_default_app(app: QDNS.Application, *user_args):</span>
+<span class="sd">        print(&quot;This application is {} and hosted in {}.&quot;.format(app.label, app.host_label))</span>
+
+<span class="sd">    def bob_second_app(app: QDNS.Application, *user_args):</span>
+<span class="sd">        print(&quot;This application is {} and hosted in {}.&quot;.format(app.label, app.host_label))</span>
+
+<span class="sd">Application creation::</span>
+
+<span class="sd">    def main():</span>
+<span class="sd">        logging.basicConfig(level=logging.WARNING)</span>
+
+<span class="sd">        alice = QDNS.Node(&quot;Alice&quot;)</span>
+<span class="sd">        bob = QDNS.Node(&quot;Bob&quot;)</span>
+
+<span class="sd">        # Default apps.</span>
+<span class="sd">        alice.create_new_application(alice_default_app)</span>
+<span class="sd">        bob.create_new_application(bob_default_app)</span>
+
+<span class="sd">        # Sencondary apps.</span>
+<span class="sd">        alice.create_new_application(alice_second_app, label=&#39;second&#39;)</span>
+<span class="sd">        bob.create_new_application(bob_second_app, label=&#39;second&#39;)</span>
+
+<span class="sd">Create new application</span>
+<span class="sd">######################</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="create_new_application"><a class="viewcode-back" href="../../docs/App.html#App.multi_after.create_new_application">[docs]</a><span class="k">def</span> <span class="nf">create_new_application</span><span class="p">(</span>
+        <span class="n">function</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">static</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_device_if_terminated</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">bond_end_with_device</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delayed_start_time</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The complete function of create_new_application()</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        function: Function of application.</span>
+<span class="sd">        *args: User arguments to pass simulation.</span>
+<span class="sd">        label: Label of application, default is &quot;default&quot;.</span>
+<span class="sd">        static: Setts application static.</span>
+<span class="sd">        enabled: Setts application enabled.</span>
+<span class="sd">        end_device_if_terminated: Ends device simulation if application is termiated.</span>
+<span class="sd">        bond_end_with_device: Ends device simulation if application is finished.</span>
+<span class="sd">        delayed_start_time: Starts application after delay.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    =================================================</span>
+<span class="sd">    &gt;&gt;&gt; self.create_new_application(&quot;function: bob_run&quot;, *args)</span>
+<span class="sd">    &gt;&gt;&gt; self.create_new_application(&quot;function: alice_run&quot;, *args, label=&quot;alice_app&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; self.create_new_application(&quot;function: bob_run&quot;, *args, static=True)</span>
+<span class="sd">    &gt;&gt;&gt; self.create_new_application(&quot;function: bob_run&quot;, *args, enabled=False)</span>
+
+<span class="sd">    See QDNS/device/applicaion.Application() for more details.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Same name application in device.</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">        Application or None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Osman Ceylan.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
