@@ -32,25 +32,18 @@ avaible_backends = list()
 default_backend = None
 
 try:
-    import cirq
-except ImportError:
-    pass
-else:
-    avaible_backends.append(CIRQ_BACKEND)
-
-try:
-    import projectq
-except ImportError:
-    pass
-else:
-    avaible_backends.append(PROJECTQ_BACKEND)
-
-try:
     import stim
 except ImportError:
     pass
 else:
     avaible_backends.append(STIM_BACKEND)
+
+try:
+    import cirq
+except ImportError:
+    pass
+else:
+    avaible_backends.append(CIRQ_BACKEND)
 avaible_backends.append(SDQS_BACKEND)
 
 

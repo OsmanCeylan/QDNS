@@ -1,0 +1,442 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Modules.Tools.device_tools &mdash; QDNS 0.51 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> QDNS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Install.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Design.html">Design Principles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hello.html">Hello QDNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/App.html">Application Writing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hardware.html">Hardware Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Noise.html">Noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Qkd.html">QKD Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Attack.html">Eavesdropping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Modules.html">Modules References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QDNS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>Modules.Tools.device_tools</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Modules.Tools.device_tools</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">QDNS.tools</span> <span class="kn">import</span> <span class="n">various_tools</span>
+<span class="kn">from</span> <span class="nn">QDNS.tools</span> <span class="kn">import</span> <span class="n">architecture_tools</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##==============================================  DEVICE STATES  =====================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">DEVICE_NOT_STARTED</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">device not started</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+<span class="n">DEVICE_IS_RUNNING</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">device is running</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+<span class="n">DEVICE_IS_STOPPED</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">device is stopped</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+<span class="n">DEVICE_IS_FINISHED</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">device is finished</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+<span class="n">DEVICE_IS_TERMINATED</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">device is terminated</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+<span class="n">DEVICE_IS_PAUSED</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">device is paused</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+<span class="n">DEVICE_MAY_END</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">device may end</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+
+<span class="n">device_states</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">DEVICE_NOT_STARTED</span><span class="p">,</span>
+    <span class="n">DEVICE_IS_RUNNING</span><span class="p">,</span>
+    <span class="n">DEVICE_IS_STOPPED</span><span class="p">,</span>
+    <span class="n">DEVICE_IS_FINISHED</span><span class="p">,</span>
+    <span class="n">DEVICE_IS_TERMINATED</span><span class="p">,</span>
+    <span class="n">DEVICE_MAY_END</span>
+<span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##==============================================  DEVICE INFO  =====================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="DeviceIdentification"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.device_tools.DeviceIdentification">[docs]</a><span class="k">class</span> <span class="nc">DeviceIdentification</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_uuid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_gen_len</span><span class="o">=</span><span class="mi">16</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Device Identification.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            id_: Device Id.</span>
+<span class="sd">            label: Device label.</span>
+<span class="sd">            use_uuid: Use uuid for generation id.</span>
+<span class="sd">            random_gen_len: Random id str generation length.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">id_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">id_</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">use_uuid</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">various_tools</span><span class="o">.</span><span class="n">ran_gen</span><span class="p">(</span><span class="n">random_gen_len</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="n">various_tools</span><span class="o">.</span><span class="n">ran_gen</span><span class="p">(</span><span class="n">random_gen_len</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">uuid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">to_return</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uuid</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">to_return</span>
+
+    <span class="k">def</span> <span class="fm">__int__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span></div>
+
+
+<div class="viewcode-block" id="ChannelIdentification"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.device_tools.ChannelIdentification">[docs]</a><span class="k">class</span> <span class="nc">ChannelIdentification</span><span class="p">(</span><span class="n">DeviceIdentification</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_uuid</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ChannelIdentification</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">id_</span><span class="o">=</span><span class="n">id_</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">use_uuid</span><span class="o">=</span><span class="n">use_uuid</span><span class="p">,</span> <span class="n">random_gen_len</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##==============================================  DEVICE MODULE  =====================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="DeviceModule"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.device_tools.DeviceModule">[docs]</a><span class="k">class</span> <span class="nc">DeviceModule</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">module_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">can_disable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">can_removable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">can_restartable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">can_pausable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">no_state_module</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">special_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">StateHandler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">module_settings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">ModuleSettings</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Device module derived from Module.</span>
+<span class="sd">        See details from QDNS.tools.architecture_tools.Module()...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">DeviceModule</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">architecture_tools</span><span class="o">.</span><span class="n">ID_DEVICE</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">module_name</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">can_disable</span><span class="o">=</span><span class="n">can_disable</span><span class="p">,</span>
+            <span class="n">can_removable</span><span class="o">=</span><span class="n">can_removable</span><span class="p">,</span> <span class="n">can_restartable</span><span class="o">=</span><span class="n">can_restartable</span><span class="p">,</span> <span class="n">no_state_module</span><span class="o">=</span><span class="n">no_state_module</span><span class="p">,</span>
+            <span class="n">can_pausable</span><span class="o">=</span><span class="n">can_pausable</span><span class="p">,</span> <span class="n">special_state</span><span class="o">=</span><span class="n">special_state</span><span class="p">,</span> <span class="n">module_settings</span><span class="o">=</span><span class="n">module_settings</span>
+        <span class="p">)</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##============================================  APP_MAN SETTINGS  ====================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="ApplicationManagerSettings"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.device_tools.ApplicationManagerSettings">[docs]</a><span class="k">class</span> <span class="nc">ApplicationManagerSettings</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">AnySettings</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_application_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">enable_localhost</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">disable_user_apps</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Application manager settings.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            max_application_count: Maximum application count on this device.</span>
+<span class="sd">            enable_localhost: Enable local host queue for applications.</span>
+<span class="sd">            disable_user_apps: Disables new non-static applications.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_application_count</span> <span class="o">=</span> <span class="n">max_application_count</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enable_localhost</span> <span class="o">=</span> <span class="n">enable_localhost</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_disable_user_apps</span> <span class="o">=</span> <span class="n">disable_user_apps</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">ApplicationManagerSettings</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">max_application_count</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_max_application_count</span><span class="p">,</span>
+            <span class="n">enable_local_host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_enable_localhost</span><span class="p">,</span>
+            <span class="n">disable_user_apps</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_disable_user_apps</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">max_application_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_application_count</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">enable_localhost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enable_localhost</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">disable_user_apps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_disable_user_apps</span></div>
+
+
+<span class="n">default_application_manager_settings</span> <span class="o">=</span> <span class="n">ApplicationManagerSettings</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="change_default_application_manager_settings"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.device_tools.change_default_application_manager_settings">[docs]</a><span class="k">def</span> <span class="nf">change_default_application_manager_settings</span><span class="p">(</span><span class="n">new_settings</span><span class="p">:</span> <span class="n">ApplicationManagerSettings</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Changes the &quot;default_application_manager_settings&quot; in device_tools.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">global</span> <span class="n">default_application_manager_settings</span>
+    <span class="n">default_application_manager_settings</span> <span class="o">=</span> <span class="n">new_settings</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##==============================================  DEVICE SETTINGS  ===================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="DeviceSettings"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.device_tools.DeviceSettings">[docs]</a><span class="k">class</span> <span class="nc">DeviceSettings</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">AnySettings</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">otg_device</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">observe_capability</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+            <span class="n">idle_after_device_ends</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">start_after_delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            otg_device: OTG Flag.</span>
+<span class="sd">            observe_capability: Observe capability of device.</span>
+<span class="sd">            idle_after_device_ends: Idle after device ends flag.</span>
+<span class="sd">            start_after_delay: Device starts after delay.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            OTG device has own socket setting. Ignore other socket settings.</span>
+<span class="sd">            Trusted devices cannot contain any user applications.</span>
+<span class="sd">            Observe capability meaningless in trusted devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_otg_device</span> <span class="o">=</span> <span class="n">otg_device</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_observe_capability</span> <span class="o">=</span> <span class="n">observe_capability</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_idle_after_device_ends</span> <span class="o">=</span> <span class="n">idle_after_device_ends</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_start_after_delay</span> <span class="o">=</span> <span class="n">start_after_delay</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">DeviceSettings</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">otg_device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_otg_device</span><span class="p">,</span>
+            <span class="n">observe_capability</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_observe_capability</span><span class="p">,</span>
+            <span class="n">idle_after_device_ends</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_idle_after_device_ends</span><span class="p">,</span>
+            <span class="n">start_after_delay</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_start_after_delay</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">otg_device</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_otg_device</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">observe_capability</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observe_capability</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">idle_after_device_ends</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_idle_after_device_ends</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">start_after_delay</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_after_delay</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">to_return</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;OTG Device: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_otg_device</span><span class="p">)</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Observer Capability: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_observe_capability</span><span class="p">)</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Idle After Device Ends: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_idle_after_device_ends</span><span class="p">)</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Start After Delay Time: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_start_after_delay</span><span class="p">)</span></div>
+
+
+<span class="n">default_device_settings</span> <span class="o">=</span> <span class="n">DeviceSettings</span><span class="p">(</span>
+    <span class="n">otg_device</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">observe_capability</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">idle_after_device_ends</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">start_after_delay</span><span class="o">=</span><span class="mf">0.0</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="change_default_device_settings"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.device_tools.change_default_device_settings">[docs]</a><span class="k">def</span> <span class="nf">change_default_device_settings</span><span class="p">(</span><span class="n">new_device_settings</span><span class="p">:</span> <span class="n">DeviceSettings</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Changes default application settings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">global</span> <span class="n">default_device_settings</span>
+    <span class="n">default_device_settings</span> <span class="o">=</span> <span class="n">new_device_settings</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, COMU Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

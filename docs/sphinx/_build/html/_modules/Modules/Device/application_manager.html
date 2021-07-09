@@ -1,0 +1,685 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Modules.Device.application_manager &mdash; QDNS 0.51 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> QDNS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Install.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Design.html">Design Principles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hello.html">Hello QDNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/App.html">Application Writing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hardware.html">Hardware Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Noise.html">Noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Qkd.html">QKD Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Attack.html">Eavesdropping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Modules.html">Modules References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QDNS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>Modules.Device.application_manager</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Modules.Device.application_manager</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span> <span class="k">as</span> <span class="n">TQueue</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">QDNS.architecture</span> <span class="kn">import</span> <span class="n">signal</span>
+<span class="kn">from</span> <span class="nn">QDNS.device.application</span> <span class="kn">import</span> <span class="n">Application</span>
+<span class="kn">from</span> <span class="nn">QDNS.tools.simulation_tools</span> <span class="kn">import</span> <span class="n">TerminatableThread</span>
+<span class="kn">from</span> <span class="nn">QDNS.tools</span> <span class="kn">import</span> <span class="n">application_tools</span>
+<span class="kn">from</span> <span class="nn">QDNS.tools</span> <span class="kn">import</span> <span class="n">device_tools</span>
+<span class="kn">from</span> <span class="nn">QDNS.rtg_apps.routing</span> <span class="kn">import</span> <span class="n">RoutingLayer</span>
+<span class="kn">from</span> <span class="nn">QDNS.rtg_apps.qkd</span> <span class="kn">import</span> <span class="n">QKDLayer</span>
+
+
+<div class="viewcode-block" id="ApplicationManager"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager">[docs]</a><span class="k">class</span> <span class="nc">ApplicationManager</span><span class="p">(</span><span class="n">device_tools</span><span class="o">.</span><span class="n">DeviceModule</span><span class="p">):</span>
+    <span class="n">APP_MAN_NAME</span> <span class="o">=</span> <span class="s2">&quot;Application Manager&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host_device</span><span class="p">,</span> <span class="n">application_manager_settings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">device_tools</span><span class="o">.</span><span class="n">ApplicationManagerSettings</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Application manager module of a device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">application_manager_settings</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">application_manager_settings</span> <span class="o">=</span> <span class="n">device_tools</span><span class="o">.</span><span class="n">default_application_manager_settings</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">ApplicationManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">APP_MAN_NAME</span><span class="p">,</span> <span class="n">can_disable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">can_removable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">can_restartable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">can_pausable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">no_state_module</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">module_settings</span><span class="o">=</span><span class="n">application_manager_settings</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span> <span class="o">=</span> <span class="n">host_device</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_all_application_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enabled_application_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_static_application_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_default_apps</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user_apps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_application_states</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Application</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_application_thread_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Application</span><span class="p">,</span> <span class="n">TerminatableThread</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_localhost_queue</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Application manager module of device </span><span class="si">{}</span><span class="s2"> is created.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+
+<div class="viewcode-block" id="ApplicationManager.create_new_application"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.create_new_application">[docs]</a>    <span class="k">def</span> <span class="nf">create_new_application</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">static</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_device_if_terminated</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">bond_end_with_device</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delayed_start_time</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Application</span><span class="p">:</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates new application.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            function: Function of application.</span>
+<span class="sd">            label: Label of application, default is &quot;default&quot;.</span>
+<span class="sd">            static: Setts application static.</span>
+<span class="sd">            enabled: Setts application enabled.</span>
+<span class="sd">            end_device_if_terminated: Ends device simulation if application is termiated.</span>
+<span class="sd">            bond_end_with_device: Ends device simulation if application is finished.</span>
+<span class="sd">            delayed_start_time: Starts application after delay.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">        =================================================</span>
+<span class="sd">        &gt;&gt;&gt; self.create_new_application(&quot;function: bob_run&quot;, *args)</span>
+<span class="sd">        &gt;&gt;&gt; self.create_new_application(&quot;function: alice_run&quot;, *args, label=&quot;alice_app&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; self.create_new_application(&quot;function: bob_run&quot;, *args, static=True)</span>
+<span class="sd">        &gt;&gt;&gt; self.create_new_application(&quot;function: bob_run&quot;, *args, enabled=False)</span>
+
+<span class="sd">        See QDNS/device/applicaion.Application() for more details.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: Same name application in device.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            Application or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">DEFAULT_APPLICATION_NAME</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_have_this_application</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> had application named </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">application_count</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_application_count</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">OverflowError</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> had maximum application count of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">application_count</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">static</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">static</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">default_application_settings</span><span class="o">.</span><span class="n">static</span>
+
+        <span class="k">if</span> <span class="n">enabled</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">enabled</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">default_application_settings</span><span class="o">.</span><span class="n">enabled</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disable_user_apps</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> disables user applications.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> disables user applications.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">end_device_if_terminated</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">end_device_if_terminated</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">default_application_settings</span><span class="o">.</span><span class="n">end_device_if_terminated</span>
+
+        <span class="k">if</span> <span class="n">delayed_start_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">delayed_start_time</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">default_application_settings</span><span class="o">.</span><span class="n">delayed_start_time</span>
+
+        <span class="k">if</span> <span class="n">bond_end_with_device</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bond_end_with_device</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">default_application_settings</span><span class="o">.</span><span class="n">bond_end_with_device</span>
+
+        <span class="n">applicaton_settings</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">ApplicationSettings</span><span class="p">(</span>
+            <span class="n">static</span><span class="o">=</span><span class="n">static</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="n">enabled</span><span class="p">,</span> <span class="n">end_device_if_terminated</span><span class="o">=</span><span class="n">end_device_if_terminated</span><span class="p">,</span>
+            <span class="n">bond_end_with_device</span><span class="o">=</span><span class="n">bond_end_with_device</span><span class="p">,</span> <span class="n">delayed_start_time</span><span class="o">=</span><span class="n">delayed_start_time</span>
+        <span class="p">)</span>
+        <span class="n">for_return</span> <span class="o">=</span> <span class="n">Application</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">app_settings</span><span class="o">=</span><span class="n">applicaton_settings</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">for_return</span><span class="o">.</span><span class="n">is_static</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_static_application_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">for_return</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">for_return</span><span class="o">.</span><span class="n">is_enabled</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_enabled_application_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">for_return</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user_apps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">for_return</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_all_application_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">for_return</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_application_states</span><span class="p">[</span><span class="n">for_return</span><span class="p">]</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">APPLICATION_NOT_STARTED</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Application </span><span class="si">{}</span><span class="s2"> is created inside of device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">for_return</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">for_return</span></div>
+
+<div class="viewcode-block" id="ApplicationManager.is_have_this_application"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.is_have_this_application">[docs]</a>    <span class="k">def</span> <span class="nf">is_have_this_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">Application</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if application is exist in this device.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            item: Unique Identifier of application.</span>
+
+<span class="sd">        Item can be int, string, Application.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if application found in this device.</span>
+<span class="sd">            False if applicaion cannot found in this device.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Application</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">application</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_application_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">application</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">application</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_application_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">application</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_application_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Application cannot found with given </span><span class="si">{}</span><span class="s2">, this may cause errors.&quot;</span>
+                <span class="s2">&quot;Accepted key types are int, str, Application.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="ApplicationManager.get_application_from"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.get_application_from">[docs]</a>    <span class="k">def</span> <span class="nf">get_application_from</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">Application</span><span class="p">],</span> <span class="n">_raise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Application</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find and gets application from given list in this device.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            item: Unique identifier of application.</span>
+<span class="sd">            _raise: Raise if cannot found.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Application or None.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError if cannot find the application from given key while raise flag active.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_have_this_application</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">_raise</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Application </span><span class="si">{}</span><span class="s2"> is not found in this device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">application</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_application_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">application</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">application</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Application</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">item</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">_raise</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Application </span><span class="si">{}</span><span class="s2"> is not found in this device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="ApplicationManager.prepair_module"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.prepair_module">[docs]</a>    <span class="k">def</span> <span class="nf">prepair_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_list</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prepairs module.</span>
+<span class="sd">        Defaults enabled application list if from list is None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enable_localhost</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_localhost_queue</span> <span class="o">=</span> <span class="n">TQueue</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">from_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">from_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">enabled_application_list</span>
+        <span class="k">for</span> <span class="n">application</span> <span class="ow">in</span> <span class="n">from_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_application_thread_dict</span><span class="p">[</span><span class="n">application</span><span class="p">]</span> <span class="o">=</span> <span class="n">TerminatableThread</span><span class="p">(</span><span class="n">application</span><span class="o">.</span><span class="n">run</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Application Manager module or device </span><span class="si">{}</span><span class="s2"> setted </span><span class="si">{}</span><span class="s2"> threads.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="n">from_list</span><span class="o">.</span><span class="fm">__len__</span><span class="p">())</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ApplicationManager.start_applications"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.start_applications">[docs]</a>    <span class="k">def</span> <span class="nf">start_applications</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Application</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">from_list</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts applications.</span>
+<span class="sd">        ! Threads must be setted before.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">application</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_application_thread_dict</span><span class="p">[</span><span class="n">application</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Application </span><span class="si">{}</span><span class="s2"> is not prepared for simulation.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">application</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">from_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">from_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">enabled_application_list</span>
+
+        <span class="k">for</span> <span class="n">application</span> <span class="ow">in</span> <span class="n">from_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_application_thread_dict</span><span class="p">[</span><span class="n">application</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ApplicationManager.update_application_state"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.update_application_state">[docs]</a>    <span class="k">def</span> <span class="nf">update_application_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">:</span> <span class="n">Application</span><span class="p">,</span> <span class="n">new_state</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates state of application.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            application: Application object.</span>
+<span class="sd">            new_state: New state of application.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError if application is not found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_application_states</span><span class="p">[</span><span class="n">application</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_state</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Application </span><span class="si">{}</span><span class="s2"> is not found on device </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">application</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="ApplicationManager.update_application_matched_states"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.update_application_matched_states">[docs]</a>    <span class="k">def</span> <span class="nf">update_application_matched_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates application states in dict.</span>
+<span class="sd">        This is needed for tracking terminated applications.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">application_states</span><span class="p">:</span>
+            <span class="n">thread</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_application_thread_dict</span><span class="p">[</span><span class="n">app</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_application_states</span><span class="p">[</span><span class="n">app</span><span class="p">]</span> <span class="o">==</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">APPLICATION_IS_RUNNING</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_application_states</span><span class="p">[</span><span class="n">app</span><span class="p">]</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">APPLICATION_IS_TERMINATED</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Application </span><span class="si">{}</span><span class="s2"> of device </span><span class="si">{}</span><span class="s2"> is probably terminated.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">app</span><span class="o">.</span><span class="n">end_device_if_terminated</span><span class="p">:</span>
+                    <span class="n">signal</span><span class="o">.</span><span class="n">EndDeviceSignal</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">threaded_request_queue</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_application_states</span><span class="p">[</span><span class="n">app</span><span class="p">]</span> <span class="o">==</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">APPLICATION_IS_PAUSED</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_application_states</span><span class="p">[</span><span class="n">app</span><span class="p">]</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">APPLICATION_IS_TERMINATED</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Application </span><span class="si">{}</span><span class="s2"> of device </span><span class="si">{}</span><span class="s2"> is probably terminated.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+                <span class="n">signal</span><span class="o">.</span><span class="n">EndDeviceSignal</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">threaded_request_queue</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ApplicationManager.is_device_endable"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.is_device_endable">[docs]</a>    <span class="k">def</span> <span class="nf">is_device_endable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks application states for if device simulation is endable.</span>
+<span class="sd">        Returns true if device simulation can enable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_application_matched_states</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">application</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">application_thread_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">application_thread_dict</span><span class="p">[</span><span class="n">application</span><span class="p">]</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">application</span><span class="o">.</span><span class="n">is_static</span><span class="p">():</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="ApplicationManager.append_application"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.append_application">[docs]</a>    <span class="k">def</span> <span class="nf">append_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">:</span> <span class="n">Application</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Appends new application to this device.</span>
+<span class="sd">        Must call before any simulations.</span>
+<span class="sd">        Append method add application to DEFAULT_APPS list.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            application: Application</span>
+<span class="sd">            _raise: Raise flag.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError if device had same labeled applicaion.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            True if succesess.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_have_this_application</span><span class="p">(</span><span class="n">application</span><span class="o">.</span><span class="n">label</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">_raise</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> had application named </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span><span class="p">,</span> <span class="n">application</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">application</span><span class="o">.</span><span class="n">change_host_device</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_all_application_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">application</span><span class="o">.</span><span class="n">is_static</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_static_application_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">application</span><span class="o">.</span><span class="n">is_enabled</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_enabled_application_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">application</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_default_apps</span><span class="p">[</span><span class="n">application</span><span class="o">.</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">application</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_application_states</span><span class="p">[</span><span class="n">application</span><span class="p">]</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">APP_STATE_IS_NOT_STARTED</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="ApplicationManager.create_routing_app"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.create_routing_app">[docs]</a>    <span class="k">def</span> <span class="nf">create_routing_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creater routing app. No user shall create route app manually.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">RoutingLayer</span><span class="o">.</span><span class="n">label</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">routing</span> <span class="o">=</span> <span class="n">RoutingLayer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_application_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">routing</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">routing</span><span class="o">.</span><span class="n">is_enabled</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">enabled_application_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">routing</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">routing</span><span class="o">.</span><span class="n">is_static</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">static_application_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">routing</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_application_states</span><span class="p">[</span><span class="n">routing</span><span class="p">]</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">APPLICATION_NOT_STARTED</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="ApplicationManager.create_qkd_app"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.create_qkd_app">[docs]</a>    <span class="k">def</span> <span class="nf">create_qkd_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creater qkd app. No user shall create qkd app manually.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">QKDLayer</span><span class="o">.</span><span class="n">label</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">qkd</span> <span class="o">=</span> <span class="n">QKDLayer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_application_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qkd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">qkd</span><span class="o">.</span><span class="n">is_enabled</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">enabled_application_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qkd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">qkd</span><span class="o">.</span><span class="n">is_static</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">static_application_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qkd</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_application_states</span><span class="p">[</span><span class="n">qkd</span><span class="p">]</span> <span class="o">=</span> <span class="n">application_tools</span><span class="o">.</span><span class="n">APPLICATION_NOT_STARTED</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="ApplicationManager.terminate_application"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.terminate_application">[docs]</a>    <span class="k">def</span> <span class="nf">terminate_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">applications</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Terminates the given application.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            applications: Tuple / List of applications.</span>
+<span class="sd">            _raise: Raise flag.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            True if termination successfull.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">             KeyError if application not found when raise flag active.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">application</span> <span class="ow">in</span> <span class="n">applications</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">thread</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_application_thread_dict</span><span class="p">[</span><span class="n">application</span><span class="p">]</span>
+                <span class="n">thread</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+
+            <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">_raise</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Application </span><span class="si">{}</span><span class="s2"> is not found in app manager.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">application</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">_raise</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Cannot terminate device </span><span class="si">{}</span><span class="s2"> applications this way.&quot;</span>
+                                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span><span class="p">))</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="ApplicationManager.terminate_all_applications"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.application_manager.ApplicationManager.terminate_all_applications">[docs]</a>    <span class="k">def</span> <span class="nf">terminate_all_applications</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Tries to terminate all applications. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminate_application</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">enabled_application_list</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">host_device</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">host_label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span><span class="o">.</span><span class="n">label</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">manager_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">device_tools</span><span class="o">.</span><span class="n">ApplicationManagerSettings</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">module_settings</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">max_application_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager_settings</span><span class="o">.</span><span class="n">max_application_count</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">enable_localhost</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager_settings</span><span class="o">.</span><span class="n">enable_localhost</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">application_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_application_list</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">all_application_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all_application_list</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">enabled_application_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enabled_application_list</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">enabled_application_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enabled_application_list</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">static_application_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_static_application_list</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_apps_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Application</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_apps</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">application_states</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Application</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_application_states</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">logger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Application Manager and its Device shares same logger instance. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span><span class="o">.</span><span class="n">logger</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">localhost_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_localhost_queue</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">route_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">RoutingLayer</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">qkd_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">QKDLayer</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">disable_user_apps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager_settings</span><span class="o">.</span><span class="n">disable_user_apps</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">application_thread_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Application</span><span class="p">,</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_application_thread_dict</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">user_applications</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Application</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user_apps</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, COMU Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

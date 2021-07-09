@@ -1,0 +1,1169 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Modules.Device.network_adapter &mdash; QDNS 0.51 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> QDNS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Install.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Design.html">Design Principles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hello.html">Hello QDNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/App.html">Application Writing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hardware.html">Hardware Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Noise.html">Noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Qkd.html">QKD Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Attack.html">Eavesdropping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Modules.html">Modules References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QDNS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>Modules.Device.network_adapter</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Modules.Device.network_adapter</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span> <span class="k">as</span> <span class="n">TQueue</span><span class="p">,</span> <span class="n">Empty</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">QDNS.architecture</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">respond</span>
+<span class="kn">from</span> <span class="nn">QDNS.commands.api</span> <span class="kn">import</span> <span class="n">make_channel_error_request</span>
+<span class="kn">from</span> <span class="nn">QDNS.device.channel</span> <span class="kn">import</span> <span class="n">ClassicChannel</span><span class="p">,</span> <span class="n">QuantumChannel</span>
+<span class="kn">from</span> <span class="nn">QDNS.rtg_apps.routing</span> <span class="kn">import</span> <span class="n">RoutingLayer</span>
+<span class="kn">from</span> <span class="nn">QDNS.tools</span> <span class="kn">import</span> <span class="n">application_tools</span>
+<span class="kn">from</span> <span class="nn">QDNS.tools</span> <span class="kn">import</span> <span class="n">architecture_tools</span>
+<span class="kn">from</span> <span class="nn">QDNS.tools</span> <span class="kn">import</span> <span class="n">communication_tools</span>
+<span class="kn">from</span> <span class="nn">QDNS.tools</span> <span class="kn">import</span> <span class="n">exit_codes</span>
+<span class="kn">from</span> <span class="nn">QDNS.tools</span> <span class="kn">import</span> <span class="n">socket_tools</span>
+<span class="kn">from</span> <span class="nn">QDNS.tools.simulation_tools</span> <span class="kn">import</span> <span class="n">TerminatableThread</span>
+
+<span class="n">PING_CONTROL_JOB</span> <span class="o">=</span> <span class="s2">&quot;This thread control ping events&quot;</span>
+<span class="n">CLASSIC_CONTROL_JOB</span> <span class="o">=</span> <span class="s2">&quot;This thread controls classic income queue&quot;</span>
+<span class="n">QUANTUM_CONTROL_JOB</span> <span class="o">=</span> <span class="s2">&quot;This thread controls quantum income queue&quot;</span>
+<span class="n">REQUEST_CONTROL_JOB</span> <span class="o">=</span> <span class="s2">&quot;This thread controls request income queue&quot;</span>
+
+
+<div class="viewcode-block" id="NetworkSocket"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.network_adapter.NetworkSocket">[docs]</a><span class="k">class</span> <span class="nc">NetworkSocket</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host_device</span><span class="p">,</span> <span class="n">socket_settings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">SocketSettings</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_label</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&#39;s socket&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">host_device</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_socket_settings</span> <span class="o">=</span> <span class="n">socket_settings</span>
+
+        <span class="k">if</span> <span class="n">socket_settings</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_socket_settings</span> <span class="o">=</span> <span class="n">socket_tools</span><span class="o">.</span><span class="n">default_socket_settings</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">NetworkSocket</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">architecture_tools</span><span class="o">.</span><span class="n">ID_SOCKET</span><span class="p">,</span> <span class="n">architecture_tools</span><span class="o">.</span><span class="n">THREAD_LAYER</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_label</span><span class="p">,</span> <span class="n">layer_settings</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_socket_settings</span>
+        <span class="p">)</span>
+
+        <span class="n">state_handler</span> <span class="o">=</span> <span class="n">architecture_tools</span><span class="o">.</span><span class="n">StateHandler</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">layer_id</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">socket_states</span><span class="p">,</span>
+            <span class="n">GENERAL_STATE_IS_RUNNING</span><span class="o">=</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">SOCKET_IS_UP</span><span class="p">,</span>
+            <span class="n">GENERAL_STATE_IS_STOPPED</span><span class="o">=</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">SOCKET_IS_DOWN</span><span class="p">,</span>
+            <span class="n">GENERAL_STATE_IS_PAUSED</span><span class="o">=</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">SOCKET_PAUSED</span><span class="p">,</span>
+            <span class="n">GENERAL_STATE_IS_FINISHED</span><span class="o">=</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">SOCKET_IS_OVER</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_state_handler</span><span class="p">(</span><span class="n">state_handler</span><span class="p">)</span>
+
+        <span class="c1"># Worker threads.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ping_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__request_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__receive_classic_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__receive_quantum_thread</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span> <span class="o">=</span> <span class="n">host_device</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">PortManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_cc_count</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_qc_count</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">add_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">SIM_REQUEST_QUEUE</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">add_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">INCOME_CLASSIC_QUEUE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">classic_receive_queue</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">add_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">INCOME_QUANTUM_QUEUE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">quantum_receive_queue</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">add_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">PING_HANDLE_QUEUE</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">add_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">PING_REQUEST_QUEUE</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">add_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">OBSERVER_QUEUE</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">classic_port_count</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> is OTG. Cannot have more than 2 classic connection.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">quantum_port_count</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> is OTG. Cannot have more than 2 quantum connection.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">routing_app</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Socket added to device </span><span class="si">{}</span><span class="s2"> is added with total </span><span class="si">{}</span><span class="s2"> ports.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">all_port_count</span><span class="p">))</span>
+
+<div class="viewcode-block" id="NetworkSocket.prepair_layer"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.network_adapter.NetworkSocket.prepair_layer">[docs]</a>    <span class="k">def</span> <span class="nf">prepair_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim_request_queue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets threads and queues for simulation.</span>
+<span class="sd">        Must call before its simulation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_threaded_queues</span><span class="p">(</span><span class="n">TQueue</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">update_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">PING_HANDLE_QUEUE</span><span class="p">,</span> <span class="n">TQueue</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">update_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">PING_REQUEST_QUEUE</span><span class="p">,</span> <span class="n">TQueue</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">update_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">SIM_REQUEST_QUEUE</span><span class="p">,</span> <span class="n">sim_request_queue</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">update_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">OBSERVER_QUEUE</span><span class="p">,</span> <span class="n">TQueue</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">set_sim_request_queue</span><span class="p">(</span><span class="n">sim_request_queue</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__receive_classic_thread</span> <span class="o">=</span> <span class="n">TerminatableThread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">CLASSIC_CONTROL_JOB</span><span class="p">,),</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__receive_quantum_thread</span> <span class="o">=</span> <span class="n">TerminatableThread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">QUANTUM_CONTROL_JOB</span><span class="p">,),</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__request_thread</span> <span class="o">=</span> <span class="n">TerminatableThread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">REQUEST_CONTROL_JOB</span><span class="p">,),</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ping_thread</span> <span class="o">=</span> <span class="n">TerminatableThread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">PING_CONTROL_JOB</span><span class="p">,),</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_routing_enabled</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">routing_app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">RoutingLayer</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Socket of device </span><span class="si">{}</span><span class="s2"> prapair layer with jobs.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="NetworkSocket.start_socket"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.network_adapter.NetworkSocket.start_socket">[docs]</a>    <span class="k">def</span> <span class="nf">start_socket</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Starts socket simulation. &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__receive_classic_thread</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2">&#39;s socket layer probably did not prepaired.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__receive_quantum_thread</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2">&#39;s socket layer probably did not prepaired.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__request_thread</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2">&#39;s socket layer probably did not prepaired.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__request_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__receive_classic_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__receive_quantum_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="c1"># Otg devices cannot ping.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__ping_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">change_state</span><span class="p">(</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">SOCKET_IS_UP</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NetworkSocket.run"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.network_adapter.NetworkSocket.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_job</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">target_job</span> <span class="o">==</span> <span class="n">REQUEST_CONTROL_JOB</span><span class="p">:</span>
+            <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_handler</span><span class="o">.</span><span class="n">is_finished</span><span class="p">():</span>
+                    <span class="k">break</span>
+
+                <span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">threaded_request_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">REQUEST</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__handle_request</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__handle_signal</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Socket of device </span><span class="si">{}</span><span class="s2"> got unrecognized action of </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="n">action</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">target_job</span> <span class="o">==</span> <span class="n">CLASSIC_CONTROL_JOB</span><span class="p">:</span>
+            <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_handler</span><span class="o">.</span><span class="n">is_finished</span><span class="p">():</span>
+                    <span class="k">break</span>
+
+                <span class="n">port</span><span class="p">,</span> <span class="n">package</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">get_classic_receive</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__handle_incoming_package</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">target_job</span> <span class="o">==</span> <span class="n">QUANTUM_CONTROL_JOB</span><span class="p">:</span>
+            <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_handler</span><span class="o">.</span><span class="n">is_finished</span><span class="p">():</span>
+                    <span class="k">break</span>
+
+                <span class="n">port</span><span class="p">,</span> <span class="n">qupack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">get_quantum_receive</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__handle_incoming_qupack</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">target_job</span> <span class="o">==</span> <span class="n">PING_CONTROL_JOB</span><span class="p">:</span>
+            <span class="n">ping_time</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ping_time</span> <span class="o">*</span> <span class="mi">9</span> <span class="o">/</span> <span class="mi">10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ping_time</span> <span class="o">*</span> <span class="mi">11</span> <span class="o">/</span> <span class="mi">10</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">port_states</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">Port</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="n">refresh_requests</span> <span class="o">=</span> <span class="n">TQueue</span><span class="p">()</span>
+            <span class="n">first_time</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_handler</span><span class="o">.</span><span class="n">is_finished</span><span class="p">():</span>
+                    <span class="k">break</span>
+
+                <span class="n">port_states</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">first_time</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__broadcast_ping_protocol</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_ping</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">__broadcast_ping_protocol</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ping_request_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">RefreshConnectionsRequest</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="n">action</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                                <span class="n">refresh_requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">__broadcast_ping_protocol</span><span class="p">()</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Ping thread or </span><span class="si">{}</span><span class="s2"> got unexpected request.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+
+                <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_connected_quantum_ports</span><span class="p">:</span>
+                    <span class="n">port_states</span><span class="p">[</span><span class="n">port</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_connected_classic_ports</span><span class="p">:</span>
+                    <span class="n">port_states</span><span class="p">[</span><span class="n">port</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">port</span><span class="p">,</span> <span class="n">ping_package</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ping_handle_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">1.75</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="n">Empty</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">port</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">get_port</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">classic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quantum</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">port</span><span class="o">.</span><span class="n">set_target_device_id</span><span class="p">(</span><span class="n">ping_package</span><span class="o">.</span><span class="n">device_id</span><span class="p">)</span>
+                        <span class="n">port</span><span class="o">.</span><span class="n">set_latency</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">ping_package</span><span class="o">.</span><span class="n">ping_time</span><span class="p">)</span>
+                        <span class="n">port_states</span><span class="p">[</span><span class="n">port</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+                <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">port_states</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">port_states</span><span class="p">[</span><span class="n">port</span><span class="p">]:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Connection beetwen </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2"> is probably removed.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="n">port</span><span class="o">.</span><span class="n">target_device_id</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">unconnect_port</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">soft</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">process_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_ping</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">process_time</span> <span class="o">&lt;</span> <span class="n">ping_time</span><span class="p">:</span>
+                        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">ping_time</span> <span class="o">-</span> <span class="n">process_time</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket_settings</span><span class="o">.</span><span class="n">clear_route_cache</span><span class="p">:</span>
+                        <span class="n">signal_</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">FlushRouteData</span><span class="p">()</span>
+                        <span class="n">signal_</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">routing_app</span><span class="o">.</span><span class="n">threaded_request_queue</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">request_</span> <span class="o">=</span> <span class="n">refresh_requests</span><span class="o">.</span><span class="n">get_nowait</span><span class="p">()</span>
+                    <span class="k">except</span> <span class="n">Empty</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">port_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                        <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">port_states</span><span class="p">:</span>
+                            <span class="n">port_dict</span><span class="p">[</span><span class="n">port</span><span class="o">.</span><span class="n">channel_uuid</span><span class="p">]</span> <span class="o">=</span> <span class="n">port_states</span><span class="p">[</span><span class="n">port</span><span class="p">]</span>
+
+                        <span class="n">respond</span><span class="o">.</span><span class="n">RefreshConnectionsRespond</span><span class="p">(</span>
+                            <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">REFRESH_CONNECTION_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">port_dict</span><span class="p">,</span> <span class="n">process_time</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+                <span class="n">first_time</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ChildProcessError</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> socket got unknown thread job. </span><span class="si">{}</span><span class="s2">?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="n">target_job</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">__handle_signal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal_</span><span class="p">:</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles signals.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            signal_: The signal.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signal_</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">DeviceEndSocketSignal</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__end_socket</span><span class="p">()</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signal_</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">TerminateSocketSignal</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">terminate_socket</span><span class="p">()</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognized signal for device </span><span class="si">{}</span><span class="s2">&#39;socket. What </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="n">signal_</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__handle_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">REQUEST</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles requests.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            request_: The request.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Layer check.</span>
+        <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">target_id</span> <span class="o">!=</span> <span class="n">architecture_tools</span><span class="o">.</span><span class="n">ID_SOCKET</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Exepted socket request but got </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">target_id</span><span class="p">))</span>
+
+        <span class="c1"># State check.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_handler</span><span class="o">.</span><span class="n">state_is_stopped</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">ResumeSocketRequest</span><span class="p">):</span>
+                <span class="n">state_changed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_state</span><span class="p">(</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">SOCKET_IS_UP</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                    <span class="n">respond</span><span class="o">.</span><span class="n">ResumeSocketRespond</span><span class="p">(</span>
+                        <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">SOCKET_STATE_CHANGE_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">state_changed</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                    <span class="n">respond</span><span class="o">.</span><span class="n">GenericRespond</span><span class="p">(</span>
+                        <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">SOCKET_IS_DONW_STATE</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Socket information request.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">SocketInformationRequest</span><span class="p">):</span>
+            <span class="n">ss</span> <span class="o">=</span> <span class="n">socket_tools</span><span class="o">.</span><span class="n">SocketInformation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket_settings</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="n">respond</span><span class="o">.</span><span class="n">SocketInformationRespond</span><span class="p">(</span>
+                    <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">GATHER_SOCKET_INFORMATION_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ss</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="c1"># Connectivity information request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">ConnectivityInformationRequest</span><span class="p">):</span>
+            <span class="n">ci</span> <span class="o">=</span> <span class="n">socket_tools</span><span class="o">.</span><span class="n">ConnectivityInformation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="p">,</span> <span class="n">request_</span><span class="o">.</span><span class="n">get_uuids</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="n">respond</span><span class="o">.</span><span class="n">ConnectivityInformationRespond</span><span class="p">(</span>
+                    <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">GATHER_CONNECTIVITY_INFORMATION_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ci</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="c1"># Port information request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">PortInformationRequest</span><span class="p">):</span>
+            <span class="n">port_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">get_port</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">port_key</span><span class="p">,</span> <span class="n">classic</span><span class="o">=</span><span class="n">request_</span><span class="o">.</span><span class="n">search_classic</span><span class="p">,</span> <span class="n">quantum</span><span class="o">=</span><span class="n">request_</span><span class="o">.</span><span class="n">search_quantum</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">port_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">respond</span><span class="o">.</span><span class="n">PortInformationRespond</span><span class="p">(</span>
+                        <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">FIND_PORT_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">pi</span> <span class="o">=</span> <span class="n">socket_tools</span><span class="o">.</span><span class="n">PortInformation</span><span class="p">(</span><span class="n">port_</span><span class="p">)</span>
+                    <span class="n">respond</span><span class="o">.</span><span class="n">PortInformationRespond</span><span class="p">(</span>
+                        <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">GATHER_PORT_INFORMATION_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pi</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="c1"># Open communication request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">OpenCommunicationRequest</span><span class="p">):</span>
+            <span class="n">state_changed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">open_connectivity</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="n">respond</span><span class="o">.</span><span class="n">OpenCommunicationRespond</span><span class="p">(</span>
+                    <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">CLOSE_COMMUNICATION_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">state_changed</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="c1"># Close communication request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">CloseCommunicationRequest</span><span class="p">):</span>
+            <span class="n">state_changed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">close_connectivity</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="n">respond</span><span class="o">.</span><span class="n">CloseCommunicationRespond</span><span class="p">(</span>
+                    <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">CLOSE_COMMUNICATION_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">state_changed</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="c1"># Activate port request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">ActivatePortRequest</span><span class="p">):</span>
+            <span class="n">port_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">get_port</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">port_key</span><span class="p">,</span> <span class="n">classic</span><span class="o">=</span><span class="n">request_</span><span class="o">.</span><span class="n">search_classic</span><span class="p">,</span> <span class="n">quantum</span><span class="o">=</span><span class="n">request_</span><span class="o">.</span><span class="n">search_quantum</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="n">state_changed</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">port_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">state_changed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">activate_port</span><span class="p">(</span><span class="n">port_</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">port_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">respond</span><span class="o">.</span><span class="n">ActivatePortRespond</span><span class="p">(</span>
+                        <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">FIND_PORT_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">respond</span><span class="o">.</span><span class="n">ActivatePortRespond</span><span class="p">(</span>
+                        <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">ACTIVATE_PORT_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">state_changed</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="c1"># Deactivate port request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">DeactivatePortRequest</span><span class="p">):</span>
+            <span class="n">port_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">get_port</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">port_key</span><span class="p">,</span> <span class="n">classic</span><span class="o">=</span><span class="n">request_</span><span class="o">.</span><span class="n">search_classic</span><span class="p">,</span> <span class="n">quantum</span><span class="o">=</span><span class="n">request_</span><span class="o">.</span><span class="n">search_quantum</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="n">state_changed</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">port_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">state_changed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">deactivate_port</span><span class="p">(</span><span class="n">port_</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">port_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">respond</span><span class="o">.</span><span class="n">DeactivatePortRespond</span><span class="p">(</span>
+                        <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">FIND_PORT_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">respond</span><span class="o">.</span><span class="n">DeactivatePortRespond</span><span class="p">(</span>
+                        <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">DEACTIVATE_PORT_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">state_changed</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="c1"># Resume socket request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">ResumeSocketRequest</span><span class="p">):</span>
+            <span class="n">state_changed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_state</span><span class="p">(</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">SOCKET_IS_UP</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="n">respond</span><span class="o">.</span><span class="n">ResumeSocketRespond</span><span class="p">(</span>
+                    <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">SOCKET_STATE_CHANGE_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">state_changed</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="c1"># Pause socket request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">PauseSocketRequest</span><span class="p">):</span>
+            <span class="n">state_changed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_state</span><span class="p">(</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">SOCKET_IS_DOWN</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="n">respond</span><span class="o">.</span><span class="n">PauseSocketRespond</span><span class="p">(</span>
+                    <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">SOCKET_STATE_CHANGE_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">state_changed</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="c1"># Refresh connections request.</span>
+        <span class="c1"># ! Ping thread handles this request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">RefreshConnectionsRequest</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_ping</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                    <span class="n">respond</span><span class="o">.</span><span class="n">RefreshConnectionsRespond</span><span class="p">(</span>
+                        <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">REFRESH_CONNECTION_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ping_request_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">request_</span><span class="p">)</span>
+
+        <span class="c1"># Unconnect channel request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">UnconnectChannelRequest</span><span class="p">):</span>
+            <span class="n">port_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">get_port</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">channel_key</span><span class="p">,</span> <span class="n">classic</span><span class="o">=</span><span class="n">request_</span><span class="o">.</span><span class="n">search_classic</span><span class="p">,</span> <span class="n">quantum</span><span class="o">=</span><span class="n">request_</span><span class="o">.</span><span class="n">search_quantum</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="n">state_changed</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">port_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">state_changed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">unconnect_port</span><span class="p">(</span><span class="n">port_</span><span class="p">,</span> <span class="n">soft</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">port_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">respond</span><span class="o">.</span><span class="n">UnconnectChannelRespond</span><span class="p">(</span>
+                        <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">FIND_PORT_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">None</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">respond</span><span class="o">.</span><span class="n">UnconnectChannelRespond</span><span class="p">(</span>
+                        <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">UNCONNECT_CHANNEL_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">state_changed</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="c1"># Reconnect channel request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">ReconnectChannelRequest</span><span class="p">):</span>
+            <span class="n">port_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">get_port</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">channel_key</span><span class="p">,</span> <span class="n">classic</span><span class="o">=</span><span class="n">request_</span><span class="o">.</span><span class="n">search_classic</span><span class="p">,</span> <span class="n">quantum</span><span class="o">=</span><span class="n">request_</span><span class="o">.</span><span class="n">search_quantum</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="n">state_changed</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">port_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">state_changed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">reconnect_port</span><span class="p">(</span><span class="n">port_</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">port_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">respond</span><span class="o">.</span><span class="n">ReconnectChannelRespond</span><span class="p">(</span>
+                        <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">FIND_PORT_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">state_changed</span><span class="p">:</span>
+                        <span class="n">respond</span><span class="o">.</span><span class="n">ReconnectChannelRespond</span><span class="p">(</span>
+                            <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">RECONNECT_CHANNEL_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">respond</span><span class="o">.</span><span class="n">ReconnectChannelRespond</span><span class="p">(</span>
+                            <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">RECONNECT_CHANNEL_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="c1"># Send package request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">SendPackageRequest</span><span class="p">):</span>
+            <span class="n">exit_code_</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__send_package</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">package</span><span class="p">,</span> <span class="n">request_</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="n">respond</span><span class="o">.</span><span class="n">SendPackageRespond</span><span class="p">(</span>
+                    <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_code_</span><span class="p">,</span> <span class="n">count</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="c1"># Send qupack request.</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">request_</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">SendQupackRequest</span><span class="p">):</span>
+            <span class="n">exit_code_</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__send_qupack</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">qupack</span><span class="p">,</span> <span class="n">request_</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">request_</span><span class="o">.</span><span class="n">want_respond</span><span class="p">:</span>
+                <span class="n">respond</span><span class="o">.</span><span class="n">SendQupackRespond</span><span class="p">(</span>
+                    <span class="n">request_</span><span class="o">.</span><span class="n">generic_id</span><span class="p">,</span> <span class="n">exit_code_</span><span class="p">,</span> <span class="n">count</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">request_</span><span class="o">.</span><span class="n">spesific_asker</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">threaded_respond_queue</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognized request for device </span><span class="si">{}</span><span class="s2">&#39;socket. What </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="n">request_</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__handle_incoming_package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="n">socket_tools</span><span class="o">.</span><span class="n">Port</span><span class="p">,</span> <span class="n">package</span><span class="p">:</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">Package</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles incoming packages.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            port: Incoming port.</span>
+<span class="sd">            package: The package.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Handle ping packages first.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">PingRequestPackage</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">port</span><span class="o">.</span><span class="n">is_unconnected</span><span class="p">():</span>
+                <span class="n">port</span><span class="o">.</span><span class="n">set_target_device_id</span><span class="p">(</span><span class="n">package</span><span class="o">.</span><span class="n">device_id</span><span class="p">)</span>
+                <span class="n">port</span><span class="o">.</span><span class="n">set_latency</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">package</span><span class="o">.</span><span class="n">ping_time</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_classic_information</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">PingRespondPackage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device_id</span><span class="p">),</span> <span class="n">check_active</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_classic_ports</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                        <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                        <span class="k">break</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_classic_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">PingRespondPackage</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">port</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">reconnect_port</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ping_handle_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">port</span><span class="p">,</span> <span class="n">package</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_classic_ports</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                        <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                        <span class="k">break</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_classic_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">port</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">package</span><span class="o">.</span><span class="n">is_drop</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;A package dropped on device </span><span class="si">{}</span><span class="s2">&#39;s socket.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">observe_capability</span><span class="p">:</span>
+            <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device_default_app</span>
+            <span class="k">if</span> <span class="n">app</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;The package for application </span><span class="si">{}</span><span class="s2"> cannot delivered in device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">package</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">app</span><span class="o">.</span><span class="n">listener_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">package</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">app</span><span class="o">.</span><span class="n">listener_interrupt</span><span class="p">:</span>
+                    <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">observer_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">message</span> <span class="o">==</span> <span class="n">socket_tools</span><span class="o">.</span><span class="n">DROP_PACKAGE</span><span class="p">:</span>
+                        <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">package</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">receiver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__put_package_to_application</span><span class="p">(</span><span class="n">package</span><span class="o">.</span><span class="n">app_layer</span><span class="o">.</span><span class="n">app_label</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_classic_ports</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                        <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                        <span class="k">break</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_classic_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">package</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">receiver</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_label</span> <span class="ow">or</span> <span class="n">package</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">receiver</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_uuid</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__put_package_to_application</span><span class="p">(</span><span class="n">package</span><span class="o">.</span><span class="n">app_layer</span><span class="o">.</span><span class="n">app_label</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">route_data</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">route</span>
+            <span class="k">if</span> <span class="n">route_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> got package without route info. Rerouting package, but this could be BUG.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__send_package</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">package</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_classic_ports</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                            <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                            <span class="k">break</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_classic_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+                <span class="k">return</span>
+
+            <span class="k">if</span> <span class="n">route_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_uuid</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> got package with corrupted route. Rerouting package, but this could be BUG.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__send_package</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">package</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_classic_ports</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                            <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                            <span class="k">break</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_classic_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+                <span class="k">return</span>
+
+            <span class="k">if</span> <span class="n">route_data</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> got package with altered route. Rerouting package, but this could be BUG.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__send_package</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">package</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_classic_ports</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                            <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                            <span class="k">break</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_classic_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+                <span class="k">return</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                <span class="n">route_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__send_package</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">route_data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_classic_ports</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                        <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                        <span class="k">break</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_classic_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__handle_incoming_qupack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="n">socket_tools</span><span class="o">.</span><span class="n">Port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">:</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">Qupack</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles incoming qupacks.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            port: Incoming port.</span>
+<span class="sd">            qupack: The qupack.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Handle ping packages first.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qupack</span><span class="p">,</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">PingRequestPackage</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">port</span><span class="o">.</span><span class="n">is_unconnected</span><span class="p">():</span>
+                <span class="n">port</span><span class="o">.</span><span class="n">set_target_device_id</span><span class="p">(</span><span class="n">qupack</span><span class="o">.</span><span class="n">device_id</span><span class="p">)</span>
+                <span class="n">port</span><span class="o">.</span><span class="n">set_latency</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ping_time</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_quantum_information</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">PingRespondPackage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device_id</span><span class="p">),</span> <span class="n">check_active</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_quantum_ports</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                        <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                        <span class="k">break</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_quantum_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qupack</span><span class="p">,</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">PingRespondPackage</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">port</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">reconnect_port</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ping_handle_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_quantum_ports</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                        <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                        <span class="k">break</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_quantum_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Port is not open.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">port</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">make_channel_error_request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_uuid</span><span class="p">,</span> <span class="n">port</span><span class="o">.</span><span class="n">channel_uuid</span><span class="p">,</span> <span class="n">qupack</span><span class="o">.</span><span class="n">qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim_request_queue</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">observe_capability</span><span class="p">:</span>
+            <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">device_default_app</span>
+            <span class="k">if</span> <span class="n">app</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;The package for application </span><span class="si">{}</span><span class="s2"> cannot delivered in device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">app</span><span class="o">.</span><span class="n">listener_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">qupack</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">app</span><span class="o">.</span><span class="n">listener_interrupt</span><span class="p">:</span>
+                    <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">observer_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">message</span> <span class="o">==</span> <span class="n">socket_tools</span><span class="o">.</span><span class="n">DROP_PACKAGE</span><span class="p">:</span>
+                        <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">receiver</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__put_qupack_to_application</span><span class="p">(</span><span class="n">qupack</span><span class="o">.</span><span class="n">app_layer</span><span class="o">.</span><span class="n">app_label</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_quantum_ports</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                        <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                        <span class="k">break</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_quantum_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">receiver</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_label</span> <span class="ow">or</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">receiver</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_uuid</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__put_qupack_to_application</span><span class="p">(</span><span class="n">qupack</span><span class="o">.</span><span class="n">app_layer</span><span class="o">.</span><span class="n">app_label</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">route_data</span> <span class="o">=</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">route</span>
+            <span class="k">if</span> <span class="n">route_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> got qupack without route info. Rerouting package, but this could be BUG.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__send_qupack</span><span class="p">(</span><span class="n">qupack</span><span class="p">,</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_quantum_ports</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                            <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                            <span class="k">break</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_quantum_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">)</span>
+                <span class="k">return</span>
+
+            <span class="k">if</span> <span class="n">route_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_uuid</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> got qupack without route info. Rerouting package, but this could be BUG.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__send_qupack</span><span class="p">(</span><span class="n">qupack</span><span class="p">,</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_quantum_ports</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                            <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                            <span class="k">break</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_quantum_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">)</span>
+                <span class="k">return</span>
+
+            <span class="k">if</span> <span class="n">route_data</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Device </span><span class="si">{}</span><span class="s2"> got qupack with altered route. Rerouting package, but this could be BUG.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__send_qupack</span><span class="p">(</span><span class="n">qupack</span><span class="p">,</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">receiver</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_quantum_ports</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                            <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                            <span class="k">break</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_quantum_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">)</span>
+                <span class="k">return</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                <span class="n">route_data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__send_qupack</span><span class="p">(</span><span class="n">qupack</span><span class="p">,</span> <span class="n">route_data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">target_port</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_quantum_ports</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">port_</span><span class="o">.</span><span class="n">index</span> <span class="o">!=</span> <span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                        <span class="n">target_port</span> <span class="o">=</span> <span class="n">port_</span>
+                        <span class="k">break</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_quantum_information</span><span class="p">(</span><span class="n">target_port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__send_package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package</span><span class="p">:</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">Package</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Network socket tries to send package to target.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            package: Network package.</span>
+<span class="sd">            target: Target device.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            Target can be device label, device uuid, channel uuid or index of port.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">port_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">get_port</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">classic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quantum</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">broadcast</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">broadcast</span>
+        <span class="n">routing</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">routing</span>
+
+        <span class="k">if</span> <span class="n">broadcast</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">port_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_connected_classic_ports</span><span class="p">:</span>
+                <span class="n">package_temp</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+                <span class="n">package_temp</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">change_receiver</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_classic_information</span><span class="p">(</span><span class="n">port_</span><span class="p">,</span> <span class="n">package_temp</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">BROADCASTED_PACKAGE</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_connected_classic_port_count</span>
+
+        <span class="k">if</span> <span class="n">port_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">routing</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">NO_DIRECT_CONNECTION_FOUND</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_routing_enabled</span><span class="p">():</span>
+                    <span class="k">return</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">ROUTING_IS_DISABLED</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">routing_app</span><span class="o">.</span><span class="n">threaded_request_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">RoutePackageRequest</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">package</span><span class="p">))</span>
+                    <span class="k">return</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">PACKAGE_IS_ROUTING</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">port_</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">PORT_IS_DISABLE</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_classic_information</span><span class="p">(</span><span class="n">port_</span><span class="p">,</span> <span class="n">package</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">PACKAGE_SENDED</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">__send_qupack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qupack</span><span class="p">:</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">Qupack</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Network socket tries to send qupack to target.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            qupack: Qupack.</span>
+<span class="sd">            target: Target device.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            Target can be device label, device uuid, channel uuid or index of port.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">port_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">get_port</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">classic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">quantum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">routing</span> <span class="o">=</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">routing</span>
+
+        <span class="k">if</span> <span class="n">port_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">routing</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">NO_DIRECT_CONNECTION_FOUND</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_routing_enabled</span><span class="p">():</span>
+                    <span class="k">return</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">ROUTING_IS_DISABLED</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">routing_app</span><span class="o">.</span><span class="n">threaded_request_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">RouteQupackRequest</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">qupack</span><span class="p">))</span>
+                    <span class="k">return</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">QUPACK_IS_ROUTING</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">port_</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">PORT_IS_DISABLE</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_quantum_information</span><span class="p">(</span><span class="n">port_</span><span class="p">,</span> <span class="n">qupack</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">exit_codes</span><span class="o">.</span><span class="n">QUPACK_SENDED</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__broadcast_ping_protocol</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">Port</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Broadcasts ping packages.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">to_return_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">pp</span> <span class="o">=</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">PingRequestPackage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_device_id</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_connected_classic_ports</span><span class="p">:</span>
+            <span class="n">to_return_dict</span><span class="p">[</span><span class="n">port</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_information</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">pp</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">active_connected_quantum_ports</span><span class="p">:</span>
+            <span class="n">to_return_dict</span><span class="p">[</span><span class="n">port</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">send_information</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">pp</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">to_return_dict</span>
+
+    <span class="k">def</span> <span class="nf">__put_package_to_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">,</span> <span class="n">package</span><span class="p">:</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">Package</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Puts package to the application in this device.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            application: Application identifier.</span>
+<span class="sd">            package: Package.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">app</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;The package for application </span><span class="si">{}</span><span class="s2"> cannot delivered in device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">package</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+            <span class="k">return</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">income_package_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__put_qupack_to_application</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">application</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="n">socket_tools</span><span class="o">.</span><span class="n">Port</span><span class="p">,</span> <span class="n">qupack</span><span class="p">:</span> <span class="n">communication_tools</span><span class="o">.</span><span class="n">Qupack</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Puts qubit to the applicaiton on this device.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            application: Application identifier.</span>
+<span class="sd">            port: Port.</span>
+<span class="sd">            qupack: Qupack.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">app</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">app</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;The qupack for application </span><span class="si">{}</span><span class="s2"> cannot delivered in device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">sender</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="n">qubits</span> <span class="o">=</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">sender</span> <span class="o">=</span> <span class="n">qupack</span><span class="o">.</span><span class="n">ip_layer</span><span class="o">.</span><span class="n">sender</span>
+        <span class="n">qupack_date</span> <span class="o">=</span> <span class="n">qupack</span><span class="o">.</span><span class="n">creation_date</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qubits</span><span class="p">):</span>
+            <span class="n">app</span><span class="o">.</span><span class="n">income_qubit_queue</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="n">port</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">qupack_date</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">microseconds</span><span class="o">=</span><span class="n">i</span><span class="o">*</span><span class="mf">7.5</span><span class="p">),</span> <span class="n">qubit</span><span class="p">])</span>
+
+<div class="viewcode-block" id="NetworkSocket.connect_classic_channel"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.network_adapter.NetworkSocket.connect_classic_channel">[docs]</a>    <span class="k">def</span> <span class="nf">connect_classic_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="n">ClassicChannel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">Port</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Connects channel to port.</span>
+<span class="sd">        This operation must be done in two steps.</span>
+<span class="sd">        Must be setted queues after connect.</span>
+<span class="sd">        Redirects Port Manger module.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            channel: Channel.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Port or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">connect_classic_channel</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NetworkSocket.connect_quantum_channel"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.network_adapter.NetworkSocket.connect_quantum_channel">[docs]</a>    <span class="k">def</span> <span class="nf">connect_quantum_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">channel</span><span class="p">:</span> <span class="n">QuantumChannel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">Port</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Connects channel to port.</span>
+<span class="sd">        This operation must be done in two steps.</span>
+<span class="sd">        Must be setted queues after connect.</span>
+<span class="sd">        Redirects Port Manger module.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            channel: Channel.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Port or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">connect_quantum_channel</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__end_socket</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">user_dump_queue</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="s2">&quot;SocketLogs&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">logs</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">change_state</span><span class="p">(</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">SOCKET_IS_OVER</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">threaded_request_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">DeviceEndSocketSignal</span><span class="p">(</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">SOCKET_IS_OVER</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Socket of device </span><span class="si">{}</span><span class="s2"> is ended.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+
+<div class="viewcode-block" id="NetworkSocket.terminate_socket"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.network_adapter.NetworkSocket.terminate_socket">[docs]</a>    <span class="k">def</span> <span class="nf">terminate_socket</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">user_dump_queue</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="s2">&quot;SocketLogs&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">logs</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Socket of device </span><span class="si">{}</span><span class="s2"> is terminating...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">change_state</span><span class="p">(</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">SOCKET_IS_OVER</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__request_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__request_thread</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__receive_classic_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__receive_classic_thread</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__receive_quantum_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__receive_quantum_thread</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ping_thread</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="NetworkSocket.is_routing_enabled"><a class="viewcode-back" href="../../../docs/Modules.Device.html#Modules.Device.network_adapter.NetworkSocket.is_routing_enabled">[docs]</a>    <span class="k">def</span> <span class="nf">is_routing_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket_settings</span><span class="o">.</span><span class="n">is_routing_enabled</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">host_device_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span><span class="o">.</span><span class="n">device_id</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">socket_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">socket_tools</span><span class="o">.</span><span class="n">SocketSettings</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_setting</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">max_cc_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket_settings</span><span class="o">.</span><span class="n">max_cc_count</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">max_qc_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket_settings</span><span class="o">.</span><span class="n">max_qc_count</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">auto_ping</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket_settings</span><span class="o">.</span><span class="n">auto_ping</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ping_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket_settings</span><span class="o">.</span><span class="n">ping_time</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">remove_future_package</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">socket_settings</span><span class="o">.</span><span class="n">remove_future_packages</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">host_device</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">host_label</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span><span class="o">.</span><span class="n">label</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">host_request_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span><span class="o">.</span><span class="n">threaded_request_queue</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">host_uuid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_host_device</span><span class="o">.</span><span class="n">uuid</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">port_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">socket_tools</span><span class="o">.</span><span class="n">PortManager</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_module</span><span class="p">(</span><span class="n">socket_tools</span><span class="o">.</span><span class="n">PortManager</span><span class="o">.</span><span class="n">module_name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">income_classic_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">classic_receive_queue</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">income_quantum_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">port_manager</span><span class="o">.</span><span class="n">quantum_receive_queue</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ping_handle_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">get_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">PING_HANDLE_QUEUE</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ping_request_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">get_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">PING_REQUEST_QUEUE</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sim_request_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">get_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">SIM_REQUEST_QUEUE</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">observer_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">get_queue</span><span class="p">(</span><span class="n">architecture_tools</span><span class="o">.</span><span class="n">OBSERVER_QUEUE</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">device_default_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_device</span><span class="o">.</span><span class="n">appman</span><span class="o">.</span><span class="n">get_application_from</span><span class="p">(</span><span class="n">application_tools</span><span class="o">.</span><span class="n">DEFAULT_APPLICATION_NAME</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, COMU Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

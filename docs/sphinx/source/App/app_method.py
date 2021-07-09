@@ -42,7 +42,6 @@ Lets try look device, connection and port information on application::
     {'exit_code': 40, 'index': 0, 'type': 'Classic port type', 'active': True, 'connected': True, 'channel_id': 'AS2L82LIWOE59D09', 'target': 'Bob', 'latency': 0.00017
 
 As can be seen above, many methods embedded in the application class returns a dictionary containing an exit code. Positive exit codes means operation is successful.
-These exit codes codes can be found in Modules.exit_codes section.
 
 As we continue, we will describe the important methods in application class.
 """

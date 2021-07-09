@@ -22,6 +22,8 @@ Welcome to QDNS's documentation!
    docs/Qkd
    docs/Attack
    docs/Features
+   docs/Examples
+   docs/Modules
 
 Indices and tables
 ==================

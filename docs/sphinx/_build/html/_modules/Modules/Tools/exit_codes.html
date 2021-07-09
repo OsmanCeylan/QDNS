@@ -1,0 +1,436 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Modules.Tools.exit_codes &mdash; QDNS 0.51 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> QDNS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Install.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Design.html">Design Principles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hello.html">Hello QDNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/App.html">Application Writing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hardware.html">Hardware Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Noise.html">Noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Qkd.html">QKD Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Attack.html">Eavesdropping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Modules.html">Modules References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QDNS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>Modules.Tools.exit_codes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Modules.Tools.exit_codes</h1><div class="highlight"><pre>
+<span></span><span class="n">GATHER_SOCKET_INFORMATION_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Gather socket information is successed.&quot;</span><span class="p">)</span>
+<span class="n">GATHER_SOCKET_INFORMATION_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Gather socket information is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">GATHER_DEVICE_INFORMATION_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;Gather device information is successed.&quot;</span><span class="p">)</span>
+<span class="n">GATHER_DEVICE_INFORMATION_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;Gather device information is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">GATHER_CONNECTIVITY_INFORMATION_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;Gather connectivity information is successed.&quot;</span><span class="p">)</span>
+<span class="n">GATHER_CONNECTIVITY_INFORMATION_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;Gather connectivity information is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">GATHER_PORT_INFORMATION_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s2">&quot;Gather socket information is successed.&quot;</span><span class="p">)</span>
+<span class="n">GATHER_PORT_INFORMATION_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="s2">&quot;Gather socket information is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">OPEN_COMMUNICATION_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;Open communication is successfull.&quot;</span><span class="p">)</span>
+<span class="n">OPEN_COMMUNICATION_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;Open communication is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">CLOSE_COMMUNICATION_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">51</span><span class="p">,</span> <span class="s2">&quot;Close communication is successfull.&quot;</span><span class="p">)</span>
+<span class="n">CLOSE_COMMUNICATION_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">51</span><span class="p">,</span> <span class="s2">&quot;Close communication is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">ACTIVATE_PORT_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;Activate port is successfull.&quot;</span><span class="p">)</span>
+<span class="n">ACTIVATE_PORT_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;Activate port is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">DEACTIVATE_PORT_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">61</span><span class="p">,</span> <span class="s2">&quot;Deactivate port is successfull.&quot;</span><span class="p">)</span>
+<span class="n">DEACTIVATE_PORT_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">61</span><span class="p">,</span> <span class="s2">&quot;Deactivate port is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">SOCKET_STATE_CHANGE_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="s2">&quot;Socket state change is successfull.&quot;</span><span class="p">)</span>
+<span class="n">SOCKET_STATE_CHANGE_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">70</span><span class="p">,</span> <span class="s2">&quot;Socket state change is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">PAUSE_SOCKET_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">71</span><span class="p">,</span> <span class="s2">&quot;Deactivate port is successfull.&quot;</span><span class="p">)</span>
+<span class="n">PAUSE_SOCKET_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">71</span><span class="p">,</span> <span class="s2">&quot;Deactivate port is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">RESUME_SOCKET_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="s2">&quot;Deactivate port is successfull.&quot;</span><span class="p">)</span>
+<span class="n">RESUME_SOCKET_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">72</span><span class="p">,</span> <span class="s2">&quot;Deactivate port is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">REFRESH_CONNECTION_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="s2">&quot;Refreshing connections is successfull.&quot;</span><span class="p">)</span>
+<span class="n">REFRESH_CONNECTION_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">80</span><span class="p">,</span> <span class="s2">&quot;Refreshing connections is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">UNCONNECT_CHANNEL_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="s2">&quot;Unconnect channel is successfull.&quot;</span><span class="p">)</span>
+<span class="n">UNCONNECT_CHANNEL_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="s2">&quot;Unconnect channel is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">RECONNECT_CHANNEL_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">91</span><span class="p">,</span> <span class="s2">&quot;Reconnect channel is successfull.&quot;</span><span class="p">)</span>
+<span class="n">RECONNECT_CHANNEL_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">91</span><span class="p">,</span> <span class="s2">&quot;Reconnect channel is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">PING_CONNECTIONS_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="s2">&quot;Ping socket connections is successfull.&quot;</span><span class="p">)</span>
+<span class="n">PING_CONNECTIONS_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">101</span><span class="p">,</span> <span class="s2">&quot;Ping socket connections is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">FIND_PORT_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s2">&quot;Finding port is successed.&quot;</span><span class="p">)</span>
+<span class="n">FIND_PORT_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">200</span><span class="p">,</span> <span class="s2">&quot;Finding port is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">PACKAGE_SENDED</span> <span class="o">=</span> <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="s2">&quot;Package is sended to target.&quot;</span><span class="p">)</span>
+<span class="n">QUPACK_SENDED</span> <span class="o">=</span> <span class="p">(</span><span class="mi">301</span><span class="p">,</span> <span class="s2">&quot;Qupack is sended to target.&quot;</span><span class="p">)</span>
+<span class="n">PACKAGE_IS_ROUTING</span> <span class="o">=</span> <span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="s2">&quot;Package is sended with using routing.&quot;</span><span class="p">)</span>
+<span class="n">QUPACK_IS_ROUTING</span> <span class="o">=</span> <span class="p">(</span><span class="mi">451</span><span class="p">,</span> <span class="s2">&quot;Qupack is sended with using routing.&quot;</span><span class="p">)</span>
+<span class="n">BROADCASTED_PACKAGE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="s2">&quot;Package is broadcasted.&quot;</span><span class="p">)</span>
+<span class="n">NO_DIRECT_CONNECTION_FOUND</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">300</span><span class="p">,</span> <span class="s2">&quot;No direct connection is found.&quot;</span><span class="p">)</span>
+
+<span class="n">PORT_IS_DISABLE</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">400</span><span class="p">,</span> <span class="s2">&quot;Port is not active.&quot;</span><span class="p">)</span>
+<span class="n">ROUTING_IS_DISABLED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="s2">&quot;Routing is disabled on this device&quot;</span><span class="p">)</span>
+
+<span class="n">FIND_CLASSIC_ROUTE_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="s2">&quot;Find classic route is success.&quot;</span><span class="p">)</span>
+<span class="n">FIND_CLASSIC_ROUTE_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">600</span><span class="p">,</span> <span class="s2">&quot;Find classic route is failed.&quot;</span><span class="p">)</span>
+<span class="n">FIND_QUANTUM_ROUTE_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">601</span><span class="p">,</span> <span class="s2">&quot;Find quantum route is success.&quot;</span><span class="p">)</span>
+<span class="n">FIND_QUANTUM_ROUTE_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">601</span><span class="p">,</span> <span class="s2">&quot;Find quantum route is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">SOCKET_IS_DONW_STATE</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;Socket is down.&quot;</span><span class="p">)</span>
+
+<span class="n">GOT_PACKAGE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">105</span><span class="p">,</span> <span class="s2">&quot;Got package from target.&quot;</span><span class="p">)</span>
+<span class="n">WAIT_PACKAGE_TIMEOUT</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">105</span><span class="p">,</span> <span class="s2">&quot;Wait package timeout.&quot;</span><span class="p">)</span>
+<span class="n">GOT_QUBIT</span> <span class="o">=</span> <span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="s2">&quot;Got package from target.&quot;</span><span class="p">)</span>
+<span class="n">WAIT_QUBIT_TIMEOUT</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">110</span><span class="p">,</span> <span class="s2">&quot;Wait package timeout.&quot;</span><span class="p">)</span>
+
+<span class="n">GOT_LAYER_RESPOND</span> <span class="o">=</span> <span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="s2">&quot;Got respond from layer.&quot;</span><span class="p">)</span>
+<span class="n">WAIT_RESPOND_TIMEOUT</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">121</span><span class="p">,</span> <span class="s2">&quot;Wait respond timeout.&quot;</span><span class="p">)</span>
+
+<span class="n">ALLOCATE_QUBIT_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="s2">&quot;Allocate qubit successful.&quot;</span><span class="p">)</span>
+<span class="n">ALLOCATE_QUBIT_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">150</span><span class="p">,</span> <span class="s2">&quot;Allocate qubit failed.&quot;</span><span class="p">)</span>
+
+<span class="n">DEALLOCATE_QUBIT_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">160</span><span class="p">,</span> <span class="s2">&quot;Allocate qubit successful.&quot;</span><span class="p">)</span>
+<span class="n">DEALLOCATE_QUBIT_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">160</span><span class="p">,</span> <span class="s2">&quot;Allocate qubit failed.&quot;</span><span class="p">)</span>
+
+<span class="n">MEASURE_QUBIT_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">180</span><span class="p">,</span> <span class="s2">&quot;Measure qubit successful.&quot;</span><span class="p">)</span>
+<span class="n">MEASURE_QUBIT_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="s2">&quot;Measure qubit failed.&quot;</span><span class="p">)</span>
+
+<span class="n">RESET_QUBIT_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">190</span><span class="p">,</span> <span class="s2">&quot;Reset qubit successful.&quot;</span><span class="p">)</span>
+<span class="n">RESET_QUBIT_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">190</span><span class="p">,</span> <span class="s2">&quot;Reset qubit failed.&quot;</span><span class="p">)</span>
+
+<span class="n">PACKAGE_SENDED_COMFIRMED</span> <span class="o">=</span> <span class="p">(</span><span class="mi">205</span><span class="p">,</span> <span class="s2">&quot;Packege sended by device socket.&quot;</span><span class="p">)</span>
+<span class="n">PACKAGE_SEND_MAY_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">205</span><span class="p">,</span> <span class="s2">&quot;Packege sent may failed.&quot;</span><span class="p">)</span>
+
+<span class="n">QUANTUM_INFO_SENDED_COMFIRMED</span> <span class="o">=</span> <span class="p">(</span><span class="mi">210</span><span class="p">,</span> <span class="s2">&quot;Packege sended by device socket.&quot;</span><span class="p">)</span>
+<span class="n">QUANTUM_INFO_MAY_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">210</span><span class="p">,</span> <span class="s2">&quot;Packege sent may failed.&quot;</span><span class="p">)</span>
+
+<span class="n">GENERATE_EPR_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">220</span><span class="p">,</span> <span class="s2">&quot;Generate epr pair successful.&quot;</span><span class="p">)</span>
+<span class="n">GENERATE_EPR_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">220</span><span class="p">,</span> <span class="s2">&quot;Generate epr pair is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">GENERATE_GHZ_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">230</span><span class="p">,</span> <span class="s2">&quot;Generate ghz pair successful.&quot;</span><span class="p">)</span>
+<span class="n">GENERATE_GHZ_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">230</span><span class="p">,</span> <span class="s2">&quot;Generate ghz pair is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">SEND_EPR_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">240</span><span class="p">,</span> <span class="s2">&quot;Send epr pair successful.&quot;</span><span class="p">)</span>
+<span class="n">SEND_EPR_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">240</span><span class="p">,</span> <span class="s2">&quot;Send epr pair is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">SEND_GHZ_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="s2">&quot;Send ghz pair successful.&quot;</span><span class="p">)</span>
+<span class="n">SEND_GHZ_FAILED</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">250</span><span class="p">,</span> <span class="s2">&quot;Send ghz pair is failed.&quot;</span><span class="p">)</span>
+
+<span class="n">QKD_LAYER_IS_NOT_AVAIBLE</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">270</span><span class="p">,</span> <span class="s2">&quot;Qkd layer is not runnig.&quot;</span><span class="p">)</span>
+<span class="n">QKD_PROTOCOL_SUCCESS</span> <span class="o">=</span> <span class="p">(</span><span class="mi">272</span><span class="p">,</span> <span class="s2">&quot;Qkd layer ran protocol.&quot;</span><span class="p">)</span>
+
+<span class="n">exit_codes</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">GATHER_SOCKET_INFORMATION_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GATHER_SOCKET_INFORMATION_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">GATHER_SOCKET_INFORMATION_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GATHER_SOCKET_INFORMATION_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">GATHER_DEVICE_INFORMATION_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GATHER_DEVICE_INFORMATION_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">GATHER_DEVICE_INFORMATION_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GATHER_DEVICE_INFORMATION_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">GATHER_CONNECTIVITY_INFORMATION_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GATHER_CONNECTIVITY_INFORMATION_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">GATHER_CONNECTIVITY_INFORMATION_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GATHER_CONNECTIVITY_INFORMATION_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">GATHER_PORT_INFORMATION_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GATHER_PORT_INFORMATION_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">GATHER_PORT_INFORMATION_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GATHER_PORT_INFORMATION_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">OPEN_COMMUNICATION_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">OPEN_COMMUNICATION_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">OPEN_COMMUNICATION_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">OPEN_COMMUNICATION_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">CLOSE_COMMUNICATION_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">CLOSE_COMMUNICATION_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">CLOSE_COMMUNICATION_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">CLOSE_COMMUNICATION_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">ACTIVATE_PORT_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">ACTIVATE_PORT_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">ACTIVATE_PORT_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">ACTIVATE_PORT_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">DEACTIVATE_PORT_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">DEACTIVATE_PORT_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">SOCKET_STATE_CHANGE_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">SOCKET_STATE_CHANGE_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">SOCKET_STATE_CHANGE_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">SOCKET_STATE_CHANGE_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">PAUSE_SOCKET_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">PAUSE_SOCKET_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">PAUSE_SOCKET_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">PAUSE_SOCKET_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">RESUME_SOCKET_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">RESUME_SOCKET_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">RESUME_SOCKET_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">RESUME_SOCKET_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">REFRESH_CONNECTION_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">REFRESH_CONNECTION_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">REFRESH_CONNECTION_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">REFRESH_CONNECTION_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">UNCONNECT_CHANNEL_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">UNCONNECT_CHANNEL_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">UNCONNECT_CHANNEL_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">UNCONNECT_CHANNEL_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">RECONNECT_CHANNEL_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">RECONNECT_CHANNEL_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">RECONNECT_CHANNEL_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">RECONNECT_CHANNEL_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">PING_CONNECTIONS_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">PING_CONNECTIONS_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">PING_CONNECTIONS_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">PING_CONNECTIONS_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">FIND_PORT_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">FIND_PORT_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">FIND_PORT_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">FIND_PORT_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">PACKAGE_SENDED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">PACKAGE_SENDED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">QUPACK_SENDED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">QUPACK_SENDED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">PACKAGE_IS_ROUTING</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">PACKAGE_IS_ROUTING</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">QUPACK_IS_ROUTING</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">QUPACK_IS_ROUTING</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">BROADCASTED_PACKAGE</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">BROADCASTED_PACKAGE</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">NO_DIRECT_CONNECTION_FOUND</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">NO_DIRECT_CONNECTION_FOUND</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">PORT_IS_DISABLE</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">PORT_IS_DISABLE</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">ROUTING_IS_DISABLED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">ROUTING_IS_DISABLED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">FIND_CLASSIC_ROUTE_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">FIND_CLASSIC_ROUTE_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">FIND_CLASSIC_ROUTE_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">FIND_CLASSIC_ROUTE_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">FIND_QUANTUM_ROUTE_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">FIND_QUANTUM_ROUTE_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">FIND_QUANTUM_ROUTE_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">FIND_QUANTUM_ROUTE_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">SOCKET_IS_DONW_STATE</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">SOCKET_IS_DONW_STATE</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">GOT_PACKAGE</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GOT_PACKAGE</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">WAIT_PACKAGE_TIMEOUT</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">WAIT_PACKAGE_TIMEOUT</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">GOT_QUBIT</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GOT_QUBIT</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">WAIT_QUBIT_TIMEOUT</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">WAIT_QUBIT_TIMEOUT</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">GOT_LAYER_RESPOND</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GOT_LAYER_RESPOND</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">WAIT_RESPOND_TIMEOUT</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">WAIT_RESPOND_TIMEOUT</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">ALLOCATE_QUBIT_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">ALLOCATE_QUBIT_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">ALLOCATE_QUBIT_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">ALLOCATE_QUBIT_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">DEALLOCATE_QUBIT_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">DEALLOCATE_QUBIT_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">DEALLOCATE_QUBIT_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">DEALLOCATE_QUBIT_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">MEASURE_QUBIT_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">MEASURE_QUBIT_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">MEASURE_QUBIT_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">MEASURE_QUBIT_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">RESET_QUBIT_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">RESET_QUBIT_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">RESET_QUBIT_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">RESET_QUBIT_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">PACKAGE_SENDED_COMFIRMED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">PACKAGE_SENDED_COMFIRMED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">PACKAGE_SEND_MAY_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">PACKAGE_SEND_MAY_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">QUANTUM_INFO_SENDED_COMFIRMED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">QUANTUM_INFO_SENDED_COMFIRMED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">QUANTUM_INFO_MAY_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">QUANTUM_INFO_MAY_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">GENERATE_EPR_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GENERATE_EPR_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">GENERATE_EPR_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GENERATE_EPR_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">GENERATE_GHZ_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GENERATE_GHZ_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">GENERATE_GHZ_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">GENERATE_GHZ_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">SEND_EPR_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">SEND_EPR_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">SEND_EPR_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">SEND_EPR_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">SEND_GHZ_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">SEND_GHZ_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">SEND_GHZ_FAILED</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">SEND_GHZ_FAILED</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+    <span class="n">QKD_LAYER_IS_NOT_AVAIBLE</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">QKD_LAYER_IS_NOT_AVAIBLE</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">QKD_PROTOCOL_SUCCESS</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">QKD_PROTOCOL_SUCCESS</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="exit_code_desription"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.exit_codes.exit_code_desription">[docs]</a><span class="k">def</span> <span class="nf">exit_code_desription</span><span class="p">(</span><span class="n">code</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets the description of exit code.&quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">exit_codes</span><span class="p">[</span><span class="n">code</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, COMU Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

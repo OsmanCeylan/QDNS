@@ -1,0 +1,1184 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Modules.Tools.gates &mdash; QDNS 0.51 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> QDNS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Install.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Design.html">Design Principles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hello.html">Hello QDNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/App.html">Application Writing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hardware.html">Hardware Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Noise.html">Noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Qkd.html">QKD Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Attack.html">Eavesdropping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Modules.html">Modules References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QDNS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>Modules.Tools.gates</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Modules.Tools.gates</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Gate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.Gate">[docs]</a><span class="k">class</span> <span class="nc">Gate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">stim_alias</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span>
+
+    <span class="k">def</span> <span class="fm">__int__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_id</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_name</span>
+
+    <span class="k">def</span> <span class="nf">_unitary_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span>
+
+    <span class="c1"># Must inherit.</span>
+<div class="viewcode-block" id="Gate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.Gate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span><span class="p">,</span></div></div>
+
+
+<div class="viewcode-block" id="IDGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.IDGate">[docs]</a><span class="k">class</span> <span class="nc">IDGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Id gate on single qubit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;IDGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">stim_alias</span> <span class="o">=</span> <span class="s2">&quot;I&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IDGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="IDGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.IDGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="RXGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.RXGate">[docs]</a><span class="k">class</span> <span class="nc">RXGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies RX transformation on single qubit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">11</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;RXGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">default_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_angle</span>
+
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RXGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RXGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.RXGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span></div></div>
+
+
+<div class="viewcode-block" id="RYGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.RYGate">[docs]</a><span class="k">class</span> <span class="nc">RYGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies RY transformation on single qubit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">12</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;RYGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">default_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_angle</span>
+
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">)],</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RYGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RYGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.RYGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span></div></div>
+
+
+<div class="viewcode-block" id="RZGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.RZGate">[docs]</a><span class="k">class</span> <span class="nc">RZGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies RZ transformation on single qubit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">13</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;RZ&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">default_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_angle</span>
+
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RZGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RZGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.RZGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span></div></div>
+
+
+<div class="viewcode-block" id="PauliX"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.PauliX">[docs]</a><span class="k">class</span> <span class="nc">PauliX</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies X gate on single qubit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">14</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;PauliX&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">stim_alias</span> <span class="o">=</span> <span class="s2">&quot;X&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PauliX</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="PauliX.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.PauliX.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="PauliY"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.PauliY">[docs]</a><span class="k">class</span> <span class="nc">PauliY</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Y gate on single qubit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">15</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;PauliY&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">stim_alias</span> <span class="o">=</span> <span class="s2">&quot;Y&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">i</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PauliY</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PauliY.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.PauliY.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="PauliZ"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.PauliZ">[docs]</a><span class="k">class</span> <span class="nc">PauliZ</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Z gate on single qubit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">16</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;PauliZ&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">stim_alias</span> <span class="o">=</span> <span class="s2">&quot;Z&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PauliZ</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PauliZ.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.PauliZ.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="SGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.SGate">[docs]</a><span class="k">class</span> <span class="nc">SGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies S gate on single qubit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">17</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;SGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">stim_alias</span> <span class="o">=</span> <span class="s2">&quot;S&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.SGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="TGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.TGate">[docs]</a><span class="k">class</span> <span class="nc">TGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies T gate on single qubit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">18</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;TGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">),</span> <span class="mi">6</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.TGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="HGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.HGate">[docs]</a><span class="k">class</span> <span class="nc">HGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Hadamard gate on single qubit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">19</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;HGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">stim_alias</span> <span class="o">=</span> <span class="s2">&quot;H&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="HGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.HGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="PsedoHGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.PsedoHGate">[docs]</a><span class="k">class</span> <span class="nc">PsedoHGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Psedo-Hadamard gate on single qubit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;Psedo-HGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PsedoHGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PsedoHGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.PsedoHGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="CRXGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CRXGate">[docs]</a><span class="k">class</span> <span class="nc">CRXGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Controlled-RX on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">21</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CRXGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">default_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_angle</span>
+
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">)],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CRXGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CRXGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CRXGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span></div></div>
+
+
+<div class="viewcode-block" id="CXGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CXGate">[docs]</a><span class="k">class</span> <span class="nc">CXGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Controlled-X on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">22</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CXGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">stim_alias</span> <span class="o">=</span> <span class="s2">&quot;CNOT&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CXGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CXGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CXGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="CRYGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CRYGate">[docs]</a><span class="k">class</span> <span class="nc">CRYGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Controlled-RY on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">23</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CRYGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">default_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_angle</span>
+
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">)],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CRYGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CRYGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CRYGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span></div></div>
+
+
+<div class="viewcode-block" id="CYGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CYGate">[docs]</a><span class="k">class</span> <span class="nc">CYGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Controlled-Y on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">24</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CYGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">stim_alias</span> <span class="o">=</span> <span class="s2">&quot;CY&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">i</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CYGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CYGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CYGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="CRZGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CRZGate">[docs]</a><span class="k">class</span> <span class="nc">CRZGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Controlled-RZ on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">25</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CRZGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">default_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_angle</span>
+
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CRZGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CRZGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CRZGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span></div></div>
+
+
+<div class="viewcode-block" id="CZGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CZGate">[docs]</a><span class="k">class</span> <span class="nc">CZGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Controlled-Z on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">26</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CYGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">stim_alias</span> <span class="o">=</span> <span class="s2">&quot;CZ&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CZGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CZGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CZGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="CSGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CSGate">[docs]</a><span class="k">class</span> <span class="nc">CSGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Controlled-S on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">27</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CSGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CSGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CSGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CSGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="CTGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CTGate">[docs]</a><span class="k">class</span> <span class="nc">CTGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Controlled-T on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">28</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CTGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">),</span> <span class="mi">6</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CTGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CTGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CTGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="CHGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CHGate">[docs]</a><span class="k">class</span> <span class="nc">CHGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies Controlled-T on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">29</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CHGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CHGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CHGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CHGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="IIGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.IIGate">[docs]</a><span class="k">class</span> <span class="nc">IIGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies II on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;IIGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">IIGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="IIGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.IIGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="SWAPGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.SWAPGate">[docs]</a><span class="k">class</span> <span class="nc">SWAPGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies SWAP on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">31</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;SWAPGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">stim_alias</span> <span class="o">=</span> <span class="s2">&quot;SWAP&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">SWAPGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SWAPGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.SWAPGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="ISWAPGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.ISWAPGate">[docs]</a><span class="k">class</span> <span class="nc">ISWAPGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies iSWAP on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;iSWAPGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">stim_alias</span> <span class="o">=</span> <span class="s2">&quot;ISWAP&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">ISWAPGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ISWAPGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.ISWAPGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="XXGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.XXGate">[docs]</a><span class="k">class</span> <span class="nc">XXGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies XX on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">33</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;XXGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">default_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_angle</span>
+
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">)],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">XXGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XXGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.XXGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span></div></div>
+
+
+<div class="viewcode-block" id="YYGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.YYGate">[docs]</a><span class="k">class</span> <span class="nc">YYGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies YY on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">34</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;YYGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">default_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_angle</span>
+
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">)],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">YYGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="YYGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.YYGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span></div></div>
+
+
+<div class="viewcode-block" id="ZZGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.ZZGate">[docs]</a><span class="k">class</span> <span class="nc">ZZGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Applies ZZ on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">35</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;ZZGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">default_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_angle</span>
+
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">6</span><span class="p">)]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">ZZGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ZZGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.ZZGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span></div></div>
+
+
+<div class="viewcode-block" id="MSGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.MSGate">[docs]</a><span class="k">class</span> <span class="nc">MSGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Applies Mølmer-Sørensen on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">36</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;MSGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">MSGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MSGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.MSGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="MagicGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.MagicGate">[docs]</a><span class="k">class</span> <span class="nc">MagicGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Applies Magic on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">37</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;MagicGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">MagicGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MagicGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.MagicGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="CVGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CVGate">[docs]</a><span class="k">class</span> <span class="nc">CVGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Applies Controlled-V on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">38</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CVGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CVGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CVGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CVGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="XYGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.XYGate">[docs]</a><span class="k">class</span> <span class="nc">XYGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Applies XY on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">39</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;XYGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">default_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_angle</span>
+
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="mi">6</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">XYGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XYGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.XYGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span></div></div>
+
+
+<div class="viewcode-block" id="DCXGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.DCXGate">[docs]</a><span class="k">class</span> <span class="nc">DCXGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Applies Double Controlled-X gate on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">40</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;DCXGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">DCXGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DCXGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.DCXGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="BSWAPGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.BSWAPGate">[docs]</a><span class="k">class</span> <span class="nc">BSWAPGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Applies bSWAP gate on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">41</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;bSWAPGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">i</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">BSWAPGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BSWAPGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.BSWAPGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="QFTGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.QFTGate">[docs]</a><span class="k">class</span> <span class="nc">QFTGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Applies QFTGate gate on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">42</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;QFTGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">i</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">QFTGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="QFTGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.QFTGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="WGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.WGate">[docs]</a><span class="k">class</span> <span class="nc">WGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Applies WGate gate on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">43</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;WGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">WGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.WGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="CCXGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CCXGate">[docs]</a><span class="k">class</span> <span class="nc">CCXGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Applies CCXGate gate on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">44</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CCXGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CCXGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CCXGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CCXGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="CSWAPGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CSWAPGate">[docs]</a><span class="k">class</span> <span class="nc">CSWAPGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Applies Controlled-SWAP on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">45</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CSWAPGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CSWAPGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CSWAPGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CSWAPGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="CCZGate"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CCZGate">[docs]</a><span class="k">class</span> <span class="nc">CCZGate</span><span class="p">(</span><span class="n">Gate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">      Applies CCZ on two qubits.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gate_id</span> <span class="o">=</span> <span class="mi">46</span>
+    <span class="n">gate_name</span> <span class="o">=</span> <span class="s2">&quot;CCZGate&quot;</span>
+    <span class="n">qubit_shape</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">CCZGate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">_matrix</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CCZGate.args"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.gates.CCZGate.args">[docs]</a>    <span class="k">def</span> <span class="nf">args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">()</span></div></div>
+
+
+<span class="n">predefined_gates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Gate</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">IDGate</span><span class="p">,</span> <span class="n">RXGate</span><span class="p">,</span> <span class="n">RYGate</span><span class="p">,</span> <span class="n">RZGate</span><span class="p">,</span> <span class="n">PauliX</span><span class="p">,</span> <span class="n">PauliY</span><span class="p">,</span> <span class="n">PauliZ</span><span class="p">,</span>
+    <span class="n">SGate</span><span class="p">,</span> <span class="n">TGate</span><span class="p">,</span> <span class="n">HGate</span><span class="p">,</span> <span class="n">PsedoHGate</span><span class="p">,</span> <span class="n">CRXGate</span><span class="p">,</span> <span class="n">CXGate</span><span class="p">,</span>
+    <span class="n">CRYGate</span><span class="p">,</span> <span class="n">CYGate</span><span class="p">,</span> <span class="n">CRZGate</span><span class="p">,</span> <span class="n">CZGate</span><span class="p">,</span> <span class="n">CSGate</span><span class="p">,</span> <span class="n">CTGate</span><span class="p">,</span> <span class="n">CHGate</span><span class="p">,</span>
+    <span class="n">IIGate</span><span class="p">,</span> <span class="n">SWAPGate</span><span class="p">,</span> <span class="n">ISWAPGate</span><span class="p">,</span> <span class="n">XXGate</span><span class="p">,</span> <span class="n">YYGate</span><span class="p">,</span> <span class="n">ZZGate</span><span class="p">,</span>
+    <span class="n">MSGate</span><span class="p">,</span> <span class="n">MagicGate</span><span class="p">,</span> <span class="n">CVGate</span><span class="p">,</span> <span class="n">XYGate</span><span class="p">,</span> <span class="n">DCXGate</span><span class="p">,</span> <span class="n">BSWAPGate</span><span class="p">,</span>
+    <span class="n">QFTGate</span><span class="p">,</span> <span class="n">WGate</span><span class="p">,</span> <span class="n">CCXGate</span><span class="p">,</span> <span class="n">CSWAPGate</span><span class="p">,</span> <span class="n">CCZGate</span>
+<span class="p">]</span>
+
+<span class="n">gate_id_to_gate</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">gate_id_to_gate_name</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<span class="n">gate_to_gate_id</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">gate_to_gate_name</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="n">predefined_gates</span><span class="p">:</span>
+    <span class="n">gate_id_to_gate</span><span class="p">[</span><span class="n">gate</span><span class="o">.</span><span class="n">gate_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">gate</span>
+    <span class="n">gate_id_to_gate_name</span><span class="p">[</span><span class="n">gate</span><span class="o">.</span><span class="n">gate_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">gate</span><span class="o">.</span><span class="n">gate_name</span>
+    <span class="n">gate_to_gate_id</span><span class="p">[</span><span class="n">gate</span><span class="p">]</span> <span class="o">=</span> <span class="n">gate</span><span class="o">.</span><span class="n">gate_id</span>
+    <span class="n">gate_to_gate_name</span><span class="p">[</span><span class="n">gate</span><span class="p">]</span> <span class="o">=</span> <span class="n">gate</span><span class="o">.</span><span class="n">gate_name</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, COMU Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

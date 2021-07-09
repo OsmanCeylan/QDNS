@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Application Writing &mdash; QDNS 0.49 documentation</title>
+  <title>Application Writing &mdash; QDNS 0.51 documentation</title>
   
 
   
@@ -108,6 +108,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Qkd.html">QKD Layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Modules.html">Modules References</a></li>
 </ul>
 
             
@@ -243,7 +245,7 @@ Creating Alice applications:</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: bob_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>See QDNS/device/applicaion.Application() for more details.</p>
+<p>See QDNS/device/application.Application() for more details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><strong>ValueError</strong> – Same name application in device.</p>
@@ -297,8 +299,7 @@ Most of the usefull functions is embeded to application class. Some have an easy
 <span class="p">{</span><span class="s1">&#39;exit_code&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;Classic port type&#39;</span><span class="p">,</span> <span class="s1">&#39;active&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;connected&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;channel_id&#39;</span><span class="p">:</span> <span class="s1">&#39;AS2L82LIWOE59D09&#39;</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;latency&#39;</span><span class="p">:</span> <span class="mf">0.00017</span>
 </pre></div>
 </div>
-<p>As can be seen above, many methods embedded in the application class returns a dictionary containing an exit code. Positive exit codes means operation is successful.
-These exit codes codes can be found in Modules.exit_codes section.</p>
+<p>As can be seen above, many methods embedded in the application class returns a dictionary containing an exit code. Positive exit codes means operation is successful.</p>
 <p>As we continue, we will describe the important methods in application class.</p>
 </div>
 </div>
@@ -317,7 +318,7 @@ These exit codes codes can be found in Modules.exit_codes section.</p>
 
   <div role="contentinfo">
     <p>
-        &#169; Copyright 2021, Osman Ceylan.
+        &#169; Copyright 2021, COMU Team.
 
     </p>
   </div>

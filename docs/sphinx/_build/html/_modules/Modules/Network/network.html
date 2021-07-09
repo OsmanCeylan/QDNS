@@ -1,0 +1,518 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Modules.Network.network &mdash; QDNS 0.51 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> QDNS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Install.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Design.html">Design Principles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hello.html">Hello QDNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/App.html">Application Writing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hardware.html">Hardware Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Noise.html">Noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Qkd.html">QKD Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Attack.html">Eavesdropping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Modules.html">Modules References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QDNS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>Modules.Network.network</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Modules.Network.network</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">networkx</span>
+
+<span class="kn">from</span> <span class="nn">QDNS.device.channel</span> <span class="kn">import</span> <span class="n">Channel</span><span class="p">,</span> <span class="n">ClassicChannel</span>
+<span class="kn">from</span> <span class="nn">QDNS.device.channel</span> <span class="kn">import</span> <span class="n">QuantumChannel</span>
+<span class="kn">from</span> <span class="nn">QDNS.device.channel</span> <span class="kn">import</span> <span class="n">default_channel_length</span>
+<span class="kn">from</span> <span class="nn">QDNS.device.device</span> <span class="kn">import</span> <span class="n">Device</span>
+
+
+<div class="viewcode-block" id="Network"><a class="viewcode-back" href="../../../docs/Modules.Network.html#Modules.Network.network.Network">[docs]</a><span class="k">class</span> <span class="nc">Network</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">devices</span><span class="p">:</span> <span class="n">Device</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Simple nxnetwork gparh holder object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            devices: Device open list.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            Do not add if device already exists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">device_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Device</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ClassicChannel</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">QuantumChannel</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classic_network</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quantum_network</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">device</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">device_list</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">device_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">classic_network</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">quantum_network</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">device</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Network.add_device"><a class="viewcode-back" href="../../../docs/Modules.Network.html#Modules.Network.network.Network.add_device">[docs]</a>    <span class="k">def</span> <span class="nf">add_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">devices</span><span class="p">:</span> <span class="n">Device</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add device(s) to network.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            devices: Device(s) for add.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            Do not add if device already exists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">device</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">device_list</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">device_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">classic_network</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">quantum_network</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">device</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Network.add_classic_channel"><a class="viewcode-back" href="../../../docs/Modules.Network.html#Modules.Network.network.Network.add_classic_channel">[docs]</a>    <span class="k">def</span> <span class="nf">add_classic_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device_l</span><span class="p">:</span> <span class="n">Device</span><span class="p">,</span> <span class="n">device_r</span><span class="p">:</span> <span class="n">Device</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds classic channel between devices.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            device_l: Left device.</span>
+<span class="sd">            device_r: Right device.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NetworkError: If channel is exist between devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">channel</span><span class="o">.</span><span class="n">devL_ID</span> <span class="o">==</span> <span class="n">device_l</span><span class="o">.</span><span class="n">device_id</span> <span class="ow">and</span> <span class="n">channel</span><span class="o">.</span><span class="n">devR_ID</span> <span class="o">==</span> <span class="n">device_r</span><span class="o">.</span><span class="n">device_id</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">networkx</span><span class="o">.</span><span class="n">NetworkXError</span><span class="p">(</span>
+                    <span class="s2">&quot;There is a channel between device </span><span class="si">{}</span><span class="s2"> and device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">device_l</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">device_r</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">channel</span><span class="o">.</span><span class="n">devR_ID</span> <span class="o">==</span> <span class="n">device_l</span><span class="o">.</span><span class="n">device_id</span> <span class="ow">and</span> <span class="n">channel</span><span class="o">.</span><span class="n">devL_ID</span> <span class="o">==</span> <span class="n">device_r</span><span class="o">.</span><span class="n">device_id</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">networkx</span><span class="o">.</span><span class="n">NetworkXError</span><span class="p">(</span>
+                    <span class="s2">&quot;There is a channel between device </span><span class="si">{}</span><span class="s2"> and device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">device_l</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">device_r</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="n">channel</span> <span class="o">=</span> <span class="n">ClassicChannel</span><span class="p">(</span><span class="n">device_l</span><span class="p">,</span> <span class="n">device_r</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classic_network</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">device_l</span><span class="o">.</span><span class="n">uuid</span><span class="p">,</span> <span class="n">device_r</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Network.add_quantum_channel"><a class="viewcode-back" href="../../../docs/Modules.Network.html#Modules.Network.network.Network.add_quantum_channel">[docs]</a>    <span class="k">def</span> <span class="nf">add_quantum_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device_l</span><span class="p">:</span> <span class="n">Device</span><span class="p">,</span> <span class="n">device_r</span><span class="p">:</span> <span class="n">Device</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">default_channel_length</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds quantum channel between devices.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            device_l: Left device.</span>
+<span class="sd">            device_r: Right device.</span>
+<span class="sd">            length: Legth of channel.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NetworkError: If channel is exist between devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">channel</span><span class="o">.</span><span class="n">devL_ID</span> <span class="o">==</span> <span class="n">device_l</span><span class="o">.</span><span class="n">device_id</span> <span class="ow">and</span> <span class="n">channel</span><span class="o">.</span><span class="n">devR_ID</span> <span class="o">==</span> <span class="n">device_r</span><span class="o">.</span><span class="n">device_id</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">networkx</span><span class="o">.</span><span class="n">NetworkXError</span><span class="p">(</span>
+                    <span class="s2">&quot;There is a channel between device </span><span class="si">{}</span><span class="s2"> and device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">device_l</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">device_r</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">channel</span><span class="o">.</span><span class="n">devR_ID</span> <span class="o">==</span> <span class="n">device_l</span><span class="o">.</span><span class="n">device_id</span> <span class="ow">and</span> <span class="n">channel</span><span class="o">.</span><span class="n">devL_ID</span> <span class="o">==</span> <span class="n">device_r</span><span class="o">.</span><span class="n">device_id</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">networkx</span><span class="o">.</span><span class="n">NetworkXError</span><span class="p">(</span>
+                    <span class="s2">&quot;There is a channel between device </span><span class="si">{}</span><span class="s2"> and device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">device_l</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">device_r</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="n">channel</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">device_l</span><span class="p">,</span> <span class="n">device_r</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quantum_network</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">device_l</span><span class="o">.</span><span class="n">uuid</span><span class="p">,</span> <span class="n">device_r</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Network.add_channels"><a class="viewcode-back" href="../../../docs/Modules.Network.html#Modules.Network.network.Network.add_channels">[docs]</a>    <span class="k">def</span> <span class="nf">add_channels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device_l</span><span class="p">:</span> <span class="n">Device</span><span class="p">,</span> <span class="n">device_r</span><span class="p">:</span> <span class="n">Device</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">default_channel_length</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds classic and quantum channel between devices.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            device_l: Left device.</span>
+<span class="sd">            device_r: Right device.</span>
+<span class="sd">            length: Legth of channel.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NetworkError: If channel is exist between devices.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">channel</span><span class="o">.</span><span class="n">devL_ID</span> <span class="o">==</span> <span class="n">device_l</span><span class="o">.</span><span class="n">device_id</span> <span class="ow">and</span> <span class="n">channel</span><span class="o">.</span><span class="n">devR_ID</span> <span class="o">==</span> <span class="n">device_r</span><span class="o">.</span><span class="n">device_id</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">networkx</span><span class="o">.</span><span class="n">NetworkXError</span><span class="p">(</span>
+                    <span class="s2">&quot;There is a channel between device </span><span class="si">{}</span><span class="s2"> and device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">device_l</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">device_r</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">channel</span><span class="o">.</span><span class="n">devR_ID</span> <span class="o">==</span> <span class="n">device_l</span><span class="o">.</span><span class="n">device_id</span> <span class="ow">and</span> <span class="n">channel</span><span class="o">.</span><span class="n">devL_ID</span> <span class="o">==</span> <span class="n">device_r</span><span class="o">.</span><span class="n">device_id</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">networkx</span><span class="o">.</span><span class="n">NetworkXError</span><span class="p">(</span>
+                    <span class="s2">&quot;There is a channel between device </span><span class="si">{}</span><span class="s2"> and device </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">device_l</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">device_r</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="n">channel</span> <span class="o">=</span> <span class="n">QuantumChannel</span><span class="p">(</span><span class="n">device_l</span><span class="p">,</span> <span class="n">device_r</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quantum_network</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">device_l</span><span class="o">.</span><span class="n">uuid</span><span class="p">,</span> <span class="n">device_r</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span>
+
+        <span class="n">channel</span> <span class="o">=</span> <span class="n">ClassicChannel</span><span class="p">(</span><span class="n">device_l</span><span class="p">,</span> <span class="n">device_r</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classic_network</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">device_l</span><span class="o">.</span><span class="n">uuid</span><span class="p">,</span> <span class="n">device_r</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Network.get_all_devices"><a class="viewcode-back" href="../../../docs/Modules.Network.html#Modules.Network.network.Network.get_all_devices">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_devices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Device</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the device list in network.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">device_list</span></div>
+
+<div class="viewcode-block" id="Network.get_classic_channel_route"><a class="viewcode-back" href="../../../docs/Modules.Network.html#Modules.Network.network.Network.get_classic_channel_route">[docs]</a>    <span class="k">def</span> <span class="nf">get_classic_channel_route</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uuid_l</span><span class="p">,</span> <span class="n">uuid_r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds classical route.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            uuid_l: Letf device uuid.</span>
+<span class="sd">            uuid_r: Right device uuid.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[uuid] or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">route</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classic_network</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">uuid_l</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">uuid_r</span><span class="p">)</span>
+            <span class="n">to_delete</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">route</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_devices</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="n">device</span><span class="o">.</span><span class="n">uuid</span> <span class="ow">and</span> <span class="n">device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                        <span class="n">to_delete</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                        <span class="k">break</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">to_delete</span><span class="p">:</span>
+                <span class="n">route</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">route</span>
+        <span class="k">except</span> <span class="n">networkx</span><span class="o">.</span><span class="n">NetworkXNoPath</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Network.get_quantum_channel_route"><a class="viewcode-back" href="../../../docs/Modules.Network.html#Modules.Network.network.Network.get_quantum_channel_route">[docs]</a>    <span class="k">def</span> <span class="nf">get_quantum_channel_route</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uuid_l</span><span class="p">,</span> <span class="n">uuid_r</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds quantum route.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            uuid_l: Letf device uuid.</span>
+<span class="sd">            uuid_r: Right device uuid.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[uuid] or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">route</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantum_network</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">uuid_l</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">uuid_r</span><span class="p">)</span>
+            <span class="n">to_delete</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">route</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_devices</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="n">device</span><span class="o">.</span><span class="n">uuid</span> <span class="ow">and</span> <span class="n">device</span><span class="o">.</span><span class="n">otg_device</span><span class="p">:</span>
+                        <span class="n">to_delete</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                        <span class="k">break</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">to_delete</span><span class="p">:</span>
+                <span class="n">route</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">route</span>
+        <span class="k">except</span> <span class="n">networkx</span><span class="o">.</span><span class="n">NetworkXNoPath</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Network.get_channel"><a class="viewcode-back" href="../../../docs/Modules.Network.html#Modules.Network.network.Network.get_channel">[docs]</a>    <span class="k">def</span> <span class="nf">get_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ClassicChannel</span><span class="p">,</span> <span class="n">QuantumChannel</span><span class="p">,</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">],</span> <span class="n">raise_</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Channel</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds the channel in network by givent key.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: Unique identifier of channel.</span>
+<span class="sd">            raise_: Raise flag.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            Channel object or None.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: If channel is not found while raise flag active.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">uuid</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">uuid</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">QuantumChannel</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantum_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">uuid</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">uuid</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ClassicChannel</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">classic_channels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="n">raise_</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Channel is not found by given key </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Network.unconnect_channel"><a class="viewcode-back" href="../../../docs/Modules.Network.html#Modules.Network.network.Network.unconnect_channel">[docs]</a>    <span class="k">def</span> <span class="nf">unconnect_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uuid_l</span><span class="p">,</span> <span class="n">uuid_r</span><span class="p">,</span> <span class="n">classic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quantum</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds classical route.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            uuid_l: Letf device uuid.</span>
+<span class="sd">            uuid_r: Right device uuid.</span>
+<span class="sd">            classic: Search in classic.</span>
+<span class="sd">            quantum: Search in quantum.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            Provide exact information about channel type.</span>
+<span class="sd">            Else removes what it find in both network.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List[uuid] or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">classic</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">classic_network</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">uuid_l</span><span class="p">,</span> <span class="n">uuid_r</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">networkx</span><span class="o">.</span><span class="n">NetworkXError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="n">quantum</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">quantum_network</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">uuid_l</span><span class="p">,</span> <span class="n">uuid_r</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">networkx</span><span class="o">.</span><span class="n">NetworkXError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Network.draw_classic_network"><a class="viewcode-back" href="../../../docs/Modules.Network.html#Modules.Network.network.Network.draw_classic_network">[docs]</a>    <span class="k">def</span> <span class="nf">draw_classic_network</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw classic network.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">networkx</span><span class="o">.</span><span class="n">draw_circular</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classic_network</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Network.draw_quantum_network"><a class="viewcode-back" href="../../../docs/Modules.Network.html#Modules.Network.network.Network.draw_quantum_network">[docs]</a>    <span class="k">def</span> <span class="nf">draw_quantum_network</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw quantum network.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">networkx</span><span class="o">.</span><span class="n">draw_circular</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantum_network</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, COMU Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

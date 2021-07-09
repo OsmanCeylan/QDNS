@@ -1,0 +1,1364 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Modules.Tools.architecture_tools &mdash; QDNS 0.51 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> QDNS
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Install.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Design.html">Design Principles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hello.html">Hello QDNS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/App.html">Application Writing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Hardware.html">Hardware Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Noise.html">Noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Qkd.html">QKD Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Attack.html">Eavesdropping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/Modules.html">Modules References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QDNS</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>Modules.Tools.architecture_tools</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Modules.Tools.architecture_tools</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">QDNS.tools.instance_logger</span> <span class="kn">import</span> <span class="n">SubLogger</span>
+<span class="kn">from</span> <span class="nn">QDNS.architecture.signal</span> <span class="kn">import</span> <span class="n">StateReportSignal</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##========================================  SIMPLE QUEUE MANAGER  ====================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># General Layer Queues.</span>
+<span class="n">LAYER_STATE_REPORT_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;STATE REPORT QUEUE OF LAYER&quot;</span>
+<span class="n">LAYER_REQUEST_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;REQUEST QUEUE OF LAYER&quot;</span>
+<span class="n">LAYER_RESPOND_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;RESPOND QUEUE OF LAYER&quot;</span>
+<span class="n">LAYER_THREADED_REQUEST_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;THREADED REQUEST QUEUE OF LAYER&quot;</span>
+<span class="n">LAYER_THREADED_RESPOND_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;THREADED RESPOND QUEUE OF LAYER&quot;</span>
+
+<span class="c1"># Simulation queues.</span>
+<span class="n">SIM_REQUEST_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;SIMULATION REQUEST QUEUE&quot;</span>
+<span class="n">USER_DUMP_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;USER DUMP QUEUE&quot;</span>
+
+<span class="c1"># Miner queues.</span>
+<span class="n">MINER_REQUEST_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;MINER REQUEST QUEUE&quot;</span>
+
+<span class="c1"># Device queues.</span>
+<span class="n">DEVICE_REQUEST_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;DEVICE REQUEST QUEUE&quot;</span>
+<span class="n">LOCALHOST_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;LOCALHOST QUEUE&quot;</span>
+
+<span class="c1"># Socket qeueus.</span>
+<span class="n">SOCKET_REQUEST_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;SOCKET REQUEST QUEUE&quot;</span>
+<span class="n">INCOME_CLASSIC_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;SOCKET INCOME CLASSIC QUEUE&quot;</span>
+<span class="n">INCOME_QUANTUM_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;SOCKET INCOME QUANTUM QUEUE&quot;</span>
+<span class="n">PING_HANDLE_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;SOKCET PING HANDLE QUEUE&quot;</span>
+<span class="n">PING_REQUEST_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;PING REQUEST QUEUE&quot;</span>
+<span class="n">OBSERVER_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;OBSERVER QUEUE&quot;</span>
+
+<span class="c1"># Application Queues.</span>
+<span class="n">INCOME_QUBIT_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;QUBIT QUEUE OF APPLICATION&quot;</span>
+<span class="n">INCOME_PACKAGE_QUEUE</span> <span class="o">=</span> <span class="s2">&quot;PACKAGE QUEUE OF APPLICATION&quot;</span>
+
+
+<div class="viewcode-block" id="QueueManager"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.QueueManager">[docs]</a><span class="k">class</span> <span class="nc">QueueManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &#39;Foreign Queue&#39; Manager mostly used for layers.</span>
+<span class="sd">        QUEUE_NAME = QUEUE()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">args</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span><span class="p">[</span><span class="n">args</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">args</span><span class="p">]</span>
+
+<div class="viewcode-block" id="QueueManager.get_queue"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.QueueManager.get_queue">[docs]</a>    <span class="k">def</span> <span class="nf">get_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">)</span> <span class="k">as</span> <span class="n">E</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">E</span><span class="p">(</span><span class="s2">&quot;Queue manager cannot parse queue for </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="QueueManager.add_queue"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.QueueManager.add_queue">[docs]</a>    <span class="k">def</span> <span class="nf">add_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_queue</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> labeled queue is already in manager.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_queue</span></div>
+
+<div class="viewcode-block" id="QueueManager.update_queue"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.QueueManager.update_queue">[docs]</a>    <span class="k">def</span> <span class="nf">update_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_queue</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> labeled queue is not in manager.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_queue</span></div>
+
+<div class="viewcode-block" id="QueueManager.remove_queue"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.QueueManager.remove_queue">[docs]</a>    <span class="k">def</span> <span class="nf">remove_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> labeled queue is not in manager.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">label</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="QueueManager.is_have_this_queue"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.QueueManager.is_have_this_queue">[docs]</a>    <span class="k">def</span> <span class="nf">is_have_this_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="QueueManager.clear_queues"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.QueueManager.clear_queues">[docs]</a>    <span class="k">def</span> <span class="nf">clear_queues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">queue_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">queue_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue_dict</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">to_return</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Queue Manager</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;----------------</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Counts: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">queue_count</span><span class="p">)</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Queues: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">queue_dict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">to_return</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##============================================  STATE HANDLER  =======================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">GENERAL_STATE_NOT_STARTED</span> <span class="o">=</span> <span class="s2">&quot;GENERAL_STATE_NOT_STARTED&quot;</span>
+<span class="n">GENERAL_STATE_IS_RUNNING</span> <span class="o">=</span> <span class="s2">&quot;GENERAL_STATE_IS_RUNNING&quot;</span>
+<span class="n">GENERAL_STATE_IS_STOPPED</span> <span class="o">=</span> <span class="s2">&quot;GENERAL_STATE_IS_STOPPED&quot;</span>
+<span class="n">GENERAL_STATE_IS_FINISHED</span> <span class="o">=</span> <span class="s2">&quot;GENERAL_STATE_IS_FINISHED&quot;</span>
+<span class="n">GENERAL_STATE_IS_TERMINATED</span> <span class="o">=</span> <span class="s2">&quot;GENERAL_STATE_IS_TERMINATED&quot;</span>
+<span class="n">GENERAL_STATE_MAY_END</span> <span class="o">=</span> <span class="s2">&quot;GENERAL_STATE_MAY_END&quot;</span>
+<span class="n">GENERAL_STATE_IS_PAUSED</span> <span class="o">=</span> <span class="s2">&quot;GENERAL_STATE_IS_PAUSED&quot;</span>
+
+<span class="n">GENERAL_STATE_FLAGS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">GENERAL_STATE_NOT_STARTED</span><span class="p">,</span>
+    <span class="n">GENERAL_STATE_IS_RUNNING</span><span class="p">,</span>
+    <span class="n">GENERAL_STATE_IS_STOPPED</span><span class="p">,</span>
+    <span class="n">GENERAL_STATE_IS_FINISHED</span><span class="p">,</span>
+    <span class="n">GENERAL_STATE_IS_TERMINATED</span><span class="p">,</span>
+    <span class="n">GENERAL_STATE_MAY_END</span><span class="p">,</span>
+    <span class="n">GENERAL_STATE_IS_PAUSED</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="StateHandler"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler">[docs]</a><span class="k">class</span> <span class="nc">StateHandler</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">COUNT_STATES</span> <span class="o">=</span> <span class="s2">&quot;count_states&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">must_report_state</span><span class="p">,</span> <span class="o">*</span><span class="n">states</span><span class="p">,</span> <span class="o">**</span><span class="n">flags</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        State handler for layered objects.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            layer_id: Layer ID.</span>
+<span class="sd">            must_report_state: State report flag.</span>
+<span class="sd">            states: All layer states.</span>
+<span class="sd">            flags: State flags.</span>
+
+<span class="sd">        Raise:</span>
+<span class="sd">            ValueError If state lenght is zero.</span>
+<span class="sd">            ValueError If flags do not recognized.</span>
+<span class="sd">            TypeError If counter state is not bool.</span>
+
+<span class="sd">        Kwargs:</span>
+<span class="sd">            counter_states = bool</span>
+<span class="sd">            GENERAL_STATE_NOT_STARTED = state</span>
+<span class="sd">            GENERAL_STATE_IS_RUNNING = state</span>
+<span class="sd">            GENERAL_STATE_IS_STOPPED = state</span>
+<span class="sd">            GENERAL_STATE_IS_FINISHED = state</span>
+<span class="sd">            GENERAL_STATE_IS_TERMINATED = state</span>
+<span class="sd">            GENERAL_STATE_MAY_END = state</span>
+<span class="sd">            GENERAL_STATE_IS_PAUSED = state</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">states</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;State object excepts at least 1 state.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_states</span> <span class="o">=</span> <span class="n">states</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span> <span class="o">=</span> <span class="n">layer_id</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_current_state</span> <span class="o">=</span> <span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_count_states</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_not_started_state</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_running_state</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_stopped_state</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_finished_state</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_terminated_state</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_may_end_state</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_is_paused_state</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state_counter_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_states</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_state_counter_dict</span><span class="p">[</span><span class="n">state</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state_counter_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_current_state</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">flags</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">GENERAL_STATE_NOT_STARTED</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_not_started_state</span> <span class="o">=</span> <span class="n">flags</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="n">GENERAL_STATE_IS_RUNNING</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_is_running_state</span> <span class="o">=</span> <span class="n">flags</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="n">GENERAL_STATE_IS_STOPPED</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_is_stopped_state</span> <span class="o">=</span> <span class="n">flags</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="n">GENERAL_STATE_IS_FINISHED</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_is_finished_state</span> <span class="o">=</span> <span class="n">flags</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="n">GENERAL_STATE_IS_TERMINATED</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_is_terminated_state</span> <span class="o">=</span> <span class="n">flags</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="n">GENERAL_STATE_MAY_END</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_may_end_state</span> <span class="o">=</span> <span class="n">flags</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="n">GENERAL_STATE_IS_PAUSED</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_is_paused_state</span> <span class="o">=</span> <span class="n">flags</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">COUNT_STATES</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flags</span><span class="p">[</span><span class="n">value</span><span class="p">],</span> <span class="nb">bool</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Excepted a bool for count_states but got </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">flags</span><span class="p">[</span><span class="n">value</span><span class="p">]))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_count_states</span> <span class="o">=</span> <span class="n">flags</span><span class="p">[</span><span class="n">value</span><span class="p">]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Exepted a general state but got </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_must_report_state</span> <span class="o">=</span> <span class="n">must_report_state</span>
+
+<div class="viewcode-block" id="StateHandler.change_state"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.change_state">[docs]</a>    <span class="k">def</span> <span class="nf">change_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_state</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Changes state of layer</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            new_state: New state of layer.</span>
+<span class="sd">            _raise: Raise if not successfull.</span>
+
+<span class="sd">        Raise:</span>
+<span class="sd">            ValueError If state is not in dict.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            Boolean.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">new_state</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_states</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">_raise</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Exepted a state for layer </span><span class="si">{}</span><span class="s2"> but got </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span><span class="p">,</span> <span class="n">new_state</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_state</span> <span class="o">==</span> <span class="n">new_state</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count_states</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_state_counter_dict</span><span class="p">[</span><span class="n">new_state</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_current_state</span> <span class="o">=</span> <span class="n">new_state</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_state_counter_active"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_state_counter_active">[docs]</a>    <span class="k">def</span> <span class="nf">is_state_counter_active</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count_states</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_not_started_active"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_not_started_active">[docs]</a>    <span class="k">def</span> <span class="nf">is_not_started_active</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_not_started_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_running_active"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_running_active">[docs]</a>    <span class="k">def</span> <span class="nf">is_running_active</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_running_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_stopped_active"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_stopped_active">[docs]</a>    <span class="k">def</span> <span class="nf">is_stopped_active</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stopped_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_finished_active"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_finished_active">[docs]</a>    <span class="k">def</span> <span class="nf">is_finished_active</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_finished_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_terminated_active"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_terminated_active">[docs]</a>    <span class="k">def</span> <span class="nf">is_terminated_active</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_terminated_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_may_end_active"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_may_end_active">[docs]</a>    <span class="k">def</span> <span class="nf">is_may_end_active</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_may_end_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_paused_active"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_paused_active">[docs]</a>    <span class="k">def</span> <span class="nf">is_paused_active</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_paused_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_started"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_started">[docs]</a>    <span class="k">def</span> <span class="nf">is_started</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">exptected</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_paused_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_may_end_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_running_state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_state</span> <span class="ow">in</span> <span class="n">exptected</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_running"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_running">[docs]</a>    <span class="k">def</span> <span class="nf">is_running</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_running_state</span><span class="p">,)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_state</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_finished"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_finished">[docs]</a>    <span class="k">def</span> <span class="nf">is_finished</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_finished_state</span><span class="p">,)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_state</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_terminated"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_terminated">[docs]</a>    <span class="k">def</span> <span class="nf">is_terminated</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_terminated_state</span><span class="p">,)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_state</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="StateHandler.may_end"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.may_end">[docs]</a>    <span class="k">def</span> <span class="nf">may_end</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_may_end_state</span><span class="p">,)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_state</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_stopped"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_stopped">[docs]</a>    <span class="k">def</span> <span class="nf">is_stopped</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_terminated_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_finished_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_not_started_state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_state</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="StateHandler.is_breakable"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.StateHandler.is_breakable">[docs]</a>    <span class="k">def</span> <span class="nf">is_breakable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">expected</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_terminated_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_finished_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_not_started_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_may_end_state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_state</span> <span class="ow">in</span> <span class="n">expected</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">layer_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">all_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_states</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state_not_started</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_not_started_state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state_is_running</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_running_state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state_is_stopped</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_stopped_state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state_is_finished</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_finished_state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state_is_terminated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_terminated_state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state_may_end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_may_end_state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state_is_paused</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_paused_state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_states</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state_change_counts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_counter_dict</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_reports_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_must_report_state</span>
+
+    <span class="k">def</span> <span class="fm">__int__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_count</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">to_return</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;State Object</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;------------------</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Owned Layer ID: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layer_id</span><span class="p">)</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;State Counter Acive: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_state_counter_active</span><span class="p">())</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Not Started Defined: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_not_started_active</span><span class="p">())</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Is Running Defined: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_running_active</span><span class="p">())</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Is Stopped Defined: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_stopped_active</span><span class="p">())</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Is Finished Defined: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_finished_active</span><span class="p">())</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Is Terminated Defined: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_terminated_active</span><span class="p">())</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;May End Defined: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_may_end_active</span><span class="p">())</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Is Paused Defined: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_paused_active</span><span class="p">())</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Is Reports State: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_reports_state</span><span class="p">)</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;All States:</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;------------------</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_states</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_state_counter_active</span><span class="p">():</span>
+            <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;------------------</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_change_counts</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">to_return</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##===========================================  LAYER FLAGS  ==========================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># If layer simulation is in thread, its a thread layer.</span>
+<span class="c1"># Else its a process layer.</span>
+<span class="n">THREAD_LAYER</span> <span class="o">=</span> <span class="s2">&quot;This layer run in a thread&quot;</span>
+<span class="n">PROCESS_LAYER</span> <span class="o">=</span> <span class="s2">&quot;This layer run in a process&quot;</span>
+
+<span class="n">layer_types</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">THREAD_LAYER</span><span class="p">,</span>
+    <span class="n">PROCESS_LAYER</span>
+<span class="p">)</span>
+
+<span class="c1"># Layers that are using in simulation.</span>
+<span class="n">ID_EPR_LAYER</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="s2">&quot;Architecture identifier of epr layer.&quot;</span><span class="p">,)</span>
+<span class="n">ID_QKD_LAYER</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;Architecture identifier of qkd layer.&quot;</span><span class="p">,)</span>
+<span class="n">ID_APPLICATION</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="s2">&quot;Architecture identifier of application layer.&quot;</span><span class="p">,)</span>
+<span class="n">ID_DEVICE</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s2">&quot;Architecture identifier of device layer.&quot;</span><span class="p">,)</span>
+<span class="n">ID_SOCKET</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;Architecture identifier of device&#39;s network socket layer.&quot;</span><span class="p">,)</span>
+<span class="n">ID_MINER</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;Architecture identifier of miner layer.&quot;</span><span class="p">,)</span>
+<span class="n">ID_SIMULATION</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Architecture identifier of simulation layer.&quot;</span><span class="p">,)</span>
+<span class="n">ID_CHANNEL_CONTROLLER</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s2">&quot;Architecture identifier of channel controller layer.&quot;</span><span class="p">,)</span>
+<span class="n">ID_ANY_LAYER</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s2">&quot;Symbolize a layer in arhitecture.&quot;</span><span class="p">,)</span>
+
+<span class="n">hardware_layers</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ID_SOCKET</span><span class="p">,</span> <span class="n">ID_DEVICE</span><span class="p">,</span> <span class="n">ID_EPR_LAYER</span><span class="p">,</span> <span class="n">ID_QKD_LAYER</span><span class="p">,</span> <span class="n">ID_CHANNEL_CONTROLLER</span>
+<span class="p">)</span>
+
+<span class="n">software_layers</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ID_SIMULATION</span><span class="p">,</span> <span class="n">ID_MINER</span><span class="p">,</span> <span class="n">ID_APPLICATION</span>
+<span class="p">)</span>
+
+<span class="n">layers</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ID_SOCKET</span><span class="p">,</span>
+    <span class="n">ID_DEVICE</span><span class="p">,</span>
+    <span class="n">ID_EPR_LAYER</span><span class="p">,</span>
+    <span class="n">ID_QKD_LAYER</span><span class="p">,</span>
+    <span class="n">ID_SIMULATION</span><span class="p">,</span>
+    <span class="n">ID_MINER</span><span class="p">,</span>
+    <span class="n">ID_APPLICATION</span><span class="p">,</span>
+    <span class="n">ID_CHANNEL_CONTROLLER</span><span class="p">,</span>
+    <span class="n">ID_ANY_LAYER</span>
+<span class="p">)</span>
+
+<span class="n">layer_to_layer_id</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">ID_SIMULATION</span><span class="p">:</span> <span class="n">ID_SIMULATION</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">ID_MINER</span><span class="p">:</span> <span class="n">ID_MINER</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">ID_CHANNEL_CONTROLLER</span><span class="p">:</span> <span class="n">ID_CHANNEL_CONTROLLER</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">ID_DEVICE</span><span class="p">:</span> <span class="n">ID_DEVICE</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">ID_SOCKET</span><span class="p">:</span> <span class="n">ID_SOCKET</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">ID_QKD_LAYER</span><span class="p">:</span> <span class="n">ID_QKD_LAYER</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">ID_EPR_LAYER</span><span class="p">:</span> <span class="n">ID_EPR_LAYER</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">ID_APPLICATION</span><span class="p">:</span> <span class="n">ID_APPLICATION</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">ID_ANY_LAYER</span><span class="p">:</span> <span class="n">ID_ANY_LAYER</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">layer_to_layer_string</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">ID_SIMULATION</span><span class="p">:</span> <span class="n">ID_SIMULATION</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">ID_MINER</span><span class="p">:</span> <span class="n">ID_MINER</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">ID_CHANNEL_CONTROLLER</span><span class="p">:</span> <span class="n">ID_CHANNEL_CONTROLLER</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">ID_DEVICE</span><span class="p">:</span> <span class="n">ID_DEVICE</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">ID_SOCKET</span><span class="p">:</span> <span class="n">ID_SOCKET</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">ID_QKD_LAYER</span><span class="p">:</span> <span class="n">ID_QKD_LAYER</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">ID_EPR_LAYER</span><span class="p">:</span> <span class="n">ID_EPR_LAYER</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">ID_APPLICATION</span><span class="p">:</span> <span class="n">ID_APPLICATION</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">ID_ANY_LAYER</span><span class="p">:</span> <span class="n">ID_ANY_LAYER</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##===========================================  ANY SETTINGS  =========================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="AnySettings"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.AnySettings">[docs]</a><span class="k">class</span> <span class="nc">AnySettings</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Any setting constructor.</span>
+<span class="sd">        This class is template class, must inherit from this.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            {variable_name} = variable\n</span>
+<span class="sd">            {variable_name_2} = variable_name_2\n</span>
+<span class="sd">            ...</span>
+
+<span class="sd">        Upmost settings template.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+<div class="viewcode-block" id="AnySettings.change_paramater"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.AnySettings.change_paramater">[docs]</a>    <span class="k">def</span> <span class="nf">change_paramater</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">new_value</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_value</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">)</span> <span class="k">as</span> <span class="n">E</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">E</span><span class="p">(</span><span class="s2">&quot;Expected layer settings but got </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="AnySettings.details"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.AnySettings.details">[docs]</a>    <span class="k">def</span> <span class="nf">details</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">)</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##===========================================  LAYER SETTINGS  =======================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="LayerSettings"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.LayerSettings">[docs]</a><span class="k">class</span> <span class="nc">LayerSettings</span><span class="p">(</span><span class="n">AnySettings</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Layer setting constructor.</span>
+<span class="sd">        This class is template class, must inherit from this.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            {variable_name} = variable\n</span>
+<span class="sd">            {variable_name_2} = variable_name_2\n</span>
+<span class="sd">            ...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">LayerSettings</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LayerSettings.change_paramater"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.LayerSettings.change_paramater">[docs]</a>    <span class="k">def</span> <span class="nf">change_paramater</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">new_value</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_value</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">)</span> <span class="k">as</span> <span class="n">E</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">E</span><span class="p">(</span><span class="s2">&quot;Expected layer settings but got </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="LayerSettings.details"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.LayerSettings.details">[docs]</a>    <span class="k">def</span> <span class="nf">details</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">)</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##===============================================  LAYER  ============================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="Layer"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer">[docs]</a><span class="k">class</span> <span class="nc">Layer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">layer</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">layer_type</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+            <span class="n">layer_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">request_queue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">respond_queue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">state_handler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StateHandler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">layer_settings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LayerSettings</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Layer constructor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            layer: Layer flag in layers.</span>
+<span class="sd">            layer_type: Layer type in layer_types.</span>
+<span class="sd">            request_queue: Layer request queue.</span>
+<span class="sd">            respond_queue: Layer respond queue.</span>
+<span class="sd">            state_handler: State handler object for layer.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            Sets layer type None if layer type is unknown.</span>
+<span class="sd">            Process must match layer type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span> <span class="o">=</span> <span class="n">layer_to_layer_id</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_layer_string</span> <span class="o">=</span> <span class="n">layer_to_layer_string</span><span class="p">[</span><span class="n">layer</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_layer_name</span> <span class="o">=</span> <span class="n">layer_name</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_layer_type</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">layer_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">layer_types</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Layer type </span><span class="si">{}</span><span class="s2"> is not recognized.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">layer_type</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_layer_type</span> <span class="o">=</span> <span class="n">layer_type</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_modules</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">state_handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">state_handler</span><span class="o">.</span><span class="n">layer_id</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Layer </span><span class="si">{}</span><span class="s2"> has wrong layer id state handler.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span> <span class="o">=</span> <span class="n">QueueManager</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span><span class="o">.</span><span class="n">add_queue</span><span class="p">(</span><span class="n">LAYER_REQUEST_QUEUE</span><span class="p">,</span> <span class="n">request_queue</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span><span class="o">.</span><span class="n">add_queue</span><span class="p">(</span><span class="n">LAYER_RESPOND_QUEUE</span><span class="p">,</span> <span class="n">respond_queue</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span><span class="o">.</span><span class="n">add_queue</span><span class="p">(</span><span class="n">LAYER_THREADED_REQUEST_QUEUE</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span><span class="o">.</span><span class="n">add_queue</span><span class="p">(</span><span class="n">LAYER_THREADED_RESPOND_QUEUE</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state_handler</span> <span class="o">=</span> <span class="n">state_handler</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_layer_settings</span> <span class="o">=</span> <span class="n">layer_settings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">SubLogger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_layer_name</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Layer.prepair_layer"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.prepair_layer">[docs]</a>    <span class="k">def</span> <span class="nf">prepair_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prepair the layer for simulation.</span>
+<span class="sd">        Must run right before simulation.</span>
+<span class="sd">        Layers must override this method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Layer.set_state_handler"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.set_state_handler">[docs]</a>    <span class="k">def</span> <span class="nf">set_state_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_handler</span><span class="p">:</span> <span class="n">StateHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">new_handler</span><span class="o">.</span><span class="n">layer_id</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_id</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state_handler</span> <span class="o">=</span> <span class="n">new_handler</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Layer.set_state_report_queue"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.set_state_report_queue">[docs]</a>    <span class="k">def</span> <span class="nf">set_state_report_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">report_queue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Puts a report to the target layer&#39;s signal/request queue.</span>
+<span class="sd">        Must be setted before simulation and state handler must be report flag to work.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span><span class="o">.</span><span class="n">add_queue</span><span class="p">(</span><span class="n">LAYER_STATE_REPORT_QUEUE</span><span class="p">,</span> <span class="n">report_queue</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Layer.set_layer_settings"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.set_layer_settings">[docs]</a>    <span class="k">def</span> <span class="nf">set_layer_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_settings</span><span class="p">:</span> <span class="n">LayerSettings</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_layer_settings</span> <span class="o">=</span> <span class="n">new_settings</span></div>
+
+<div class="viewcode-block" id="Layer.add_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.add_module">[docs]</a>    <span class="k">def</span> <span class="nf">add_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_module</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">new_module</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_modules</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_module</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Layer.update_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.update_module">[docs]</a>    <span class="k">def</span> <span class="nf">update_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">new_module</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">module</span><span class="o">.</span><span class="n">module_name</span> <span class="o">!=</span> <span class="n">new_module</span><span class="o">.</span><span class="n">module_name</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cannot update module </span><span class="si">{}</span><span class="s2">. Module names are mismatches with </span><span class="si">{}</span><span class="s2">.&quot;</span>
+                                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="n">module_name</span><span class="p">,</span> <span class="n">new_module</span><span class="o">.</span><span class="n">module_name</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_module</span><span class="p">(</span><span class="n">module</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Revoing module </span><span class="si">{}</span><span class="s2"> is failed.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="n">module_name</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="n">new_module</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Layer.remove_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.remove_module">[docs]</a>    <span class="k">def</span> <span class="nf">remove_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes module from layer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            module: Module name or module object.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            Module should have removable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">to_remove</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_modules</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="n">module</span> <span class="ow">or</span> <span class="n">m</span> <span class="o">==</span> <span class="n">module</span><span class="o">.</span><span class="n">module_name</span><span class="p">:</span>
+                <span class="n">to_remove</span> <span class="o">=</span> <span class="n">m</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">to_remove</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">to_remove</span><span class="o">.</span><span class="n">can_removable</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_modules</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">to_remove</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Layer.get_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.get_module">[docs]</a>    <span class="k">def</span> <span class="nf">get_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the module given key.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: Module name or module object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Module or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_modules</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">module</span> <span class="ow">or</span> <span class="n">key</span> <span class="o">==</span> <span class="n">module</span><span class="o">.</span><span class="n">module_name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">module</span>
+
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="Layer.set_queues"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.set_queues">[docs]</a>    <span class="k">def</span> <span class="nf">set_queues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_queue</span><span class="p">,</span> <span class="n">respond_queue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sets multiprocessing queues. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span><span class="o">.</span><span class="n">update_queue</span><span class="p">(</span><span class="n">LAYER_REQUEST_QUEUE</span><span class="p">,</span> <span class="n">request_queue</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span><span class="o">.</span><span class="n">update_queue</span><span class="p">(</span><span class="n">LAYER_RESPOND_QUEUE</span><span class="p">,</span> <span class="n">respond_queue</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Layer.set_request_queue"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.set_request_queue">[docs]</a>    <span class="k">def</span> <span class="nf">set_request_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_queue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sets multiprocessing request queue. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span><span class="o">.</span><span class="n">update_queue</span><span class="p">(</span><span class="n">LAYER_REQUEST_QUEUE</span><span class="p">,</span> <span class="n">request_queue</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Layer.set_respond_queue"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.set_respond_queue">[docs]</a>    <span class="k">def</span> <span class="nf">set_respond_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">respond_queue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sets multiprocessing respond queue. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span><span class="o">.</span><span class="n">update_queue</span><span class="p">(</span><span class="n">LAYER_RESPOND_QUEUE</span><span class="p">,</span> <span class="n">respond_queue</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Layer.set_threaded_queues"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.set_threaded_queues">[docs]</a>    <span class="k">def</span> <span class="nf">set_threaded_queues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_queue</span><span class="p">,</span> <span class="n">respond_queue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sets threaded queues. &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span><span class="o">.</span><span class="n">update_queue</span><span class="p">(</span><span class="n">LAYER_THREADED_REQUEST_QUEUE</span><span class="p">,</span> <span class="n">request_queue</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span><span class="o">.</span><span class="n">update_queue</span><span class="p">(</span><span class="n">LAYER_THREADED_RESPOND_QUEUE</span><span class="p">,</span> <span class="n">respond_queue</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Layer.layer_details"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.layer_details">[docs]</a>    <span class="k">def</span> <span class="nf">layer_details</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">to_return</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Layer_ID: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span><span class="p">)</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Layer Str: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_layer_string</span><span class="p">)</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Layer Type: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_layer_type</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request_queue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bind</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bind</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Request Binded: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bind</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">respond_queue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bind</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bind</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Respond Binded: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bind</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_settings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bind</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bind</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Settings Binded: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bind</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">to_return</span></div>
+
+<div class="viewcode-block" id="Layer.settings_details"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.settings_details">[docs]</a>    <span class="k">def</span> <span class="nf">settings_details</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_settings</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_settings</span><span class="o">.</span><span class="n">details</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Layer.is_have_this_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.is_have_this_module">[docs]</a>    <span class="k">def</span> <span class="nf">is_have_this_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Searches the module given key.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key: Module name or module object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Boolean.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_module</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Layer.is_have_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.is_have_module">[docs]</a>    <span class="k">def</span> <span class="nf">is_have_module</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_modules</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Layer.change_state"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.change_state">[docs]</a>    <span class="k">def</span> <span class="nf">change_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_state</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Changes and log the state change by using state handler.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            new_state: New state.</span>
+<span class="sd">            _raise: Raise if change state counters critical error.</span>
+<span class="sd">            log_level: Log level.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Boolean.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">to_return</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_handler</span><span class="o">.</span><span class="n">change_state</span><span class="p">(</span><span class="n">new_state</span><span class="p">,</span> <span class="n">_raise</span><span class="o">=</span><span class="n">_raise</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">to_return</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> changes state to </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layer_name</span><span class="p">,</span> <span class="n">new_state</span><span class="p">),</span> <span class="n">log_level</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_handler</span><span class="o">.</span><span class="n">is_reports_state</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_report_queue</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">StateReportSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layer_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_report_queue</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">to_return</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Layer.change_settings"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Layer.change_settings">[docs]</a>    <span class="k">def</span> <span class="nf">change_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">new_value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_settings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_settings</span><span class="o">.</span><span class="n">change_paramater</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">new_value</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateHandler</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_handler</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">layer_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_settings</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">layer_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">layer_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_string</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">layer_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">layer_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_type</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modules</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_modules</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">module_legth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_modules</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">request_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">get_queue</span><span class="p">(</span><span class="n">LAYER_REQUEST_QUEUE</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">respond_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">get_queue</span><span class="p">(</span><span class="n">LAYER_RESPOND_QUEUE</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">threaded_request_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">get_queue</span><span class="p">(</span><span class="n">LAYER_THREADED_REQUEST_QUEUE</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">threaded_respond_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">get_queue</span><span class="p">(</span><span class="n">LAYER_THREADED_RESPOND_QUEUE</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">logger</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SubLogger</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_handler</span><span class="o">.</span><span class="n">state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state_report_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">queue_manager</span><span class="o">.</span><span class="n">get_queue</span><span class="p">(</span><span class="n">LAYER_STATE_REPORT_QUEUE</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">queue_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QueueManager</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_queue_manager</span>
+
+    <span class="k">def</span> <span class="fm">__int__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_string</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##===========================================  MODULE SETTINGS  ======================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="ModuleSettings"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.ModuleSettings">[docs]</a><span class="k">class</span> <span class="nc">ModuleSettings</span><span class="p">(</span><span class="n">AnySettings</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Module setting constructor.</span>
+<span class="sd">        This class is template class, must inherit from this.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            {variable_name} = variable\n</span>
+<span class="sd">            {variable_name_2} = variable_name_2\n</span>
+<span class="sd">            ...</span>
+
+<span class="sd">        Uses same template as Settings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">ModuleSettings</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ModuleSettings.change_paramater"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.ModuleSettings.change_paramater">[docs]</a>    <span class="k">def</span> <span class="nf">change_paramater</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">new_value</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_value</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">)</span> <span class="k">as</span> <span class="n">E</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">E</span><span class="p">(</span><span class="s2">&quot;Expected module settings but got </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="ModuleSettings.details"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.ModuleSettings.details">[docs]</a>    <span class="k">def</span> <span class="nf">details</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span></div>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">##===============================================  MODULE  ===========================================================##</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="Module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module">[docs]</a><span class="k">class</span> <span class="nc">Module</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">MODULE_NOT_STARTED</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">module is not started.</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+    <span class="n">MODULE_IS_RUNNNG</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">module is running.</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+    <span class="n">MODULE_IS_FINISHED</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">module is finished.</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+    <span class="n">MODULE_IS_TERMINATED</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">module is terminated.</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+    <span class="n">MODULE_IS_PASUED</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">module is paused.</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+
+    <span class="n">MODULE_STATES</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">MODULE_NOT_STARTED</span><span class="p">,</span>
+        <span class="n">MODULE_IS_RUNNNG</span><span class="p">,</span>
+        <span class="n">MODULE_IS_FINISHED</span><span class="p">,</span>
+        <span class="n">MODULE_IS_TERMINATED</span><span class="p">,</span>
+        <span class="n">MODULE_IS_PASUED</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">layer_id</span><span class="p">,</span> <span class="n">module_name</span><span class="p">,</span> <span class="n">module_object</span><span class="p">,</span> <span class="n">can_disable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">can_removable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">can_restartable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">can_pausable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">no_state_module</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">special_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">StateHandler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">module_settings</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ModuleSettings</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mdoule constructor.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            layer_id: Module owner layer ID.</span>
+<span class="sd">            module_name: Module name.</span>
+<span class="sd">            module_object: Module object.</span>
+<span class="sd">            can_disable: Is module disable.</span>
+<span class="sd">            can_removable: Is module removable.</span>
+<span class="sd">            can_restartable: Is module restartable.</span>
+<span class="sd">            can_pausable: Is module pausable.</span>
+<span class="sd">            no_state_module: Module do not uses states.</span>
+<span class="sd">            special_state: Use special state handler.</span>
+<span class="sd">            module_settings: Use module settings for module.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            Only layered objects should have a module.</span>
+<span class="sd">            Modules should have remove, disable, restart, enable actions.</span>
+<span class="sd">            Module settings should have specialized for module.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span> <span class="o">=</span> <span class="n">layer_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_module_name</span> <span class="o">=</span> <span class="n">module_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_module_object</span> <span class="o">=</span> <span class="n">module_object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_can_disable</span> <span class="o">=</span> <span class="n">can_disable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_can_removable</span> <span class="o">=</span> <span class="n">can_removable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_can_restartable</span> <span class="o">=</span> <span class="n">can_restartable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_can_pausable</span> <span class="o">=</span> <span class="n">can_pausable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_no_state_module</span> <span class="o">=</span> <span class="n">no_state_module</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_disabled</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_state_module</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">special_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">StateHandler</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">MODULE_STATES</span><span class="p">,</span>
+                    <span class="n">GENERAL_STATE_NOT_STARTED</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">MODULE_NOT_STARTED</span><span class="p">,</span>
+                    <span class="n">GENERAL_STATE_IS_RUNNING</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">MODULE_IS_RUNNNG</span><span class="p">,</span>
+                    <span class="n">GENERAL_STATE_IS_FINISHED</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">MODULE_IS_FINISHED</span><span class="p">,</span>
+                    <span class="n">GENERAL_STATE_IS_TERMINATED</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">MODULE_IS_TERMINATED</span><span class="p">,</span>
+                    <span class="n">GENERAL_STATE_IS_PAUSED</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">MODULE_IS_PASUED</span>
+                <span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">special_state</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_module_setting</span> <span class="o">=</span> <span class="n">module_settings</span>
+
+<div class="viewcode-block" id="Module.prepair_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.prepair_module">[docs]</a>    <span class="k">def</span> <span class="nf">prepair_module</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prepirs module for simulation.</span>
+
+<span class="sd">        # Must override method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Module.enable_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.enable_module">[docs]</a>    <span class="k">def</span> <span class="nf">enable_module</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enables Module.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            True if module state changed to enabled.</span>
+<span class="sd">            False if module state is not changed.</span>
+
+<span class="sd">        # Must override method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Module.pause_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.pause_module">[docs]</a>    <span class="k">def</span> <span class="nf">pause_module</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pauses Module.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            True if module state changed to paused.</span>
+<span class="sd">            False if module state is not changed..</span>
+
+<span class="sd">        # Must override method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Module.resume_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.resume_module">[docs]</a>    <span class="k">def</span> <span class="nf">resume_module</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resume Module.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            True if module state changed to running.</span>
+<span class="sd">            False if module state is not changed.</span>
+
+<span class="sd">        # Must override method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Module.disable_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.disable_module">[docs]</a>    <span class="k">def</span> <span class="nf">disable_module</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Disables Module.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            True if module can disable.</span>
+<span class="sd">            False if module cannot disable.</span>
+
+<span class="sd">        # Must override method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Module.start_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.start_module">[docs]</a>    <span class="k">def</span> <span class="nf">start_module</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts Module.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            True if module can start now.</span>
+<span class="sd">            False if module cannot start now.</span>
+
+<span class="sd">        # Must override method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Module.stop_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.stop_module">[docs]</a>    <span class="k">def</span> <span class="nf">stop_module</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stops Module.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            True if module state can changed to stopped.</span>
+<span class="sd">            False if module state not changed..</span>
+
+<span class="sd">        # Must override method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Module.restart_module"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.restart_module">[docs]</a>    <span class="k">def</span> <span class="nf">restart_module</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Restarts Module.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            True if module can restartable.</span>
+<span class="sd">            False if module cannot restartable.</span>
+
+<span class="sd">        # Must override method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Module.is_enabled"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.is_enabled">[docs]</a>    <span class="k">def</span> <span class="nf">is_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_disabled</span></div>
+
+<div class="viewcode-block" id="Module.is_disabled"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.is_disabled">[docs]</a>    <span class="k">def</span> <span class="nf">is_disabled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_disabled</span></div>
+
+<div class="viewcode-block" id="Module.set_new_settings"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.set_new_settings">[docs]</a>    <span class="k">def</span> <span class="nf">set_new_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_settings</span><span class="p">:</span> <span class="n">ModuleSettings</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_module_setting</span> <span class="o">=</span> <span class="n">new_settings</span></div>
+
+<div class="viewcode-block" id="Module.module_details"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.module_details">[docs]</a>    <span class="k">def</span> <span class="nf">module_details</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">to_return</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Module Info</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;-------------------</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Layer ID: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layer_id</span><span class="p">)</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Module name: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">module_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_no_state_module</span><span class="p">:</span>
+            <span class="n">bind</span> <span class="o">=</span> <span class="s2">&quot;No state module&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span>
+        <span class="n">to_return</span> <span class="o">+=</span> <span class="s2">&quot;Module state: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bind</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">to_return</span></div>
+
+<div class="viewcode-block" id="Module.settings_details"><a class="viewcode-back" href="../../../docs/Modules.Tools.html#Modules.Tools.architecture_tools.Module.settings_details">[docs]</a>    <span class="k">def</span> <span class="nf">settings_details</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module_setting</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module_setting</span><span class="o">.</span><span class="n">details</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">state_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateHandler</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">layer_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">module_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">module_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module_object</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">can_disable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_can_disable</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">can_removable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_can_removable</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">can_pausable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_can_pausable</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">can_restartable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_can_restartable</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">module_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module_setting</span>
+
+    <span class="k">def</span> <span class="fm">__int__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layer_id</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, COMU Team.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

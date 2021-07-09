@@ -63,7 +63,7 @@ def create_new_application(
     >>> self.create_new_application("function: bob_run", *args, static=True)
     >>> self.create_new_application("function: bob_run", *args, enabled=False)
 
-    See QDNS/device/applicaion.Application() for more details.
+    See QDNS/device/application.Application() for more details.
 
     Raises:
         ValueError: Same name application in device.

@@ -52,5 +52,5 @@ Some useful socket commands used as below by Alice::
     if __name__ == '__main__':
         main()
 
-As can be seen above, an application can control the socket in the device it is in. More about these method can found in Modules.Application
+As can be seen above, an application can control the socket in the device it is in.
 """
