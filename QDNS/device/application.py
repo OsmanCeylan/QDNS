@@ -1317,7 +1317,7 @@ class Application(architecture_tools.Layer):
         """
 
         # Kernel does not respond this request.
-        return QDNS.library.reset_qubits(self, qubits, *args)
+        return QDNS.api.reset_qubits(self, qubits, *args)
 
     def apply_transformation(self, gate: gates.Gate, *qubits):
         """
