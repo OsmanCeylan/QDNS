@@ -263,7 +263,7 @@ QDNS tries to abstracts the complexity of observe process and lets users to focu
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Eve listening is over.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Below is an full example of Alice sends classic message and two qubits to Bob while a device listening to the network:</p>
+<p>Below is an full example of Alice sends classic message and two qubits to Bob while a observer device listening the network:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QDNS</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
@@ -411,7 +411,7 @@ In the example below, Alice sends a message to Bob, but Eve drops this packet:</
 </pre></div>
 </div>
 <p>Eve can release the package or qubits with using “app.listener.release_item()” if he wants.
-Using the grap method can filter the communication but makes simulation more slower. Also quantum network attacks are still possible even if interrupts does not happen at Eve.</p>
+Using the grap method can filter the communication but makes simulation more slower. Also quantum network attacks are still possible even if interrupt not setted at Eve.</p>
 </div>
 </div>
 

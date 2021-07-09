@@ -1,6 +1,8 @@
 Features
 ===============
 
+There are some features on QDNS that will provide convenience to users.
+
 Result
 -----------------------------
 .. automodule:: Features.result

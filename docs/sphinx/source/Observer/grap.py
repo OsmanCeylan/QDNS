@@ -71,5 +71,5 @@ In the example below, Alice sends a message to Bob, but Eve drops this packet::
     Eve listening is over.
 
 Eve can release the package or qubits with using \"app.listener.release_item()\" if he wants.
-Using the grap method can filter the communication but makes simulation more slower. Also quantum network attacks are still possible even if interrupts does not happen at Eve.
+Using the grap method can filter the communication but makes simulation more slower. Also quantum network attacks are still possible even if interrupt not setted at Eve.
 """

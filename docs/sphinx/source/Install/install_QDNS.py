@@ -44,4 +44,5 @@ If something goes wrong, you can install package in new python environment.
              $ pip install -r requirements.txt
              $ pip install .
 
+In addition, QDNS can be used by placing the framework folder to next to the executable code.
 """

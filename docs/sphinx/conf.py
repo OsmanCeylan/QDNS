@@ -20,11 +20,11 @@ sys.path.append('source')
 # -- Project information -----------------------------------------------------
 
 project = 'QDNS'
-copyright = '2021, Osman Ceylan'
+copyright = '2021, COMU Team'
 author = 'Osman Ceylan'
 
 # The full version, including alpha/beta/rc tags
-release = '0.49'
+release = '0.51'
 
 
 # -- General configuration ---------------------------------------------------

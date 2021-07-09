@@ -34,7 +34,7 @@ Eve application loop::
                 app.listener.print_item(communication)
         print("Eve listening is over.")
 
-Below is an full example of Alice sends classic message and two qubits to Bob while a device listening to the network::
+Below is an full example of Alice sends classic message and two qubits to Bob while a observer device listening the network::
 
     import QDNS
     import logging

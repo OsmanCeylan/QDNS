@@ -1,7 +1,7 @@
 __all__ = ["architecture", "backend", "commands", "device", "networking", "rtg_apps", "simulation", "tools"]
 
-__version__ = 0.48
-__version_string__ = "{}-git-svn202106010".format(__version__)
+__version__ = 0.51
+__version_string__ = "{}-git-svn20210707".format(__version__)
 
 from QDNS.architecture.signal import SIGNAL
 from QDNS.architecture.request import REQUEST
