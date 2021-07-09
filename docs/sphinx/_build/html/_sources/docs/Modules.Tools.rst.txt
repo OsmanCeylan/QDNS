@@ -1,8 +1,8 @@
-Modules.Tools package
+Tools package
 =====================
 
 
-Modules.Tools.application\_tools module
+Tools.application\_tools module
 ---------------------------------------
 
 .. automodule:: Modules.Tools.application_tools
@@ -10,7 +10,7 @@ Modules.Tools.application\_tools module
    :undoc-members:
    :show-inheritance:
 
-Modules.Tools.architecture\_tools module
+Tools.architecture\_tools module
 ----------------------------------------
 
 .. automodule:: Modules.Tools.architecture_tools
@@ -18,7 +18,7 @@ Modules.Tools.architecture\_tools module
    :undoc-members:
    :show-inheritance:
 
-Modules.Tools.command\_tools module
+Tools.command\_tools module
 -----------------------------------
 
 .. automodule:: Modules.Tools.command_tools
@@ -26,7 +26,7 @@ Modules.Tools.command\_tools module
    :undoc-members:
    :show-inheritance:
 
-Modules.Tools.communication\_tools module
+Tools.communication\_tools module
 -----------------------------------------
 
 .. automodule:: Modules.Tools.communication_tools
@@ -34,7 +34,7 @@ Modules.Tools.communication\_tools module
    :undoc-members:
    :show-inheritance:
 
-Modules.Tools.device\_tools module
+Tools.device\_tools module
 ----------------------------------
 
 .. automodule:: Modules.Tools.device_tools
@@ -42,7 +42,7 @@ Modules.Tools.device\_tools module
    :undoc-members:
    :show-inheritance:
 
-Modules.Tools.exit\_codes module
+Tools.exit\_codes module
 --------------------------------
 
 .. automodule:: Modules.Tools.exit_codes
@@ -50,7 +50,7 @@ Modules.Tools.exit\_codes module
    :undoc-members:
    :show-inheritance:
 
-Modules.Tools.gates module
+Tools.gates module
 --------------------------
 
 .. automodule:: Modules.Tools.gates
@@ -58,7 +58,7 @@ Modules.Tools.gates module
    :undoc-members:
    :show-inheritance:
 
-Modules.Tools.instance\_logger module
+Tools.instance\_logger module
 -------------------------------------
 
 .. automodule:: Modules.Tools.instance_logger
@@ -66,7 +66,7 @@ Modules.Tools.instance\_logger module
    :undoc-members:
    :show-inheritance:
 
-Modules.Tools.simulation\_tools module
+Tools.simulation\_tools module
 --------------------------------------
 
 .. automodule:: Modules.Tools.simulation_tools
@@ -74,7 +74,7 @@ Modules.Tools.simulation\_tools module
    :undoc-members:
    :show-inheritance:
 
-Modules.Tools.socket\_tools module
+Tools.socket\_tools module
 ----------------------------------
 
 .. automodule:: Modules.Tools.socket_tools
@@ -82,7 +82,7 @@ Modules.Tools.socket\_tools module
    :undoc-members:
    :show-inheritance:
 
-Modules.Tools.various\_tools module
+Tools.various\_tools module
 -----------------------------------
 
 .. automodule:: Modules.Tools.various_tools

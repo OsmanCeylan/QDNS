@@ -1,7 +1,7 @@
-Modules.Device package
+Device package
 ======================
 
-Modules.Device.application module
+Device.application module
 ---------------------------------
 
 .. automodule:: Modules.Device.application
@@ -9,7 +9,7 @@ Modules.Device.application module
    :undoc-members:
    :show-inheritance:
 
-Modules.Device.application\_manager module
+Device.application\_manager module
 ------------------------------------------
 
 .. automodule:: Modules.Device.application_manager
@@ -17,7 +17,7 @@ Modules.Device.application\_manager module
    :undoc-members:
    :show-inheritance:
 
-Modules.Device.channel module
+Device.channel module
 -----------------------------
 
 .. automodule:: Modules.Device.channel
@@ -25,7 +25,7 @@ Modules.Device.channel module
    :undoc-members:
    :show-inheritance:
 
-Modules.Device.device module
+Device.device module
 ----------------------------
 
 .. automodule:: Modules.Device.device
@@ -33,7 +33,7 @@ Modules.Device.device module
    :undoc-members:
    :show-inheritance:
 
-Modules.Device.network\_adapter module
+Device.network\_adapter module
 --------------------------------------
 
 .. automodule:: Modules.Device.network_adapter

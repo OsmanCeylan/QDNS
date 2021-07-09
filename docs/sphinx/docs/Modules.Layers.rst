@@ -1,7 +1,7 @@
-Modules.Layers package
+Layers package
 ======================
 
-Modules.Layers.qkd module
+Layers.qkd module
 -------------------------
 
 .. automodule:: Modules.Layers.qkd
@@ -9,7 +9,7 @@ Modules.Layers.qkd module
    :undoc-members:
    :show-inheritance:
 
-Modules.Layers.routing module
+Layers.routing module
 -----------------------------
 
 .. automodule:: Modules.Layers.routing

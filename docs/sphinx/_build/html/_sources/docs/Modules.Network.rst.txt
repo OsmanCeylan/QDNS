@@ -1,7 +1,7 @@
-Modules.Network package
+Network package
 =======================
 
-Modules.Network.network module
+Network.network module
 ------------------------------
 
 .. automodule:: Modules.Network.network
