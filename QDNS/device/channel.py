@@ -13,6 +13,18 @@ from QDNS.tools import device_tools
 from QDNS.tools.various_tools import fiber_formula
 
 default_channel_length = 1.0
+default_altitude_formula = fiber_formula
+
+
+def change_default_altitude_formula(new_formula_function):
+    """
+    Changes the channel altitude calculation formula.
+    Formula must take only one parameter: length.
+    """
+
+    global default_altitude_formula
+    default_altitude_formula = new_formula_function
+
 
 LEFT_SIDE = "left side of channel"
 RIGHT_SIDE = "rigth side of channel"
@@ -95,7 +107,7 @@ class QuantumChannel(Channel):
 
         self.port_l.set_target_device_id(self.devR_ID)
         self.port_r.set_target_device_id(self.devL_ID)
-        self.percentage = fiber_formula(self.length)
+        self.percentage = default_altitude_formula(self.length)
 
 
 class ClassicChannel(Channel):
