@@ -48,7 +48,7 @@ from QDNS.tools.simulation_tools import KernelModule, terminate_thread, MinerCon
 from QDNS.tools.simulation_tools import default_miner_controller_settings, change_deafault_miner_controller_settings
 from QDNS.tools.simulation_tools import default_noise_pattern, change_default_noise_pattern, NoisePattern
 from QDNS.tools.simulation_tools import reset_channel, asymmetric_depolarisation_channel, depolarisation_channel, bit_flip_channel
-from QDNS.tools.simulation_tools import phase_flip_channel, bit_and_phase_flip_channel, no_noise_channel
+from QDNS.tools.simulation_tools import phase_flip_channel, bit_and_phase_flip_channel, no_noise_channel, channels
 from QDNS.tools.socket_tools import SocketSettings, default_socket_settings, change_default_socket_settings
 from QDNS.tools.socket_tools import Port, PortManager, change_default_port_capacities, set_use_simple_queue_for_ports
 from QDNS.tools.socket_tools import QUANTUM_PORT, CLASSIC_PORT, SocketInformation, PortInformation, ConnectivityInformation

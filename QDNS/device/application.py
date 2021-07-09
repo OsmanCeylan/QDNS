@@ -893,9 +893,6 @@ class Application(architecture_tools.Layer):
             timeout: Expire time.
             check_old_packages: Checks old packages first.
 
-        Notes:
-            Ack flag on package works with this function, not on library.
-
         Returns:
              {"exit_code", "package"}
         """
@@ -1343,7 +1340,7 @@ class Application(architecture_tools.Layer):
         Send classical data to target node.
 
         Args:
-            reciever: Reciever node.
+            reciever: Reciever node identifier.
             data: Data.
             broadcast: Broadcast flag.
             routing: Routing flag.

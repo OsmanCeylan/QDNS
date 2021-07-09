@@ -2,7 +2,7 @@ source
 ======
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 10
 
    Install
    Design
@@ -10,4 +10,7 @@ source
    App
    Hardware
    Quantum
-   cheats
+   Backend
+   Sends
+   Noise
+   Qkd

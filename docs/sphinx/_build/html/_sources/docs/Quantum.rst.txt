@@ -3,7 +3,7 @@ Quantum Operations
 
 QFrame vs Qubit
 -----------------------------
-Allocate qubit operations must be called differently according to different backends. Since Cirq and Sdqs are circuit simulators, qubits allocated as circuit blocks. STIM supports different invocation methods. More about backends covered
+Allocate qubit operations must be called differently according to different backends. Since Cirq and Sdqs are circuit simulators, qubits allocated as circuit blocks. STIM supports all invocation methods. More about backends covered
 in the next section.
 
 .. image:: ../images/framex.png
@@ -48,6 +48,13 @@ Gates
 Reset
 -----------------------------
 .. automodule:: Quantum.reset
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Generating Pairs
+-----------------------------
+.. automodule:: Quantum.pairs
    :members:
    :undoc-members:
    :show-inheritance:

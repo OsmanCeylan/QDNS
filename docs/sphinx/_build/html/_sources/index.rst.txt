@@ -16,8 +16,10 @@ Welcome to QDNS's documentation!
    docs/App
    docs/Hardware
    docs/Quantum
-   docs/cheats
-
+   docs/Backend
+   docs/Sends
+   docs/Noise
+   docs/Qkd
 
 
 Indices and tables
