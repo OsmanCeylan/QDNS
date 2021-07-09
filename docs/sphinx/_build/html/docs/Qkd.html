@@ -41,6 +41,7 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Eavesdropping" href="Attack.html" />
     <link rel="prev" title="Noise" href="Noise.html" /> 
 </head>
 
@@ -102,6 +103,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-Qkd.other">Other Operations</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Features.html">Features</a></li>
 </ul>
 
             
@@ -290,6 +293,11 @@
 <span class="n">Length</span><span class="p">:</span> <span class="mi">0</span>
 </pre></div>
 </div>
+<p>Also QDNS lets users to change default QKD match rates on QKD protocols such as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use before simulation.</span>
+<span class="n">QDNS</span><span class="o">.</span><span class="n">change_bb84_values</span><span class="p">(</span><span class="n">goods_fidelity</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">sample_fidelity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">sample_divisor</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="py function">
 <dt class="sig sig-object py" id="Qkd.other.current_qkd_key">
 <span class="sig-prename descclassname"><span class="pre">Qkd.other.</span></span><span class="sig-name descname"><span class="pre">current_qkd_key</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Qkd/other.html#current_qkd_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Qkd.other.current_qkd_key" title="Permalink to this definition">¶</a></dt>
@@ -321,6 +329,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="Attack.html" class="btn btn-neutral float-right" title="Eavesdropping" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="Noise.html" class="btn btn-neutral float-left" title="Noise" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 

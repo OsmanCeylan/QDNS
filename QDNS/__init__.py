@@ -15,7 +15,7 @@ from QDNS.device.application import Application
 from QDNS.device.application_manager import ApplicationManager
 from QDNS.device.device import Device, Node, Router, Observer
 from QDNS.device.channel import Channel, QuantumChannel, ClassicChannel
-from QDNS.device.channel import change_default_connection_length, default_channel_length
+from QDNS.device.channel import change_default_connection_length, default_channel_length, change_default_altitude_formula
 from QDNS.device.network_adapter import NetworkSocket
 
 from QDNS.commands import api, library

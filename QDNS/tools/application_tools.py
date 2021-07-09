@@ -10,6 +10,7 @@
 """
 
 from typing import Dict, Optional, Union
+from queue import Empty
 
 from QDNS.tools import architecture_tools
 from QDNS.tools import socket_tools
@@ -631,6 +632,11 @@ def change_block_list_defaults(
 
 class Listener(object):
     def __init__(self, application):
+        """
+        Listener helps to listen socket traffic on Device.
+        Device als needs to be able to observe.
+        """
+
         self.application = application
         self._listen_queue = None
         self._release_queue = None
@@ -643,29 +649,52 @@ class Listener(object):
         self._release_queue = new_queue
 
     def set_interrupt(self, new_flag: bool):
+        """
+        Interrupt flag.
+        If the flag set True, traffic will interrupted.
+        """
+
         self._interrupt = new_flag
 
-    def get_communication_item(self, timeout=None):
-        if timeout is None:
-            return self._listen_queue.get(self)
+    def get_communication_item(self, timeout=3.0):
+        """
+        Gets the traffic item from socket.
+        """
+
+        try:
+            item = self._listen_queue.get(self, timeout=timeout)
+        except Empty:
+            return None
         else:
-            return self._listen_queue.get(self, timeout=timeout)
+            return item
 
     def release_item(self):
+        """
+        Releases the last item.
+        """
+
         if self._interrupt:
             self._release_queue.put(socket_tools.RELEASE_PACKAGE)
         else:
             self.application.logger.warning("Interrupt is not running! Pacakge is already released.")
 
     def drop_item(self):
+        """
+        Drops the item.
+        """
+
         if self._interrupt:
             self._release_queue.put(socket_tools.DROP_PACKAGE)
         else:
             self.application.logger.warning("Interrupt is not running! Pacakge is already released.")
 
-    @staticmethod
-    def print_item(package):
+    def print_item(self, package):
+        """
+        Prints package or qupack.
+        """
+
         print("-"*15)
+        print("Traffic on device: ", self.application.host_label)
         if isinstance(package, communication_tools.Qupack):
             print("TYPE: QUANTUM DATA")
         else:

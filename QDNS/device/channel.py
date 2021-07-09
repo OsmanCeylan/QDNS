@@ -15,17 +15,6 @@ from QDNS.tools.various_tools import fiber_formula
 default_channel_length = 1.0
 default_altitude_formula = fiber_formula
 
-
-def change_default_altitude_formula(new_formula_function):
-    """
-    Changes the channel altitude calculation formula.
-    Formula must take only one parameter: length.
-    """
-
-    global default_altitude_formula
-    default_altitude_formula = new_formula_function
-
-
 LEFT_SIDE = "left side of channel"
 RIGHT_SIDE = "rigth side of channel"
 
@@ -145,3 +134,13 @@ def change_default_connection_length(new_length: float):
         raise ValueError("Channel lenght cannot lower then 0.1 km.")
     global default_channel_length
     default_channel_length = new_length
+
+
+def change_default_altitude_formula(new_formula_function):
+    """
+    Changes the channel altitude calculation formula.
+    Formula must take only one parameter: length.
+    """
+
+    global default_altitude_formula
+    default_altitude_formula = new_formula_function

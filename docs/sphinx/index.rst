@@ -21,6 +21,7 @@ Welcome to QDNS's documentation!
    docs/Noise
    docs/Qkd
    docs/Attack
+   docs/Features
 
 Indices and tables
 ==================

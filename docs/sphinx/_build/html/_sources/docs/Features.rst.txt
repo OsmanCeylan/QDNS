@@ -1,32 +1,30 @@
-Noise
+Features
 ===============
 
-QDNS offers a transparent and fully customizable structure to simulate noise.
-
-Noise Types
+Result
 -----------------------------
-.. automodule:: Noise.entry
+.. automodule:: Features.result
    :members:
    :undoc-members:
    :show-inheritance:
 
-Noise Locations
+Blocklist
 -----------------------------
-.. automodule:: Noise.location
+.. automodule:: Features.blocklist
    :members:
    :undoc-members:
    :show-inheritance:
 
-Creating Noises
+Exit Codes
 -----------------------------
-.. automodule:: Noise.create
+.. automodule:: Features.exits
    :members:
    :undoc-members:
    :show-inheritance:
 
-Quantum Channel Noise
+Defaults
 -----------------------------
-.. automodule:: Noise.qcn
+.. automodule:: Features.default
    :members:
    :undoc-members:
    :show-inheritance:

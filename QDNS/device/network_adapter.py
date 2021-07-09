@@ -508,7 +508,7 @@ class NetworkSocket(architecture_tools.Layer):
             return
 
         if self.host_device.observe_capability:
-            app = self.host_device.appman.get_application_from(application_tools.DEFAULT_APPLICATION_NAME, _raise=False)
+            app = self.device_default_app
             if app is None:
                 self.logger.error("The package for application {} cannot delivered in device {}.".format(package.ip_layer.sender, self.host_label))
             else:
@@ -632,7 +632,7 @@ class NetworkSocket(architecture_tools.Layer):
         make_channel_error_request(self.host_uuid, port.channel_uuid, qupack.qubits, self.sim_request_queue)
 
         if self.host_device.observe_capability:
-            app = self.host_device.appman.get_application_from(application_tools.DEFAULT_APPLICATION_NAME, _raise=False)
+            app = self.device_default_app
             if app is None:
                 self.logger.error("The package for application {} cannot delivered in device {}.".format(qupack.ip_layer.sender, self.host_label))
             else:
@@ -959,3 +959,7 @@ class NetworkSocket(architecture_tools.Layer):
     @property
     def observer_queue(self):
         return self.queue_manager.get_queue(architecture_tools.OBSERVER_QUEUE)
+
+    @property
+    def device_default_app(self):
+        return self.host_device.appman.get_application_from(application_tools.DEFAULT_APPLICATION_NAME, _raise=False)

@@ -23,3 +23,10 @@ Creating Noises
    :members:
    :undoc-members:
    :show-inheritance:
+
+Quantum Channel Noise
+-----------------------------
+.. automodule:: Noise.qcn
+   :members:
+   :undoc-members:
+   :show-inheritance:

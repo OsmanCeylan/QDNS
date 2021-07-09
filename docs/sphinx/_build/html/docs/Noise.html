@@ -101,9 +101,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-Noise.entry">Noise Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-Noise.location">Noise Locations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-Noise.create">Creating Noises</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Noise.qcn">Quantum Channel Noise</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Qkd.html">QKD Layer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
 </ul>
 
             
@@ -239,6 +241,35 @@
 
     <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">noise_pattern</span><span class="o">=</span><span class="n">my_noise_pattern</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="module-Noise.qcn">
+<span id="quantum-channel-noise"></span><h2>Quantum Channel Noise<a class="headerlink" href="#module-Noise.qcn" title="Permalink to this headline">¶</a></h2>
+<p>QDNS uses 1680 nanometer Rayleigh scattering on fibre cable formula to calculate the error rate in channel.
+But this formula is can be changed easily before simulation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_channel_error_rate_calculator</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="o">...</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="n">rate</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+    <span class="n">alice</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s1">&#39;Alice&#39;</span><span class="p">)</span>
+    <span class="n">bob</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s1">&#39;Bob&#39;</span><span class="p">)</span>
+
+    <span class="n">alice</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">alice_default_app</span><span class="p">)</span>
+    <span class="n">bob</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">bob_default_app</span><span class="p">)</span>
+
+    <span class="n">QDNS</span><span class="o">.</span><span class="n">change_default_altitude_formula</span><span class="p">(</span><span class="n">my_channel_error_rate_calculator</span><span class="p">)</span>
+
+    <span class="n">net</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
+
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

@@ -19,6 +19,11 @@ Any application on the device can request the key or flush the key::
 
     Key: None
     Length: 0
+
+Also QDNS lets users to change default QKD match rates on QKD protocols such as::
+
+    # Use before simulation.
+    QDNS.change_bb84_values(goods_fidelity=0.65, sample_fidelity=0.5, sample_divisor=4)
 """
 
 
