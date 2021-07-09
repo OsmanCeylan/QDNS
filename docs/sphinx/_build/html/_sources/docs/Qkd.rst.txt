@@ -9,3 +9,10 @@ Quantum Key Generation
    :members:
    :undoc-members:
    :show-inheritance:
+
+Other Operations
+-----------------------------
+.. automodule:: Qkd.other
+   :members:
+   :undoc-members:
+   :show-inheritance:

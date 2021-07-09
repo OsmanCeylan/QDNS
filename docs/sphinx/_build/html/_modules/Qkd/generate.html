@@ -164,7 +164,69 @@
             
   <h1>Source code for Qkd.generate</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Generating key using QKD layer can be seen in the example below::</span>
 
+<span class="sd">    import QDNS</span>
+<span class="sd">    import logging</span>
+
+
+<span class="sd">    def alice_default_app(app: QDNS.Application, *user_args):</span>
+<span class="sd">        protocol = app.run_qkd_protocol(&#39;Bob&#39;, 256, QDNS.BB84_METHOD)  #Also supports E91 Method.</span>
+
+<span class="sd">        if protocol[&#39;exit_code&#39;] &lt; 0:</span>
+<span class="sd">            print(&#39;Generating key is failed.&#39;)</span>
+<span class="sd">        else:</span>
+<span class="sd">            print(app.host_label)</span>
+<span class="sd">            print(&#39;Key: &#39;, protocol[&#39;key&#39;])</span>
+<span class="sd">            print(&#39;Length: &#39;, protocol[&#39;length&#39;])</span>
+
+
+<span class="sd">    def bob_default_app(app: QDNS.Application, *user_args):</span>
+<span class="sd">        waiting = app.wait_qkd()</span>
+
+<span class="sd">        if waiting[&#39;exit_code&#39;] &lt; 0:</span>
+<span class="sd">            print(&#39;Generating key is failed.&#39;)</span>
+<span class="sd">        else:</span>
+<span class="sd">            print(app.host_label)</span>
+<span class="sd">            print(&#39;Key: &#39;, waiting[&#39;key&#39;])</span>
+<span class="sd">            print(&#39;Length: &#39;, waiting[&#39;length&#39;])</span>
+
+
+<span class="sd">    def main():</span>
+<span class="sd">        logging.basicConfig(level=logging.DEBUG)</span>
+
+<span class="sd">        alice = QDNS.Node(&#39;Alice&#39;)</span>
+<span class="sd">        bob = QDNS.Node(&#39;Bob&#39;)</span>
+
+<span class="sd">        alice.create_new_application(alice_default_app)</span>
+<span class="sd">        bob.create_new_application(bob_default_app)</span>
+
+<span class="sd">        net = QDNS.Network(alice, bob)</span>
+<span class="sd">        net.add_channels(alice, bob)</span>
+
+<span class="sd">        sim = QDNS.Simulator()</span>
+<span class="sd">        res = sim.simulate(net, backend=QDNS.STIM_BACKEND)</span>
+
+
+<span class="sd">    if __name__ == &#39;__main__&#39;:</span>
+<span class="sd">        main()</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">    Alice</span>
+<span class="sd">    Key:  [0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1,</span>
+<span class="sd">    1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0]</span>
+<span class="sd">    Length:  137</span>
+
+<span class="sd">    Bob</span>
+<span class="sd">    Key:  [0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1,</span>
+<span class="sd">    1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0]</span>
+<span class="sd">    Length:  137</span>
+<span class="sd">    DEBUG:qudns:Device Alice::QKD verification success. Passed time: 0.011062591552734375.</span>
+
+<span class="sd">``Generated keys can be used device-wide.``</span>
+
+<span class="sd">QDNS also provides basic string encode and string decode methods suitable with these keys.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 
@@ -180,6 +242,21 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        {exit_code, key, lenght}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="wait_qkd"><a class="viewcode-back" href="../../docs/Qkd.html#Qkd.generate.wait_qkd">[docs]</a><span class="k">def</span> <span class="nf">wait_qkd</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apllication waits QKD from source.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        source: Initiater device identifier.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        {exit_code, key, lenght}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
 
     <span class="k">pass</span></div>
 </pre></div>

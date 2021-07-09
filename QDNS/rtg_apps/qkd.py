@@ -738,6 +738,7 @@ class QKDLayer(Application):
                 respond_fail(request_id, app_label, respond_["exit_code"])
                 return
 
+            source_device = package.sender
             try:
                 method = package.data[0]
                 lenght = package.data[1]

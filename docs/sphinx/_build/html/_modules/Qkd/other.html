@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Noise.location &mdash; QDNS 0.49 documentation</title>
+  <title>Qkd.other &mdash; QDNS 0.49 documentation</title>
   
 
   
@@ -96,6 +96,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../docs/Backend.html">Backends</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docs/Sends.html">Communication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../docs/Noise.html">Noise</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/Qkd.html">QKD Layer</a></li>
 </ul>
 
             
@@ -146,7 +147,7 @@
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
-      <li>Noise.location</li>
+      <li>Qkd.other</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -161,56 +162,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for Noise.location</h1><div class="highlight"><pre>
+  <h1>Source code for Qkd.other</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Noise is applied in many parts of the simulation.</span>
+<span class="sd">Any application on the device can request the key or flush the key::</span>
 
-<span class="sd">* State Prepair: This noise is applied right after qubit is allocated and resetted.</span>
-<span class="sd">* Measure: This noise is applied before qubit is measured.</span>
-<span class="sd">* Gate Error: This noise is applied immediately after any transformation.</span>
-<span class="sd">* Scramble: This noise is applied when scramble is needed. Also its **method** is applied qubits that passed quantum channel.</span>
+<span class="sd">    def alice_default_app(app: QDNS.Application, *user_args):</span>
+<span class="sd">        request = app.current_qkd_key()</span>
+<span class="sd">        print(&#39;Key: &#39;, request[&#39;key&#39;])</span>
+<span class="sd">        print(&#39;Length: &#39;, request[&#39;length&#39;])</span>
 
-<span class="sd">Default noise pattern is::</span>
+<span class="sd">        app.flush_qkd_key()</span>
+<span class="sd">        request = app.current_qkd_key()</span>
+<span class="sd">        print(&#39;Key: &#39;, request[&#39;key&#39;])</span>
+<span class="sd">        print(&#39;Length: &#39;, request[&#39;length&#39;])</span>
 
-<span class="sd">    import QDNS</span>
-<span class="sd">    default_noise_pattern = QDNS.NoisePattern(</span>
-<span class="sd">        0.005, 0.005, 0.005, 0.667,</span>
-<span class="sd">        sp_channel=bit_flip_channel,</span>
-<span class="sd">        measure_channel=bit_flip_channel,</span>
-<span class="sd">        gate_channel=phase_flip_channel,</span>
-<span class="sd">        scramble_channel=depolarisation_channel,</span>
-<span class="sd">    )</span>
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">    Key:  [0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1,</span>
+<span class="sd">    1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0]</span>
+<span class="sd">    Length:  137</span>
+
+<span class="sd">    Key: None</span>
+<span class="sd">    Length: 0</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="NoisePattern"><a class="viewcode-back" href="../../docs/Noise.html#Noise.location.NoisePattern">[docs]</a><span class="k">class</span> <span class="nc">NoisePattern</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">sp_probability</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-            <span class="n">measure_probability</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-            <span class="n">gate_error_probability</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-            <span class="n">scramble_probability</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-            <span class="n">sp_channel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">measure_channel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">gate_channel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="n">scramble_channel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Noise pattern of backend.</span>
+<div class="viewcode-block" id="current_qkd_key"><a class="viewcode-back" href="../../docs/Qkd.html#Qkd.other.current_qkd_key">[docs]</a><span class="k">def</span> <span class="nf">current_qkd_key</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Makes current qkd key request to QKD Layer.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            sp_probability: State Prepair Error Probability.</span>
-<span class="sd">            measure_probability: Measure Error Probability.</span>
-<span class="sd">            gate_error_probability: Gate Error Probability.</span>
-<span class="sd">            scramble_probability: Scramble Percent.</span>
-<span class="sd">            sp_channel: State Prepair Error Channel.</span>
-<span class="sd">            measure_channel: Measure Error Channel.</span>
-<span class="sd">            gate_channel: Gate Error Channel.</span>
-<span class="sd">            scramble_channel: Scramble Channel.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        {exit_code, key, lenght}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-<span class="sd">        Notes:</span>
-<span class="sd">            Scramble Channel method also used for quantum channel scrambling.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="flush_qkd_key"><a class="viewcode-back" href="../../docs/Qkd.html#Qkd.other.flush_qkd_key">[docs]</a><span class="k">def</span> <span class="nf">flush_qkd_key</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apllication requests to remove key in QKD Layer.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 </pre></div>

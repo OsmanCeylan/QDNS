@@ -20,7 +20,7 @@ Welcome to QDNS's documentation!
    docs/Sends
    docs/Noise
    docs/Qkd
-
+   docs/Attack
 
 Indices and tables
 ==================
