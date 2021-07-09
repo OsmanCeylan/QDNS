@@ -15,6 +15,7 @@ Welcome to QDNS's documentation!
    docs/Hello
    docs/App
    docs/Hardware
+   docs/Quantum
    docs/cheats
 
 
