@@ -198,7 +198,9 @@ Then open a terminal or command line on top of extracted folder path.</p>
 </div>
 <div class="section" id="commands">
 <h3>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>$ pip install -r requirements.txt
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/OsmanCeylan/QDNS.git
+$ cd QDNS
+$ pip install -r requirements.txt
 $ pip install .
 </pre></div>
 </div>
@@ -208,11 +210,15 @@ $ pip install .
 <p>If something goes wrong, you can install package in new python environment.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>Windows: $ py -m venv env
          $ .\env\Scripts\activate
+         $ git clone https://github.com/OsmanCeylan/QDNS.git
+         $ cd QDNS
          $ py -m pip install -r requirements.txt
          $ py -m pip install .
 
 Unix   : $ python3 -m venv env
          $ source env/bin/activate
+         $ git clone https://github.com/OsmanCeylan/QDNS.git
+         $ cd QDNS
          $ pip install -r requirements.txt
          $ pip install .
 </pre></div>

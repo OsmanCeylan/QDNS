@@ -24,6 +24,8 @@ Commands
 
 .. code-block:: python
 
+    $ git clone https://github.com/OsmanCeylan/QDNS.git
+    $ cd QDNS
     $ pip install -r requirements.txt
     $ pip install .
 
@@ -36,11 +38,15 @@ If something goes wrong, you can install package in new python environment.
 
     Windows: $ py -m venv env
              $ .\env\Scripts\\activate
+             $ git clone https://github.com/OsmanCeylan/QDNS.git
+             $ cd QDNS
              $ py -m pip install -r requirements.txt
              $ py -m pip install .
 
     Unix   : $ python3 -m venv env
              $ source env/bin/activate
+             $ git clone https://github.com/OsmanCeylan/QDNS.git
+             $ cd QDNS
              $ pip install -r requirements.txt
              $ pip install .
 
