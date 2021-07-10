@@ -32,4 +32,4 @@ Few examples can be found in **example** folder. All examples are in Python note
 
 ## License
 
-This project licensed under GPLv3.
+This project licensed under BSD License.
