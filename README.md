@@ -28,7 +28,7 @@ Sphinx documentation can be found in **docs/sphinx/_build** folder.
 
 ## Examples
 
-Few examples can be found in **docs/example** folder. All examples are in Python notebook format.
+Few examples can be found in **example** folder. All examples are in Python notebook format.
 
 ## License
 
