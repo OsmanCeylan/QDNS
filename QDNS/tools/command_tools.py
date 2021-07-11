@@ -27,6 +27,7 @@
 package_expire_time = 2.0
 qubit_expire_time = 2.0
 respond_expire_time = 2.0
+qstream_capacity = 32
 
 
 def set_package_expire_time(new: float) -> bool:

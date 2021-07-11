@@ -1270,11 +1270,11 @@ def application_send_quantum(application: Application, target, *qubits, routing=
             pass
 
     qubit_stream = list()
-    if qubits.__len__() > 64:
+    if qubits.__len__() > command_tools.qstream_capacity:
         new_stream = []
 
         for i, qubit in enumerate(qubits):
-            if i % 64 == 0 and i != 0:
+            if i % command_tools.qstream_capacity == 0 and i != 0:
                 qubit_stream.append(copy(new_stream))
                 new_stream.clear()
             new_stream.append(qubit)
