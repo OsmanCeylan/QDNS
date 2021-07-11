@@ -7,7 +7,7 @@ Assume a application method that linked to device and ready to simulation like b
 Parameter "app" refers to the current application in this scope. And *user_args is the arguments passed from the creation of application by user before the simulation.
 Most of the usefull functions is embeded to application class. Some have an easy job, while others do more complex operations. So most operations returns a dictionary with exit code.
 
-Lets try look device, connection and port information on application::
+Lets look device, connection and port information on application::
 
     import QDNS
     import logging
