@@ -28,7 +28,7 @@ import logging
 from typing import Any
 from datetime import datetime
 
-default_logger_name = "qudns"
+default_logger_name = "QDNS"
 
 
 def change_logger_name(new_name: str):
