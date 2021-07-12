@@ -14,9 +14,6 @@ Requirtments
 * pandas
 * setuptools
 
-After downloading the latest version of the software to your disk, unzip the archive.
-Then open a terminal or command line on top of extracted folder path.
-
 Commands
 ########
 
