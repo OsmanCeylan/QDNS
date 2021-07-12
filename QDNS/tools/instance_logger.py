@@ -25,10 +25,11 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import logging
-from typing import Any
 from datetime import datetime
 
 default_logger_name = "QDNS"
+default_logger_level = 0
+default_logger_format = "%H:%M:%S.%f"
 
 
 def change_logger_name(new_name: str):
@@ -47,99 +48,162 @@ def change_logger_name(new_name: str):
     default_logger_name = new_name
 
 
+def change_logger_format(new_format: str):
+    """
+    Changes the logger format.
+
+    Args:
+        new_format: logging.Logger format.
+
+    Returns:
+        None.
+    """
+
+    global default_logger_format
+    default_logger_format = new_format
+
+
+def change_default_logger_level(new_level: int):
+    """
+    Changes the sub logger level.
+
+    Args:
+        new_level: logging.Logger level.
+
+    Returns:
+        None.
+    """
+
+    global default_logger_level
+    default_logger_level = new_level
+
+
+def get_logger() -> logging.Logger:
+    """ Returns library logger"""
+
+    return logging.getLogger(default_logger_name)
+
+
 class SubLogger(object):
     """
     This object helps generating simulation result.
     Its a little wrapper of logging.
     """
 
-    def __init__(self, host: Any) -> None:
+    def __init__(self, host: str) -> None:
         """
         Sub logger constructor.
-        :param host: It may contain Any type, prefer a string.
+
+        Args:
+            host: It should be a string.
         """
 
         self._host = host
-        self._logger = logging.getLogger(default_logger_name)
+        self._logger = logging.getLogger("{}::{}".format(default_logger_name, host))
+        self._logger.setLevel(default_logger_level)
         self._loglevel = self._logger.level
-        self._logs: str = ""
+        self._logs = str()
 
     def warning(self, msg: str) -> None:
         """
         Logging.warning().
-        :param msg: Message.
-        :return: None.
+
+        Args:
+            msg: Message.
+
+        Returns:
+            None
         """
 
-        if self._loglevel <= 30:
-            date_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S.%f")
-            message = "{}: WARNING: {}\n".format(date_time, msg)
+        if self._loglevel <= logging.WARNING:
+            date_time = datetime.now().strftime(default_logger_format)
+            message = "{}: {} | WARNING: {}\n".format(date_time, self._host, msg)
             self._logs += message
         self._logger.warning(msg)
 
     def info(self, msg: str) -> None:
         """
         Logging.info().
-        :param msg: Message.
-        :return: None.
+
+        Args:
+            msg: Message.
+
+        Returns:
+            None
         """
 
-        if self._loglevel <= 20:
-            date_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S.%f")
-            message = "{}: INFO: {}\n".format(date_time, msg)
+        if self._loglevel <= logging.INFO:
+            date_time = datetime.now().strftime(default_logger_format)
+            message = "{}: {} | INFO: {}\n".format(date_time, self._host, msg)
             self._logs += message
         self._logger.info(msg)
 
     def debug(self, msg: str) -> None:
         """
         Logging.debug().
-        :param msg: Message.
-        :return: None.
+
+        Args:
+            msg: Message.
+
+        Returns:
+            None
         """
 
-        if self._loglevel <= 10:
-            date_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S.%f")
-            message = "{}: DEBUG: {}\n".format(date_time, msg)
+        if self._loglevel <= logging.DEBUG:
+            date_time = datetime.now().strftime(default_logger_format)
+            message = "{}: {} | DEBUG: {}\n".format(date_time, self._host, msg)
             self._logs += message
         self._logger.debug(msg)
 
     def error(self, msg: str) -> None:
         """
         Logging.error().
-        :param msg: Message.
-        :return: None.
+
+        Args:
+            msg: Message.
+
+        Returns:
+            None
         """
 
-        if self._loglevel <= 40:
-            date_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S.%f")
-            message = "{}: ERROR: {}\n".format(date_time, msg)
+        if self._loglevel <= logging.ERROR:
+            date_time = datetime.now().strftime(default_logger_format)
+            message = "{}: {} | ERROR: {}\n".format(date_time, self._host, msg)
             self._logs += message
         self._logger.error(msg)
 
     def critical(self, msg: str) -> None:
         """
         Logging.critical().
-        :param msg: Message.
-        :return: None.
+
+        Args:
+            msg: Message.
+
+        Returns:
+            None
         """
 
-        if self._loglevel <= 50:
-            date_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S.%f")
-            message = "{}: CRITICAL: {}\n".format(date_time, msg)
+        if self._loglevel <= logging.CRITICAL:
+            date_time = datetime.now().strftime(default_logger_format)
+            message = "{}: {} | CRITICAL: {}\n".format(date_time, self._host, msg)
             self._logs += message
         self._logger.critical(msg)
 
     def log(self, msg: str, level: int) -> None:
         """
         Logging.log().
-        :param msg: Message.
-        :param level: level of logging.
-        :return: None.
+
+        Args:
+            msg: Message.
+            level: logging.Logger level.
+
+        Returns:
+            None
         """
 
         if self._loglevel <= level:
-            date_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S.%f")
-            message = "{}: LOG: {}\n".format(date_time, msg)
+            date_time = datetime.now().strftime(default_logger_format)
+            message = "{}: {} | LOG: {}\n".format(date_time, self._host, msg)
             self._logs += message
         self._logger.log(level, msg)
 
@@ -148,12 +212,12 @@ class SubLogger(object):
         return self._logs
 
     @property
-    def host(self) -> Any:
+    def host(self) -> str:
         return self._host
 
     @property
     def loglevel(self) -> int:
-        return self._loglevel
+        return self._logger.level
 
     def __len__(self):
         lines = self._logs.splitlines()
@@ -168,9 +232,3 @@ class SubLogger(object):
             return to_str
         except TypeError:
             return "host"
-
-
-def get_logger() -> logging.Logger:
-    """ Returns library logger"""
-
-    return logging.getLogger(default_logger_name)
