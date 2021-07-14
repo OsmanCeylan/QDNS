@@ -43,16 +43,15 @@ normal_simulator = cirq.Simulator()
 
 default_qframe_configuretion = dict()
 default_qframe_configuretion[2] = dict()
-default_qframe_configuretion[2][1] = 4096
-default_qframe_configuretion[2][2] = 2048
-default_qframe_configuretion[2][3] = 1024
-default_qframe_configuretion[2][4] = 512
-default_qframe_configuretion[2][5] = 256
-default_qframe_configuretion[2][6] = 128
-default_qframe_configuretion[2][7] = 64
-default_qframe_configuretion[2][8] = 32
-default_qframe_configuretion[2][9] = 16
-default_qframe_configuretion[2][10] = 8
+default_qframe_configuretion[2][1] = 2048
+default_qframe_configuretion[2][2] = 1024
+default_qframe_configuretion[2][3] = 512
+default_qframe_configuretion[2][4] = 256
+default_qframe_configuretion[2][5] = 128
+default_qframe_configuretion[2][6] = 64
+default_qframe_configuretion[2][7] = 32
+default_qframe_configuretion[2][8] = 16
+default_qframe_configuretion[2][9] = 8
 
 default_qframe_configuretion[3] = dict()
 default_qframe_configuretion[3][1] = 64
@@ -72,9 +71,6 @@ default_qframe_configuretion[4][5] = 2
 default_qframe_configuretion[5] = dict()
 default_qframe_configuretion[5][1] = 4
 default_qframe_configuretion[5][2] = 2
-
-default_qframe_configuretion[6] = dict()
-default_qframe_configuretion[6][2] = 2
 
 
 def change_default_cirq_qframe_configuretion(
@@ -1226,7 +1222,7 @@ class CirqBackend(object):
 
         for chunk in chunks:
             self.int_to_static_chunks[chunk].scramble_qudit(
-                chunks[chunk], self.noise_pattern.scramble_channel, (percent, ), _all=False
+                chunks[chunk], self.noise_pattern.scramble_channel, (percent,), _all=False
             )
         return True
 
