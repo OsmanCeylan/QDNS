@@ -1,1 +1,1 @@
-__all__ = ["kernel", "miner", "miner_controller"]
+__all__ = ["kernel", "miner", "controller.py", "tools"]

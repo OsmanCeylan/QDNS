@@ -2,7 +2,7 @@ from copy import deepcopy
 
 from QDNS.device.application import Application
 from QDNS.tools import application_tools
-from QDNS.architecture import signal, request
+from QDNS.interactions import signal, request
 from QDNS.tools import architecture_tools
 
 ROUTE_WAIT_SEND_RESPOND = False

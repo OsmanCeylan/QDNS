@@ -6,11 +6,11 @@ import uuid
 from typing import Union, Optional
 
 from QDNS.device.device import Device
-from QDNS.architecture import request, signal, respond
+from QDNS.interactions import request, signal, respond
 from QDNS.backend.backend_wrapper import BackendWrapper
 from QDNS.networking.network import Network
 from QDNS.rtg_apps.routing import RoutingLayer
-from QDNS.simulation.miner_controller import MinerController
+from QDNS.simulation.controller import MinerController
 from QDNS.tools import architecture_tools
 from QDNS.tools import simulation_tools
 from QDNS.tools import exit_codes

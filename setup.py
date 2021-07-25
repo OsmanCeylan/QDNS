@@ -4,7 +4,7 @@ from QDNS import __version__
 setup(
     name='QDNS',
     version=str(__version__),
-    packages=['QDNS', 'QDNS.tools', 'QDNS.device', 'QDNS.backend', 'QDNS.commands', 'QDNS.rtg_apps', 'QDNS.networking', 'QDNS.simulation', 'QDNS.architecture'],
+    packages=['QDNS', 'QDNS.tools', 'QDNS.device', 'QDNS.backend', 'QDNS.commands', 'QDNS.rtg_apps', 'QDNS.networking', 'QDNS.simulation', 'QDNS.interactions'],
     url='github.com/OsmanCeylan/QDNS',
     license='BSD',
     author='COMU Team',

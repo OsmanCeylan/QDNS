@@ -4,7 +4,7 @@ import uuid
 from queue import Queue as TQueue
 from typing import Optional
 
-from QDNS.architecture import request, respond, signal
+from QDNS.interactions import request, respond, signal
 from QDNS.device.application_manager import ApplicationManager
 from QDNS.device.network_adapter import NetworkSocket
 from QDNS.tools import architecture_tools

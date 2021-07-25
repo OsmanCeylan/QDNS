@@ -1,7 +1,7 @@
 import threading
 import numpy as np
 
-from QDNS.architecture import signal, request, respond
+from QDNS.interactions import signal, request, respond
 from QDNS.device.application import Application
 from QDNS.tools import application_tools
 from QDNS.tools import architecture_tools

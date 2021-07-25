@@ -27,7 +27,7 @@
 from datetime import datetime
 from typing import Any, Tuple
 
-from QDNS.tools import architecture_tools
+from QDNS.tools import layer
 
 
 class RESPOND(object):
@@ -59,11 +59,11 @@ class RESPOND(object):
         self._giver_id = giver_id
         self._target_id = target_id
 
-        if self._giver_id not in architecture_tools.layers:
+        if self._giver_id not in layer.layers:
             raise ValueError("Architecute ID {} is not recognized in respond of {}"
                              .format(self._giver_id, str(type(self))))
 
-        if self._target_id not in architecture_tools.layers:
+        if self._target_id not in layer.layers:
             raise ValueError("Architecute ID {} is not recognized in respond of {}"
                              .format(self._target_id, str(type(self))))
 
@@ -166,7 +166,7 @@ class GenericRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_ANY_LAYER, architecture_tools.ID_ANY_LAYER,
+            generic_id, layer.ID_ANY_LAYER, layer.ID_ANY_LAYER,
             exit_code, *data, spesific_target=spesific_target
         )
 
@@ -184,7 +184,7 @@ class DeviceInformationRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, device_information, spesific_target=spesific_target
         )
 
@@ -204,7 +204,7 @@ class SocketInformationRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, socket_information, spesific_target=spesific_target
         )
 
@@ -224,7 +224,7 @@ class ConnectivityInformationRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, connectivity_information, spesific_target=spesific_target
         )
 
@@ -244,7 +244,7 @@ class PortInformationRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, port_information, spesific_target=spesific_target
         )
 
@@ -264,7 +264,7 @@ class OpenCommunicationRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, state_changed, spesific_target=spesific_target
         )
 
@@ -284,7 +284,7 @@ class CloseCommunicationRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, state_changed, spesific_target=spesific_target
         )
 
@@ -304,7 +304,7 @@ class ActivatePortRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, state_changed, spesific_target=spesific_target
         )
 
@@ -324,7 +324,7 @@ class DeactivatePortRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, state_changed, spesific_target=spesific_target
         )
 
@@ -344,7 +344,7 @@ class ResumeSocketRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, state_changed, spesific_target=spesific_target
         )
 
@@ -364,7 +364,7 @@ class PauseSocketRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, state_changed, spesific_target=spesific_target
         )
 
@@ -385,7 +385,7 @@ class RefreshConnectionsRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, results, process_time, spesific_target=spesific_target
         )
 
@@ -406,7 +406,7 @@ class UnconnectChannelRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, state_changed, spesific_target=spesific_target
         )
 
@@ -425,7 +425,7 @@ class ReconnectChannelRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, spesific_target=spesific_target
         )
 
@@ -443,7 +443,7 @@ class SendPackageRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, count, spesific_target=spesific_target
         )
 
@@ -463,7 +463,7 @@ class SendQupackRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, count, spesific_target=spesific_target
         )
 
@@ -482,7 +482,7 @@ class RoutePackageRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, spesific_target=spesific_target
         )
 
@@ -499,7 +499,7 @@ class RouteQupackRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, spesific_target=spesific_target
         )
 
@@ -517,7 +517,7 @@ class FindClassicRouteRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, route, spesific_target=spesific_target
         )
 
@@ -537,7 +537,7 @@ class FindQuantumRouteRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SOCKET, layer.ID_APPLICATION,
             exit_code, route, spesific_target=spesific_target
         )
 
@@ -557,7 +557,7 @@ class AllocateQubitRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SIMULATION, layer.ID_APPLICATION,
             exit_code, qubit, spesific_target=spesific_target
         )
 
@@ -577,7 +577,7 @@ class AllocateQubitsRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SIMULATION, layer.ID_APPLICATION,
             exit_code, qubits, spesific_target=spesific_target
         )
 
@@ -597,7 +597,7 @@ class AllocateQFrameRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SIMULATION, layer.ID_APPLICATION,
             exit_code, qubits, spesific_target=spesific_target
         )
 
@@ -617,7 +617,7 @@ class AllocateQFramesRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SIMULATION, layer.ID_APPLICATION,
             exit_code, qubits, spesific_target=spesific_target
         )
 
@@ -636,7 +636,7 @@ class DeallocateQubitRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SIMULATION, layer.ID_APPLICATION,
             exit_code, spesific_target=spesific_target
         )
 
@@ -656,7 +656,7 @@ class ExtendQFrameRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SIMULATION, layer.ID_APPLICATION,
             exit_code, qubit, spesific_target=spesific_target
         )
 
@@ -676,7 +676,7 @@ class MeasureQubitsRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SIMULATION, layer.ID_APPLICATION,
             exit_code, results, spesific_target=spesific_target
         )
 
@@ -695,7 +695,7 @@ class ResetQubitsRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SIMULATION, layer.ID_APPLICATION,
             exit_code, spesific_target=spesific_target
         )
 
@@ -712,7 +712,7 @@ class ApplyTransformationRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SIMULATION, layer.ID_APPLICATION,
             exit_code, spesific_target=spesific_target
         )
 
@@ -729,7 +729,7 @@ class ApplySerialTransformationsRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SIMULATION, layer.ID_APPLICATION,
             exit_code, spesific_target=spesific_target
         )
 
@@ -747,7 +747,7 @@ class GenerateEPRRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SIMULATION, layer.ID_APPLICATION,
             exit_code, qubits, spesific_target=spesific_target
         )
 
@@ -767,7 +767,7 @@ class GenerateGHZRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_SIMULATION, layer.ID_APPLICATION,
             exit_code, qubits, spesific_target=spesific_target
         )
 
@@ -785,7 +785,7 @@ class ApplyChannelErrorRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_ANY_LAYER,
+            generic_id, layer.ID_SIMULATION, layer.ID_ANY_LAYER,
             exit_code, spesific_target=spesific_target
         )
 
@@ -801,7 +801,7 @@ class RepeaterProcessRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_ANY_LAYER,
+            generic_id, layer.ID_SIMULATION, layer.ID_ANY_LAYER,
             exit_code, spesific_target=spesific_target
         )
 
@@ -817,7 +817,7 @@ class ChannelAndRepeaterProcessRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_SIMULATION, architecture_tools.ID_ANY_LAYER,
+            generic_id, layer.ID_SIMULATION, layer.ID_ANY_LAYER,
             exit_code, spesific_target=spesific_target
         )
 
@@ -833,7 +833,7 @@ class RunQKDProtocolRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_APPLICATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_APPLICATION, layer.ID_APPLICATION,
             exit_code, key, spesific_target=spesific_target
         )
 
@@ -851,7 +851,7 @@ class CurrentQKDKeyRespond(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_APPLICATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_APPLICATION, layer.ID_APPLICATION,
             exit_code, key, spesific_target=spesific_target
         )
 
@@ -869,6 +869,6 @@ class FlushQKDKey(RESPOND):
         """
 
         super().__init__(
-            generic_id, architecture_tools.ID_APPLICATION, architecture_tools.ID_APPLICATION,
+            generic_id, layer.ID_APPLICATION, layer.ID_APPLICATION,
             exit_code, spesific_target=spesific_target
         )

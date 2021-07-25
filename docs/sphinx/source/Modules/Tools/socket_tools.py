@@ -2,7 +2,7 @@ import uuid
 import multiprocessing
 from typing import List, Dict, Union
 
-from QDNS.architecture import signal
+from QDNS.interactions import signal
 from QDNS.tools import architecture_tools
 from QDNS.tools import various_tools
 from QDNS.tools import device_tools

@@ -28,7 +28,7 @@ import numpy as np
 from datetime import datetime
 from typing import Any, Tuple
 
-from QDNS.tools import architecture_tools
+from QDNS.tools import layer
 
 
 class REQUEST(object):
@@ -56,10 +56,10 @@ class REQUEST(object):
         self._target_id = target_id
         self._generic_id = None
 
-        if self._asker_id not in architecture_tools.layers:
+        if self._asker_id not in layer.layers:
             raise ValueError("Architecute ID {} is not recognized in reuqest of {}".format(self._asker_id, str(type(self))))
 
-        if self._target_id not in architecture_tools.layers:
+        if self._target_id not in layer.layers:
             raise ValueError("Architecute ID {} is not recognized in reuqest of {}".format(self._target_id, str(type(self))))
 
         self._data = data
@@ -161,7 +161,7 @@ class DeviceInformationRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_DEVICE, None,
+            layer.ID_APPLICATION, layer.ID_DEVICE, None,
             spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -177,7 +177,7 @@ class SocketInformationRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, None,
+            layer.ID_APPLICATION, layer.ID_SOCKET, None,
             spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -194,7 +194,7 @@ class ConnectivityInformationRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, get_uuids,
+            layer.ID_APPLICATION, layer.ID_SOCKET, get_uuids,
             spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -215,7 +215,7 @@ class PortInformationRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, port_key, search_classic,
+            layer.ID_APPLICATION, layer.ID_SOCKET, port_key, search_classic,
             search_quantum, spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -235,7 +235,7 @@ class OpenCommunicationRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, None,
+            layer.ID_APPLICATION, layer.ID_SOCKET, None,
             spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -251,7 +251,7 @@ class CloseCommunicationRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, None,
+            layer.ID_APPLICATION, layer.ID_SOCKET, None,
             spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -270,7 +270,7 @@ class ActivatePortRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, port_key, search_classic,
+            layer.ID_APPLICATION, layer.ID_SOCKET, port_key, search_classic,
             search_quantum, spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -293,7 +293,7 @@ class DeactivatePortRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, port_key, search_classic,
+            layer.ID_APPLICATION, layer.ID_SOCKET, port_key, search_classic,
             search_quantum, spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -313,7 +313,7 @@ class ResumeSocketRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, None,
+            layer.ID_APPLICATION, layer.ID_SOCKET, None,
             spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -329,7 +329,7 @@ class PauseSocketRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, None,
+            layer.ID_APPLICATION, layer.ID_SOCKET, None,
             spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -345,7 +345,7 @@ class RefreshConnectionsRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, None,
+            layer.ID_APPLICATION, layer.ID_SOCKET, None,
             spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -364,7 +364,7 @@ class UnconnectChannelRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, channel_key, search_classic,
+            layer.ID_APPLICATION, layer.ID_SOCKET, channel_key, search_classic,
             search_quantum, spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -387,7 +387,7 @@ class ReconnectChannelRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, channel_key, search_classic,
+            layer.ID_APPLICATION, layer.ID_SOCKET, channel_key, search_classic,
             search_quantum, spesific_asker=asker_app_label, want_respond=want_respond
         )
 
@@ -409,7 +409,7 @@ class SendPackageRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, target,
+            layer.ID_APPLICATION, layer.ID_SOCKET, target,
             package, spesific_asker=asker_app, want_respond=want_respond
         )
 
@@ -430,7 +430,7 @@ class SendQupackRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SOCKET, target,
+            layer.ID_APPLICATION, layer.ID_SOCKET, target,
             qupack, spesific_asker=asker_app, want_respond=want_respond
         )
 
@@ -449,7 +449,7 @@ class RoutePackageRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            layer.ID_SOCKET, layer.ID_APPLICATION,
             target, package, want_respond=False
         )
 
@@ -468,7 +468,7 @@ class RouteQupackRequest(REQUEST):
         """
 
         super().__init__(
-            architecture_tools.ID_SOCKET, architecture_tools.ID_APPLICATION,
+            layer.ID_SOCKET, layer.ID_APPLICATION,
             target, qupack, want_respond=False
         )
 
@@ -490,7 +490,7 @@ class FindClassicRouteRequest(REQUEST):
         """
 
         super(FindClassicRouteRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             start_uuid, end_uuid, asker_uuid, asker_app,
             spesific_asker=asker_app, want_respond=want_respond,
         )
@@ -514,7 +514,7 @@ class FindQuantumRouteRequest(REQUEST):
         """
 
         super(FindQuantumRouteRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             start_uuid, end_uuid, asker_uuid, asker_app,
             spesific_asker=asker_app, want_respond=want_respond,
         )
@@ -535,7 +535,7 @@ class AllocateQubitRequest(REQUEST):
         """
 
         super(AllocateQubitRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             args, asker_uuid, spesific_asker=asker_app, want_respond=True
         )
 
@@ -555,7 +555,7 @@ class AllocateQubitsRequest(REQUEST):
         """
 
         super(AllocateQubitsRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             args, asker_uuid, count, spesific_asker=asker_app, want_respond=True
         )
 
@@ -576,7 +576,7 @@ class AllocateQFrameRequest(REQUEST):
         """
 
         super(AllocateQFrameRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             args, asker_uuid, frame_size, spesific_asker=asker_app, want_respond=True
         )
 
@@ -598,7 +598,7 @@ class AllocateQFramesRequest(REQUEST):
         """
 
         super(AllocateQFramesRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             args, asker_uuid, frame_size, count, spesific_asker=asker_app, want_respond=True
         )
 
@@ -620,7 +620,7 @@ class DeallocateQubitRequest(REQUEST):
         """
 
         super(DeallocateQubitRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             asker_uuid, qubits, spesific_asker=asker_app, want_respond=False
         )
 
@@ -640,7 +640,7 @@ class ExtendQFrameRequest(REQUEST):
         """
 
         super(ExtendQFrameRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             asker_uuid, qubit_of_frame, spesific_asker=asker_app, want_respond=True
         )
 
@@ -661,7 +661,7 @@ class MeasureQubitsRequest(REQUEST):
         """
 
         super(MeasureQubitsRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             asker_uuid, args, qubits, spesific_asker=asker_app, want_respond=True
         )
 
@@ -683,7 +683,7 @@ class ResetQubitsRequest(REQUEST):
         """
 
         super(ResetQubitsRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             asker_uuid, args, qubits, spesific_asker=asker_app, want_respond=False
         )
 
@@ -707,7 +707,7 @@ class ApplyTransformationRequest(REQUEST):
         """
 
         super(ApplyTransformationRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             asker_uuid, gate_id, gate_args, qubits, args, spesific_asker=asker_app,
             want_respond=False
         )
@@ -732,7 +732,7 @@ class ApplySerialTransformationsRequest(REQUEST):
         """
 
         super(ApplySerialTransformationsRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             asker_uuid, list_of_gates, args, spesific_asker=asker_app,
             want_respond=False
         )
@@ -755,7 +755,7 @@ class GenerateEPRRequest(REQUEST):
         """
 
         super(GenerateEPRRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
             asker_uuid, count, args, spesific_asker=asker_app,
             want_respond=True
         )
@@ -766,7 +766,7 @@ class GenerateEPRRequest(REQUEST):
 
 
 class GenerateGHZRequest(REQUEST):
-    def __init__(self, asker_app, asker_uuid, size, *args):
+    def __init__(self, asker_app, asker_uuid, size, count, *args):
         """
         An application request to generate ghz on qubits.
 
@@ -778,14 +778,15 @@ class GenerateGHZRequest(REQUEST):
         """
 
         super(GenerateGHZRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_SIMULATION,
-            asker_uuid, size, args, spesific_asker=asker_app,
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
+            asker_uuid, size, count, args, spesific_asker=asker_app,
             want_respond=True
         )
 
         self.asker_uuid = self.data[0]
         self.size = self.data[1]
-        self.args = self.data[2]
+        self.count = self.data[2]
+        self.args = self.data[3]
         
 
 # Literally anyone who knows kernel accsess can use apply channel error.
@@ -802,7 +803,7 @@ class ApplyChannelError(REQUEST):
         """
 
         super(ApplyChannelError, self).__init__(
-            architecture_tools.ID_ANY_LAYER, architecture_tools.ID_SIMULATION,
+            layer.ID_ANY_LAYER, layer.ID_SIMULATION,
             asker_uuid, channel_uuid, qubits, want_respond=False
         )
 
@@ -824,7 +825,7 @@ class RepeaterProcessRequest(REQUEST):
         """
 
         super(RepeaterProcessRequest, self).__init__(
-            architecture_tools.ID_ANY_LAYER, architecture_tools.ID_SIMULATION,
+            layer.ID_ANY_LAYER, layer.ID_SIMULATION,
             asker_uuid, qubits, want_respond=False
         )
 
@@ -847,7 +848,7 @@ class ChannelAndRepeaterProcessRequest(REQUEST):
         """
 
         super(ChannelAndRepeaterProcessRequest, self).__init__(
-            architecture_tools.ID_ANY_LAYER, architecture_tools.ID_SIMULATION,
+            layer.ID_ANY_LAYER, layer.ID_SIMULATION,
             asker_uuid, channel_uuid, qubits, want_respond=False
         )
 
@@ -870,7 +871,7 @@ class RunQKDProtocolRequest(REQUEST):
         """
 
         super(RunQKDProtocolRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_APPLICATION,
+            layer.ID_APPLICATION, layer.ID_APPLICATION,
             asker_app, target, key_length, method, side, want_respond=True
         )
 
@@ -891,7 +892,7 @@ class CurrentQKDKeyRequest(REQUEST):
         """
 
         super(CurrentQKDKeyRequest, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_APPLICATION,
+            layer.ID_APPLICATION, layer.ID_APPLICATION,
             asker_app, want_respond=True
         )
 
@@ -908,7 +909,7 @@ class FlushQKDKey(REQUEST):
         """
 
         super(FlushQKDKey, self).__init__(
-            architecture_tools.ID_APPLICATION, architecture_tools.ID_APPLICATION,
+            layer.ID_APPLICATION, layer.ID_APPLICATION,
             asker_app, want_respond=False
         )
 

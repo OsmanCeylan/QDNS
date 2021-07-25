@@ -24,159 +24,131 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from typing import Optional
+from typing import List, Sequence, Tuple, Optional
+import logging
+import time
 
+from QDNS.simulation.tools import kernel_layer_label
+from QDNS.tools.module import Module
+from QDNS.tools.module import ModuleSettings
+from QDNS.tools.layer import ID_SIMULATION
+
+from QDNS.backend.tools.backend import Backend
+from QDNS.backend.tools import config
+from QDNS.backend.tools import noise
+
+from QDNS.backend.cirq_backend import CirqBackend
+from QDNS.backend.qiskit_backend import QiskitBackend
 from QDNS.backend.sdqs_backend import SdqsBackend
 from QDNS.backend.stim_backend import StimBackend
-from QDNS.tools import simulation_tools
-from QDNS.backend.cirq_backend import CirqBackend
 
-CIRQ_BACKEND = "\"cirq_backend\""
-PROJECTQ_BACKEND = "\"projectq_backend\""
-SDQS_BACKEND = "\"smddqs_backend \""
-STIM_BACKEND = "\"stim backend\""
-
-supported_backends = (
-    CIRQ_BACKEND,
-    PROJECTQ_BACKEND,
-    STIM_BACKEND,
-    SDQS_BACKEND
-)
-
-avaible_backends = list()
-default_backend = None
-
-try:
-    import stim
-except ImportError:
-    pass
-else:
-    avaible_backends.append(STIM_BACKEND)
-
-try:
-    import cirq
-except ImportError:
-    pass
-else:
-    avaible_backends.append(CIRQ_BACKEND)
-avaible_backends.append(SDQS_BACKEND)
+# Backend flags to object.
+backend_flag_to_object = {
+    config.CIRQ_BACKEND: CirqBackend,
+    config.STIM_BACKEND: StimBackend,
+    config.SDQS_BACKEND: SdqsBackend,
+    config.QISKIT_BACKEND: QiskitBackend
+}
 
 
-class BackendWrapper(simulation_tools.KernelModule):
-    module_name = "BackendWrapper"
+class BackendWrapper(Module):
+    """ Wrapper around backends and kernel. """
+
+    backend_module_label = "Backend"
 
     def __init__(self):
-        super(BackendWrapper, self).__init__(
-            self.module_name, can_disable=False, can_removable=False,
-            can_restartable=True, can_pausable=True, no_state_module=True
+        """
+        Backend Wrapper object. Direct the backend calls to right backend.
+        """
+
+        self._backend_object: Optional[Backend] = None
+
+        ms = ModuleSettings(
+            can_disable=False, can_removalbe=False,
+            can_restartable=False, no_state_module=True,
+            logger_enabled=True
         )
 
-        self._backend_obj: Optional[CirqBackend] = None
-        self.noise_pattern: Optional[simulation_tools.NoisePattern] = None
+        Module.__init__(
+            self, layer_id=ID_SIMULATION[0], module_name=self.backend_module_label,
+            module_logger_name="{}::{}".format(kernel_layer_label, self.backend_module_label),
+            module_settings=ms
+        )
 
-    def prepair_module(self):
-        if avaible_backends.__len__() <= 0:
-            raise ImportWarning("There must be qubit simulator for run.")
-
-        global default_backend
-        default_backend = avaible_backends[0]
-
-    def start_module(self, noise=None, backend_type=None):
+    def start_module(self, configuration: config.BackendConfiguration, noise_pattern: noise.NoisePattern):
         """
-        Starts the module.
+        Prepares and starts the backend.
 
-        Args:
-            noise: Noise pattern.
-            backend_type: Backend type.
+        Raises:
+            AttributeError: When given backend is not found.
         """
 
-        if noise is None:
-            noise = simulation_tools.default_noise_pattern
+        # Disable some logging for time being.
+        logging.disable(logging.WARNING)
+        start_time = time.time()
 
-        if backend_type is None:
-            backend_type = default_backend
+        # Check if backend is supported.
+        if configuration.backend not in config.supported_backends:
+            raise AttributeError("Backend {} is not supported.".format(configuration.backend))
 
-        if backend_type == CIRQ_BACKEND:
-            self._backend_obj = CirqBackend(noise)
-            self._backend_obj.prepair_backend()
+        # Check if backend is avaible.
+        if configuration.backend not in config.avaible_backends:
+            raise AttributeError("Backend {} is not avaible in system.")
 
-        elif backend_type == PROJECTQ_BACKEND:
-            pass
+        # Prepare backend object.
+        self._backend_object = backend_flag_to_object[configuration.backend](
+            configuration, noise_pattern
+        )
 
-        elif backend_type == SDQS_BACKEND:
-            self._backend_obj = SdqsBackend(noise)
-            self._backend_obj.prepair_backend()
+        # Open logging.
+        logging.disable(logging.NOTSET)
+        message = "{} is prepaired for simulation. Prepairation time: ~{} sec"
+        self._logger.warning(message.format(self._backend_object.configuration.backend, round(time.time() - start_time, 4)))
 
-        elif backend_type == STIM_BACKEND:
-            self._backend_obj = StimBackend(noise)
-            self._backend_obj.prepair_backend()
-
-        else:
-            raise AttributeError("Given backend {} is not recognized.".format(backend_type))
-
-    def restart_backend(self, *args):
-        """ Restarts backend. """
-
-        return self._backend_obj.restart_engine(*args)
-
-    def terminate_backend(self, *args):
+    def terminate_backend(self):
         """ Terminates backend for this instance. """
 
-        return self._backend_obj.terminate_engine(*args)
+        self._backend_object.terminate_backend()
+        self._logger.info("Terminate backend -> {}.".format(self._backend_object.configuration.backend))
 
-    def allocate_qubit(self, *args):
-        """
-        Allocates qubit on backend.
-
-        Return:
-            List[Qubit ID].
-        """
-
-        return self._backend_obj.allocate_qubit(*args)
-
-    def allocate_qubits(self, count, *args):
+    def allocate_qubits(self, count: int, *args) -> List[str]:
         """
         Allocates qubit on backend.
 
         Args:
             count: Count of qubit.
+            args: Backend specific arguments.
 
         Return:
             List[Qubit ID].
         """
 
-        return self._backend_obj.allocate_qubits(count, *args)
+        to_return = self._backend_object.allocate_qubits(count, *args)
+        self._logger.debug("Allocate Qubits ({}) -> [{} ... {}]".format(to_return.__len__(), to_return[0], to_return[-1]))
+        return to_return
 
-    def allocate_qframe(self, frame_size, *args):
+    def allocate_qframes(self, frame_size: int, frame_count: int, *args) -> List[List[str]]:
         """
-        Allocates qubit on backend.
-
-        Args:
-            frame_size: Frame size.
-
-        Return:
-            List[Qubit ID].
-        """
-
-        return self._backend_obj.allocate_qframe(frame_size, *args)
-
-    def allocate_qframes(self, frame_size, frame_count, *args):
-        """
-        Allocates qubit on backend.
+        Allocates qframe on backend.
 
         Args:
             frame_size: Frame size.
             frame_count: Frame count.
+            args: Backend specific arguments.
 
         Return:
-            List[Qubit ID].
+            List[List[Qubit ID]].
         """
 
-        return self._backend_obj.allocate_qframes(frame_size, frame_count, *args)
+        to_return = self._backend_object.allocate_qframes(frame_size, frame_count, *args)
+        self._logger.debug("Allocate Frames ({}x{}) -> [{} ... {}]".format(
+            to_return.__len__(), to_return[0].__len__(), to_return[0][0], to_return[-1][-1])
+        )
+        return to_return
 
-    def deallocate_qubits(self, qubits):
+    def deallocate_qubits(self, qubits: Sequence[str]) -> bool:
         """
-        Deallocates qubits from backend.
+        Deallocates qframes from backend.
 
         Args:
             qubits: List of qubits.
@@ -185,19 +157,14 @@ class BackendWrapper(simulation_tools.KernelModule):
             Bool.
         """
 
-        return self._backend_obj.deallocate_qubit(qubits)
+        if not self._backend_object.deallocate_qubits(qubits):
+            self._logger.warning("Deallocation qubit may be failed!")
+            return False
 
-    def extend_circuit(self, qubit):
-        """
-        Extend qframe from back.
+        self._logger.debug("Deallocate qubits ({}) -> [{} ... {}]".format(qubits.__len__(), qubits[0], qubits[-1]))
+        return True
 
-        Return:
-            Qubit ID.
-        """
-
-        return self._backend_obj.extend_qframe(qubit)
-
-    def apply_transformation(self, gate_id, gate_arguments, qubits, *args):
+    def apply_transformation(self, gate_id: int, gate_arguments: Tuple, qubits: Sequence[str], *args):
         """
         Apply transformation on qubits.
 
@@ -205,88 +172,85 @@ class BackendWrapper(simulation_tools.KernelModule):
             gate_id: Gate id from QDNS.tools.gates.Gate()
             gate_arguments: Gate constructor arguments.
             qubits: Selected qubits.
-
-        Return:
-            Bool.
         """
 
-        return self._backend_obj.apply_transformation(gate_id, gate_arguments, qubits, *args)
+        self._backend_object.apply_transformation(gate_id, gate_arguments, qubits, *args)
+        self._logger.debug("Apply gate of id {} to qubits ({}) -> {} ... {}.".format(gate_id, qubits.__len__(), qubits[0], qubits[-1]))
 
-    def measure(self, qubits, *args):
+    def measure_qubits(self, qubits: Sequence[str], *args) -> List[int]:
         """
         Measures qubit.
 
         Args:
             qubits: Selected qubits.
+            args: Backend specific arguments.
 
         Return:
             List[int].
         """
 
-        return self._backend_obj.measure(qubits, *args)
+        results = self._backend_object.measure_qubits(qubits, *args)
+        self._logger.debug(
+            "Measure qubits ({}) -> [{} ... {}] -> [{} ... {}]".format(
+                results.__len__(), qubits[0], qubits[-1], results[0], results[-1]
+            )
+        )
+        return results
 
-    def reset_qubits(self, qubits, *args):
+    def reset_qubits(self, qubits: Sequence[str]):
         """
         Reset Qubits.
 
         Args:
             qubits: Qubit uuids.
-
-        Return:
-            Boolean.
         """
 
-        return self._backend_obj.reset_qubits(qubits, *args)
+        self._backend_object.reset_qubits(qubits)
+        self._logger.debug("Reset qubits ({}) -> {} ... {}.".format(qubits.__len__(), qubits[0], qubits[-1]))
 
-    def generate_epr_pairs(self, count, *args):
-        """
-        Generates epr pairs.
-
-        Args:
-            count: Count of pairs.
-
-        Return:
-            List[Qubit IDs].
-        """
-
-        return self._backend_obj.generate_epr_pairs(count, *args)
-
-    def generate_ghz_pair(self, size, *args):
+    def generate_ghz_pair(self, size: int, count: int) -> List[List[str]]:
         """
         Generates ghz pair.
 
         Args:
             size: Qubit count in ghz.
+            count: Count of pairs.
 
         Return:
-            List[Qubit IDs].
+            List[List[Qubit ID]].
         """
 
-        return self._backend_obj.generate_ghz_pair(size, *args)
+        to_return = self._backend_object.generate_ghz_pair(size, count)
+        self._logger.debug("Generate GHZ Pairs ({}x{}) -> [{} ... {}]".format(
+            to_return.__len__(), to_return[0].__len__(), to_return[0][0], to_return[-1][-1])
+        )
+        return to_return
 
-    def process_channel_error(self, qubits, percent):
+    def process_channel_error(self, qubits: Sequence[str], percent: float):
         """
         Process channel errors.
 
         Args:
             qubits: Qubits in channel.
             percent: Percent of channel.
-
-        Return:
-             Boolean.
         """
 
-        return self._backend_obj.process_channel_error(qubits, percent)
+        to_return = self._backend_object.process_channel_error(qubits, percent)
+        self._logger.debug("Apply channel error percent ({}) -> ({}) qubits".format(percent, qubits.__len__()))
+        return to_return
 
-    def apply_serial_transformations(self, list_of_gates):
+    def apply_serial_transformations(self, list_of_gates, *args):
         """
         Applies list of transformations.
 
         Args:
             list_of_gates: List[GateID, GateArgs, List[Qubit]].
-
-        Return:
-            Boolean.
         """
 
-        return self._backend_obj.apply_serial_transformations(list_of_gates)
+        self._backend_object.apply_serial_transformations(list_of_gates, *args)
+        self._logger.debug("Applied serial {} gates.".format(list_of_gates.__len__()))
+
+    def get_logs(self) -> str:
+        """ Yileds the logs in the logger. """
+
+        return self._logger.logs

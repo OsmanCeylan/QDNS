@@ -24,135 +24,10 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from typing import Dict, Optional, Union
-from queue import Empty
+from typing import Dict, Union, Optional
 
-from QDNS.tools import architecture_tools
-from QDNS.tools import socket_tools
-from QDNS.tools import communication_tools
-
-"""
-##==============================================  DEFAULT APP  =======================================================##
-"""
-
-DEFAULT_APPLICATION_NAME = "default_app"
-
-
-def set_default_application_name(new_name: str):
-    """
-    Changes the default application name for first unlabaled application.
-    """
-
-    global DEFAULT_APPLICATION_NAME
-    DEFAULT_APPLICATION_NAME = new_name
-
-
-"""
-##==============================================  STATE FLAGS  =======================================================##
-"""
-
-APPLICATION_NOT_STARTED = "\"application is not started\""
-APPLICATION_IS_RUNNING = "\"application is running\""
-APPLICATION_IS_STOPPED = "\"application is stopped\""
-APPLICATION_IS_PAUSED = "\"application is paused\""
-APPLICATION_IS_FINISHED = "\"application is finished\""
-APPLICATION_IS_TERMINATED = "\"applicatin is terinated\""
-
-application_states = (
-    APPLICATION_NOT_STARTED,
-    APPLICATION_IS_RUNNING,
-    APPLICATION_IS_STOPPED,
-    APPLICATION_IS_PAUSED,
-    APPLICATION_IS_FINISHED,
-    APPLICATION_IS_TERMINATED
-)
-
-"""
-##==========================================  APPLICATION SETTINGS  ==================================================##
-"""
-
-
-class ApplicationSettings(architecture_tools.AnySettings):
-    def __init__(
-            self, static: bool = False, enabled: bool = True,
-            end_device_if_terminated: bool = False,
-            bond_end_with_device: bool = False,
-            delayed_start_time: float = 0.15
-    ):
-        """
-        Application settings constructor.
-
-        Args:
-            static: Marks app static.
-            enabled: Application enabled flag.
-            end_device_if_terminated: Ends device simulation if this app terminates.
-            bond_end_with_device: Also ends device when application ends.
-            delayed_start_time: Start application after time.
-        """
-
-        self._static = static
-        self._enabled = enabled
-        self._end_device_if_terminated = end_device_if_terminated
-        self._bond_end_with_device = bond_end_with_device
-        self._delayed_start_time = delayed_start_time
-
-        super(ApplicationSettings, self).__init__(
-            static=self._static,
-            enabled=self._enabled,
-            end_device_if_terminated=self._end_device_if_terminated,
-            bond_end_with_device=self._bond_end_with_device,
-            delayed_start_time=self._delayed_start_time
-        )
-
-    def change_static(self, new_flag: bool):
-        self._static = new_flag
-
-    def enable(self):
-        self._enabled = True
-
-    def disable(self):
-        self._enabled = False
-
-    def change_enabled(self, new_flag: bool):
-        self._enabled = new_flag
-
-    def change_end_device_if_terminated(self, new_flag: bool):
-        self._end_device_if_terminated = new_flag
-
-    @property
-    def static(self) -> bool:
-        return self._static
-
-    @property
-    def enabled(self) -> bool:
-        return self._enabled
-
-    @property
-    def end_device_if_terminated(self) -> bool:
-        return self._end_device_if_terminated
-
-    @property
-    def delayed_start_time(self) -> float:
-        return self._delayed_start_time
-
-    @property
-    def bond_end_with_device(self) -> bool:
-        return self._bond_end_with_device
-
-
-default_application_settings = ApplicationSettings(
-    static=False, enabled=True, end_device_if_terminated=False, delayed_start_time=0.15
-)
-
-
-def change_default_application_settings(new_application_settings: ApplicationSettings):
-    global default_application_settings
-    default_application_settings = new_application_settings
-
-
-"""
-##==============================================  BLOCKLISTER  =======================================================##
-"""
+from QDNS.tools.layer import ID_APPLICATION
+from QDNS.tools.module import Module, ModuleSettings
 
 _devices = "devices"
 _all_communication = "all_communication"
@@ -171,7 +46,7 @@ block_list_param_resolver = (
 )
 
 
-class BlockList(architecture_tools.Module):
+class BlockList(Module):
     DEFAULT_ALL_COMMUNICATION = False
     DEFAULT_ALL_PACKAGES = False
     DEFAULT_ALL_PROTOCOLS = False
@@ -179,10 +54,7 @@ class BlockList(architecture_tools.Module):
     DEFAULT_BLOCKED_PROTOCOLS = list()
     MODULE_NAME = "BlockList"
 
-    def __init__(self, **kwargs):
-        super(BlockList, self).__init__(
-            architecture_tools.ID_APPLICATION[0], self.MODULE_NAME, self, can_disable=True, can_removable=True
-        )
+    def __init__(self, application, **kwargs):
         """
         Black list for application.
 
@@ -204,6 +76,20 @@ class BlockList(architecture_tools.Module):
             >>>     blocked_protocols=[list(), list()]
             >>> )
         """
+
+        ms = ModuleSettings(
+            can_disable=True,
+            can_restartable=True,
+            can_removalbe=True,
+            no_state_module=True,
+            logger_enabled=True
+        )
+        super(BlockList, self).__init__(
+            ID_APPLICATION[0],
+            self.MODULE_NAME,
+            module_logger_name="{}::{}".format(application.logger_name, self.MODULE_NAME),
+            module_settings=ms
+        )
 
         self._device_list = list()
         self._device_count = 0
@@ -638,101 +524,3 @@ def change_block_list_defaults(
     BlockList.DEFAULT_ALL_PROTOCOLS = all_protocols
     BlockList.DEFAULT_ALL_QUBIT_STREAMS = all_qubit_streams
     BlockList.DEFAULT_BLOCKED_PROTOCOLS = blocked_protocols
-
-
-"""
-##==============================================  LISTENER  =======================================================##
-"""
-
-
-class Listener(object):
-    def __init__(self, application):
-        """
-        Listener helps to listen socket traffic on Device.
-        Device als needs to be able to observe.
-        """
-
-        self.application = application
-        self._listen_queue = None
-        self._release_queue = None
-        self._interrupt = False
-
-    def set_listen_queue(self, new_queue):
-        self._listen_queue = new_queue
-
-    def set_release_queue(self, new_queue):
-        self._release_queue = new_queue
-
-    def set_interrupt(self, new_flag: bool):
-        """
-        Interrupt flag.
-        If the flag set True, traffic will interrupted.
-        """
-
-        self._interrupt = new_flag
-
-    def get_communication_item(self, timeout=3.0):
-        """
-        Gets the traffic item from socket.
-        """
-
-        try:
-            item = self._listen_queue.get(self, timeout=timeout)
-        except Empty:
-            return None
-        else:
-            return item
-
-    def release_item(self):
-        """
-        Releases the last item.
-        """
-
-        if self._interrupt:
-            self._release_queue.put(socket_tools.RELEASE_PACKAGE)
-        else:
-            self.application.logger.warning("Interrupt is not running! Pacakge is already released.")
-
-    def drop_item(self):
-        """
-        Drops the item.
-        """
-
-        if self._interrupt:
-            self._release_queue.put(socket_tools.DROP_PACKAGE)
-        else:
-            self.application.logger.warning("Interrupt is not running! Pacakge is already released.")
-
-    def print_item(self, package):
-        """
-        Prints package or qupack.
-        """
-
-        print("-"*15)
-        print("Traffic on device: ", self.application.host_label)
-        if isinstance(package, communication_tools.Qupack):
-            print("TYPE: QUANTUM DATA")
-        else:
-            print("TYPE: CLASSIC DATA")
-
-        print("SENDER: ", package.ip_layer.sender)
-        print("RECEIVER: ", package.ip_layer.receiver)
-        print("APP Label: ", package.app_layer.app_label)
-        print("Broadcast: ", str(package.ip_layer.broadcast))
-        if isinstance(package, communication_tools.Qupack):
-            print("Qubits: ", str(package.ip_layer.data))
-        else:
-            print("Data: ", str(package.ip_layer.data))
-        print("\n")
-
-    @property
-    def listen_queue(self):
-        return self._listen_queue
-
-    @property
-    def release_queue(self):
-        return self._release_queue
-
-    @property
-    def interrupt(self):
-        return self._interrupt

@@ -220,6 +220,50 @@ class Network(object):
         except networkx.NetworkXNoPath:
             return None
 
+    def get_device(self, key: Union[int, str, uuid.UUID], _raise=True) -> Union[Device, None]:
+        """
+        Finds the device by given key.
+
+        Args:
+            key: Device identifier.
+            _raise: Raise flag.
+
+        Return:
+            Device or None.
+        """
+
+        if isinstance(key, int):
+            for i, device in enumerate(self.get_all_devices()):
+                if i == key:
+                    return device
+
+            if _raise:
+                raise ValueError("Device is not found by key {}.".format(key))
+            return None
+
+        elif isinstance(key, str):
+            for device in self.get_all_devices():
+                if device.label == key or device.uuid == key:
+                    return device
+
+            if _raise:
+                raise ValueError("Device is not found by key {}.".format(key))
+            return None
+
+        elif isinstance(key, uuid.UUID):
+            for device in self.get_all_devices():
+                if device.uuid == key:
+                    return device
+
+            if _raise:
+                raise ValueError("Device is not found by key {}.".format(key))
+            return None
+
+        else:
+            if _raise:
+                raise ValueError("Device cannot found by given type {}.".format(type(key)))
+            return None
+
     def get_channel(self, key: Union[str, int, ClassicChannel, QuantumChannel, uuid.UUID], raise_=True) -> Union[Channel, None]:
         """
         Finds the channel in network by givent key.

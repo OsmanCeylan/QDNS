@@ -1,1 +1,1 @@
-__all__ = ["application", "application_manager", "channel", "device", "network_adapter"]
+__all__ = ["application", "channel", "device", "network_adapter", "tools"]

@@ -3,7 +3,7 @@ from queue import Empty
 
 from QDNS.tools import architecture_tools
 from QDNS.tools import socket_tools
-from QDNS.tools import communication_tools
+from QDNS.tools import communication
 
 """
 ##==============================================  DEFAULT APP  =======================================================##
@@ -684,7 +684,7 @@ class Listener(object):
 
         print("-"*15)
         print("Traffic on device: ", self.application.host_label)
-        if isinstance(package, communication_tools.Qupack):
+        if isinstance(package, communication.Qupack):
             print("TYPE: QUANTUM DATA")
         else:
             print("TYPE: CLASSIC DATA")
@@ -693,7 +693,7 @@ class Listener(object):
         print("RECEIVER: ", package.ip_layer.receiver)
         print("APP Label: ", package.app_layer.app_label)
         print("Broadcast: ", str(package.ip_layer.broadcast))
-        if isinstance(package, communication_tools.Qupack):
+        if isinstance(package, communication.Qupack):
             print("Qubits: ", str(package.ip_layer.data))
         else:
             print("Data: ", str(package.ip_layer.data))

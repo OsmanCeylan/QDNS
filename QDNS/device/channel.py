@@ -24,7 +24,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from QDNS.tools import device_tools
+from QDNS.device.tools import device_tools
 from QDNS.tools.various_tools import fiber_formula
 
 default_channel_length = 1.0

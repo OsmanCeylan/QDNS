@@ -25,14 +25,11 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import uuid
-from typing import Optional
-
 from QDNS.tools import various_tools
-from QDNS.tools import architecture_tools
 
-"""
-##==============================================  DEVICE STATES  =====================================================##
-"""
+# Device states.
+from QDNS.tools.any_settings import AnySettings
+from QDNS.tools.module import ModuleSettings
 
 DEVICE_NOT_STARTED = "\"device not started\""
 DEVICE_IS_RUNNING = "\"device is running\""
@@ -51,10 +48,8 @@ device_states = (
     DEVICE_MAY_END
 )
 
-"""
-##==============================================  DEVICE INFO  =====================================================##
-"""
 
+# Device ID.
 
 class DeviceIdentification(object):
     def __init__(self, id_=None, label=None, use_uuid=True, random_gen_len=16):
@@ -89,52 +84,47 @@ class DeviceIdentification(object):
     def label(self):
         return self._label
 
-    def __str__(self):
+    def __str__(self) -> str:
         to_return = str()
-        to_return += "{}, {}".format(str(self.label), str(self.uuid))
+        to_return += "Device Identifier: {}, {}".format(str(self.label), str(self.uuid))
         return to_return
 
-    def __int__(self):
+    def __int__(self) -> int:
         return self._id
 
 
 class ChannelIdentification(DeviceIdentification):
     def __init__(self, id_=None, label=None, use_uuid=False):
+        """
+        Channel Identification.
+
+        Args:
+            id_: Device Id.
+            label: Device label.
+            use_uuid: Use uuid for generation id.
+        """
+
         super(ChannelIdentification, self).__init__(id_=id_, label=label, use_uuid=use_uuid, random_gen_len=16)
 
+    def __str__(self) -> str:
+        to_return = str()
+        to_return += "Device Identifier: {}, {}".format(str(self.label), str(self.uuid))
+        return to_return
 
-"""
-##==============================================  DEVICE MODULE  =====================================================##
-"""
 
+# Application Manager Setting
 
-class DeviceModule(architecture_tools.Module):
+class ApplicationManagerSettings(ModuleSettings):
+
+    max_application_count_ = "max_application_count"
+    enable_localhost_ = "enable_localhost"
+    disable_user_apps_ = "disable_user_apps"
+
     def __init__(
-            self, module_name: str, can_disable=False,
-            can_removable=False, can_restartable=True, can_pausable=True,
-            no_state_module: bool = True,
-            special_state: Optional[architecture_tools.StateHandler] = None,
-            module_settings: Optional[architecture_tools.ModuleSettings] = None
+            self, max_application_count: int,
+            enable_localhost: bool = True,
+            disable_user_apps: bool = False
     ):
-        """
-        Device module derived from Module.
-        See details from QDNS.tools.architecture_tools.Module()...
-        """
-
-        super(DeviceModule, self).__init__(
-            architecture_tools.ID_DEVICE[1], module_name, self, can_disable=can_disable,
-            can_removable=can_removable, can_restartable=can_restartable, no_state_module=no_state_module,
-            can_pausable=can_pausable, special_state=special_state, module_settings=module_settings
-        )
-
-
-"""
-##============================================  APP_MAN SETTINGS  ====================================================##
-"""
-
-
-class ApplicationManagerSettings(architecture_tools.AnySettings):
-    def __init__(self, max_application_count: int, enable_localhost: bool = True, disable_user_apps: bool = False):
         """
         Application manager settings.
 
@@ -144,27 +134,36 @@ class ApplicationManagerSettings(architecture_tools.AnySettings):
             disable_user_apps: Disables new non-static applications.
         """
 
-        self._max_application_count = max_application_count
-        self._enable_localhost = enable_localhost
-        self._disable_user_apps = disable_user_apps
+        kwargs = {
+            self.max_application_count_: max_application_count,
+            self.enable_localhost_: enable_localhost,
+            self.disable_user_apps_: disable_user_apps
+        }
 
         super(ApplicationManagerSettings, self).__init__(
-            max_application_count=self._max_application_count,
-            enable_local_host=self._enable_localhost,
-            disable_user_apps=self._disable_user_apps
+            can_disable=False, can_restartable=False, can_removalbe=False,
+            no_state_module=True, logger_enabled=True,
+            **kwargs
         )
 
     @property
     def max_application_count(self) -> int:
-        return self._max_application_count
+        return self.get_setting(self.max_application_count_)
 
     @property
-    def enable_localhost(self) -> bool:
-        return self._enable_localhost
+    def enabled_localhost(self) -> bool:
+        return self.get_setting(self.enable_localhost_)
 
     @property
-    def disable_user_apps(self) -> bool:
-        return self._disable_user_apps
+    def disabled_user_apps(self) -> bool:
+        return self.get_setting(self.disable_user_apps_)
+
+    def __str__(self) -> str:
+        text = str()
+        text += "Max application count: {}\n".format(self.max_application_count)
+        text += "Localhost enabled: {}\n".format(self.enabled_localhost)
+        text += "User apps disabled: {}\n".format(self.disabled_user_apps)
+        return text
 
 
 default_application_manager_settings = ApplicationManagerSettings(10, True, False)
@@ -179,15 +178,22 @@ def change_default_application_manager_settings(new_settings: ApplicationManager
     default_application_manager_settings = new_settings
 
 
-"""
-##==============================================  DEVICE SETTINGS  ===================================================##
-"""
+# DEVICE SETTINGS
 
 
-class DeviceSettings(architecture_tools.AnySettings):
+class DeviceSettings(AnySettings):
+
+    otg_device_ = "otg_device"
+    observe_capability_ = "observe_capability"
+    idle_after_device_ends_ = "idle_after_device_ends"
+    start_after_delay_ = "start_after_delay"
+
     def __init__(
-            self, otg_device: bool, observe_capability: bool,
-            idle_after_device_ends: bool, start_after_delay: float = 0
+            self,
+            otg_device: bool,
+            observe_capability: bool,
+            idle_after_device_ends: bool,
+            start_after_delay: float = 0
     ):
         """
         Args:
@@ -202,40 +208,37 @@ class DeviceSettings(architecture_tools.AnySettings):
             Observe capability meaningless in trusted devices.
         """
 
-        self._otg_device = otg_device
-        self._observe_capability = observe_capability
-        self._idle_after_device_ends = idle_after_device_ends
-        self._start_after_delay = start_after_delay
+        kwargs = {
+            self.otg_device_: otg_device,
+            self.observe_capability_: observe_capability,
+            self.idle_after_device_ends_: idle_after_device_ends,
+            self.start_after_delay_: start_after_delay
+        }
 
-        super(DeviceSettings, self).__init__(
-            otg_device=self._otg_device,
-            observe_capability=self._observe_capability,
-            idle_after_device_ends=self._idle_after_device_ends,
-            start_after_delay=self._start_after_delay
-        )
+        super(DeviceSettings, self).__init__(**kwargs)
 
     @property
     def otg_device(self) -> bool:
-        return self._otg_device
+        return self.get_setting(self.otg_device_)
 
     @property
     def observe_capability(self) -> bool:
-        return self._observe_capability
+        return self.get_setting(self.observe_capability_)
 
     @property
     def idle_after_device_ends(self) -> bool:
-        return self._idle_after_device_ends
+        return self.get_setting(self.idle_after_device_ends_)
 
     @property
     def start_after_delay(self) -> float:
-        return self._start_after_delay
+        return self.get_setting(self.start_after_delay_)
 
     def __str__(self):
         to_return = str()
-        to_return += "OTG Device: {}".format(self._otg_device)
-        to_return += "Observer Capability: {}".format(self._observe_capability)
-        to_return += "Idle After Device Ends: {}".format(self._idle_after_device_ends)
-        to_return += "Start After Delay Time: {}".format(self._start_after_delay)
+        to_return += "OTG Device: {}".format(self.otg_device)
+        to_return += "Observer Capability: {}".format(self.observe_capability)
+        to_return += "Idle After Device Ends: {}".format(self.idle_after_device_ends)
+        to_return += "Start After Delay Time: {}".format(self.start_after_delay)
 
 
 default_device_settings = DeviceSettings(

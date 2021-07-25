@@ -6,7 +6,7 @@ from queue import SimpleQueue as TSimpleQueue
 from typing import Optional
 
 import QDNS
-from QDNS.architecture import signal
+from QDNS.interactions import signal
 from QDNS.tools import application_tools
 from QDNS.tools import architecture_tools
 from QDNS.tools import gates

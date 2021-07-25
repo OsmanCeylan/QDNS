@@ -29,9 +29,9 @@ from typing import Union
 from datetime import datetime
 from queue import Empty
 
-from QDNS.architecture import request, signal
+from QDNS.interactions import request, signal
 from QDNS.device.application import Application
-from QDNS.tools import command_tools
+from QDNS.commands import tools
 
 
 def calculate_time_delta(datetime_old, datetime_new=None):
@@ -77,7 +77,7 @@ def application_wait_next_package(application: Application, timeout=None):
     """
 
     if timeout is None:
-        timeout = command_tools.package_expire_time
+        timeout = tools.package_expire_time
 
     try:
         package = application.income_package_queue.get(timeout=timeout)
@@ -100,7 +100,7 @@ def application_wait_next_qubit(application: Application, timeout=None):
     """
 
     if timeout is None:
-        timeout = command_tools.qubit_expire_time
+        timeout = tools.qubit_expire_time
 
     try:
         qubit = application.income_qubit_queue.get(timeout=timeout)
@@ -123,7 +123,7 @@ def application_wait_next_Trespond(application: Application, timeout=None):
     """
 
     if timeout is None:
-        timeout = command_tools.respond_expire_time
+        timeout = tools.respond_expire_time
 
     try:
         respond_ = application.threaded_respond_queue.get(timeout=timeout)
@@ -146,7 +146,7 @@ def application_wait_next_Mrespond(application: Application, timeout=None):
     """
 
     if timeout is None:
-        timeout = command_tools.respond_expire_time
+        timeout = tools.respond_expire_time
 
     try:
         respond_ = application.respond_queue.get(timeout=timeout)
@@ -171,7 +171,7 @@ def update_application_requests(application: Application, timeout=None) -> bool:
     """
 
     if timeout is None:
-        timeout = command_tools.respond_expire_time
+        timeout = tools.respond_expire_time
 
     for_return = False
     delete_list = list()
@@ -204,7 +204,7 @@ def update_application_packages(application: Application, timeout=None) -> bool:
     """
 
     if timeout is None:
-        timeout = command_tools.package_expire_time
+        timeout = tools.package_expire_time
 
     for_return = False
     delete_list = list()
@@ -237,7 +237,7 @@ def update_application_qubits(application: Application, timeout=None) -> bool:
     """
 
     if timeout is None:
-        timeout = command_tools.qubit_expire_time
+        timeout = tools.qubit_expire_time
 
     for_return = False
     delete_list = list()
@@ -935,20 +935,19 @@ def measure_qubits(application: Application, qubits, *args):
     return the_request
 
 
-def reset_qubits(application: Application, qubits, *args):
+def reset_qubits(application: Application, qubits):
     """
     Makes reset qubits request to simulation.
 
     Args:
         application: Application.
         qubits: Qubits to measure.
-        *args: Backend specific arguments.
 
     Return:
         Request.
     """
 
-    the_request = request.ResetQubitsRequest(application.label, application.host_uuid, qubits, *args)
+    the_request = request.ResetQubitsRequest(application.label, application.host_uuid, qubits)
     the_request.process(application.sim_request_queue)
 
     if the_request.want_respond:
@@ -981,20 +980,19 @@ def apply_transformation(application: Application, gate_id, gate_args, qubits, *
     return the_request
 
 
-def generate_entangle_pairs(application: Application, count, *args):
+def generate_entangle_pairs(application: Application, count):
     """
     Generates entangle pairs.
 
     Args:
         application: Application.
         count: Count of pairs.
-        args: Backend specific arguments.
 
     Returns:
         Request.
     """
 
-    the_request = request.GenerateEPRRequest(application.label, application.host_uuid, count, *args)
+    the_request = request.GenerateEPRRequest(application.label, application.host_uuid, count)
     the_request.process(application.sim_request_queue)
 
     if the_request.want_respond:
@@ -1003,20 +1001,20 @@ def generate_entangle_pairs(application: Application, count, *args):
     return the_request
 
 
-def generate_ghz_pair(application: Application, size, *args):
+def generate_ghz_pair(application: Application, size: int, count: int):
     """
     Generates ghz entangle pair.
 
     Args:
         application: Application.
         size: Qubit count in ghz.
-        args: Backend specific arguments.
+        count: Count of pairs.
 
     Returns:
         Request.
     """
 
-    the_request = request.GenerateGHZRequest(application.label, application.host_uuid, size, *args)
+    the_request = request.GenerateGHZRequest(application.label, application.host_uuid, size, count)
     the_request.process(application.sim_request_queue)
 
     if the_request.want_respond:
@@ -1103,6 +1101,7 @@ def run_qkd_protocol_request(application: Application, target_device, key_lenght
     """
 
     qkd_app = application.host_device.qkd_app
+
     if qkd_app is None:
         return None
 
@@ -1149,6 +1148,7 @@ def current_qkd_key_request(application: Application):
     """
 
     qkd_app = application.host_device.qkd_app
+
     if qkd_app is None:
         return None
 

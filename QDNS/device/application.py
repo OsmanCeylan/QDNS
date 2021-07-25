@@ -24,22 +24,26 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import logging
 import time
 from multiprocessing import Queue as MQueue
 from queue import Queue as TQueue
 from queue import SimpleQueue as TSimpleQueue
-from typing import Optional
 
 import QDNS
-from QDNS.architecture import signal
-from QDNS.tools import application_tools
-from QDNS.tools import architecture_tools
-from QDNS.tools import gates
+from QDNS.device.tools.blocklist import BlockList
+from QDNS.device.tools.listener import Listener
+from QDNS.interactions import signal
+from QDNS.tools.state_handler import StateHandler
+from QDNS.device.tools import application_tools
+from QDNS.tools import layer, queue_manager, gates
 
 
-class Application(architecture_tools.Layer):
-    def __init__(self, label: str, host_device, function_, *args, app_settings: Optional[application_tools.ApplicationSettings] = None):
+class Application(layer.Layer):
+    def __init__(
+            self, label: str,
+            host_device, function_, *args,
+            app_settings=application_tools.default_application_settings
+    ):
         """
         Application constructor.
 
@@ -57,14 +61,13 @@ class Application(architecture_tools.Layer):
         """
 
         self._label = label
+        self._host_device = host_device
+        self._function = function_
+        self._arguments = args
 
-        if app_settings is None:
-            app_settings = application_tools.default_application_settings
-
-        super(Application, self).__init__(architecture_tools.ID_APPLICATION, architecture_tools.THREAD_LAYER, self._label, layer_settings=app_settings)
-
-        state_handler = architecture_tools.StateHandler(
-            self.layer_id, True, *application_tools.application_states,
+        # Set state handler.
+        state_handler = StateHandler(
+            layer.ID_APPLICATION[0], True, *application_tools.application_states,
             GENERAL_STATE_NOT_STARTED=application_tools.APPLICATION_NOT_STARTED,
             GENERAL_STATE_IS_RUNNING=application_tools.APPLICATION_IS_RUNNING,
             GENERAL_STATE_IS_STOPPED=application_tools.APPLICATION_IS_STOPPED,
@@ -72,14 +75,21 @@ class Application(architecture_tools.Layer):
             GENERAL_STATE_IS_TERMINATED=application_tools.APPLICATION_IS_TERMINATED,
             GENERAL_STATE_IS_PAUSED=application_tools.APPLICATION_IS_PAUSED
         )
-        self.set_state_handler(state_handler)
 
-        self._host_device = host_device
-        self._function = function_
-        self._arguments = args
+        super(Application, self).__init__(
+            layer.ID_APPLICATION,
+            layer.THREAD_LAYER,
+            self._label,
+            logger_name="{}::{}".format(self.host_device.label, self._label),
+            state_handler=state_handler,
+            layer_settings=app_settings
+        )
 
-        self.add_module(application_tools.BlockList())
+        # Add modules.
+        self.add_module(BlockList(self))
+        self.add_module(Listener(self))
 
+        # Create lists.
         self._active_requests = list()
         self._old_packages = list()
         self._old_qubits = list()
@@ -87,53 +97,52 @@ class Application(architecture_tools.Layer):
         self._allocated_qubits = list()
 
         self.set_respond_queue(MQueue())
-        self.listener = application_tools.Listener(self)
-        self.logger.debug("Application {} of device {} is created.".format(self.label, self.host_label))
-
-    def is_static(self) -> bool:
-        return self.application_settings.static
-
-    def is_enabled(self) -> bool:
-        return self.application_settings.enabled
-
-    def is_disabled(self) -> bool:
-        return not self.application_settings.enabled
-
-    def set_enable(self):
-        self.application_settings.enable()
-
-    def set_disable(self):
-        self.application_settings.disable()
+        self.logger.debug("Application is created.")
 
     def prepair_layer(self, sim_request_queue, user_dump_queue):
-        self.queue_manager.add_queue(architecture_tools.SIM_REQUEST_QUEUE, sim_request_queue)
-        self.queue_manager.add_queue(architecture_tools.DEVICE_REQUEST_QUEUE, self.host_device.threaded_request_queue)
-        self.queue_manager.add_queue(architecture_tools.SOCKET_REQUEST_QUEUE, self.host_device.ntwk_socket.threaded_request_queue)
+        """
+        Prepairs the application layer.
+        This method must call from simulation thread.
 
-        self.queue_manager.add_queue(architecture_tools.INCOME_QUBIT_QUEUE, TSimpleQueue())
-        self.queue_manager.add_queue(architecture_tools.INCOME_PACKAGE_QUEUE, TSimpleQueue())
-        self.queue_manager.add_queue(architecture_tools.USER_DUMP_QUEUE, user_dump_queue)
-        self.queue_manager.add_queue(architecture_tools.LOCALHOST_QUEUE, self.host_device.localhost)
+        Args:
+            sim_request_queue: Simulation request queue.
+            user_dump_queue: User data dumping queue.
+        """
+
+        # Set outside queues.
+        self.queue_manager.add_queue(queue_manager.SIM_REQUEST_QUEUE, sim_request_queue)
+        self.queue_manager.add_queue(queue_manager.DEVICE_REQUEST_QUEUE, self.host_device.threaded_request_queue)
+        self.queue_manager.add_queue(queue_manager.SOCKET_REQUEST_QUEUE, self.host_device.ntwk_socket.threaded_request_queue)
+
+        self.queue_manager.add_queue(queue_manager.INCOME_QUBIT_QUEUE, TSimpleQueue())
+        self.queue_manager.add_queue(queue_manager.INCOME_PACKAGE_QUEUE, TSimpleQueue())
+        self.queue_manager.add_queue(queue_manager.USER_DUMP_QUEUE, user_dump_queue)
+        self.queue_manager.add_queue(queue_manager.LOCALHOST_QUEUE, self.host_device.localhost)
+
+        # Set listener queues.
         self.listener.set_listen_queue(TSimpleQueue())
         self.listener.set_release_queue(self.host_device.ntwk_socket.observer_queue)
 
+        # Set inside queues.
         req = TQueue() if self.is_static() else None
         self.set_request_queue(req)
         self.set_threaded_queues(req, TSimpleQueue())
         self.set_state_report_queue(self.host_device.threaded_request_queue)
-        self.logger.debug("Application {} of device {} prepaired its layer.".format(self.label, self.host_label))
+        self.logger.debug("Application prepaired successfuly.")
 
     def run(self):
+        """ Runs the application. """
+
         if self.is_disabled():
             if self.is_static():
-                self.logger.info("Application {} of device {} is disabled. Therefore do not simulate.".format(self.label, self.host_label))
+                self.logger.info("Application is disabled. Therefore do not simulate.")
             else:
-                self.logger.warning("Application {} of device {} is disabled. Therefore do not simulate.".format(self.label, self.host_label))
+                self.logger.warning("Application is disabled. Therefore do not simulate.")
             self.change_state(application_tools.APPLICATION_IS_FINISHED)
             return
 
         time.sleep(self.application_settings.delayed_start_time)
-        self.logger.info("Application {} of device {} is starting...".format(self.label, self.host_label))
+        self.logger.info("Application is starting...")
         time.sleep(0.5)
 
         start_time = time.time()
@@ -141,7 +150,7 @@ class Application(architecture_tools.Layer):
         self._function(self, *self.arguments)
         end_time = time.time() - start_time
 
-        self.logger.info("Application {} of device {} is ended in {} seconds.".format(self.label, self.host_label, end_time))
+        self.logger.info("Application is ended in {} seconds.".format(end_time))
         time.sleep(0.5)
         self.change_state(application_tools.APPLICATION_IS_FINISHED)
         self.user_dump_queue.put([self.host_label, "{}Logs".format(self.label), self.logger.logs])
@@ -149,7 +158,7 @@ class Application(architecture_tools.Layer):
         if self.bond_end_with_device:
             signal.EndDeviceSignal(self.label).emit(self.device_request_queue)
 
-    def bind_block_list(self, new_block_list: application_tools.BlockList) -> bool:
+    def bind_block_list(self, new_block_list: BlockList) -> bool:
         """
         Updates blocklist of application.
 
@@ -168,9 +177,9 @@ class Application(architecture_tools.Layer):
             to_return = True
 
         if to_return:
-            self.logger.info("New blocklist module added to application {} of device {}.".format(self.label, self.host_label))
+            self.logger.info("New blocklist module added to application.")
         else:
-            self.logger.warning("Updating blocklist module of application {} of device {} is failed!".format(self.label, self.host_label))
+            self.logger.error("Updating blocklist module of application is failed!")
         return to_return
 
     def change_host_device(self, new_host):
@@ -180,6 +189,21 @@ class Application(architecture_tools.Layer):
         """
 
         self._host_device = new_host
+
+    def is_static(self) -> bool:
+        return self.application_settings.static
+
+    def is_enabled(self) -> bool:
+        return self.application_settings.enabled
+
+    def is_disabled(self) -> bool:
+        return not self.application_settings.enabled
+
+    def set_enable(self):
+        self.application_settings.enable()
+
+    def set_disable(self):
+        self.application_settings.disable()
 
     @property
     def label(self) -> str:
@@ -222,28 +246,28 @@ class Application(architecture_tools.Layer):
         return self.application_settings.delayed_start_time
 
     @property
-    def block_list(self) -> application_tools.BlockList:
-        return self.get_module(application_tools.BlockList.MODULE_NAME)
+    def block_list(self) -> BlockList:
+        return self.get_module(BlockList.MODULE_NAME)
 
     @property
     def sim_request_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.SIM_REQUEST_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.SIM_REQUEST_QUEUE)
 
     @property
     def device_request_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.DEVICE_REQUEST_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.DEVICE_REQUEST_QUEUE)
 
     @property
     def socket_request_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.SOCKET_REQUEST_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.SOCKET_REQUEST_QUEUE)
 
     @property
     def income_qubit_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.INCOME_QUBIT_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.INCOME_QUBIT_QUEUE)
 
     @property
     def income_package_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.INCOME_PACKAGE_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.INCOME_PACKAGE_QUEUE)
 
     @property
     def active_requests(self):
@@ -267,11 +291,15 @@ class Application(architecture_tools.Layer):
 
     @property
     def user_dump_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.USER_DUMP_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.USER_DUMP_QUEUE)
 
     @property
     def localhost_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.LOCALHOST_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.LOCALHOST_QUEUE)
+
+    @property
+    def listener(self) -> Listener:
+        return self.get_module(Listener.MODULE_NAME)
 
     @property
     def listener_queue(self):
@@ -802,33 +830,31 @@ class Application(architecture_tools.Layer):
 
         return QDNS.api.measure_qubits(self, qubits, *args)
 
-    def _reset_qubits(self, qubits, *args):
+    def _reset_qubits(self, qubits):
         """
         Makes reset qubits request to simulation.
 
         Args:
             qubits: Qubits to measure.
-            *args: Backend specific arguments.
 
         Return:
             Request.
         """
 
-        return QDNS.api.reset_qubits(self, qubits, *args)
+        return QDNS.api.reset_qubits(self, qubits)
 
-    def _generate_entangle_pairs(self, count, *args):
+    def _generate_entangle_pairs(self, count):
         """
         Generates entangle pairs.
 
         Args:
             count: Count of pairs.
-            args: Backend specific arguments.
 
         Returns:
             Request.
         """
 
-        return QDNS.api.generate_entangle_pairs(self, count, *args)
+        return QDNS.api.generate_entangle_pairs(self, count)
 
     def _generate_ghz_pair(self, size, *args):
         """
@@ -909,7 +935,7 @@ class Application(architecture_tools.Layer):
             check_old_packages: Checks old packages first.
 
         Returns:
-             {"exit_code", "package"}
+             Package or None
         """
 
         return QDNS.library.application_wait_next_package(
@@ -926,7 +952,7 @@ class Application(architecture_tools.Layer):
             check_old_packages: Checks old packages first.
 
         Returns:
-             {"exit_code", "package"}
+             Package or None.
         """
 
         return QDNS.library.application_wait_next_protocol_package(
@@ -943,7 +969,7 @@ class Application(architecture_tools.Layer):
             check_old_qubits: Check old unprocessed qubits..
 
         Returns:
-             {"exit_code", "port_index", "sender", "time", "qubit"}
+             ("port_index", "sender", "time", "qubit") or None.
         """
 
         return QDNS.library.application_wait_next_qubit(
@@ -961,7 +987,7 @@ class Application(architecture_tools.Layer):
             check_old_qubits: Check old unprocessed qubits..
 
         Returns:
-             {"exit_code", "qubits", "count"}
+             (qubits, count) or None
         """
 
         return QDNS.library.application_wait_next_qubits(
@@ -979,7 +1005,7 @@ class Application(architecture_tools.Layer):
             check_old_responses: Check flag.
 
         Return:
-            {"exit_code", "respond_exit_code", "respond_data"}
+            (exit_code, data) or None
         """
 
         return QDNS.library.application_wait_next_Trespond(
@@ -997,7 +1023,7 @@ class Application(architecture_tools.Layer):
             check_old_responses: Check flag.
 
         Return:
-            {"exit_code", "respond_exit_code", "respond_data"}
+            (exit_code, data) or None
         """
 
         return QDNS.library.application_wait_next_Mrespond(
@@ -1009,26 +1035,20 @@ class Application(architecture_tools.Layer):
         Extract device information of an Application.
 
         Return:
-            {"exit_code", "device_label", "device_unique_id"}
+            DeviceIdentifier or None
         """
 
         return QDNS.library.application_reveal_device_information(self)
 
-    def reveal_socket_information(self, yield_all_string=False):
+    def reveal_socket_information(self):
         """
         Extract socket information of the device of an Application.
 
-        Args:
-            yield_all_string: Yields SocketInformation object string.
-
         Return:
-            {
-                "exit_code", "socket_state", "classic_port_count", "quantum_port_count",
-                "connected_classic_port", "connected_quantum_port", "object_string"
-            }
+            SocketInformation or None.
         """
 
-        return QDNS.library.application_reveal_socket_information(self, yield_all_string=yield_all_string)
+        return QDNS.library.application_reveal_socket_information(self)
 
     def reveal_connectivity_information(self, get_uuids=False):
         """
@@ -1038,23 +1058,10 @@ class Application(architecture_tools.Layer):
             get_uuids: Get target device uuids insetead of label.
 
         Return:
-            {"exit_code", "classic_targets", "quantum_targets", "communication_state"}
+            ConnectivityInformation or None
         """
 
         return QDNS.library.application_reveal_connectivity_information(self, get_uuids=get_uuids)
-
-    def reveal_connection_information(self, get_uuids=False):
-        """
-        Extract connection information.
-
-        Args:
-            get_uuids: Get target device uuids insetead of label.
-
-        Return:
-            {"exit_code", "classic_connections_group", "quantum_connections_group"}
-        """
-
-        return QDNS.library.application_reveal_connection_information(self, get_uuids=get_uuids)
 
     def reveal_port_information(self, port_key, search_classic=True, search_quantum=True):
         """
@@ -1066,7 +1073,7 @@ class Application(architecture_tools.Layer):
             search_quantum: Search in quantum ports.
 
         Return:
-            {"exit_code", "index", "type", "active", "connected", "channel_id", "target", "latency"}
+            PortInformation or None
         """
 
         return QDNS.library.application_reveal_port_information(
@@ -1078,7 +1085,7 @@ class Application(architecture_tools.Layer):
         Application opens communication on socket.
 
         Return:
-            {"exit_code", "state_changed"}
+            state_changed[Boolean] or None
         """
 
         return QDNS.library.application_open_communication(self)
@@ -1089,7 +1096,7 @@ class Application(architecture_tools.Layer):
         When communication is closed, nothing can pass thought the device socket, brokes route.
 
         Return:
-            {"exit_code", "state_changed"}
+            state_changed[Boolean] or None
         """
 
         return QDNS.library.application_close_communication(self)
@@ -1104,7 +1111,7 @@ class Application(architecture_tools.Layer):
             search_quantum: Search in quantum ports.
 
         Return:
-            {"exit_code", "state_changed"}
+            state_changed[Boolean] or None
         """
 
         return QDNS.library.application_activate_port(self, port_key, search_classic=search_classic, search_quantum=search_quantum)
@@ -1119,10 +1126,10 @@ class Application(architecture_tools.Layer):
             search_quantum: Search in quantum ports.
 
         Notes:
-            Port still can be pinged. Brokes the routing.
+            Port still can be pinged but brokes the routing.
 
         Return:
-            {"exit_code", "state_changed"}
+            state_changed[Boolean] or None
         """
 
         return QDNS.library.application_deactivate_port(self, port_key, search_classic=search_classic, search_quantum=search_quantum)
@@ -1135,7 +1142,7 @@ class Application(architecture_tools.Layer):
             Applications of host device of socket cannot use socket. Did not interrupt incoming communication or routing.
 
         Return:
-            {"exit_code", "state_changed"}
+            state_changed[Boolean] or None
         """
 
         return QDNS.library.application_pause_socket(self)
@@ -1145,7 +1152,7 @@ class Application(architecture_tools.Layer):
         Resumes socket request to socket.
 
         Return:
-            {"exit_code", "state_changed"}
+            state_changed[Boolean] or None
         """
 
         return QDNS.library.application_resume_socket(self)
@@ -1164,6 +1171,17 @@ class Application(architecture_tools.Layer):
 
         return QDNS.library.application_terminate_socket(self)
 
+    def ping_connections(self):
+        """
+        Ping all connected channels.
+
+        Notes:
+            Works on when auto-ping is OFF.
+            Do not return anything.
+        """
+
+        return QDNS.library.ping_socket_connections(self)
+
     def unconnect_channel(self, channel_key, search_classic=True, search_quantum=True):
         """
         Unconnects channel request to socket.
@@ -1174,10 +1192,13 @@ class Application(architecture_tools.Layer):
             search_quantum: Search in quantum ports.
 
         Return:
-            {"exit_code", "state_changed"}
+            state_changed[Boolean] or None
         """
 
-        return QDNS.library.socket_unconnect_channel(self, channel_key, search_classic=search_classic, search_quantum=search_quantum)
+        return QDNS.library.socket_unconnect_channel(
+            self, channel_key, search_classic=search_classic,
+            search_quantum=search_quantum
+        )
 
     def end_device_simulation(self):
         """
@@ -1228,7 +1249,7 @@ class Application(architecture_tools.Layer):
             *args: Backend specific arguments.
 
         Return:
-             {"exit_code", "qubit"}
+             Qubit or None.
         """
 
         return QDNS.library.application_allocate_qubit(self, *args)
@@ -1242,7 +1263,7 @@ class Application(architecture_tools.Layer):
             *args: Backend specific arguments.
 
         Return:
-             {"exit_code", "qubits"}
+             Qubits or None.
         """
 
         return QDNS.library.application_allocate_qubits(self, count, *args)
@@ -1256,7 +1277,7 @@ class Application(architecture_tools.Layer):
             *args: Backend specific arguments.
 
         Return:
-             {"exit_code", "qubits"}
+             Qubits or None.
         """
 
         return QDNS.library.application_allocate_qframe(self, frame_size, *args)
@@ -1271,7 +1292,7 @@ class Application(architecture_tools.Layer):
             *args: Backend specific arguments.
 
         Return:
-             {"exit_code", "qubits"}
+             List[List[Qubits]] or None.
         """
 
         return QDNS.library.application_allocate_qframes(self, frame_size, count, *args)
@@ -1289,19 +1310,6 @@ class Application(architecture_tools.Layer):
 
         return QDNS.library.application_deallocate_qubits(self, *qubits)
 
-    def extend_qframe(self, qubit_of_frame):
-        """
-        Exntend frame of qubit from back by 1.
-
-        Args:
-            qubit_of_frame: Qubit of frame.
-
-        Return:
-             {"exit_code", "qubit"}
-        """
-
-        return QDNS.library.application_extend_qframe(self, qubit_of_frame)
-
     def measure_qubits(self, qubits, *args):
         """
         Measures given qubits.
@@ -1311,25 +1319,39 @@ class Application(architecture_tools.Layer):
             args: Backend specific arguments.
 
         Return:
-             {"exit_code", "results"}
+             Results or None.
         """
 
         return QDNS.library.application_measure_qubits(self, qubits, *args)
 
-    def reset_qubits(self, qubits, *args):
+    def reset_qubits(self, qubits):
         """
         Measures given qubits.
 
         Args:
             qubits: Qubits to measure.
-            args: Backend specific arguments.
 
         Return:
              None.
         """
 
         # Kernel does not respond this request.
-        return QDNS.api.reset_qubits(self, qubits, *args)
+        return QDNS.library.application_reset_qubits(self, qubits)
+
+    def apply_serial_transformations(self, list_of_gates, *args):
+        """
+        Makes apply serial transformation request to simulation.
+
+        Args:
+            list_of_gates: List[Gate, GateArgs, List[Qubits]]
+            args: Backend specific arguments.
+
+        Return:
+            None.
+        """
+
+        # Kernel does not respond this request.
+        return QDNS.library.application_apply_serial_transformations(self, list_of_gates, args)
 
     def apply_transformation(self, gate: gates.Gate, *qubits):
         """
@@ -1342,11 +1364,10 @@ class Application(architecture_tools.Layer):
         Return:
             None.
         """
-
         if qubits.__len__() != gate.qubit_shape:
-            logging.warning("Gate shape and qubit shape mismatch. {} != {}."
-                            "Circuit simulation backends may raise errors."
-                            .format(gate.qubit_shape, qubits.__len__()))
+            self.logger.warning("Gate shape and qubit shape mismatch. {} != {}."
+                                "Circuit simulation backends may raise errors."
+                                .format(gate.qubit_shape, qubits.__len__()))
 
         return QDNS.library.application_apply_transformation(self, qubits, gate.gate_id, *gate.args())
 
@@ -1367,7 +1388,7 @@ class Application(architecture_tools.Layer):
             Routing capability of device socket must be enabled for using this flag.
 
         Returns:
-            {exit_code, target_count}
+            target_count[int] or None.
         """
 
         return QDNS.library.application_send_classic_data(
@@ -1387,38 +1408,37 @@ class Application(architecture_tools.Layer):
             Reciever must be node label or node id.
 
         Returns:
-            {exit_code}
+            exit_code[int]
         """
 
         return QDNS.library.application_send_quantum(self, target, *qubits, routing=routing)
 
-    def generate_entangle_pairs(self, count, *args):
+    def generate_entangle_pairs(self, count):
         """
         Generates entangle pairs.
 
         Args:
             count: Count of pairs.
-            args: Backend specific arguments.
 
         Returns:
-            {"exit_code", "pairs"}
+            List[Pair] or None.
         """
 
-        return QDNS.library.application_generate_entangle_pairs(self, count, *args)
+        return QDNS.library.application_generate_entangle_pairs(self, count)
 
-    def generate_ghz_pair(self, size, *args):
+    def generate_ghz_pair(self, size: int, count: int):
         """
         Generates entangle pairs.
 
         Args:
             size: Qubit count in ghz state.
-            args: Backend specific arguments.
+            count: Count of pairs.
 
         Returns:
-            {"exit_code", "qubits"}
+            List[Pair] or None.
         """
 
-        return QDNS.library.application_generate_ghz_pair(self, size, *args)
+        return QDNS.library.application_generate_ghz_pair(self, size, count)
 
     def send_entangle_pairs(self, count, target, routing=True):
         """
@@ -1430,7 +1450,7 @@ class Application(architecture_tools.Layer):
             routing: Routing enable flag.
 
         Returns:
-            {exit_code, my_pairs}
+            List[Qubit] or None.
         """
 
         return QDNS.library.application_send_entangle_pairs(self, count, target, routing=routing)
@@ -1440,7 +1460,7 @@ class Application(architecture_tools.Layer):
         Broadcasts ghz state to quantum connected nodes.
 
         Returns:
-            {exit_code, my_qubit}
+            (GHZ Size[int], Qubit) or None.
         """
 
         return QDNS.library.application_broadcast_ghz_state(self)
@@ -1455,7 +1475,7 @@ class Application(architecture_tools.Layer):
             method: QKD method.
 
         Returns:
-            {exit_code, key, lenght}
+            (key_success[bool], key[List[int]], key_lenght[int]) or None.
         """
 
         return QDNS.library.application_run_qkd_protocol(self, target_device, key_lenght, method)
@@ -1468,30 +1488,17 @@ class Application(architecture_tools.Layer):
             source: Initiater device identifier.
 
         Returns:
-            {exit_code, key, lenght}
+            (key_success[bool], key[List[int]], key_lenght[int]) or None.
         """
 
         return QDNS.library.application_wait_qkd(self, source=source)
-
-    def apply_serial_transformations(self, list_of_gates):
-        """
-        Makes apply serial transformation request to simulation.
-
-        Args:
-            list_of_gates: List[Gate, GateArgs, List[Qubits]]
-
-        Return:
-            None.
-        """
-
-        return QDNS.library.application_apply_serial_transformations(self, list_of_gates)
 
     def current_qkd_key(self):
         """
         Makes current qkd key request to QKD Layer.
 
         Returns:
-            {exit_code, key, lenght}
+            (key[List[int]], key_lenght[int]) or None.
         """
 
         return QDNS.library.application_current_qkd_key(self)

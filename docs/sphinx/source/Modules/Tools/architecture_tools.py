@@ -2,7 +2,7 @@ import logging
 from typing import Tuple, Dict, Optional, Any
 
 from QDNS.tools.instance_logger import SubLogger
-from QDNS.architecture.signal import StateReportSignal
+from QDNS.interactions.signal import StateReportSignal
 
 """
 ##========================================  SIMPLE QUEUE MANAGER  ====================================================##

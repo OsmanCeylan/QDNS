@@ -30,35 +30,42 @@ import uuid
 from queue import Queue as TQueue
 from typing import Optional
 
-from QDNS.architecture import request, respond, signal
-from QDNS.device.application_manager import ApplicationManager
 from QDNS.device.network_adapter import NetworkSocket
-from QDNS.tools import architecture_tools
-from QDNS.tools import device_tools
-from QDNS.tools import exit_codes
-from QDNS.tools import socket_tools
-from QDNS.tools.simulation_tools import TerminatableThread
+from QDNS.device.tools.application_manager import ApplicationManager
+from QDNS.device.tools import device_tools
+from QDNS.device.tools import socket_tools
+from QDNS.interactions import request, respond, signal
+from QDNS.tools import layer, queue_manager
+from QDNS.tools.state_handler import StateHandler
+from QDNS.tools.various_tools import TerminatableThread
 
 
-class Device(architecture_tools.Layer):
+class Device(layer.Layer):
     def __init__(
-            self, label: str,
-            device_settings: Optional[device_tools.DeviceSettings] = None,
-            app_manager_settings: Optional[device_tools.ApplicationManagerSettings] = None,
-            socket_settings: Optional[socket_tools.SocketSettings] = None
+            self, label: str, active: bool = True,
+            device_settings=device_tools.default_device_settings,
+            app_manager_settings=device_tools.default_application_manager_settings,
+            socket_settings=socket_tools.default_socket_settings
     ):
+        """
+        Every node in topology must be a Device.
+
+        Args:
+            label: Label of device.
+            device_settings: Device setting.
+            app_manager_settings: Application manager setting.
+            socket_settings: Socket setting.
+
+        Notes:
+            Label is not nessesarily be unique in topology,
+            but setting them unique better for understanding.
+        """
+
+        self._active = active
         self._device_id = device_tools.DeviceIdentification(label=label, use_uuid=True)
 
-        if device_settings is None:
-            device_settings = device_tools.default_device_settings
-
-        super(Device, self).__init__(
-            architecture_tools.ID_DEVICE, architecture_tools.THREAD_LAYER,
-            self.label, layer_settings=device_settings
-        )
-
-        state_handler = architecture_tools.StateHandler(
-            self.layer_id, True, *device_tools.device_states,
+        state_handler = StateHandler(
+            layer.ID_DEVICE[0], True, *device_tools.device_states,
             GENERAL_STATE_NOT_STARTED=device_tools.DEVICE_NOT_STARTED,
             GENERAL_STATE_IS_RUNNING=device_tools.DEVICE_IS_RUNNING,
             GENERAL_STATE_IS_STOPPED=device_tools.DEVICE_IS_STOPPED,
@@ -67,23 +74,34 @@ class Device(architecture_tools.Layer):
             GENERAL_STATE_IS_PAUSED=device_tools.DEVICE_IS_PAUSED,
             GENERAL_STATE_MAY_END=device_tools.DEVICE_MAY_END
         )
-        self.set_state_handler(state_handler)
 
+        super(Device, self).__init__(
+            layer.ID_DEVICE, layer.THREAD_LAYER,
+            self.label, state_handler=state_handler,
+            layer_settings=device_settings
+        )
+
+        # Initialize end check thread.
         self._end_check_thread = None
-        self.add_module(ApplicationManager(self, application_manager_settings=app_manager_settings))
-        self._network_socket = NetworkSocket(self, socket_settings=socket_settings)
 
+        # Add application manager module.
+        self.add_module(ApplicationManager(self, app_manager_settings))
+
+        # Add network socket layer.
+        self._network_socket = NetworkSocket(self, socket_settings)
+
+        # Create must layers.
         if self._network_socket.is_routing_enabled():
             self.appman.create_routing_app()
-
         if not self.otg_device and not self.observe_capability:
             self.appman.create_qkd_app()
-        self._active = True
+
+        self._logger.info("Device is composed.")
 
     def prepair_layer(self, sim_request, miner_request, user_dump_queue):
         """
         Prepair device layer, modules and sub-layers for simulation.
-        Do not call manually. Only kernel should call.
+        This method should called before simulation by kernel only.
 
         Args:
             sim_request: Kernel request queue.
@@ -91,39 +109,58 @@ class Device(architecture_tools.Layer):
             user_dump_queue: User dump queue.
         """
 
-        not_exepted = (device_tools.DEVICE_IS_RUNNING, device_tools.DEVICE_IS_PAUSED)
+        # Check state.
+        not_exepted = (
+            device_tools.DEVICE_IS_RUNNING,
+            device_tools.DEVICE_IS_PAUSED,
+        )
+
         if self.state in not_exepted:
             raise ValueError("Device layer must prepair before simulations start.")
 
-        self.queue_manager.add_queue(architecture_tools.MINER_REQUEST_QUEUE, miner_request)
-        self.queue_manager.add_queue(architecture_tools.USER_DUMP_QUEUE, user_dump_queue)
+        # Set outside queues.
+        self.queue_manager.add_queue(queue_manager.MINER_REQUEST_QUEUE, miner_request)
+        self.queue_manager.add_queue(queue_manager.USER_DUMP_QUEUE, user_dump_queue)
 
+        # Set layer queues.
         self.set_threaded_queues(TQueue(), None)
         self.set_state_report_queue(miner_request)
+
+        # Initiazlize end checker thread.
         self._end_check_thread = TerminatableThread(self.check_finalize, daemon=True)
 
+        # Prepair the other modules and layers.
         self._network_socket.prepair_layer(sim_request)
         self.appman.prepair_module()
 
         for application in self.appman.enabled_application_list:
             application.prepair_layer(sim_request, user_dump_queue)
 
-        self.logger.info("Device {} preapaired for simulation with {} application.".format(self.label, self.appman.enabled_application_count))
+        self.logger.info("Device is preapaired for simulation with {} application.".format(self.appman.enabled_application_count))
 
     def run(self):
         """ Runs the device. Only simulation kernel should call this method. """
 
+        # Check if device is active.
         if not self.is_device_active():
-            self.logger.warning("Device {} is not active. This device will not simulate.".format(self.label))
+            self.logger.warning("Device is not active. This device will not simulate.")
             self.change_state(device_tools.DEVICE_IS_FINISHED)
             return
 
+        # Sleep start after delay.
         time.sleep(self.start_after_delay)
+
+        # Start device.
         self.change_state(device_tools.DEVICE_IS_RUNNING)
+
+        # Start sub-layers.
         self._network_socket.start_socket()
         self.appman.start_applications()
+
+        # Start end checker thread.
         self._end_check_thread.start()
 
+        # Handle interactions in loop.
         start_time = time.time()
         while 1:
             if self.state_handler.is_breakable():
@@ -139,11 +176,13 @@ class Device(architecture_tools.Layer):
             else:
                 raise ValueError("Unrecognized action for device {}. What \"{}\"?".format(self.label, action))
 
+        # Try terminate end checker.
         try:
             self._end_check_thread.terminate()
         except (KeyError, AttributeError):
             pass
 
+        # Handle idle after simulation.
         if self.idle_after_device_ends:
             self.change_state(device_tools.DEVICE_MAY_END)
             self.user_dump_queue.put([self.label, "DeviceLogs", self.logger.logs])
@@ -162,23 +201,26 @@ class Device(architecture_tools.Layer):
         else:
             self.user_dump_queue.put([self.label, "DeviceLogs", self.logger.logs])
 
+        # Terminate sub-layers.
         self.__end_applications_simulation(all_enabled=True)
         self.__end_socket_simulation()
 
         end_time = time.time() - start_time
-        self.logger.warning("Device {} simulation is ended in {} seconds.".format(self.label, end_time))
+        self.logger.warning("Device simulation is ended in {} seconds.".format(end_time))
 
     def __handle_request(self, request_: request.REQUEST):
         """ Handles incoming request. """
 
-        if request_.target_id != architecture_tools.ID_DEVICE:
+        # Check if request is in right layer.
+        if request_.target_id != layer.ID_DEVICE:
             raise ValueError("Exepted device request but got {}.".format(request_.target_id))
 
+        # Device information request.
         if isinstance(request_, request.DeviceInformationRequest):
             di = self.device_id
             if request_.want_respond:
                 respond.DeviceInformationRespond(
-                    request_.generic_id, exit_codes.GATHER_DEVICE_INFORMATION_SUCCESS[0], di
+                    request_.generic_id, 0, di
                 ).process(self.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
         else:
@@ -216,7 +258,7 @@ class Device(architecture_tools.Layer):
                 else:
                     self.__end_device(device_tools.DEVICE_IS_FINISHED)
                 return
-            time.sleep(2)
+            time.sleep(0.25)
 
     def __end_device(self, new_state):
         """ Changing and endable state end device simulation. """
@@ -241,6 +283,8 @@ class Device(architecture_tools.Layer):
             self.appman.terminate_application(*self.appman.user_applications)
 
     def __end_socket_simulation(self):
+        """ Requests socket to terminate. """
+
         self.ntwk_socket.threaded_request_queue.put(signal.DeviceEndSocketSignal())
         time.sleep(1.0)
         self.ntwk_socket.terminate_socket()
@@ -303,6 +347,8 @@ class Device(architecture_tools.Layer):
         self._active = True
 
     def is_device_active(self):
+        """ Returns if device is active. """
+
         return self._active
 
     @property
@@ -359,11 +405,11 @@ class Device(architecture_tools.Layer):
 
     @property
     def miner_request_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.MINER_REQUEST_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.MINER_REQUEST_QUEUE)
 
     @property
     def user_dump_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.USER_DUMP_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.USER_DUMP_QUEUE)
 
     @property
     def localhost(self):
@@ -415,8 +461,8 @@ class Router(Device):
             0, enable_localhost=False, disable_user_apps=True
         )
         socket_setting = socket_tools.SocketSettings(
-            socket_tools.max_classic_connection,
-            socket_tools.max_quantum_connection,
+            socket_tools.max_avaible_classic_connection,
+            socket_tools.max_avaible_quantum_connection,
             auto_ping=False,
             clear_route_cache=True,
             enable_routing=True,

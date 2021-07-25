@@ -30,10 +30,6 @@ from typing import Any, Tuple
 
 ACK_DATA = "This message represents as a ack data."
 
-"""
-##===================================================  PACKAGE  ======================================================##
-"""
-
 classic_package_live_count = 20
 
 
@@ -242,11 +238,6 @@ class Qupack(object):
     @property
     def creation_date(self):
         return self._creation_date
-
-
-"""
-##===============================================  PING STUFF  =======================================================##
-"""
 
 
 class PingRequestPackage(object):

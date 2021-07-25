@@ -28,44 +28,66 @@ import threading
 from queue import Queue as TQueue
 from typing import Optional, List, Dict, Union
 
-from QDNS.architecture import signal
+from QDNS.device.tools import device_tools
+from QDNS.device.tools import application_tools
+from QDNS.interactions import signal
 from QDNS.device.application import Application
-from QDNS.tools.simulation_tools import TerminatableThread
-from QDNS.tools import application_tools
-from QDNS.tools import device_tools
 from QDNS.rtg_apps.routing import RoutingLayer
 from QDNS.rtg_apps.qkd import QKDLayer
+from QDNS.tools.layer import ID_DEVICE
+from QDNS.tools.module import Module
+from QDNS.tools.various_tools import TerminatableThread
 
 
-class ApplicationManager(device_tools.DeviceModule):
+class ApplicationManager(Module):
     APP_MAN_NAME = "Application Manager"
 
-    def __init__(self, host_device, application_manager_settings: Optional[device_tools.ApplicationManagerSettings] = None):
+    def __init__(
+            self, host_device,
+            settings: device_tools.ApplicationManagerSettings
+    ):
         """
         Application manager module of a device.
+
+        Args:
+            host_device: Host Device.
+            settings: Settings of application manager.
         """
-
-        if application_manager_settings is None:
-            application_manager_settings = device_tools.default_application_manager_settings
-
-        super(ApplicationManager, self).__init__(
-            self.APP_MAN_NAME, can_disable=False, can_removable=False, can_restartable=False,
-            can_pausable=True, no_state_module=True, module_settings=application_manager_settings
-        )
 
         self._host_device = host_device
 
+        super(ApplicationManager, self).__init__(
+            ID_DEVICE[0], self.APP_MAN_NAME,
+            module_logger_name="{}::{}".format(host_device.logger_name, self.APP_MAN_NAME),
+            module_settings=settings
+        )
+
+        # Create nessesary lists.
         self._all_application_list: List[Application] = list()
         self._enabled_application_list: List[Application] = list()
         self._static_application_list: List[Application] = list()
         self._default_apps: Dict[str, Application] = dict()
         self._user_apps: List[Application] = list()
-
         self._application_states: Dict[Application, str] = dict()
         self._application_thread_dict: Dict[Application, TerminatableThread] = dict()
+
+        # Prepare localhost at prepair_module time.
         self._localhost_queue = None
 
-        self.logger.debug("Application manager module of device {} is created.".format(self.host_label))
+    def prepair_module(self, from_list=None):
+        """
+        Prepairs module.
+        Defaults enabled application list if from list is None.
+        """
+
+        if self.enable_localhost:
+            self._localhost_queue = TQueue()
+
+        if from_list is None:
+            from_list = self.enabled_application_list
+        for application in from_list:
+            self._application_thread_dict[application] = TerminatableThread(application.run, daemon=True)
+        self.logger.debug("Module prepaired with {} threads.".format(from_list.__len__()))
 
     def create_new_application(
             self, function, *args, label: Optional[str] = None,
@@ -101,51 +123,47 @@ class ApplicationManager(device_tools.DeviceModule):
             Application or None.
         """
 
+        # Check application label.
         if label is None:
             label = application_tools.DEFAULT_APPLICATION_NAME
-
         if self.is_have_this_application(label):
             raise ValueError("Device {} had application named {}".format(self._host_device, label))
 
+        # Check application count.
         if self.application_count >= self.max_application_count:
             raise OverflowError("Device {} had maximum application count of {}".format(self.host_label, self.application_count))
 
+        # Set application setting.
         if static is None:
             static = application_tools.default_application_settings.static
-
         if enabled is None:
             enabled = application_tools.default_application_settings.enabled
-
         if self.disable_user_apps:
-            self.logger.critical("Device {} disables user applications.".format(self.host_label))
             raise KeyError("Device {} disables user applications.".format(self.host_label))
-
         if end_device_if_terminated is None:
             end_device_if_terminated = application_tools.default_application_settings.end_device_if_terminated
-
         if delayed_start_time is None:
             delayed_start_time = application_tools.default_application_settings.delayed_start_time
-
         if bond_end_with_device is None:
             bond_end_with_device = application_tools.default_application_settings.bond_end_with_device
-
         applicaton_settings = application_tools.ApplicationSettings(
             static=static, enabled=enabled, end_device_if_terminated=end_device_if_terminated,
             bond_end_with_device=bond_end_with_device, delayed_start_time=delayed_start_time
         )
+
+        # Create application.
         for_return = Application(label, self.host_device, function, *args, app_settings=applicaton_settings)
 
+        # Add application to lists.
         if for_return.is_static():
             self._static_application_list.append(for_return)
-
         if for_return.is_enabled():
             self._enabled_application_list.append(for_return)
-
         self._user_apps.append(for_return)
         self._all_application_list.append(for_return)
         self._application_states[for_return] = application_tools.APPLICATION_NOT_STARTED
 
-        self.logger.info("Application {} is created inside of device {}.".format(for_return.label, self.host_label))
+        self.logger.info("Application {} is added to device".format(for_return.label))
         return for_return
 
     def is_have_this_application(self, item: Union[int, str, Application]) -> bool:
@@ -181,7 +199,7 @@ class ApplicationManager(device_tools.DeviceModule):
             return False
 
         else:
-            self.logger.warning(
+            self.logger.error(
                 "Application cannot found with given {}, this may cause errors."
                 "Accepted key types are int, str, Application.".format(item)
             )
@@ -222,23 +240,6 @@ class ApplicationManager(device_tools.DeviceModule):
             if _raise:
                 raise ValueError("Application {} is not found in this device {}.".format(item, self._host_device.label))
             return None
-
-    def prepair_module(self, from_list=None):
-        """
-        Prepairs module.
-        Defaults enabled application list if from list is None.
-        """
-
-        if self.enable_localhost:
-            self._localhost_queue = TQueue()
-
-        if from_list is None:
-            from_list = self.enabled_application_list
-        for application in from_list:
-            self._application_thread_dict[application] = TerminatableThread(application.run, daemon=True)
-        self.logger.info(
-            "Application Manager module or device {} setted {} threads.".format(self.host_label, from_list.__len__())
-        )
 
     def start_applications(self, application: Optional[Application] = None, from_list=None):
         """
@@ -286,13 +287,13 @@ class ApplicationManager(device_tools.DeviceModule):
             thread = self._application_thread_dict[app]
             if not thread.is_alive() and self._application_states[app] == application_tools.APPLICATION_IS_RUNNING:
                 self._application_states[app] = application_tools.APPLICATION_IS_TERMINATED
-                self.logger.warning("Application {} of device {} is probably terminated.".format(app.label, self.host_label))
+                self.logger.warning("Application {} is probably terminated.".format(app.label))
                 if app.end_device_if_terminated:
                     signal.EndDeviceSignal(app.label).emit(self.host_device.threaded_request_queue)
 
             if not thread.is_alive() and self._application_states[app] == application_tools.APPLICATION_IS_PAUSED:
                 self._application_states[app] = application_tools.APPLICATION_IS_TERMINATED
-                self.logger.warning("Application {} of device {} is probably terminated.".format(app.label, self.host_label))
+                self.logger.warning("Application {} is probably terminated.".format(app.label))
                 signal.EndDeviceSignal(app.label).emit(self.host_device.threaded_request_queue)
 
     def is_device_endable(self) -> bool:
@@ -340,12 +341,13 @@ class ApplicationManager(device_tools.DeviceModule):
             self._enabled_application_list.append(application)
 
         self._default_apps[application.label] = application
-        self._application_states[application] = application_tools.APP_STATE_IS_NOT_STARTED
+        self._application_states[application] = application_tools.APPLICATION_NOT_STARTED
         return True
 
     def create_routing_app(self):
         """
-        Creater routing app. No user shall create route app manually.
+        Creater routing app.
+        No user shall create route layer manually.
         """
 
         if self.get_application_from(RoutingLayer.label) is not None:
@@ -366,7 +368,8 @@ class ApplicationManager(device_tools.DeviceModule):
 
     def create_qkd_app(self):
         """
-        Creater qkd app. No user shall create qkd app manually.
+        Creater qkd app.
+        No user shall create qkd layer manually.
         """
 
         if self.get_application_from(QKDLayer.label) is not None:
@@ -436,7 +439,7 @@ class ApplicationManager(device_tools.DeviceModule):
 
     @property
     def enable_localhost(self) -> bool:
-        return self.manager_settings.enable_localhost
+        return self.manager_settings.enabled_localhost
 
     @property
     def application_count(self) -> int:
@@ -467,11 +470,6 @@ class ApplicationManager(device_tools.DeviceModule):
         return self._application_states
 
     @property
-    def logger(self):
-        """ Application Manager and its Device shares same logger instance. """
-        return self._host_device.logger
-
-    @property
     def localhost_queue(self):
         return self._localhost_queue
 
@@ -485,7 +483,7 @@ class ApplicationManager(device_tools.DeviceModule):
 
     @property
     def disable_user_apps(self):
-        return self.manager_settings.disable_user_apps
+        return self.manager_settings.disabled_user_apps
 
     @property
     def application_thread_dict(self) -> Dict[Application, threading.Thread]:

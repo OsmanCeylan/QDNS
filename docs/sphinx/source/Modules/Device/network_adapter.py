@@ -6,13 +6,13 @@ from typing import Optional, Union, Dict
 
 import numpy as np
 
-from QDNS.architecture import request, signal, respond
+from QDNS.interactions import request, signal, respond
 from QDNS.commands.api import make_channel_error_request
 from QDNS.device.channel import ClassicChannel, QuantumChannel
 from QDNS.rtg_apps.routing import RoutingLayer
 from QDNS.tools import application_tools
 from QDNS.tools import architecture_tools
-from QDNS.tools import communication_tools
+from QDNS.tools import communication
 from QDNS.tools import exit_codes
 from QDNS.tools import socket_tools
 from QDNS.tools.simulation_tools import TerminatableThread
@@ -449,7 +449,7 @@ class NetworkSocket(architecture_tools.Layer):
         else:
             raise ValueError("Unrecognized request for device {}'socket. What \"{}\"?".format(self.host_label, request_))
 
-    def __handle_incoming_package(self, port: socket_tools.Port, package: communication_tools.Package):
+    def __handle_incoming_package(self, port: socket_tools.Port, package: communication.Package):
         """
         Handles incoming packages.
 
@@ -459,13 +459,13 @@ class NetworkSocket(architecture_tools.Layer):
         """
 
         # Handle ping packages first.
-        if isinstance(package, communication_tools.PingRequestPackage):
+        if isinstance(package, communication.PingRequestPackage):
             if not port.is_unconnected():
                 port.set_target_device_id(package.device_id)
                 port.set_latency(time.time() - package.ping_time)
 
             if not self.host_device.otg_device:
-                self.port_manager.send_classic_information(port, communication_tools.PingRespondPackage(self.host_device_id), check_active=False)
+                self.port_manager.send_classic_information(port, communication.PingRespondPackage(self.host_device_id), check_active=False)
             else:
                 target_port = None
                 for port_ in self.port_manager.active_classic_ports:
@@ -475,7 +475,7 @@ class NetworkSocket(architecture_tools.Layer):
                 self.port_manager.send_classic_information(target_port, package)
             return
 
-        if isinstance(package, communication_tools.PingRespondPackage):
+        if isinstance(package, communication.PingRespondPackage):
             if not port.connected:
                 self.port_manager.reconnect_port(port)
             if not self.host_device.otg_device:
@@ -573,7 +573,7 @@ class NetworkSocket(architecture_tools.Layer):
                         break
                 self.port_manager.send_classic_information(target_port, package)
 
-    def __handle_incoming_qupack(self, port: socket_tools.Port, qupack: communication_tools.Qupack):
+    def __handle_incoming_qupack(self, port: socket_tools.Port, qupack: communication.Qupack):
         """
         Handles incoming qupacks.
 
@@ -583,13 +583,13 @@ class NetworkSocket(architecture_tools.Layer):
         """
 
         # Handle ping packages first.
-        if isinstance(qupack, communication_tools.PingRequestPackage):
+        if isinstance(qupack, communication.PingRequestPackage):
             if not port.is_unconnected():
                 port.set_target_device_id(qupack.device_id)
                 port.set_latency(time.time() - qupack.ping_time)
 
             if not self.host_device.otg_device:
-                self.port_manager.send_quantum_information(port, communication_tools.PingRespondPackage(self.host_device_id), check_active=False)
+                self.port_manager.send_quantum_information(port, communication.PingRespondPackage(self.host_device_id), check_active=False)
             else:
                 target_port = None
                 for port_ in self.port_manager.active_quantum_ports:
@@ -599,7 +599,7 @@ class NetworkSocket(architecture_tools.Layer):
                 self.port_manager.send_quantum_information(target_port, qupack)
             return
 
-        if isinstance(qupack, communication_tools.PingRespondPackage):
+        if isinstance(qupack, communication.PingRespondPackage):
             if not port.connected:
                 self.port_manager.reconnect_port(port)
 
@@ -697,7 +697,7 @@ class NetworkSocket(architecture_tools.Layer):
                         break
                 self.port_manager.send_quantum_information(target_port, qupack)
 
-    def __send_package(self, package: communication_tools.Package, target):
+    def __send_package(self, package: communication.Package, target):
         """
         Network socket tries to send package to target.
 
@@ -737,7 +737,7 @@ class NetworkSocket(architecture_tools.Layer):
         self.port_manager.send_classic_information(port_, package)
         return exit_codes.PACKAGE_SENDED[0], 1
 
-    def __send_qupack(self, qupack: communication_tools.Qupack, target):
+    def __send_qupack(self, qupack: communication.Qupack, target):
         """
         Network socket tries to send qupack to target.
 
@@ -774,7 +774,7 @@ class NetworkSocket(architecture_tools.Layer):
         """
 
         to_return_dict = dict()
-        pp = communication_tools.PingRequestPackage(self.host_device_id)
+        pp = communication.PingRequestPackage(self.host_device_id)
         for port in self.port_manager.active_connected_classic_ports:
             to_return_dict[port] = self.port_manager.send_information(port, pp)
 
@@ -783,7 +783,7 @@ class NetworkSocket(architecture_tools.Layer):
 
         return to_return_dict
 
-    def __put_package_to_application(self, application, package: communication_tools.Package):
+    def __put_package_to_application(self, application, package: communication.Package):
         """
         Puts package to the application in this device.
 
@@ -798,7 +798,7 @@ class NetworkSocket(architecture_tools.Layer):
             return
         app.income_package_queue.put(package)
 
-    def __put_qupack_to_application(self, application, port: socket_tools.Port, qupack: communication_tools.Qupack):
+    def __put_qupack_to_application(self, application, port: socket_tools.Port, qupack: communication.Qupack):
         """
         Puts qubit to the applicaiton on this device.
 

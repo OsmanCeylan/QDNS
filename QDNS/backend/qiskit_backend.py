@@ -24,44 +24,55 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from typing import Union, Type, Sequence, Tuple
-from copy import deepcopy, copy
-from typing import List, Dict
+from typing import List, Dict, Union, Type, Sequence, Tuple
+from copy import deepcopy
 import multiprocessing
 import numpy as np
 
-from QDNS.tools.various_tools import tensordot, dev_mode
 from QDNS.backend.tools.virt_qubit import VirtQudit
 from QDNS.backend.tools.backend import Backend
+from QDNS.tools.various_tools import dev_mode
 from QDNS.backend.tools import config
 from QDNS.backend.tools import noise
 from QDNS.tools import gates
 
+lock = multiprocessing.Lock()
 
-# Check if cirq avaible.
+
+def log(message: str):
+    if dev_mode:
+        lock.acquire()
+        print(message)
+        # logging.info(message)
+        lock.release()
+
+
+# Check if avaible
 try:
-    import cirq
+    import qiskit
+    from qiskit.circuit import library
 except ImportError:
-    cirq = None
-    normal_simulator = None
-    cliffor_simulator = None
+    qiskit = None
+    selected_simulator = None
+    library = None
 else:
-    normal_simulator = cirq.Simulator()
-    cliffor_simulator = cirq.CliffordSimulator()
+    simulator_string = "aer_simulator_statevector"
+    aer_vector_simulator = qiskit.Aer.get_backend(simulator_string)
 
-selected_simulator = normal_simulator
+    # Try GPU simulation.
+    try:
+        aer_vector_simulator.set_options(device='GPU')
+    except qiskit.providers.aer.AerError:
+        simulator = qiskit.Aer.get_backend(simulator_string)
+    else:
+        log("Qiskit will use {} backend with GPU".format(simulator_string))
+    selected_simulator = aer_vector_simulator
 
 
-def change_cirq_simulator(new_simulator: cirq.Simulator):
+def change_qiskit_simulator(new_simulator):
     """
-    Changes the simulator run on Cirq backend.
-
-    Args:
-        new_simulator: cirq.Simulator
-
-    Notes:
-        New simulator must have simulate()
-        New simulator must yiled final_state_vector in result
+    Changes the qiskit simulator.
+    New simulator must be a qiskit backend.
     """
 
     global selected_simulator
@@ -71,7 +82,7 @@ def change_cirq_simulator(new_simulator: cirq.Simulator):
 class ProcessMessages:
     class Request:
         """
-        Main process -> cirq backend process.
+        Main process -> Qiskit backend process.
         """
 
         START_LISTENING = ("process should start listening", False)
@@ -87,7 +98,7 @@ class ProcessMessages:
 
     class Respond:
         """
-        Main process <- cirq backend process.
+        Main process <- Qiskit backend process.
         """
 
         PROCESS_PREPAIR_DONE = "process prepare is done"
@@ -102,338 +113,115 @@ class ProcessMessages:
         APPLY_CHANNEL_ERROR_DONE = "apply channel error operation done"
 
 
-lock = multiprocessing.Lock()
-
-
-# Works with dev mode.
-def log(message: str):
-    if dev_mode:
-        lock.acquire()
-        print(message)
-        lock.release()
-
-
 # NOISE CHANNELS
 
-class Id(cirq.SingleQubitGate):
-    """ ID gate for multi dimension. """
-
-    def __init__(self, dimension):
-        super(Id, self)
-        self.dimension = dimension
-
-    def _qid_shape_(self):
-        return self.dimension,
-
-    def _num_qubits_(self):
-        return 1
-
-    def _unitary_(self):
-        zero = np.zeros(shape=(self.dimension, self.dimension), dtype=complex)
-        for i in range(self.dimension):
-            zero[i][i] = complex(1, 0)
-        return zero
-
-    def _circuit_diagram_info_(self, args):
-        self.args = args
-        return "I"
-
-    @property
-    def unitary(self):
-        return self._unitary_()
-
-
-class PlusOneGate(cirq.SingleQubitGate):
-    """ Plus One Gate """
-
-    def __init__(self, dimension):
-        super(PlusOneGate, self)
-        self.dimension = dimension
-
-    def _qid_shape_(self):
-        return self.dimension,
-
-    def _num_qubits_(self):
-        return 1
-
-    def _unitary_(self) -> np.ndarray:
-        if self.dimension == 2:
-            return np.array([[0, 1], [1, 0]], dtype=complex)
-
-        zero = np.zeros(shape=(self.dimension, self.dimension), dtype=complex)
-        zero[0][self.dimension - 1] = 1
-        for i in range(1, self.dimension):
-            zero[i][i - 1] = complex(1, 0)
-        return zero
-
-    def _circuit_diagram_info_(self, args) -> str:
-        self.args = args
-        return "[+1]"
-
-    @property
-    def unitary(self):
-        return self._unitary_()
-
-
-class PlusXGate(cirq.SingleQubitGate):
-    """ Plus X Gate """
-
-    def __init__(self, dimension):
-        super(PlusXGate, self)
-        self.dimension = dimension
-        self._plus = PlusOneGate(self.dimension).unitary
-
-    def _qid_shape_(self):
-        return self.dimension,
-
-    def _num_qubits_(self):
-        return 1
-
-    def _unitary_(self) -> np.ndarray:
-        if self.dimension == 2:
-            return np.array([[0, 1], [1, 0]], dtype=complex)
-
-        count = np.random.randint(0, self.dimension - 1)
-        bf = self._plus
-        for i in range(count):
-            bf = bf.dot(PlusOneGate(self.dimension).unitary)
-
-        return bf
-
-    def _circuit_diagram_info_(self, args) -> str:
-        self.args = args
-        return "[+X]"
-
-    @property
-    def unitary(self):
-        return self._unitary_()
-
-
-class PlusZGate(cirq.SingleQubitGate):
-    """ Plus Z Gate """
-
-    def __init__(self, dimension):
-        super(PlusZGate, self)
-        self.dimension = dimension
-
-    def _qid_shape_(self):
-        return self.dimension,
-
-    def _num_qubits_(self):
-        return 1
-
-    def _unitary_(self) -> np.ndarray:
-        if self.dimension == 2:
-            return np.array([[1, 0], [0, -1]], dtype=complex)
-
-        zero = np.zeros(shape=(self.dimension, self.dimension), dtype=complex)
-        for i in range(self.dimension):
-            if i % 2 == 0:
-                zero[i][i] = complex(1, 0)
-            else:
-                zero[i][i] = complex(-1, 0)
-        return zero
-
-    def _circuit_diagram_info_(self, args) -> str:
-        self.args = args
-        return "[+Z]"
-
-    @property
-    def unitary(self):
-        return self._unitary_()
-
-
-class BitFlipChannel(cirq.SingleQubitGate):
+class BitFlipChannel(object):
     """ Bit flip channel """
 
-    def __init__(self, p: float, dim: int) -> None:
+    def __init__(self, p: float) -> None:
         self._p = p
-        self._dim = dim
-        self._plus = PlusXGate(self._dim).unitary
+        self.compose_props = [1.0 - p, p]
+        self.compose_channel = [library.IGate, library.XGate]
 
-    def _mixture_(self):
-        ps = [1.0 - self._p, self._p]
-        ops = [Id(self._dim).unitary, self._plus]
-        return tuple(zip(ps, ops))
-
-    def _qid_shape_(self):
-        return self._dim,
-
-    def _num_qubits_(self):
-        return 1
-
-    @staticmethod
-    def _has_mixture_() -> bool:
-        return True
-
-    def _circuit_diagram_info_(self, args) -> str:
-        self.args = args
-        return "BF({})".format(self._p)
-
-    @property
-    def unitary(self):
-        return self._mixture_()
+    def get_gates(self):
+        random_ = np.random.uniform()
+        if random_ <= self._p:
+            return self.compose_channel[1],
+        else:
+            return self.compose_channel[0],
 
 
-class PhaseFlipChannel(cirq.SingleQubitGate):
+class PhaseFlipChannel(object):
     """ Phase flip channel """
 
-    def __init__(self, p: float, dim: int) -> None:
+    def __init__(self, p: float) -> None:
         self._p = p
-        self._dim = dim
+        self.compose_props = [1.0 - p, p]
+        self.compose_channel = [library.IGate, library.ZGate]
 
-    def _mixture_(self):
-        ps = [1.0 - self._p, self._p]
-        ops = [Id(self._dim).unitary, PlusZGate(self._dim).unitary]
-        return tuple(zip(ps, ops))
-
-    def _qid_shape_(self):
-        return self._dim,
-
-    def _num_qubits_(self):
-        return 1
-
-    @staticmethod
-    def _has_mixture_() -> bool:
-        return True
-
-    def _circuit_diagram_info_(self, args) -> str:
-        self.args = args
-        return "PF({})".format(self._p)
-
-    @property
-    def unitary(self):
-        return self._mixture_()
+    def get_gates(self):
+        random_ = np.random.uniform()
+        if random_ <= self._p:
+            return self.compose_channel[1],
+        else:
+            return self.compose_channel[0],
 
 
-class YFlipChannel(cirq.SingleQubitGate):
+class YFlipChannel(object):
     """ Y flip channel or Bit and Phase Flip channel """
 
-    def __init__(self, p: float, dim: int) -> None:
+    def __init__(self, p: float) -> None:
         self._p = p
-        self._dim = dim
-        self._plus = PlusXGate(self._dim).unitary.dot(PlusZGate(self._dim).unitary)
+        self.compose_props = [1.0 - p, p]
+        self.compose_channel = [library.IGate, [library.XGate, library.ZGate]]
 
-    def _mixture_(self):
-        ps = [1.0 - self._p, self._p]
-        ops = [Id(self._dim).unitary, self._plus]
-        return tuple(zip(ps, ops))
-
-    def _qid_shape_(self):
-        return self._dim,
-
-    def _num_qubits_(self):
-        return 1
-
-    @staticmethod
-    def _has_mixture_() -> bool:
-        return True
-
-    def _circuit_diagram_info_(self, args) -> str:
-        self.args = args
-        return "BPF({})".format(self._p)
-
-    @property
-    def unitary(self):
-        return self._mixture_()
+    def get_gates(self):
+        random_ = np.random.uniform()
+        if random_ <= self._p:
+            return self.compose_channel[1]
+        else:
+            return self.compose_channel[0],
 
 
-class DepolarizingChannel(cirq.SingleQubitGate):
+class DepolarizingChannel(object):
     """ Depolarizing channel """
 
-    def __init__(self, p: float, dim: int) -> None:
+    def __init__(self, p: float) -> None:
         self._p = p
-        self._dim = dim
-        self._plus_x = PlusXGate(self._dim).unitary
-        self._plus_z = PlusZGate(self._dim).unitary
-        self._plus_y = self._plus_x.dot(self._plus_z)
+        self.compose_props = [1.0 - self._p, self._p / 3, self._p / 3, self._p / 3]
+        self.compose_channel = [library.IGate, library.XGate, library.YGate, library.ZGate]
 
-    def _mixture_(self):
-        ps = [1.0 - self._p, self._p / 3, self._p / 3, self._p / 3]
-        ops = [Id(dimension=self._dim).unitary, self._plus_x, self._plus_y, self._plus_z]
-        return tuple(zip(ps, ops))
-
-    def _qid_shape_(self):
-        return self._dim,
-
-    def _num_qubits_(self):
-        return 1
-
-    @staticmethod
-    def _has_mixture_() -> bool:
-        return True
-
-    def _circuit_diagram_info_(self, args) -> str:
-        self.args = args
-        return "DPZ({})".format(self._p)
-
-    @property
-    def unitary(self):
-        return self._mixture_()
+    def get_gates(self):
+        random_ = np.random.uniform()
+        if random_ <= self._p:
+            final_gates = list()
+            random_ = np.random.uniform()
+            if random_ <= self._p:
+                final_gates.append(self.compose_channel[1])
+            random_ = np.random.uniform()
+            if random_ <= self._p:
+                final_gates.append(self.compose_channel[2])
+            random_ = np.random.uniform()
+            if random_ <= self._p:
+                final_gates.append(self.compose_channel[3])
+            if final_gates.__len__() <= 0:
+                final_gates.append(self.compose_channel[np.random.randint(1, 4)])
+            return final_gates
+        else:
+            return self.compose_channel[0],
 
 
-class ResetChannel(cirq.ResetChannel):
+class ResetChannel(object):
     """ Reset channel """
 
-    def __init__(self, p: float, dim: int = 2) -> None:
-        self._dim = dim
+    def __init__(self, p: float) -> None:
         self._p = p
-        super().__init__(dim)
+        self.compose_props = [1.0 - p, p]
+        self.compose_channel = [library.IGate, library.Reset]
 
-    def _mixture_(self):
-        ps = [1 - self._p, self._p]
-        ops = [Id(dimension=self._dim).unitary, self._channel_()]
-        return tuple(zip(ps, ops))
-
-    @staticmethod
-    def _has_mixture_() -> bool:
-        return True
-
-    def _circuit_diagram_info_(self, args) -> str:
-        self.args = args
-        return "Reset({})".format(self._p)
-
-    @property
-    def unitary(self):
-        return self._mixture_()
+    def get_gates(self):
+        random_ = np.random.uniform()
+        if random_ <= self._p:
+            return self.compose_channel[1],
+        else:
+            return self.compose_channel[0],
 
 
-class NoNoiseChannel(cirq.SingleQubitGate):
+class NoNoiseChannel(object):
     """ No noise channel """
 
-    def __init__(self, p: float, dim: int) -> None:
+    def __init__(self, p: float) -> None:
         self._p = p
-        self._dim = dim
-        self._plus = Id(self._dim).unitary
+        self.compose_props = [1.0 - p, p]
+        self.compose_channel = [library.IGate, library.IGate]
 
-    def _mixture_(self):
-        ps = [1.0 - self._p, self._p]
-        ops = [Id(self._dim).unitary, self._plus]
-        return tuple(zip(ps, ops))
-
-    def _qid_shape_(self):
-        return self._dim,
-
-    def _num_qubits_(self):
-        return 1
-
-    @staticmethod
-    def _has_mixture_() -> bool:
-        return True
-
-    def _circuit_diagram_info_(self, args) -> str:
-        self.args = args
-        return "NN({})".format(self._p)
-
-    @property
-    def unitary(self):
-        return self._mixture_()
+    def get_gates(self):
+        return self.compose_channel[0],
 
 
 def get_channel_gate(flag: str) -> Union[Type[BitFlipChannel], Type[PhaseFlipChannel],
-                                         Type[cirq.SingleQubitGate], Type[YFlipChannel],
-                                         Type[DepolarizingChannel], Type[ResetChannel],
-                                         Type[NoNoiseChannel]]:
+                                         Type[YFlipChannel], Type[DepolarizingChannel],
+                                         Type[ResetChannel], Type[NoNoiseChannel]]:
     """ Gets the gate object from string in simulation_tools.channels. """
 
     if flag not in noise.channels:
@@ -463,24 +251,24 @@ def get_channel_gate(flag: str) -> Union[Type[BitFlipChannel], Type[PhaseFlipCha
 
 # QUBIT POINTER
 
+
 class VirtQudit(VirtQudit):
     """
     Virtual qudit template.
 
     #
     #  [PID]    [CH_IND]      [INDEX]
-    #    |      00   00000      00
-    #    |      /     |         |
-    #    P     DIM   CHUNK      |
-    #    0     00    00000      00
+    #    |       00000          00
+    #    |         |             |
+    #    P       CHUNK           |
+    #    0       00000          00
     #
     # Template supports pointing:
-    #   Max 9 Process, 9 dimension, 99999 circuit, 99 qubit in a circuit.
+    #   Max 9 Process, 99999 circuit, 99 qubit in a circuit.
     #
     """
 
     pid_length = 1
-    dim_length = 2
     chunk_length = 5
     qubit_length = 2
 
@@ -488,27 +276,27 @@ class VirtQudit(VirtQudit):
     def qubit_id_resolver(qubit_id: str):
         """
         Qubit ID resolve from string.
-        Returns pid, dim, chunk_id, qubit_id
+        Returns pid, chunk_id, qubit_id
         """
 
-        return qubit_id[0:1], qubit_id[1:3], qubit_id[3:8], qubit_id[8:10]
+        return qubit_id[0:1], qubit_id[1:6], qubit_id[6:8]
 
     @staticmethod
-    def generate_pointer(pid: int, dim: int, chunk_value: int, index: int) -> str:
+    def generate_pointer(pid: int, chunk_value: int, index: int) -> str:
         """
         Qubit ID Generator.
         """
 
-        return "{:01d}{:02d}{:05d}{:02d}".format(pid, dim, chunk_value, index)
+        return "{:01d}{:05d}{:02d}".format(pid, chunk_value, index)
 
 
 # CIRCUIT CHUNK
 
-class Chunk(object):
+class Chunk(qiskit.QuantumCircuit):
     def __init__(
             self, index: int, qubit_count: int,
             noise_pattern: noise.NoisePattern,
-            dimension=2, allocated=False
+            allocated=False
     ):
         """
         Chunk is a reference of one single circuit.
@@ -517,29 +305,17 @@ class Chunk(object):
             index: Index of chunk.
             qubit_count: Qubit count of this chunk.
             noise_pattern: Noise pattern of this chunk.
-            dimension: Qubit dimension of this chunk.
             allocated: Allocated Flag.
         """
 
-        if dimension <= 1:
-            raise ValueError("Qudit dimension cannot below 2.")
-
         self._index = index
-        self._qubit_count = qubit_count
         self._noise_pattern = noise_pattern
-        self._dimension = dimension
         self._allocated = allocated
+        self._circuit_state = None
         self._extended_count = 0
 
-        # Construct ID gate.
-        if self._dimension == 2:
-            self._id_gate = cirq.I
-        else:
-            self._id_gate = Id(self._dimension)
+        super().__init__(qubit_count, qubit_count)
 
-        # Iterate circuit for first time and apply state prepare error.
-        self._circuit = cirq.Circuit()
-        self._circuit_state = None
         self.scramble_qubits(
             (), self._noise_pattern.state_prepare_error_channel,
             self._noise_pattern.state_prepare_error_probability, _all=True
@@ -547,24 +323,23 @@ class Chunk(object):
         self.iterate_circuit()
 
     def iterate_circuit(self):
-        """
-        Iterates / Flush circuit of chunk.
+        """ Iterates / Flush circuit of chunk. """
 
-        Returns:
-            cirq.Result
-        """
+        self.save_statevector()
+        res = simulator.run(self, shots=1, memory=True).result()
+        self._circuit_state = res.get_statevector(self)
 
-        result = selected_simulator.simulate(self._circuit, initial_state=self._circuit_state)
-        self._circuit_state = result.final_state_vector
-        self._circuit.moments.clear()
-        return result
+        self.data.clear()
+        self.set_statevector(self._circuit_state)
+        return res
 
-    def deallocate_chunk(self) -> None:
+    def deallocate_chunk(self):
         """ Hard reset the circuit. """
 
-        self._circuit.moments.clear()
+        self.data.clear()
         self._circuit_state = None
-        self._qubit_count -= self._extended_count
+        for _ in range(self._extended_count):
+            self.qubits.pop()
         self._extended_count = 0
 
         self.scramble_qubits(
@@ -585,11 +360,12 @@ class Chunk(object):
         """
 
         if _all:
-            qubits = np.arange(self.qubit_count)
+            qubits = np.arange(self.num_qubits)
 
-        channel = get_channel_gate(method)
-        line_qids = [cirq.LineQid(qubit, dimension=self._dimension) for qubit in qubits]
-        self._circuit.append(channel(percent, dim=self._dimension).on_each(*line_qids))
+        channel = get_channel_gate(method)(percent)
+        for qubit in qubits:
+            for ch in channel.get_gates():
+                self.append(ch(), [qubit], [])
 
     def extend_chunk(self, size: int):
         """
@@ -603,91 +379,61 @@ class Chunk(object):
             List[int]
         """
 
-        base = np.zeros(self._dimension, dtype=complex)
-        base[0] = complex(1, 0)
+        pass
 
-        for i in range(size):
-            self._circuit_state = tensordot(self._circuit_state, base)
-
-        self._extended_count += size
-        self._qubit_count += size
-        return np.arange(self._qubit_count - size, self._qubit_count)
-
-    def apply_transformation(self, gate: cirq.Gate, qubits: Sequence[int], iterate=False):
+    def apply_transformation(self, gate, qubits: Sequence[int], iterate=False):
         """
         Applies gate to qubits on chunk.
 
         Args:
-            gate: Cirq Gate.
+            gate: Qiskit Gate or operator or circuit.
             qubits: List[int].
             iterate: Iterate circuit.
         """
 
-        channel = get_channel_gate(self._noise_pattern.gate_error_channel)
-        line_qids = [cirq.LineQid(qubit, dimension=self._dimension) for qubit in qubits]
+        self.scramble_qubits(
+            qubits, self._noise_pattern.gate_error_channel,
+            self._noise_pattern.gate_error_probability, _all=False
+        )
 
-        self._circuit.append(channel(self._noise_pattern.gate_error_probability, dim=self._dimension).on_each(*line_qids))
-        self._circuit.append(gate.on(*line_qids))
+        self.append(gate, reversed(qubits), [])
 
         if iterate:
             self.iterate_circuit()
 
-    def measure_qubits(self, qubits: Sequence[int], non_destructive=False, measure_dimension=None):
+    def measure_qubits(self, qubits: Sequence[int], non_destructive=False):
         """
         Measure Qubits.
 
         Args:
             qubits: List[int].
             non_destructive: Non-destructive flag.
-            measure_dimension: Measure dimension.
 
         Returns:
              List[int]
         """
 
-        line_qids = [cirq.LineQid(qubit, dimension=self._dimension) for qubit in qubits]
-
-        # Hold old state for non-destructive measurements.
-        old_state = None
-        old_circuit = None
-        if non_destructive:
-            old_state = copy(self._circuit_state)
-            old_circuit = copy(self._circuit)
-
-        # Set measure error channel error.
+        old_state = deepcopy(self._circuit_state)
         if not non_destructive:
             self.scramble_qubits(
                 qubits, self._noise_pattern.measure_error_channel,
                 self._noise_pattern.measure_error_probability, _all=False
             )
 
-        # Add measure OP.
-        self._circuit.append(cirq.measure(*line_qids))
+        self.measure(qubits, qubits)
 
-        # Add scramble after.
         if not non_destructive:
-            self.scramble_qubits(
-                qubits,
-                self._noise_pattern.scramble_channel,
-                0.565, _all=False)
+            self.scramble_qubits(qubits, self._noise_pattern.scramble_channel, 0.56, _all=False)
 
-        # Flush circuit.
-        results = self.iterate_circuit()
-
-        # Regain old state.
         if non_destructive:
             self._circuit_state = old_state
-            self._circuit = old_circuit
 
-        # Set measure dimension.
-        if measure_dimension is None:
-            measure_dimension = self._dimension
-        else:
-            if measure_dimension > self._dimension:
-                measure_dimension = self._dimension
-
-        for key in results.measurements.keys():
-            return results.measurements[key] % measure_dimension
+        to_return = list()
+        results = [int(i) for i in self.iterate_circuit().get_memory()[0]][::-1]
+        for i, res in enumerate(results):
+            if i in qubits:
+                to_return.append(res)
+        return to_return
 
     def reset_qubits(self, qubits: Sequence[int], no_error=False):
         """
@@ -698,25 +444,19 @@ class Chunk(object):
             no_error: Apply spam error flag.
         """
 
-        line_qids = [cirq.LineQid(qubit, dimension=self._dimension) for qubit in qubits]
-        for qid in line_qids:
-            self._circuit.append(cirq.reset(qid))
+        for qubit in qubits:
+            self.append(library.Reset(), [qubit], [])
 
         if not no_error:
-            channel = get_channel_gate(self._noise_pattern.state_prepare_error_channel)
-            self._circuit.append(channel(
-                self._noise_pattern.state_prepare_error_probability,
-                dim=self._dimension
-            ).on_each(*line_qids))
+            self.scramble_qubits(
+                qubits, self._noise_pattern.state_prepare_error_channel,
+                self._noise_pattern.state_prepare_error_probability, _all=False
+            )
 
     def set_allocated(self, flag: bool):
         """ Make sure reset before deallocate. """
 
         self._allocated = flag
-
-    @property
-    def circuit(self) -> cirq.Circuit:
-        return self._circuit
 
     @property
     def circuit_state(self) -> np.ndarray:
@@ -727,43 +467,28 @@ class Chunk(object):
         return self._allocated
 
     @property
-    def dimension(self) -> int:
-        return self._dimension
-
-    @property
-    def qubit_count(self) -> int:
-        return self._qubit_count
-
-    @property
     def index(self) -> int:
         return self._index
 
-    def __str__(self) -> str:
-        text = str()
-        text += "Index: {}, Dim: {}, Qubits: {}".format(self._index, self._dimension, self._qubit_count)
-        return text
 
+# QISKIT BACKEND SLAVE
 
-# CIRQ BACKEND SLAVE
-
-
-class CirqBackendSlave(object):
+class QiskitBackendSlave(object):
     def __init__(
             self, pid: int,
             configuration: config.BackendConfiguration,
-            noise_pattern: noise.NoisePattern
+            noise_: noise.NoisePattern
     ) -> None:
         """
-        Cirq Backend for multiprocessing.
+        Qiskit Backend for multiprocessing.
 
         Args:
             pid: Process id of owner process.
-            configuration: Cirq backend configuration.
-            noise_pattern: Noise pattern for simulation.
+            configuration: Qiskit backend configuration.
+            noise_: Noise pattern for simulation.
         """
-
         self._configuretion = configuration
-        self._noise_pattern = noise_pattern
+        self._noise_pattern = noise_
         self._int_to_static_chunks: Dict[int, Chunk] = dict()
         self._pid = pid
 
@@ -771,18 +496,20 @@ class CirqBackendSlave(object):
         """ Starts preallocate. """
 
         for dim in self._configuretion.frame_config:
-            left_side = 0
-            for value in self._configuretion.frame_config[dim]:
-                for i in range(self._configuretion.frame_config[dim][value]):
-                    key = int("{:0{}d}{:0{}d}".format(
-                        dim, VirtQudit.dim_length, i + left_side, VirtQudit.chunk_length)
-                    )
-                    self._int_to_static_chunks[key] = Chunk(
-                        int("{:0{}d}".format(i + left_side, VirtQudit.chunk_length)),
-                        value, self.noise_pattern,
-                        allocated=False, dimension=dim
-                    )
-                left_side += self.configuretion.frame_config[dim][value]
+            if dim == 2:
+                left_side = 0
+                for value in self._configuretion.frame_config[dim]:
+                    for i in range(self._configuretion.frame_config[dim][value]):
+                        key = int("{:0{}d}".format(
+                            i + left_side, VirtQudit.chunk_length)
+                        )
+                        self._int_to_static_chunks[key] = Chunk(
+                            int("{:0{}d}".format(i + left_side, VirtQudit.chunk_length)),
+                            value, self._noise_pattern, allocated=False
+                        )
+                    left_side += self._configuretion.frame_config[dim][value]
+            else:
+                log("Qiskit backend do not allow higer dimensions.")
 
     def terminate_slave(self):
         """ Terminates backend. """
@@ -791,33 +518,32 @@ class CirqBackendSlave(object):
             self._int_to_static_chunks[chunk_index].deallocate_chunk()
         del self._int_to_static_chunks
 
-    def allocate_qframes(self, frame_size: int, frame_count: int, dimension: int) -> List[List[str]]:
+    def allocate_qframes(self, frame_size: int, frame_count: int) -> List[List[str]]:
         """
         Allocates a qframe.
 
         Args:
             frame_size: Frame size.
             frame_count: Frame count.
-            dimension: Dimension of frames.
 
         Returns:
              List[List[Qubit ID]].
         """
 
         to_return = list()
-        low = int("{:0{}d}{:0{}d}".format(dimension, VirtQudit.dim_length, 0, VirtQudit.chunk_length))
-        high = int("{:0{}d}{:0{}d}".format(
-            dimension, VirtQudit.dim_length,
-            int("9" * VirtQudit.chunk_length), VirtQudit.chunk_length)
-        )
+        low = int("{:0{}d}".format(0, VirtQudit.chunk_length))
+        high = int("{:0{}d}".format(
+            int("9" * VirtQudit.chunk_length),
+            VirtQudit.chunk_length
+        ))
 
         for i in range(low, high):
             current = self._int_to_static_chunks[i]
-            if not current.allocated and current.qubit_count == frame_size:
+            if not current.allocated and current.num_qubits == frame_size:
                 to_return.append([
                     VirtQudit.generate_pointer(
-                        self.pid, dimension, current.index, i
-                    ) for i in range(current.qubit_count)
+                        self.pid, current.index, i
+                    ) for i in range(current.num_qubits)
                 ])
                 current.set_allocated(True)
                 frame_count -= 1
@@ -826,7 +552,7 @@ class CirqBackendSlave(object):
                 break
 
         if frame_count > 1:
-            raise OverflowError("Cirq slave cannot allocate more frame.")
+            raise OverflowError("Qiskit slave backend cannot allocate more frame.")
 
         return to_return
 
@@ -839,8 +565,8 @@ class CirqBackendSlave(object):
         """
 
         for qubit in qubits:
-            _, dim, chunk_val, _ = VirtQudit.qubit_id_resolver(qubit)
-            chunk_index = int(dim + chunk_val)
+            _, chunk_val, _ = VirtQudit.qubit_id_resolver(qubit)
+            chunk_index = int(chunk_val)
             if self._int_to_static_chunks[chunk_index].allocated:
                 self._int_to_static_chunks[chunk_index].deallocate_chunk()
 
@@ -856,18 +582,9 @@ class CirqBackendSlave(object):
             List[QubitID].
         """
 
-        _, dim, chunk_val, _ = VirtQudit.qubit_id_resolver(qubit)
-        chunk = self._int_to_static_chunks[int(dim + chunk_val)]
+        pass
 
-        if not chunk.allocated:
-            raise AttributeError("Chunk {} is not allocated. Extend chunk is failed.".format(chunk.index))
-
-        return_list = list()
-        for index in chunk.extend_chunk(size):
-            return_list.append(VirtQudit.generate_pointer(self.pid, chunk.dimension, chunk.index, index))
-        return return_list
-
-    def apply_transformation(self, gate_id: int, gate_arguments: Sequence, qubits: List[str]):
+    def apply_transformation(self, gate_id: int, gate_arguments: Sequence, qubits: Sequence[str]):
         """
         Applies transformation on qubits.
 
@@ -877,35 +594,34 @@ class CirqBackendSlave(object):
             qubits: Qubits.
         """
 
-        indexes = np.zeros(qubits.__len__())
-        _, dim, chunk_index, qubit_index = VirtQudit.qubit_id_resolver(qubits[0])
-        chunk = self._int_to_static_chunks[int(dim + chunk_index)]
-        indexes[0] = int(qubit_index)
+        indexes = list()
+        _, chunk_index, qubit_index = VirtQudit.qubit_id_resolver(qubits[0])
+        chunk = self._int_to_static_chunks[int(chunk_index)]
+        indexes.append(int(qubit_index))
 
         if not chunk.allocated:
             raise AttributeError("Chunk {} is not allocated. Apply transformation is failed.".format(chunk.index))
 
         for i in range(1, qubits.__len__()):
-            _, dim, chunk_index, qubit_index = VirtQudit.qubit_id_resolver(qubits[i])
-            if self._int_to_static_chunks[int(dim + chunk_index)] != chunk:
+            _, chunk_index, qubit_index = VirtQudit.qubit_id_resolver(qubits[i])
+            if self._int_to_static_chunks[int(chunk_index)] != chunk:
                 raise OverflowError("Qubits must be in same circuit for transformation.")
-            indexes[i] = int(qubit_index)
+            indexes.append(int(qubit_index))
 
         gate = gates.gate_id_to_gate[gate_id](*gate_arguments)
         if gate.qubit_shape != qubits.__len__():
             raise ArithmeticError("Qubit count must be match with gate. {} != {}.".format(gate.qubit_shape, qubits.__len__()))
 
-        gate = cirq.MatrixGate(gate.matrix, qid_shape=(chunk.dimension,) * qubits.__len__())
+        gate = qiskit.extensions.UnitaryGate(gate.matrix, label=gate.gate_name)
         chunk.apply_transformation(gate, indexes, iterate=False)
 
-    def measure_qubits(self, qubits: Sequence[str], non_destructive=False, measure_dimension=None):
+    def measure_qubits(self, qubits: Sequence[str], non_destructive=False):
         """
         Measure Qubits.
 
         Args:
             qubits: List[Qubit ID].
             non_destructive: Non-destructive flag.
-            measure_dimension: Measure dimension.
 
         Returns:
              List[int]
@@ -915,8 +631,8 @@ class CirqBackendSlave(object):
         chunks: Dict[int, List[int]] = dict()
 
         for qubit in qubits:
-            _, dim, chunk_val, index = VirtQudit.qubit_id_resolver(qubit)
-            key = int(dim + chunk_val)
+            _, chunk_val, index = VirtQudit.qubit_id_resolver(qubit)
+            key = int(chunk_val)
 
             try:
                 chunks[key].append(int(index))
@@ -926,7 +642,7 @@ class CirqBackendSlave(object):
 
         for chunk in chunks:
             result = self._int_to_static_chunks[chunk].measure_qubits(
-                chunks[chunk], non_destructive=non_destructive, measure_dimension=measure_dimension
+                chunks[chunk], non_destructive=non_destructive
             )
             results.extend(result)
         return results
@@ -942,9 +658,9 @@ class CirqBackendSlave(object):
         chunks = dict()
 
         for qubit in qubits:
-            pid, dim, chunk_val, index = VirtQudit.qubit_id_resolver(qubit)
+            pid, chunk_val, index = VirtQudit.qubit_id_resolver(qubit)
             qid = int(index)
-            key = int(dim + chunk_val)
+            key = int(chunk_val)
 
             try:
                 chunks[key].append(qid)
@@ -974,9 +690,9 @@ class CirqBackendSlave(object):
         chunks = dict()
 
         for qubit in qubits:
-            pid, dim, chunk_index, qubit_index = VirtQudit.qubit_id_resolver(qubit)
+            pid, chunk_index, qubit_index = VirtQudit.qubit_id_resolver(qubit)
             qid = int(qubit_index)
-            key = int(dim + chunk_index)
+            key = int(chunk_index)
 
             try:
                 chunks[key].append(qid)
@@ -1028,7 +744,7 @@ class CirqBackendSlave(object):
             in_queue: multiprocessing.SimpleQueue
     ):
         """
-        Process runner of cirq backends.
+        Process runner of Qiskit backends.
 
         Args:
             pid_index: Index of this pid.
@@ -1047,7 +763,7 @@ class CirqBackendSlave(object):
 
             out_queue.put([pid_index, _command, _message])
 
-        cb = CirqBackendSlave(pid_index, configuration, noise_)
+        cb = QiskitBackendSlave(pid_index, configuration, noise_)
         cb.prepair_slave()
 
         log("Process-{}: Circuits: {}".format(pid_index, cb.configuretion.frame_config))
@@ -1075,8 +791,7 @@ class CirqBackendSlave(object):
             elif command == ProcessMessages.Request.ALLOCATE_QFRAME[0]:
                 frame_size = message[0]
                 frame_count = message[1]
-                dimension = message[2]
-                qubits = cb.allocate_qframes(frame_size, frame_count, dimension)
+                qubits = cb.allocate_qframes(frame_size, frame_count)
 
                 if report:
                     put_message(ProcessMessages.Respond.ALLOCATE_QFRAME_DONE, qubits)
@@ -1091,13 +806,8 @@ class CirqBackendSlave(object):
                 log("Process-{}: Deallocate Frame ({}) -> {} ... {}".format(pid_index, qubits.__len__(), qubits[0], qubits[-1]))
 
             elif command == ProcessMessages.Request.EXTEND_CIRCUIT[0]:
-                qubit = message[0]
-                size = message[1]
-                qubits = cb.extend_chunk(qubit, size)
-
                 if report:
-                    put_message(ProcessMessages.Respond.EXTEND_CIRCUIT_DONE, qubits)
-                log("Process-{}: Extend circuit ({}) -> {} ... {}".format(pid_index, qubits.__len__(), qubits[0], qubits[-1]))
+                    put_message(ProcessMessages.Respond.EXTEND_CIRCUIT_DONE, [0])
 
             elif command == ProcessMessages.Request.APPLY_GATE[0]:
                 gate_id = message[0]
@@ -1152,18 +862,17 @@ class CirqBackendSlave(object):
                 raise ValueError("Cirq backend slave runner cannot recognize the command: {}?".format(command))
 
 
-# CIRQ BACKEND MASTER
+# QISKIT BACKEND MASTER
 
-
-class CirqBackend(Backend):
+class QiskitBackend(Backend):
     def __init__(
             self, configuration: config.BackendConfiguration,
             noise_pattern: noise.NoisePattern) -> None:
         """
-        Cirq Backend.
+        Qiskit Backend.
 
         Args:
-            configuration: Cirq backend configuration.
+            configuration: Qiskit backend configuration.
             noise_pattern: Noise pattern for simulation.
         """
 
@@ -1178,7 +887,7 @@ class CirqBackend(Backend):
         for i in range(configuration.process_count):
             q = multiprocessing.SimpleQueue()
             p = multiprocessing.Process(
-                target=CirqBackendSlave.run_slave,
+                target=QiskitBackendSlave.run_slave,
                 args=(i + 1, configuration, noise_pattern, self.income_queue, q),
                 daemon=True
             )
@@ -1204,7 +913,7 @@ class CirqBackend(Backend):
     def start_backend(self) -> bool:
         """ Starts the processes. """
 
-        log("Cirq backend initialized with {} process.".format(self.configuration.process_count))
+        log("Qiskit backend initialized with {} process.".format(self.configuration.process_count))
         for process in self.processes:
             process.start()
 
@@ -1212,7 +921,7 @@ class CirqBackend(Backend):
             index, command, _ = self.income_queue.get()
             if command != ProcessMessages.Respond.PROCESS_PREPAIR_DONE:
                 raise ValueError(
-                    "Cirq backend process {}'s respond is not expected. "
+                    "Qiskit backend process {}'s respond is not expected. "
                     "Expected {}".format(index, ProcessMessages.Respond.PROCESS_PREPAIR_DONE)
                 )
             log("Process {} is returned prepair message as expected.".format(index))
@@ -1224,7 +933,7 @@ class CirqBackend(Backend):
             for _ in self.processes:
                 pid, command, message = self.income_queue.get()
                 if command != ProcessMessages.Respond.PROCESS_PREPAIR_DONE:
-                    raise ValueError("Cirq master backend expected prepair done  message but got {}.".format(command))
+                    raise ValueError("Qiskit master backend expected prepair done  message but got {}.".format(command))
         return True
 
     def terminate_backend(self):
@@ -1243,19 +952,19 @@ class CirqBackend(Backend):
             for _ in self.processes:
                 pid, command, message = self.income_queue.get()
                 if command != ProcessMessages.Respond.TERMINATE_SLAVE_DONE:
-                    raise ValueError("Cirq master backend expected terminate done  message but got {}.".format(command))
+                    raise ValueError("Qiskit master backend expected terminate done  message but got {}.".format(command))
 
         self.income_queue = None
-        log("Cirq backend master terminated.")
+        log("Qiskit backend master terminated.")
 
-    def figure_allocation(self, frame_size: int, frame_count: int, dimension: int) -> Dict[multiprocessing.Process, int]:
+    def figure_allocation(self, frame_size: int, frame_count: int, dimension=2) -> Dict[multiprocessing.Process, int]:
         """
         Figures allocation places.
 
         Args:
             frame_size: Frame size.
             frame_count: Frame count.
-            dimension:  Dimension.
+            dimension: 2.
         """
 
         process_to_size: Dict[multiprocessing.Process, int] = dict()
@@ -1265,17 +974,17 @@ class CirqBackend(Backend):
             change_happen = False
             for process in self.process_to_frame:
                 try:
-                    _ = self.process_to_frame[process][dimension]
+                    _ = self.process_to_frame[process][2]
                 except KeyError:
                     pass
                 else:
                     try:
-                        _ = self.process_to_frame[process][dimension][frame_size]
+                        _ = self.process_to_frame[process][2][frame_size]
                     except KeyError:
                         pass
                     else:
-                        if self.process_to_frame[process][dimension][frame_size] > 0:
-                            self.process_to_frame[process][dimension][frame_size] -= 1
+                        if self.process_to_frame[process][2][frame_size] > 0:
+                            self.process_to_frame[process][2][frame_size] -= 1
                             try:
                                 process_to_size[process] += 1
                             except KeyError:
@@ -1287,10 +996,10 @@ class CirqBackend(Backend):
                     break
 
             if not change_happen:
-                log("Cirq master backend cannot allocate {}x{} qframes!".format(org_frame_count, frame_size))
+                log("Qiskit master backend cannot allocate {}x{} qframes!".format(org_frame_count, frame_size))
                 return {}
 
-        log("Cirq master calculates {}x{} qframes allocation.".format(org_frame_count, frame_size))
+        log("Qiskit master calculates {}x{} qframes allocation.".format(org_frame_count, frame_size))
         return process_to_size
 
     def figure_deallocation(self, qubits: Sequence[str]):
@@ -1307,14 +1016,14 @@ class CirqBackend(Backend):
         report = True
         deleted_chunks = list()
         for qubit in qubits:
-            pid, dim, chunk_val, index = VirtQudit.qubit_id_resolver(qubit)
-            chunk_pointer = pid + dim + chunk_val
+            pid, chunk_val, index = VirtQudit.qubit_id_resolver(qubit)
+            chunk_pointer = pid + chunk_val
 
             qubit_found = False
             for frame_size in self._allocate_memory:
                 if qubit in self._allocate_memory[frame_size]:
                     if chunk_pointer not in deleted_chunks:
-                        self.process_to_frame[self.processes[int(pid) - 1]][int(dim)][frame_size] += 1
+                        self.process_to_frame[self.processes[int(pid) - 1]][2][frame_size] += 1
                         deleted_chunks.append(chunk_pointer)
                     self._allocate_memory[frame_size].remove(qubit)
                     qubit_found = True
@@ -1341,15 +1050,9 @@ class CirqBackend(Backend):
 
         Returns:
              List[Qubit ID]
-
-        :arg[0] = dimension
         """
 
-        dimension = 2
-        if args.__len__() > 0:
-            dimension = args[0]
-
-        process_to_frame = self.figure_allocation(frame_size, frame_count, dimension)
+        process_to_frame = self.figure_allocation(frame_size, frame_count)
         if process_to_frame == {}:
             raise OverflowError("Cirq master backend cannot allocate more qubits.")
 
@@ -1359,7 +1062,6 @@ class CirqBackend(Backend):
                 ProcessMessages.Request.ALLOCATE_QFRAME,
                 frame_size,
                 process_to_frame[process],
-                dimension
             )
 
         qubits = list()
@@ -1368,7 +1070,7 @@ class CirqBackend(Backend):
                 pid, command, message = self.income_queue.get()
 
                 if command != ProcessMessages.Respond.ALLOCATE_QFRAME_DONE:
-                    raise ValueError("Cirq master backend expected allocate done message but got {}.".format(command))
+                    raise ValueError("Qiskit master backend expected allocate done message but got {}.".format(command))
                 qubits.extend(message)
 
             for q in qubits:
@@ -1378,7 +1080,7 @@ class CirqBackend(Backend):
                     self._allocate_memory[frame_size] = list()
                     self._allocate_memory[frame_size].extend(q)
 
-            log("Cirq master backend allocates ({}x{}) qubit(s) from {} process(s)."
+            log("Qiskit master backend allocates ({}x{}) qubit(s) from {} process(s)."
                 .format(qubits.__len__(), qubits[0].__len__(), process_to_frame.__len__()))
         return qubits
 
@@ -1392,7 +1094,7 @@ class CirqBackend(Backend):
 
         process_to_qubits: Dict[multiprocessing.Process, List[str]] = dict()
         for qubit in qubits:
-            pid, _, _, _ = VirtQudit.qubit_id_resolver(qubit)
+            pid, _, _ = VirtQudit.qubit_id_resolver(qubit)
 
             try:
                 _ = process_to_qubits[self.processes[int(pid) - 1]]
@@ -1413,7 +1115,7 @@ class CirqBackend(Backend):
                 pid, command, message = self.income_queue.get()
 
                 if command != ProcessMessages.Respond.DEALLOCATE_QFRAME_DONE:
-                    raise ValueError("Cirq master backend expected deallocate done message but got {}.".format(command))
+                    raise ValueError("Qiskit master backend expected deallocate done message but got {}.".format(command))
 
         return self.figure_deallocation(qubits)
 
@@ -1429,7 +1131,7 @@ class CirqBackend(Backend):
             List[Qubit ID].
         """
 
-        pid, dim, chunk_value, index = VirtQudit.qubit_id_resolver(qubit)
+        pid, chunk_value, index = VirtQudit.qubit_id_resolver(qubit)
         process = self.processes[int(pid) - 1]
         self.put_message(
             process,
@@ -1457,7 +1159,7 @@ class CirqBackend(Backend):
 
         process_to_chunks: Dict[multiprocessing.Process, List[str]] = dict()
         for qubit in qubits:
-            pid, dim, chunk_value, index = VirtQudit.qubit_id_resolver(qubit)
+            pid, chunk_value, index = VirtQudit.qubit_id_resolver(qubit)
 
             try:
                 _ = process_to_chunks[self.processes[int(pid) - 1]]
@@ -1499,12 +1201,11 @@ class CirqBackend(Backend):
             List[int]
 
         :arg[0]: Non-destructive
-        :arg[1]: Measure dimension.
         """
 
         process_to_chunks: Dict[multiprocessing.Process, List[str]] = dict()
         for qubit in qubits:
-            pid, dim, chunk_value, index = VirtQudit.qubit_id_resolver(qubit)
+            pid, chunk_value, index = VirtQudit.qubit_id_resolver(qubit)
 
             try:
                 _ = process_to_chunks[self.processes[int(pid) - 1]]
@@ -1540,7 +1241,7 @@ class CirqBackend(Backend):
 
         process_to_chunks: Dict[multiprocessing.Process, List[str]] = dict()
         for qubit in qubits:
-            pid, dim, chunk_value, index = VirtQudit.qubit_id_resolver(qubit)
+            pid, chunk_value, index = VirtQudit.qubit_id_resolver(qubit)
 
             try:
                 _ = process_to_chunks[self.processes[int(pid) - 1]]
@@ -1596,7 +1297,7 @@ class CirqBackend(Backend):
 
         process_to_chunks: Dict[multiprocessing.Process, List[str]] = dict()
         for qubit in qubits:
-            pid, dim, chunk_value, index = VirtQudit.qubit_id_resolver(qubit)
+            pid, chunk_value, index = VirtQudit.qubit_id_resolver(qubit)
 
             try:
                 _ = process_to_chunks[self.processes[int(pid) - 1]]
@@ -1630,7 +1331,7 @@ class CirqBackend(Backend):
         process_to_chunks: Dict[multiprocessing.Process, List] = dict()
         for gate_instructor in list_of_gates:
             gate_id, gate_args, qubits = gate_instructor[0], gate_instructor[1], gate_instructor[2]
-            pid, dim, chunk_val, index = VirtQudit.qubit_id_resolver(qubits[0])
+            pid, chunk_val, index = VirtQudit.qubit_id_resolver(qubits[0])
 
             try:
                 _ = process_to_chunks[self.processes[int(pid) - 1]]

@@ -27,9 +27,9 @@
 from copy import deepcopy
 
 from QDNS.device.application import Application
-from QDNS.tools import application_tools
-from QDNS.architecture import signal, request
-from QDNS.tools import architecture_tools
+from QDNS.device.tools.application_tools import ApplicationSettings
+from QDNS.interactions import signal, request
+from QDNS.tools.layer import ID_APPLICATION
 
 ROUTE_WAIT_SEND_RESPOND = False
 ROUTE_REQUEST_TIMEOUT = 4.0
@@ -39,7 +39,7 @@ class RoutingLayer(Application):
     label = "Routing"
 
     def __init__(self, host_device, *args):
-        app_settings = application_tools.ApplicationSettings(
+        app_settings = ApplicationSettings(
             static=True, enabled=True, end_device_if_terminated=False,
             bond_end_with_device=False, delayed_start_time=0.01
         )
@@ -96,7 +96,7 @@ class RoutingLayer(Application):
                 raise ModuleNotFoundError("Unknown signal is processed. What {}?".format(signal_))
 
         def handle_request(request_):
-            if request_.target_id != architecture_tools.ID_APPLICATION:
+            if request_.target_id != ID_APPLICATION:
                 raise AttributeError("Exepted device request but got {}.".format(request_.target_id))
 
             if isinstance(request_, request.RoutePackageRequest):

@@ -28,20 +28,21 @@ import time
 from copy import deepcopy
 from datetime import timedelta
 from queue import Queue as TQueue, Empty
-from typing import Optional, Union, Dict
-
+from typing import Union, Dict
 import numpy as np
 
-from QDNS.architecture import request, signal, respond
+from QDNS.device.tools import socket_tools
+from QDNS.device.tools.application_tools import DEFAULT_APPLICATION_NAME
+from QDNS.device.tools.port import Port
+from QDNS.device.tools.port_manager import PortManager, PortManagerSetting
+from QDNS.device.tools import socket_info
+from QDNS.interactions import request, signal, respond
 from QDNS.commands.api import make_channel_error_request
 from QDNS.device.channel import ClassicChannel, QuantumChannel
 from QDNS.rtg_apps.routing import RoutingLayer
-from QDNS.tools import application_tools
-from QDNS.tools import architecture_tools
-from QDNS.tools import communication_tools
-from QDNS.tools import exit_codes
-from QDNS.tools import socket_tools
-from QDNS.tools.simulation_tools import TerminatableThread
+from QDNS.tools import layer, queue_manager, communication
+from QDNS.tools.state_handler import StateHandler
+from QDNS.tools.various_tools import TerminatableThread
 
 PING_CONTROL_JOB = "This thread control ping events"
 CLASSIC_CONTROL_JOB = "This thread controls classic income queue"
@@ -49,27 +50,26 @@ QUANTUM_CONTROL_JOB = "This thread controls quantum income queue"
 REQUEST_CONTROL_JOB = "This thread controls request income queue"
 
 
-class NetworkSocket(architecture_tools.Layer):
-    def __init__(self, host_device, socket_settings: Optional[socket_tools.SocketSettings] = None):
-        self._label = "{}'s socket".format(host_device.label)
+class NetworkSocket(layer.Layer):
+    def __init__(self, host_device, socket_settings: socket_tools.SocketSettings):
+
+        self._label = "Socket"
         self._socket_settings = socket_settings
 
-        if socket_settings is None:
-            self._socket_settings = socket_tools.default_socket_settings
-
-        super(NetworkSocket, self).__init__(
-            architecture_tools.ID_SOCKET, architecture_tools.THREAD_LAYER,
-            self._label, layer_settings=self._socket_settings
-        )
-
-        state_handler = architecture_tools.StateHandler(
-            self.layer_id, False, *socket_tools.socket_states,
+        state_handler = StateHandler(
+            layer.ID_SOCKET[0], False, *socket_tools.socket_states,
             GENERAL_STATE_IS_RUNNING=socket_tools.SOCKET_IS_UP,
             GENERAL_STATE_IS_STOPPED=socket_tools.SOCKET_IS_DOWN,
             GENERAL_STATE_IS_PAUSED=socket_tools.SOCKET_PAUSED,
             GENERAL_STATE_IS_FINISHED=socket_tools.SOCKET_IS_OVER
         )
-        self.set_state_handler(state_handler)
+
+        super(NetworkSocket, self).__init__(
+            layer.ID_SOCKET, layer.THREAD_LAYER, self._label,
+            logger_name="{}::{}".format(host_device.label, self._label),
+            state_handler=state_handler,
+            layer_settings=self._socket_settings
+        )
 
         # Worker threads.
         self.__ping_thread = None
@@ -78,14 +78,15 @@ class NetworkSocket(architecture_tools.Layer):
         self.__receive_quantum_thread = None
 
         self._host_device = host_device
-        self.add_module(socket_tools.PortManager(self.host_device_id, self.max_cc_count, self.max_qc_count))
+        port_man_setting = PortManagerSetting(self.max_cc_count, self.max_qc_count)
+        self.add_module(PortManager(self.host_device_id, port_man_setting))
 
-        self.queue_manager.add_queue(architecture_tools.SIM_REQUEST_QUEUE, None)
-        self.queue_manager.add_queue(architecture_tools.INCOME_CLASSIC_QUEUE, self.port_manager.classic_receive_queue)
-        self.queue_manager.add_queue(architecture_tools.INCOME_QUANTUM_QUEUE, self.port_manager.quantum_receive_queue)
-        self.queue_manager.add_queue(architecture_tools.PING_HANDLE_QUEUE, None)
-        self.queue_manager.add_queue(architecture_tools.PING_REQUEST_QUEUE, None)
-        self.queue_manager.add_queue(architecture_tools.OBSERVER_QUEUE, None)
+        self.queue_manager.add_queue(queue_manager.SIM_REQUEST_QUEUE, None)
+        self.queue_manager.add_queue(queue_manager.INCOME_CLASSIC_QUEUE, self.port_manager.classic_receive_queue)
+        self.queue_manager.add_queue(queue_manager.INCOME_QUANTUM_QUEUE, self.port_manager.quantum_receive_queue)
+        self.queue_manager.add_queue(queue_manager.PING_HANDLE_QUEUE, None)
+        self.queue_manager.add_queue(queue_manager.PING_REQUEST_QUEUE, None)
+        self.queue_manager.add_queue(queue_manager.OBSERVER_QUEUE, None)
 
         if self.host_device.otg_device and self.port_manager.classic_port_count > 2:
             raise AttributeError("Device {} is OTG. Cannot have more than 2 classic connection.".format(self.host_label))
@@ -93,7 +94,7 @@ class NetworkSocket(architecture_tools.Layer):
             raise AttributeError("Device {} is OTG. Cannot have more than 2 quantum connection.".format(self.host_label))
 
         self.routing_app = None
-        self.logger.debug("Socket added to device {} is added with total {} ports.".format(self.host_label, self.port_manager.all_port_count))
+        self.logger.debug("Socket is added with total {} ports.".format(self.port_manager.all_port_count))
 
     def prepair_layer(self, sim_request_queue):
         """
@@ -102,10 +103,10 @@ class NetworkSocket(architecture_tools.Layer):
         """
 
         self.set_threaded_queues(TQueue(), None)
-        self.queue_manager.update_queue(architecture_tools.PING_HANDLE_QUEUE, TQueue())
-        self.queue_manager.update_queue(architecture_tools.PING_REQUEST_QUEUE, TQueue())
-        self.queue_manager.update_queue(architecture_tools.SIM_REQUEST_QUEUE, sim_request_queue)
-        self.queue_manager.update_queue(architecture_tools.OBSERVER_QUEUE, TQueue())
+        self.queue_manager.update_queue(queue_manager.PING_HANDLE_QUEUE, TQueue())
+        self.queue_manager.update_queue(queue_manager.PING_REQUEST_QUEUE, TQueue())
+        self.queue_manager.update_queue(queue_manager.SIM_REQUEST_QUEUE, sim_request_queue)
+        self.queue_manager.update_queue(queue_manager.OBSERVER_QUEUE, TQueue())
         self.port_manager.set_sim_request_queue(sim_request_queue)
 
         self.__receive_classic_thread = TerminatableThread(self.run, args=(CLASSIC_CONTROL_JOB,), daemon=True)
@@ -115,7 +116,7 @@ class NetworkSocket(architecture_tools.Layer):
 
         if self.is_routing_enabled():
             self.routing_app = self.host_device.appman.get_application_from(RoutingLayer.label, _raise=True)
-        self.logger.debug("Socket of device {} prapair layer with jobs.".format(self.host_label))
+        self.logger.debug("Socket prapair layer with jobs.")
 
     def start_socket(self):
         """ Starts socket simulation. """
@@ -171,7 +172,7 @@ class NetworkSocket(architecture_tools.Layer):
 
         elif target_job == PING_CONTROL_JOB:
             ping_time = round(np.random.uniform(self.ping_time * 9 / 10, self.ping_time * 11 / 10), 2)
-            port_states: Dict[socket_tools.Port, bool] = dict()
+            port_states: Dict[Port, bool] = dict()
             refresh_requests = TQueue()
             first_time = True
 
@@ -239,7 +240,7 @@ class NetworkSocket(architecture_tools.Layer):
                             port_dict[port.channel_uuid] = port_states[port]
 
                         respond.RefreshConnectionsRespond(
-                            request_.generic_id, exit_codes.REFRESH_CONNECTION_SUCCESS[0], port_dict, process_time
+                            request_.generic_id, 0, port_dict, process_time
                         ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
                     time.sleep(0.1)
 
@@ -273,7 +274,7 @@ class NetworkSocket(architecture_tools.Layer):
         """
 
         # Layer check.
-        if request_.target_id != architecture_tools.ID_SOCKET:
+        if request_.target_id != layer.ID_SOCKET:
             raise ValueError("Exepted socket request but got {}.".format(request_.target_id))
 
         # State check.
@@ -282,32 +283,32 @@ class NetworkSocket(architecture_tools.Layer):
                 state_changed = self.change_state(socket_tools.SOCKET_IS_UP)
                 if request_.want_respond:
                     respond.ResumeSocketRespond(
-                        request_.generic_id, exit_codes.SOCKET_STATE_CHANGE_SUCCESS[0], state_changed
+                        request_.generic_id, 0, state_changed
                     ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
             else:
                 if request_.want_respond:
                     respond.GenericRespond(
-                        request_.generic_id, exit_codes.SOCKET_IS_DONW_STATE[0], None
+                        request_.generic_id, 0, None
                     ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
             return
 
         # Socket information request.
         if isinstance(request_, request.SocketInformationRequest):
-            ss = socket_tools.SocketInformation(self.state, self.host_device_id, self.socket_settings, self.port_manager)
+            ss = socket_info.SocketInformation(self.state, self.host_device_id, self.socket_settings, self.port_manager)
 
             if request_.want_respond:
                 respond.SocketInformationRespond(
-                    request_.generic_id, exit_codes.GATHER_SOCKET_INFORMATION_SUCCESS[0], ss
+                    request_.generic_id, 0, ss
                 ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
         # Connectivity information request.
         elif isinstance(request_, request.ConnectivityInformationRequest):
-            ci = socket_tools.ConnectivityInformation(self.port_manager, request_.get_uuids)
+            ci = socket_info.ConnectivityInformation(self.port_manager, request_.get_uuids)
 
             if request_.want_respond:
                 respond.ConnectivityInformationRespond(
-                    request_.generic_id, exit_codes.GATHER_CONNECTIVITY_INFORMATION_SUCCESS[0], ci
+                    request_.generic_id, 0, ci
                 ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
         # Port information request.
@@ -317,13 +318,13 @@ class NetworkSocket(architecture_tools.Layer):
             if request_.want_respond:
                 if port_ is None:
                     respond.PortInformationRespond(
-                        request_.generic_id, exit_codes.FIND_PORT_FAILED[0], None
+                        request_.generic_id, 0, None
                     ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
                 else:
-                    pi = socket_tools.PortInformation(port_)
+                    pi = socket_info.PortInformation(port_)
                     respond.PortInformationRespond(
-                        request_.generic_id, exit_codes.GATHER_PORT_INFORMATION_SUCCESS[0], pi
+                        request_.generic_id, 0, pi
                     ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
         # Open communication request.
@@ -332,7 +333,7 @@ class NetworkSocket(architecture_tools.Layer):
 
             if request_.want_respond:
                 respond.OpenCommunicationRespond(
-                    request_.generic_id, exit_codes.CLOSE_COMMUNICATION_SUCCESS[0], state_changed
+                    request_.generic_id, 0, state_changed
                 ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
         # Close communication request.
@@ -341,26 +342,26 @@ class NetworkSocket(architecture_tools.Layer):
 
             if request_.want_respond:
                 respond.CloseCommunicationRespond(
-                    request_.generic_id, exit_codes.CLOSE_COMMUNICATION_FAILED[0], state_changed
+                    request_.generic_id, 0, state_changed
                 ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
         # Activate port request.
         elif isinstance(request_, request.ActivatePortRequest):
             port_ = self.port_manager.get_port(request_.port_key, classic=request_.search_classic, quantum=request_.search_quantum, _raise=False)
 
-            state_changed = None
+            state_changed = False
             if port_ is not None:
                 state_changed = self.port_manager.activate_port(port_)
 
             if request_.want_respond:
                 if port_ is None:
                     respond.ActivatePortRespond(
-                        request_.generic_id, exit_codes.FIND_PORT_FAILED[0], None
+                        request_.generic_id, -1, None
                     ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
                 else:
                     respond.ActivatePortRespond(
-                        request_.generic_id, exit_codes.ACTIVATE_PORT_SUCCESS[0], state_changed
+                        request_.generic_id, 0, state_changed
                     ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
         # Deactivate port request.
@@ -374,12 +375,12 @@ class NetworkSocket(architecture_tools.Layer):
             if request_.want_respond:
                 if port_ is None:
                     respond.DeactivatePortRespond(
-                        request_.generic_id, exit_codes.FIND_PORT_FAILED[0], None
+                        request_.generic_id, 0, None
                     ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
                 else:
                     respond.DeactivatePortRespond(
-                        request_.generic_id, exit_codes.DEACTIVATE_PORT_SUCCESS[0], state_changed
+                        request_.generic_id, 0, state_changed
                     ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
         # Resume socket request.
@@ -388,7 +389,7 @@ class NetworkSocket(architecture_tools.Layer):
 
             if request_.want_respond:
                 respond.ResumeSocketRespond(
-                    request_.generic_id, exit_codes.SOCKET_STATE_CHANGE_SUCCESS[0], state_changed
+                    request_.generic_id, 0, state_changed
                 ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
         # Pause socket request.
@@ -397,17 +398,14 @@ class NetworkSocket(architecture_tools.Layer):
 
             if request_.want_respond:
                 respond.PauseSocketRespond(
-                    request_.generic_id, exit_codes.SOCKET_STATE_CHANGE_SUCCESS[0], state_changed
+                    request_.generic_id, 0, state_changed
                 ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
         # Refresh connections request.
         # ! Ping thread handles this request.
         elif isinstance(request_, request.RefreshConnectionsRequest):
             if self.auto_ping:
-                if request_.want_respond:
-                    respond.RefreshConnectionsRespond(
-                        request_.generic_id, exit_codes.REFRESH_CONNECTION_FAILED[0], None, None
-                    ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
+                self._logger.error("Ping refresh request can be used only when auto-ping is OFF")
             else:
                 self.ping_request_queue.put(request_)
 
@@ -422,12 +420,12 @@ class NetworkSocket(architecture_tools.Layer):
             if request_.want_respond:
                 if port_ is None:
                     respond.UnconnectChannelRespond(
-                        request_.generic_id, exit_codes.FIND_PORT_FAILED[0], None
+                        request_.generic_id, 0, None
                     ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
                 else:
                     respond.UnconnectChannelRespond(
-                        request_.generic_id, exit_codes.UNCONNECT_CHANNEL_SUCCESS[0], state_changed
+                        request_.generic_id, 0, state_changed
                     ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
         # Reconnect channel request.
@@ -441,17 +439,17 @@ class NetworkSocket(architecture_tools.Layer):
             if request_.want_respond:
                 if port_ is None:
                     respond.ReconnectChannelRespond(
-                        request_.generic_id, exit_codes.FIND_PORT_FAILED[0]
+                        request_.generic_id, 0
                     ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
                 else:
                     if state_changed:
                         respond.ReconnectChannelRespond(
-                            request_.generic_id, exit_codes.RECONNECT_CHANNEL_SUCCESS[0]
+                            request_.generic_id, 0
                         ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
                     else:
                         respond.ReconnectChannelRespond(
-                            request_.generic_id, exit_codes.RECONNECT_CHANNEL_FAILED[0]
+                            request_.generic_id, 0
                         ).process(self.host_device.appman.get_application_from(request_.spesific_asker, _raise=True).threaded_respond_queue)
 
         # Send package request.
@@ -475,7 +473,7 @@ class NetworkSocket(architecture_tools.Layer):
         else:
             raise ValueError("Unrecognized request for device {}'socket. What \"{}\"?".format(self.host_label, request_))
 
-    def __handle_incoming_package(self, port: socket_tools.Port, package: communication_tools.Package):
+    def __handle_incoming_package(self, port: Port, package: communication.Package):
         """
         Handles incoming packages.
 
@@ -485,13 +483,13 @@ class NetworkSocket(architecture_tools.Layer):
         """
 
         # Handle ping packages first.
-        if isinstance(package, communication_tools.PingRequestPackage):
+        if isinstance(package, communication.PingRequestPackage):
             if not port.is_unconnected():
                 port.set_target_device_id(package.device_id)
                 port.set_latency(time.time() - package.ping_time)
 
             if not self.host_device.otg_device:
-                self.port_manager.send_classic_information(port, communication_tools.PingRespondPackage(self.host_device_id), check_active=False)
+                self.port_manager.send_classic_information(port, communication.PingRespondPackage(self.host_device_id), check_active=False)
             else:
                 target_port = None
                 for port_ in self.port_manager.active_classic_ports:
@@ -501,7 +499,7 @@ class NetworkSocket(architecture_tools.Layer):
                 self.port_manager.send_classic_information(target_port, package)
             return
 
-        if isinstance(package, communication_tools.PingRespondPackage):
+        if isinstance(package, communication.PingRespondPackage):
             if not port.connected:
                 self.port_manager.reconnect_port(port)
             if not self.host_device.otg_device:
@@ -599,7 +597,7 @@ class NetworkSocket(architecture_tools.Layer):
                         break
                 self.port_manager.send_classic_information(target_port, package)
 
-    def __handle_incoming_qupack(self, port: socket_tools.Port, qupack: communication_tools.Qupack):
+    def __handle_incoming_qupack(self, port: Port, qupack: communication.Qupack):
         """
         Handles incoming qupacks.
 
@@ -609,13 +607,13 @@ class NetworkSocket(architecture_tools.Layer):
         """
 
         # Handle ping packages first.
-        if isinstance(qupack, communication_tools.PingRequestPackage):
+        if isinstance(qupack, communication.PingRequestPackage):
             if not port.is_unconnected():
                 port.set_target_device_id(qupack.device_id)
                 port.set_latency(time.time() - qupack.ping_time)
 
             if not self.host_device.otg_device:
-                self.port_manager.send_quantum_information(port, communication_tools.PingRespondPackage(self.host_device_id), check_active=False)
+                self.port_manager.send_quantum_information(port, communication.PingRespondPackage(self.host_device_id), check_active=False)
             else:
                 target_port = None
                 for port_ in self.port_manager.active_quantum_ports:
@@ -625,7 +623,7 @@ class NetworkSocket(architecture_tools.Layer):
                 self.port_manager.send_quantum_information(target_port, qupack)
             return
 
-        if isinstance(qupack, communication_tools.PingRespondPackage):
+        if isinstance(qupack, communication.PingRespondPackage):
             if not port.connected:
                 self.port_manager.reconnect_port(port)
 
@@ -723,7 +721,7 @@ class NetworkSocket(architecture_tools.Layer):
                         break
                 self.port_manager.send_quantum_information(target_port, qupack)
 
-    def __send_package(self, package: communication_tools.Package, target):
+    def __send_package(self, package: communication.Package, target):
         """
         Network socket tries to send package to target.
 
@@ -745,25 +743,25 @@ class NetworkSocket(architecture_tools.Layer):
                 package_temp = deepcopy(package)
                 package_temp.ip_layer.change_receiver(None)
                 self.port_manager.send_classic_information(port_, package_temp)
-            return exit_codes.BROADCASTED_PACKAGE[0], self.port_manager.active_connected_classic_port_count
+            return 0, self.port_manager.active_connected_classic_port_count
 
         if port_ is None:
             if not routing:
-                return exit_codes.NO_DIRECT_CONNECTION_FOUND[0], 0
+                return 0, 0
             else:
                 if not self.is_routing_enabled():
-                    return exit_codes.ROUTING_IS_DISABLED[0], 0
+                    return 0, 0
                 else:
                     self.routing_app.threaded_request_queue.put(request.RoutePackageRequest(target, package))
-                    return exit_codes.PACKAGE_IS_ROUTING[0], 1
+                    return 0, 1
 
         if not port_.active:
-            return exit_codes.PORT_IS_DISABLE[0], 0
+            return 0, 0
 
         self.port_manager.send_classic_information(port_, package)
-        return exit_codes.PACKAGE_SENDED[0], 1
+        return 0, 1
 
-    def __send_qupack(self, qupack: communication_tools.Qupack, target):
+    def __send_qupack(self, qupack: communication.Qupack, target):
         """
         Network socket tries to send qupack to target.
 
@@ -780,27 +778,27 @@ class NetworkSocket(architecture_tools.Layer):
 
         if port_ is None:
             if not routing:
-                return exit_codes.NO_DIRECT_CONNECTION_FOUND[0], 0
+                return -1, 0
             else:
                 if not self.is_routing_enabled():
-                    return exit_codes.ROUTING_IS_DISABLED[0], 0
+                    return -1, 0
                 else:
                     self.routing_app.threaded_request_queue.put(request.RouteQupackRequest(target, qupack))
-                    return exit_codes.QUPACK_IS_ROUTING[0], qupack.ip_layer.data.__len__()
+                    return 0, qupack.ip_layer.data.__len__()
 
         if not port_.active:
-            return exit_codes.PORT_IS_DISABLE[0], 0
+            return -1, 0
 
         self.port_manager.send_quantum_information(port_, qupack)
-        return exit_codes.QUPACK_SENDED[0], qupack.ip_layer.data.__len__()
+        return 0, qupack.ip_layer.data.__len__()
 
-    def __broadcast_ping_protocol(self) -> Dict[socket_tools.Port, bool]:
+    def __broadcast_ping_protocol(self) -> Dict[Port, bool]:
         """
         Broadcasts ping packages.
         """
 
         to_return_dict = dict()
-        pp = communication_tools.PingRequestPackage(self.host_device_id)
+        pp = communication.PingRequestPackage(self.host_device_id)
         for port in self.port_manager.active_connected_classic_ports:
             to_return_dict[port] = self.port_manager.send_information(port, pp)
 
@@ -809,7 +807,7 @@ class NetworkSocket(architecture_tools.Layer):
 
         return to_return_dict
 
-    def __put_package_to_application(self, application, package: communication_tools.Package):
+    def __put_package_to_application(self, application, package: communication.Package):
         """
         Puts package to the application in this device.
 
@@ -824,7 +822,7 @@ class NetworkSocket(architecture_tools.Layer):
             return
         app.income_package_queue.put(package)
 
-    def __put_qupack_to_application(self, application, port: socket_tools.Port, qupack: communication_tools.Qupack):
+    def __put_qupack_to_application(self, application, port: Port, qupack: communication.Qupack):
         """
         Puts qubit to the applicaiton on this device.
 
@@ -846,7 +844,7 @@ class NetworkSocket(architecture_tools.Layer):
         for i, qubit in enumerate(qubits):
             app.income_qubit_queue.put([port.index, sender, qupack_date + timedelta(microseconds=i*7.5), qubit])
 
-    def connect_classic_channel(self, channel: ClassicChannel) -> Union[socket_tools.Port, None]:
+    def connect_classic_channel(self, channel: ClassicChannel) -> Union[Port, None]:
         """
         Connects channel to port.
         This operation must be done in two steps.
@@ -862,7 +860,7 @@ class NetworkSocket(architecture_tools.Layer):
 
         return self.port_manager.connect_classic_channel(channel)
 
-    def connect_quantum_channel(self, channel: QuantumChannel) -> Union[socket_tools.Port, None]:
+    def connect_quantum_channel(self, channel: QuantumChannel) -> Union[Port, None]:
         """
         Connects channel to port.
         This operation must be done in two steps.
@@ -948,8 +946,8 @@ class NetworkSocket(architecture_tools.Layer):
         return self._host_device.uuid
 
     @property
-    def port_manager(self) -> socket_tools.PortManager:
-        return self.get_module(socket_tools.PortManager.module_name)
+    def port_manager(self) -> PortManager:
+        return self.get_module(PortManager.module_name)
 
     @property
     def income_classic_queue(self):
@@ -961,20 +959,20 @@ class NetworkSocket(architecture_tools.Layer):
 
     @property
     def ping_handle_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.PING_HANDLE_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.PING_HANDLE_QUEUE)
 
     @property
     def ping_request_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.PING_REQUEST_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.PING_REQUEST_QUEUE)
 
     @property
     def sim_request_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.SIM_REQUEST_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.SIM_REQUEST_QUEUE)
 
     @property
     def observer_queue(self):
-        return self.queue_manager.get_queue(architecture_tools.OBSERVER_QUEUE)
+        return self.queue_manager.get_queue(queue_manager.OBSERVER_QUEUE)
 
     @property
     def device_default_app(self):
-        return self.host_device.appman.get_application_from(application_tools.DEFAULT_APPLICATION_NAME, _raise=False)
+        return self.host_device.appman.get_application_from(DEFAULT_APPLICATION_NAME, _raise=False)

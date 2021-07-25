@@ -2,7 +2,7 @@ import threading
 from queue import Queue as TQueue
 from typing import Optional, List, Dict, Union
 
-from QDNS.architecture import signal
+from QDNS.interactions import signal
 from QDNS.device.application import Application
 from QDNS.tools.simulation_tools import TerminatableThread
 from QDNS.tools import application_tools
