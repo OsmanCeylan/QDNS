@@ -100,17 +100,24 @@ class QuantumChannel(Channel):
         """
 
         super(QuantumChannel, self).__init__(device_l, device_r, length)
+
+        # Connect sockets.
         self.port_r = device_r.ntwk_socket.connect_quantum_channel(self)
         self.port_l = device_l.ntwk_socket.connect_quantum_channel(self)
 
+        # Sets queues between sockets.
         self.port_l.set_put_queue(self.port_r.receive_queue)
         self.port_r.set_put_queue(self.port_l.receive_queue)
 
+        # Set ports side.
         self.port_l.set_side(LEFT_SIDE)
         self.port_r.set_side(RIGHT_SIDE)
 
+        # Set ports target device_id.
         self.port_l.set_target_device_id(self.devR_ID)
         self.port_r.set_target_device_id(self.devL_ID)
+
+        # Calculate altitude.
         self.percentage = default_altitude_formula(self.length)
 
 

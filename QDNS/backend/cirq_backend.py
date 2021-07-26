@@ -540,6 +540,7 @@ class Chunk(object):
         # Iterate circuit for first time and apply state prepare error.
         self._circuit = cirq.Circuit()
         self._circuit_state = None
+
         self.scramble_qubits(
             (), self._noise_pattern.state_prepare_error_channel,
             self._noise_pattern.state_prepare_error_probability, _all=True
@@ -555,8 +556,10 @@ class Chunk(object):
         """
 
         result = selected_simulator.simulate(self._circuit, initial_state=self._circuit_state)
-        self._circuit_state = result.final_state_vector
+        self._circuit_state = result.state_vector()
         self._circuit.moments.clear()
+        line_qids = [cirq.LineQid(i, dimension=self._dimension) for i in range(self._qubit_count)]
+        self._circuit.append(Id(self._dimension).on_each(*line_qids))
         return result
 
     def deallocate_chunk(self) -> None:

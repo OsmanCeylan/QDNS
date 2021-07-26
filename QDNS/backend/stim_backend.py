@@ -378,12 +378,14 @@ class StimBackend(Backend):
         :arg[0] => Non-destructive.
         """
 
-        non_destructive = args[0]
+        non_destructive = args[0] if args.__len__() > 0 else False
         indexes = [VirtQudit.qubit_id_resolver(i) for i in qubits]
 
         if not non_destructive:
-            self.scramble_qubits(self.noise_pattern.measure_error_channel, qubits,
-                                 self.noise_pattern.measure_error_probability)
+            self.scramble_qubits(
+                self.noise_pattern.measure_error_channel, qubits,
+                self.noise_pattern.measure_error_probability
+            )
 
         to_return = [int(i) for i in tableau_simulator.measure_many(*indexes)]
         if not non_destructive:

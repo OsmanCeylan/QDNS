@@ -159,7 +159,7 @@ class Process(multiprocessing.Process, layer.Layer):
     def check_finalize(self):
         """ Checks if process job is done in loop. """
 
-        time.sleep(1.0)
+        time.sleep(1)
         while 1:
             excepted_states = (tools.MINER_IS_RUNNING,)
             if self.state in excepted_states and self.is_miner_endable():

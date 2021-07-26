@@ -78,9 +78,12 @@ class NetworkSocket(layer.Layer):
         self.__receive_quantum_thread = None
 
         self._host_device = host_device
+
+        # Add port manager
         port_man_setting = PortManagerSetting(self.max_cc_count, self.max_qc_count)
         self.add_module(PortManager(self.host_device_id, port_man_setting))
 
+        # Initialize queues.
         self.queue_manager.add_queue(queue_manager.SIM_REQUEST_QUEUE, None)
         self.queue_manager.add_queue(queue_manager.INCOME_CLASSIC_QUEUE, self.port_manager.classic_receive_queue)
         self.queue_manager.add_queue(queue_manager.INCOME_QUANTUM_QUEUE, self.port_manager.quantum_receive_queue)
@@ -102,6 +105,7 @@ class NetworkSocket(layer.Layer):
         Must call before its simulation.
         """
 
+        # Set out queues.
         self.set_threaded_queues(TQueue(), None)
         self.queue_manager.update_queue(queue_manager.PING_HANDLE_QUEUE, TQueue())
         self.queue_manager.update_queue(queue_manager.PING_REQUEST_QUEUE, TQueue())
@@ -109,11 +113,13 @@ class NetworkSocket(layer.Layer):
         self.queue_manager.update_queue(queue_manager.OBSERVER_QUEUE, TQueue())
         self.port_manager.set_sim_request_queue(sim_request_queue)
 
+        # Set inside queues.
         self.__receive_classic_thread = TerminatableThread(self.run, args=(CLASSIC_CONTROL_JOB,), daemon=True)
         self.__receive_quantum_thread = TerminatableThread(self.run, args=(QUANTUM_CONTROL_JOB,), daemon=True)
         self.__request_thread = TerminatableThread(self.run, args=(REQUEST_CONTROL_JOB,), daemon=True)
         self.__ping_thread = TerminatableThread(self.run, args=(PING_CONTROL_JOB,), daemon=True)
 
+        # Find routing app.
         if self.is_routing_enabled():
             self.routing_app = self.host_device.appman.get_application_from(RoutingLayer.label, _raise=True)
         self.logger.debug("Socket prapair layer with jobs.")
@@ -121,6 +127,7 @@ class NetworkSocket(layer.Layer):
     def start_socket(self):
         """ Starts socket simulation. """
 
+        # Check workers.
         if self.__receive_classic_thread is None:
             raise Exception("Device {}'s socket layer probably did not prepaired.".format(self.host_label))
         if self.__receive_quantum_thread is None:
@@ -128,6 +135,7 @@ class NetworkSocket(layer.Layer):
         if self.__request_thread is None:
             raise Exception("Device {}'s socket layer probably did not prepaired.".format(self.host_label))
 
+        # Start workers.
         self.__request_thread.start()
         self.__receive_classic_thread.start()
         self.__receive_quantum_thread.start()
@@ -139,6 +147,9 @@ class NetworkSocket(layer.Layer):
         self.change_state(socket_tools.SOCKET_IS_UP)
 
     def run(self, target_job):
+        """ Runs the socket. Requires target job. """
+
+        # Request handle job.
         if target_job == REQUEST_CONTROL_JOB:
             while 1:
                 if self.state_handler.is_finished():
@@ -154,6 +165,7 @@ class NetworkSocket(layer.Layer):
                 else:
                     raise AttributeError("Socket of device {} got unrecognized action of {}.".format(self.host_label, action))
 
+        # Classic connection handler job.
         elif target_job == CLASSIC_CONTROL_JOB:
             while 1:
                 if self.state_handler.is_finished():
@@ -162,6 +174,7 @@ class NetworkSocket(layer.Layer):
                 port, package = self.port_manager.get_classic_receive()
                 self.__handle_incoming_package(port, package)
 
+        # Quantum connection handler job.
         elif target_job == QUANTUM_CONTROL_JOB:
             while 1:
                 if self.state_handler.is_finished():
@@ -170,6 +183,7 @@ class NetworkSocket(layer.Layer):
                 port, qupack = self.port_manager.get_quantum_receive()
                 self.__handle_incoming_qupack(port, qupack)
 
+        # Pinging job.
         elif target_job == PING_CONTROL_JOB:
             ping_time = round(np.random.uniform(self.ping_time * 9 / 10, self.ping_time * 11 / 10), 2)
             port_states: Dict[Port, bool] = dict()
@@ -256,9 +270,11 @@ class NetworkSocket(layer.Layer):
             signal_: The signal.
         """
 
+        # End socket signal.
         if isinstance(signal_, signal.DeviceEndSocketSignal):
             self.__end_socket()
 
+        # Terminate socket signal.
         elif isinstance(signal_, signal.TerminateSocketSignal):
             self.terminate_socket()
 
@@ -482,7 +498,7 @@ class NetworkSocket(layer.Layer):
             package: The package.
         """
 
-        # Handle ping packages first.
+        # Handle ping request first.
         if isinstance(package, communication.PingRequestPackage):
             if not port.is_unconnected():
                 port.set_target_device_id(package.device_id)
@@ -499,6 +515,7 @@ class NetworkSocket(layer.Layer):
                 self.port_manager.send_classic_information(target_port, package)
             return
 
+        # Handle ping respond first.
         if isinstance(package, communication.PingRespondPackage):
             if not port.connected:
                 self.port_manager.reconnect_port(port)
@@ -513,13 +530,16 @@ class NetworkSocket(layer.Layer):
                 self.port_manager.send_classic_information(target_port, package)
             return
 
+        # Check if port active.
         if not port.active:
             return
 
+        # Check package ttl.
         if package.is_drop():
             self.logger.warning("A package dropped on device {}'s socket.".format(self.host_label))
             return
 
+        # Check if an application observers traffic.
         if self.host_device.observe_capability:
             app = self.device_default_app
             if app is None:
@@ -531,6 +551,7 @@ class NetworkSocket(layer.Layer):
                     if message == socket_tools.DROP_PACKAGE:
                         return
 
+        # Broadcasting.
         if package.ip_layer.receiver is None:
             if not self.host_device.otg_device:
                 self.__put_package_to_application(package.app_layer.app_label, package)
@@ -542,9 +563,11 @@ class NetworkSocket(layer.Layer):
                         break
                 self.port_manager.send_classic_information(target_port, package)
 
+        # Target is myself.
         elif package.ip_layer.receiver == self.host_label or package.ip_layer.receiver == self.host_uuid:
             self.__put_package_to_application(package.app_layer.app_label, package)
 
+        # Route package.
         else:
             route_data = package.ip_layer.route
             if route_data is None:
@@ -623,6 +646,7 @@ class NetworkSocket(layer.Layer):
                 self.port_manager.send_quantum_information(target_port, qupack)
             return
 
+        # Handle ping packages first.
         if isinstance(qupack, communication.PingRespondPackage):
             if not port.connected:
                 self.port_manager.reconnect_port(port)
@@ -642,8 +666,10 @@ class NetworkSocket(layer.Layer):
         if not port.active:
             return
 
+        # Make channel error request.
         make_channel_error_request(self.host_uuid, port.channel_uuid, qupack.qubits, self.sim_request_queue)
 
+        # Check if an application observers traffic.
         if self.host_device.observe_capability:
             app = self.device_default_app
             if app is None:
@@ -655,6 +681,7 @@ class NetworkSocket(layer.Layer):
                     if message == socket_tools.DROP_PACKAGE:
                         return
 
+        # Broadcasted qubits.
         if qupack.ip_layer.receiver is None:
             if not self.host_device.otg_device:
                 self.__put_qupack_to_application(qupack.app_layer.app_label, port, qupack)
@@ -666,9 +693,11 @@ class NetworkSocket(layer.Layer):
                         break
                 self.port_manager.send_quantum_information(target_port, qupack)
 
+        # Target is myself.
         elif qupack.ip_layer.receiver == self.host_label or qupack.ip_layer.receiver == self.host_uuid:
             self.__put_qupack_to_application(qupack.app_layer.app_label, port, qupack)
 
+        # Route the qubits.
         else:
             route_data = qupack.ip_layer.route
             if route_data is None:
@@ -731,13 +760,18 @@ class NetworkSocket(layer.Layer):
 
         Notes:
             Target can be device label, device uuid, channel uuid or index of port.
+
+        Returns:
+            exit_code[int], send_count[int]
         """
 
+        # Find port.
         port_ = self.port_manager.get_port(target, classic=True, quantum=False, _raise=False)
 
         broadcast = package.ip_layer.broadcast
         routing = package.ip_layer.routing
 
+        # Handle broadcast.
         if broadcast:
             for port_ in self.port_manager.active_connected_classic_ports:
                 package_temp = deepcopy(package)
@@ -745,6 +779,7 @@ class NetworkSocket(layer.Layer):
                 self.port_manager.send_classic_information(port_, package_temp)
             return 0, self.port_manager.active_connected_classic_port_count
 
+        # Route if port not found.
         if port_ is None:
             if not routing:
                 return 0, 0
@@ -755,9 +790,11 @@ class NetworkSocket(layer.Layer):
                     self.routing_app.threaded_request_queue.put(request.RoutePackageRequest(target, package))
                     return 0, 1
 
+        # Port is not active.
         if not port_.active:
             return 0, 0
 
+        # Send.
         self.port_manager.send_classic_information(port_, package)
         return 0, 1
 
@@ -771,11 +808,16 @@ class NetworkSocket(layer.Layer):
 
         Notes:
             Target can be device label, device uuid, channel uuid or index of port.
+
+        Returns:
+            exit_code[int], no_use[int]
         """
 
+        # Find port
         port_ = self.port_manager.get_port(target, classic=False, quantum=True, _raise=False)
         routing = qupack.ip_layer.routing
 
+        # Route qubits.
         if port_ is None:
             if not routing:
                 return -1, 0
@@ -786,9 +828,11 @@ class NetworkSocket(layer.Layer):
                     self.routing_app.threaded_request_queue.put(request.RouteQupackRequest(target, qupack))
                     return 0, qupack.ip_layer.data.__len__()
 
+        # Port is not active.
         if not port_.active:
             return -1, 0
 
+        # Send.
         self.port_manager.send_quantum_information(port_, qupack)
         return 0, qupack.ip_layer.data.__len__()
 
@@ -877,12 +921,16 @@ class NetworkSocket(layer.Layer):
         return self.port_manager.connect_quantum_channel(channel)
 
     def __end_socket(self):
+        """ End scket simulation. """
+
         self.host_device.user_dump_queue.put([self.host_label, "SocketLogs", self.logger.logs])
         self.change_state(socket_tools.SOCKET_IS_OVER)
         self.threaded_request_queue.put(signal.DeviceEndSocketSignal(socket_tools.SOCKET_IS_OVER))
         self.logger.warning("Socket of device {} is ended.".format(self.host_label))
 
     def terminate_socket(self):
+        """ Terminates socket simulation. """
+
         self.host_device.user_dump_queue.put([self.host_label, "SocketLogs", self.logger.logs])
         self.logger.warning("Socket of device {} is terminating...".format(self.host_label))
         self.change_state(socket_tools.SOCKET_IS_OVER)
@@ -899,6 +947,8 @@ class NetworkSocket(layer.Layer):
         self.__ping_thread.terminate()
 
     def is_routing_enabled(self):
+        """ Returns if routing layer enabled. """
+
         return self.socket_settings.is_routing_enabled()
 
     @property

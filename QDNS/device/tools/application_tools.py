@@ -149,7 +149,7 @@ class ApplicationSettings(AnySettings):
 default_application_settings = ApplicationSettings(
     static=False, enabled=True,
     end_device_if_terminated=False,
-    delayed_start_time=0.15
+    delayed_start_time=0.2
 )
 
 

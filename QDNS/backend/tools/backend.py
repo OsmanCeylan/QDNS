@@ -117,7 +117,7 @@ class Backend(object):
 
         pass
 
-    def apply_transformation(self, gate_id, gate_arguments, qubits: Sequence[str], *args):
+    def apply_transformation(self, gate_id: int, gate_arguments, qubits: Sequence[str], *args):
         """
         Applies transformation on qubits.
 
@@ -167,7 +167,7 @@ class Backend(object):
 
         pass
 
-    def process_channel_error(self, qubits, percent: float):
+    def process_channel_error(self, qubits: Sequence[str], percent: float):
         """
         Process channel error.
 

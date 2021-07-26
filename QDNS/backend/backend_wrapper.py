@@ -239,7 +239,7 @@ class BackendWrapper(Module):
         self._logger.debug("Apply channel error percent ({}) -> ({}) qubits".format(percent, qubits.__len__()))
         return to_return
 
-    def apply_serial_transformations(self, list_of_gates, *args):
+    def apply_serial_transformations(self, list_of_gates: Sequence[List], *args):
         """
         Applies list of transformations.
 

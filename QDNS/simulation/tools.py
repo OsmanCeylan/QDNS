@@ -124,6 +124,11 @@ class MinerControllerSettings(ModuleSettings):
             logger_enabled=False, **kwargs
         )
 
+    def change_max_process_count(self, new_value: int):
+        """ Changes max process count for devices. """
+
+        self.change_paramater(self.cpu_core_count_, new_value)
+
     @property
     def max_process_count(self) -> int:
         return self.get_setting(self.cpu_core_count_)
@@ -138,7 +143,7 @@ class MinerControllerSettings(ModuleSettings):
 
 
 default_controller_settings = MinerControllerSettings(
-    MinerControllerSettings.__all_cores__, True, True
+    MinerControllerSettings.__half_cores__, True, True
 )
 
 
@@ -152,7 +157,6 @@ def change_deafault_miner_controller_settings(new_settings: MinerControllerSetti
     default_controller_settings = new_settings
 
 
-# TODO More good results.
 class SimulationResults(object):
     def __init__(self, readings):
         """
@@ -201,3 +205,10 @@ class SimulationResults(object):
         """
 
         return self.readings["SimulationLogs"]
+
+    def backend_logs(self):
+        """
+        Logs of backend wrapper.
+        """
+
+        return self.readings["BackendLogs"]

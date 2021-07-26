@@ -45,7 +45,7 @@ class Network(object):
             devices: Device open list.
 
         Notes:
-            Do not add if device already exists.
+            Does not append if device already exists.
         """
 
         self.device_list: List[Device] = list()
@@ -161,13 +161,6 @@ class Network(object):
         self.classic_channels.append(channel)
         self.classic_network.add_edge(device_l.uuid, device_r.uuid)
 
-    def get_all_devices(self) -> List[Device]:
-        """
-        Gets the device list in network.
-        """
-
-        return self.device_list
-
     def get_classic_channel_route(self, uuid_l, uuid_r):
         """
         Finds classical route.
@@ -182,17 +175,18 @@ class Network(object):
 
         try:
             route = networkx.shortest_path(self.classic_network, source=uuid_l, target=uuid_r)
+        except networkx.NetworkXNoPath:
+            return None
+        else:
             to_delete = list()
             for node in route:
-                for device in self.get_all_devices():
+                for device in self.device_list:
                     if node == device.uuid and device.otg_device:
                         to_delete.append(node)
                         break
             for item in to_delete:
                 route.remove(item)
             return route
-        except networkx.NetworkXNoPath:
-            return None
 
     def get_quantum_channel_route(self, uuid_l, uuid_r):
         """
@@ -208,17 +202,18 @@ class Network(object):
 
         try:
             route = networkx.shortest_path(self.quantum_network, source=uuid_l, target=uuid_r)
+        except networkx.NetworkXNoPath:
+            return None
+        else:
             to_delete = list()
             for node in route:
-                for device in self.get_all_devices():
+                for device in self.device_list:
                     if node == device.uuid and device.otg_device:
                         to_delete.append(node)
                         break
             for item in to_delete:
                 route.remove(item)
             return route
-        except networkx.NetworkXNoPath:
-            return None
 
     def get_device(self, key: Union[int, str, uuid.UUID], _raise=True) -> Union[Device, None]:
         """
@@ -233,7 +228,7 @@ class Network(object):
         """
 
         if isinstance(key, int):
-            for i, device in enumerate(self.get_all_devices()):
+            for i, device in enumerate(self.device_list):
                 if i == key:
                     return device
 
@@ -242,7 +237,7 @@ class Network(object):
             return None
 
         elif isinstance(key, str):
-            for device in self.get_all_devices():
+            for device in self.device_list:
                 if device.label == key or device.uuid == key:
                     return device
 
@@ -251,7 +246,7 @@ class Network(object):
             return None
 
         elif isinstance(key, uuid.UUID):
-            for device in self.get_all_devices():
+            for device in self.device_list:
                 if device.uuid == key:
                     return device
 
@@ -371,3 +366,25 @@ class Network(object):
 
         networkx.draw_circular(self.quantum_network)
         plt.draw()
+
+    def get_all_devices(self) -> List[Device]:
+        """
+        Gets the device list in network.
+        """
+
+        return self.device_list
+
+    def get_active_devices(self) -> List[Device]:
+        """
+        Gets the active devices in network.
+        """
+
+        return [d for d in self.device_list if d.active]
+
+    @property
+    def device_count(self) -> int:
+        return self.device_list.__len__()
+
+    @property
+    def active_device_count(self) -> int:
+        return self.get_active_devices().__len__()

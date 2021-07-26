@@ -1,63 +1,71 @@
-from QDNS.device.device import Device
-from QDNS.device.application import Application
-from QDNS.backend.tools.config import CIRQ_BACKEND
-from QDNS.networking.network import Network
-from QDNS.rtg_apps.qkd import BB84_METHOD
-from QDNS.simulation.kernel import Kernel
-from QDNS.tools import communication
-from QDNS.commands import library
-from QDNS.device.tools.socket_tools import SocketSettings
-from QDNS.tools import gates
-
+import QDNS
 import logging
 
 
-def alice_func(app: Application):
-    """
-    al = communication.ApplicationLayer(app.label)
-    il = communication.InternetLayer(app.host_label, "Bob", None, ("000000001", "000000002"), broadcast=False, routing=True)
-    pkg = communication.Package(al, il)
-    req = app._send_package_request("Bob", pkg, want_respond=True)
-    print(app._wait_hinted_next_Trespond(request_id=req.generic_id))
-    """
+def alice_func(app: QDNS.Application):
+    key = app.run_qkd_protocol("Bob", 512, QDNS.E91_METHOD)
+    if key is not None:
+        key = key[0]
+    else:
+        return
 
-    """
-    qubits = app.allocate_qframe(3)
-    app.apply_transformation(gates.HGate(), qubits[0])
-    app.apply_transformation(gates.CXGate(), qubits[0], qubits[1])
-    print(app.measure_qubits(qubits))
-    """
-
-    print(app.run_qkd_protocol("Bob", 64, BB84_METHOD))
+    app.send_classic_data("Bob", key, broadcast=False, routing=True)
 
 
-def bob_func(app: Application):
-    print(app.wait_qkd())
+def bob_func(app: QDNS.Application):
+    key = app.wait_qkd()
+    if key is not None:
+        key = key[0]
+    else:
+        return
+
+    alice_key = app.wait_next_package("Alice").data
+    print("Alice Len: ", alice_key.__len__())
+    print("Bob Len: ", key.__len__())
+
+    if alice_key.__len__() != key.__len__():
+        return
+
+    match = 0
+    for i in range(alice_key.__len__()):
+        if alice_key[i] == key[i]:
+            match += 1
+
+    print("Match: ", match, "Percent: ", match / alice_key.__len__())
 
 
-logging.basicConfig(level=logging.DEBUG)
+def test():
+    logging.basicConfig(level=logging.DEBUG)
 
-frames = {
-    2: {
-        1: 64,
-        2: 64,
-        3: 16
-    },
+    frames = {
+        2: {
+            1: 516,
+            2: 516,
+            3: 16
+        },
 
-    3: {
-        1: 8,
-        2: 4
+        3: {
+            1: 8,
+            2: 4
+        }
     }
-}
 
-alice = Device("Alice")
-bob = Device("Bob")
+    alice = QDNS.Device("Alice")
+    bob = QDNS.Device("Bob")
 
-alice.create_new_application(alice_func)
-bob.create_new_application(bob_func)
+    alice.create_new_application(alice_func)
+    bob.create_new_application(bob_func)
 
-net = Network(alice, bob)
-net.add_channels(alice, bob)
+    net = QDNS.Network(alice, bob)
+    net.add_channels(alice, bob)
 
-k = Kernel()
-res = k.simulate(net, CIRQ_BACKEND, frames)
+    k = QDNS.Simulator()
+
+    conf = QDNS.BackendConfiguration(QDNS.CIRQ_BACKEND, 2, frames)
+    res = k.simulate(net, conf)
+
+    print(res.backend_logs())
+
+
+if __name__ == '__main__':
+    test()

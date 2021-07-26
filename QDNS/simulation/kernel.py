@@ -75,48 +75,55 @@ class Kernel(layer.Layer):
         self.add_module(MinerController(self.request_queue, self.user_dump_queue, process_controller_settings))
         self.add_module(BackendWrapper())
 
-        # Prepair modules.
-        self.miner_controller.prepair_module()
-        self.backend_wrapper.prepair_module()
-
         self._running_network: Optional[Network] = None
         self.__end_check_thread = None
 
     def simulate(
-            self, network: Network, backend: str,
-            frame_config: dict, noise_pattern=default_noise_pattern
+            self, network: Network,
+            backend_conf: BackendConfiguration,
+            noise_pattern=default_noise_pattern,
     ) -> tools.SimulationResults:
         """
         Simulation is starting here.
 
         Args:
             network: Network to simulate.
-            backend: Backend flag.
-            frame_config: Frame configuration for backend.
+            backend_conf: Backend Configuration.
             noise_pattern: Noise pattern for backend.
         """
 
-        # TODO Figure core count for simulation of backend.
-        self.logger.info("Starting backend...")
-        conf = BackendConfiguration(backend, 2, frame_config)
+        self.logger.info(
+            "Reserved process counts(devices, backend): {},{}"
+            .format(
+                self.miner_controller.max_process_count,
+                backend_conf.process_count)
+        )
 
-        # Start backend.
-        self.backend_wrapper.start_module(conf, noise_pattern)
+        # Prepair modules.
+        for module in self.modules:
+            module.prepair_module()
 
         # Dump devices to processes.
         self.logger.info("Dumping devices to processes...")
-        for i, dev in enumerate(network.get_all_devices()):
+        for dev in network.get_active_devices():
             self.miner_controller.add_device_to_next(dev)
 
+        # Set running network.
         self._running_network = network
-        self.__end_check_thread = threading.Thread(target=self.__end_checker, daemon=True)
-        self.__end_check_thread.start()
 
-        start_time = time.time()
-        self.change_state(tools.SIMULATION_IS_RUNNING)
+        # Start Backend.
+        self.backend_wrapper.start_module(backend_conf, noise_pattern)
 
         # Start processes.
         self.miner_controller.start_module()
+
+        # Start end check thread.
+        self.__end_check_thread = threading.Thread(target=self.__end_checker, daemon=True)
+        self.__end_check_thread.start()
+
+        # Start simulation.
+        start_time = time.time()
+        self.change_state(tools.SIMULATION_IS_RUNNING)
 
         # Handle requests and signals in loop.
         while 1:
@@ -133,12 +140,15 @@ class Kernel(layer.Layer):
             else:
                 raise ValueError("Unrecognized action for kernel. What \"{}\"?".format(action))
 
-        self.logger.warning("Simulation is ended in {} seconds. Raw {} seconds.".format(
-            time.time() - start_time, time.time() - start_time)
+        self.logger.warning("Simulation is ended in {} seconds. Raw ~{} seconds.".format(
+            time.time() - start_time, time.time() - start_time - 1.5)
         )
 
+        # Generate simulation result.
         dump_list = dict()
         dump_list["SimulationLogs"] = self.logger.logs
+        dump_list["BackendLogs"] = self.backend_wrapper.get_logs()
+
         while not self.user_dump_queue.empty():
             item = self.user_dump_queue.get()
             if self._running_network.get_device(item[0], _raise=False) is not None:
@@ -404,7 +414,7 @@ class Kernel(layer.Layer):
                 if self.miner_controller.is_simulation_endable():
                     self.request_queue.put(signal.EndSimulationSignal())
                     return
-            time.sleep(1)
+            time.sleep(0.25)
 
     def __end_simulation(self):
         """ Ends simulation (rec). """

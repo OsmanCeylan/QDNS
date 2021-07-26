@@ -133,6 +133,7 @@ class Application(layer.Layer):
     def run(self):
         """ Runs the application. """
 
+        # Check if application enabled.
         if self.is_disabled():
             if self.is_static():
                 self.logger.info("Application is disabled. Therefore do not simulate.")
@@ -141,20 +142,22 @@ class Application(layer.Layer):
             self.change_state(application_tools.APPLICATION_IS_FINISHED)
             return
 
+        # Sleep the delay.
         time.sleep(self.application_settings.delayed_start_time)
-        self.logger.info("Application is starting...")
-        time.sleep(0.5)
 
+        # Start application.
+        self.logger.info("Application is starting...")
         start_time = time.time()
         self.change_state(application_tools.APPLICATION_IS_RUNNING)
         self._function(self, *self.arguments)
         end_time = time.time() - start_time
 
+        # End application.
         self.logger.info("Application is ended in {} seconds.".format(end_time))
-        time.sleep(0.5)
         self.change_state(application_tools.APPLICATION_IS_FINISHED)
         self.user_dump_queue.put([self.host_label, "{}Logs".format(self.label), self.logger.logs])
 
+        # End device if application ends.
         if self.bond_end_with_device:
             signal.EndDeviceSignal(self.label).emit(self.device_request_queue)
 
@@ -1475,7 +1478,7 @@ class Application(layer.Layer):
             method: QKD method.
 
         Returns:
-            (key_success[bool], key[List[int]], key_lenght[int]) or None.
+            (key[List[int]], key_lenght[int]) or None.
         """
 
         return QDNS.library.application_run_qkd_protocol(self, target_device, key_lenght, method)
@@ -1488,7 +1491,7 @@ class Application(layer.Layer):
             source: Initiater device identifier.
 
         Returns:
-            (key_success[bool], key[List[int]], key_lenght[int]) or None.
+            (key[List[int]], key_lenght[int]) or None.
         """
 
         return QDNS.library.application_wait_qkd(self, source=source)

@@ -41,13 +41,12 @@ class RoutingLayer(Application):
     def __init__(self, host_device, *args):
         app_settings = ApplicationSettings(
             static=True, enabled=True, end_device_if_terminated=False,
-            bond_end_with_device=False, delayed_start_time=0.01
+            bond_end_with_device=False, delayed_start_time=0.05
         )
 
         super(RoutingLayer, self).__init__(self.label, host_device, self.routing_run, *args, app_settings=app_settings)
 
-    @staticmethod
-    def routing_run(self: Application):
+    def routing_run(self, _):
         """ Routing run loop. """
 
         known_classic_routes = dict()
@@ -58,6 +57,8 @@ class RoutingLayer(Application):
         route_timings = list()
 
         def send_routed_package(route, package):
+            """ Send package along the route. """
+
             route = deepcopy(route)
             route.pop(0)
             package.ip_layer.set_route_data(route)
@@ -68,9 +69,9 @@ class RoutingLayer(Application):
                 if resp is None:
                     self.logger.critical("Route could not get respond from socket.")
                     return
-
-                if resp.exit_code < 0:
-                    self.logger.critical("Routing package probably failed.")
+                if resp[0] < 0:
+                    self.logger.critical("Route could not get respond from socket.")
+                    return
 
         def send_routed_qupack(route, qupack):
             route = deepcopy(route)
@@ -84,10 +85,14 @@ class RoutingLayer(Application):
                     self.logger.critical("Route could not get respond from socket.")
                     return
 
-                if resp.exit_code < 0:
-                    self.logger.critical("Routing qupack probably failed.")
+                if resp[0] < 0:
+                    self.logger.critical("Route could not get respond from socket.")
+                    return
 
         def handle_signal(signal_):
+            """ Handles signals. """
+
+            # Flush route data signal.
             if isinstance(signal_, signal.FlushRouteData):
                 known_quantum_routes.clear()
                 known_classic_routes.clear()
@@ -96,9 +101,12 @@ class RoutingLayer(Application):
                 raise ModuleNotFoundError("Unknown signal is processed. What {}?".format(signal_))
 
         def handle_request(request_):
+            """ Handles requests. """
+
             if request_.target_id != ID_APPLICATION:
                 raise AttributeError("Exepted device request but got {}.".format(request_.target_id))
 
+            # Route package request.
             if isinstance(request_, request.RoutePackageRequest):
                 try:
                     the_route = known_classic_routes[request_.target]
@@ -142,6 +150,7 @@ class RoutingLayer(Application):
                     known_classic_routes[request_.target] = route
                     send_routed_package(route, package)
 
+            # Route qubits request.
             elif isinstance(request_, request.RouteQupackRequest):
                 try:
                     the_route = known_quantum_routes[request_.target]
@@ -187,6 +196,7 @@ class RoutingLayer(Application):
             else:
                 raise ValueError("Unrecognized request for {}. What \"{}\"?".format(self.label, request_))
 
+        # Handle signal/request loop.
         while 1:
             action = self.threaded_request_queue.get()
 

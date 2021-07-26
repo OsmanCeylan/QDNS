@@ -185,6 +185,10 @@ class Device(layer.Layer):
         # Handle idle after simulation.
         if self.idle_after_device_ends:
             self.change_state(device_tools.DEVICE_MAY_END)
+
+            end_time = time.time() - start_time
+            self.logger.warning("Device simulation is idled after {} seconds.".format(end_time))
+
             self.user_dump_queue.put([self.label, "DeviceLogs", self.logger.logs])
             self.__end_applications_simulation(user_applications=True)
 
@@ -249,7 +253,7 @@ class Device(layer.Layer):
     def check_finalize(self):
         """ Checks if device can endable in another thread. """
 
-        time.sleep(2)
+        time.sleep(1)
         while 1:
             excepted_states = (device_tools.DEVICE_IS_RUNNING,)
             if self.state in excepted_states and self.appman.is_device_endable():

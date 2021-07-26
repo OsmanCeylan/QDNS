@@ -1213,7 +1213,7 @@ def application_run_qkd_protocol(application: Application, target_device, key_le
         method: QKD method.
 
     Returns:
-        (key_success[bool], key[List[int]], key_lenght[int]) or None.
+        (key[List[int]], key_lenght[int]) or None.
     """
 
     the_request = api.run_qkd_protocol_request(application, target_device, key_lenght, method, SENDER_SIDE)
@@ -1229,7 +1229,7 @@ def application_run_qkd_protocol(application: Application, target_device, key_le
     if respond_[0] < 0:
         return None
 
-    return True, respond_[1][0], respond_[1][0].__len__()
+    return respond_[1][0], respond_[1][0].__len__()
 
 
 def application_wait_qkd(application: Application, source=None):
@@ -1241,7 +1241,7 @@ def application_wait_qkd(application: Application, source=None):
         source: Initiater device identifier.
 
     Returns:
-        (key_success[bool], key[List[int]], key_lenght[int]) or None.
+        (key[List[int]], key_lenght[int]) or None.
     """
 
     the_request = api.run_qkd_protocol_request(application, source, None, None, RECIEVER_SIDE)
@@ -1256,7 +1256,7 @@ def application_wait_qkd(application: Application, source=None):
     if respond_[0] < 0:
         return None
 
-    return True, respond_[1][0], respond_[1][0].__len__()
+    return respond_[1][0], respond_[1][0].__len__()
 
 
 def application_current_qkd_key(application: Application):

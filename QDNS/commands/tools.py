@@ -24,9 +24,9 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-package_expire_time = 2.0
-qubit_expire_time = 2.0
-respond_expire_time = 2.0
+package_expire_time = 2.5
+qubit_expire_time = 2.5
+respond_expire_time = 2.5
 qstream_capacity = 64
 
 
@@ -109,3 +109,12 @@ def set_respond_expire_time(new: float) -> bool:
 
     else:
         return False
+
+
+def set_qubit_stream_capacity(new: int):
+    """
+    Changes the qubit stream capacity.
+    """
+
+    global qstream_capacity
+    qstream_capacity = new

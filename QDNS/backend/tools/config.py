@@ -26,10 +26,10 @@
 
 
 # Implemented backends.
-CIRQ_BACKEND = "cirq_backend"
-QISKIT_BACKEND = "qiskit_backend"
-SDQS_BACKEND = "sdqs_backend"
-STIM_BACKEND = "stim backend"
+CIRQ_BACKEND = "CIRQ backend"
+QISKIT_BACKEND = "QISKIT backend"
+SDQS_BACKEND = "SDQS backend"
+STIM_BACKEND = "STIM backend"
 
 supported_backends = (
     CIRQ_BACKEND,
@@ -60,7 +60,7 @@ try:
 except ImportError:
     pass
 else:
-    avaible_backends.append(CIRQ_BACKEND)
+    avaible_backends.append(STIM_BACKEND)
 
 try:
     from QDNS.backend.sdqs_backend import SdqsBackend

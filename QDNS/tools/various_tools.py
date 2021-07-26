@@ -32,7 +32,7 @@ import numpy as np
 
 # Dev mode.
 # Opens backends log.
-dev_mode = True
+dev_mode = False
 
 digs = string.digits + string.ascii_letters
 
@@ -123,7 +123,7 @@ def int2base(x, count, base):
 
 
 # 1680 nanometer Rayleigh scattering on Fibre cable.
-def fiber_formula(length, loss_rate=11.3334):
+def fiber_formula(length, loss_rate=11.447):
     total = 1 - np.power(10, ((-1 * length * loss_rate / 100) / 10))
 
     # Add slight randomness.

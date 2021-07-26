@@ -36,7 +36,7 @@ from QDNS.device.tools.application_tools import ApplicationSettings
 BB84_METHOD = "BB84 QKD METHOD"
 E91_METHOD = "E91 QKD METHOD"
 
-BB84_GOODS_FIDELITY = 0.35
+BB84_GOODS_FIDELITY = 0.38
 BB84_SAMPLE_FIDELITY = 0.67
 BB84_SAMPLE_DIVISOR = 7
 
@@ -106,7 +106,7 @@ class QKDLayer(Application):
 
         app_settings = ApplicationSettings(
             static=True, enabled=True, end_device_if_terminated=False,
-            bond_end_with_device=False, delayed_start_time=0.03
+            bond_end_with_device=False, delayed_start_time=0.05
         )
 
         self._current_key = None
@@ -299,7 +299,7 @@ class QKDLayer(Application):
             bob_verificication = package.data
 
             # Check verification.
-            if bob_verificication:
+            if bob_verificication == PTOTOCOL_SUCCESS_MESSAGE:
                 self.logger.debug("QKD verification success. Passed time: {}.".format(self.global_time - start_time))
                 self._current_key = goods
                 respond_success(request_id, app_label)
@@ -439,13 +439,14 @@ class QKDLayer(Application):
             respond_ = self.send_classic_data(target_device, [E91_METHOD, key_lenght], broadcast=False, routing=True)
 
             if respond_ is None:
-                self.logger.debug("QKD failed to sending protocol details to target::None".format(self.host_label))
+                self.logger.debug("QKD failed to sending protocol details to target.")
                 respond_fail(request_id, app_label)
                 return
 
-            # Send entagled pairs to Bob.
-            self.logger.debug("QKD sending epr to target.".format(self.host_label))
+            # Send entagled pairs to target.
+            self.logger.debug("QKD sending epr to target.")
             alice_pairs = self.send_entangle_pairs(key_lenght, target_device, routing=True)
+
             if alice_pairs is None:
                 self.logger.debug("QKD failed to sending epr to target.")
                 respond_fail(request_id, app_label)
@@ -453,8 +454,7 @@ class QKDLayer(Application):
 
             thread_to_qubits[threading.get_ident()] = alice_pairs
 
-            # Alice measurese her pairs.
-            self.logger.debug("QKD measuring its pairs.")
+            # Alice encoded generated bases.
             alice_bases = np.random.choice(["X", "Z"], size=key_lenght)
 
             list_of_gates = list()
@@ -462,7 +462,7 @@ class QKDLayer(Application):
                 if alice_bases[i] == "Z":
                     pass
                 else:
-                    list_of_gates.append([gates.HGate.gate_id, (), (alice_pairs[i],)])
+                    list_of_gates.append([gates.HGate.gate_id, (), (alice_pairs[i], )])
 
             # Apply the gates by serial and measure.
             self.apply_serial_transformations(list_of_gates)
@@ -525,7 +525,7 @@ class QKDLayer(Application):
 
             bob_verificication = package.data
 
-            if bob_verificication:
+            if bob_verificication == PTOTOCOL_SUCCESS_MESSAGE:
                 self.logger.debug("QKD verification success. Passed time: {}.".format(self.global_time - start_time))
                 self._current_key = goods
                 respond_success(request_id, app_label)
@@ -561,15 +561,14 @@ class QKDLayer(Application):
 
             bob_pairs = respond_[0]
 
-            # Bob measures her pairs.
-            self.logger.debug("QKD measuring its pairs.")
+            # Bob encodes generated bases.
             bob_bases = np.random.choice(["X", "Z"], size=key_length)
             list_of_gates = list()
             for i in range(key_length):
                 if bob_bases[i] == "Z":
                     pass
                 else:
-                    list_of_gates.append([gates.HGate.gate_id, (), (bob_pairs[i],)])
+                    list_of_gates.append([gates.HGate.gate_id, (), (bob_pairs[i], )])
 
             # Apply the gates by serial and measure.
             self.apply_serial_transformations(list_of_gates)
