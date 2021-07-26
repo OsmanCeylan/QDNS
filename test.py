@@ -52,16 +52,18 @@ def test():
 
     alice = QDNS.Device("Alice")
     bob = QDNS.Device("Bob")
+    r1 = QDNS.Router("R1")
 
     alice.create_new_application(alice_func)
     bob.create_new_application(bob_func)
 
-    net = QDNS.Network(alice, bob)
-    net.add_channels(alice, bob)
+    net = QDNS.Network(alice, bob, r1)
+    net.add_channels(alice, r1)
+    net.add_channels(r1, bob)
 
     k = QDNS.Simulator()
 
-    conf = QDNS.BackendConfiguration(QDNS.CIRQ_BACKEND, 2, frames)
+    conf = QDNS.BackendConfiguration(QDNS.CIRQ_BACKEND, 1, frames)
     res = k.simulate(net, conf)
 
     print(res.backend_logs())

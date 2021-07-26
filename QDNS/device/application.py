@@ -157,6 +157,9 @@ class Application(layer.Layer):
         self.change_state(application_tools.APPLICATION_IS_FINISHED)
         self.user_dump_queue.put([self.host_label, "{}Logs".format(self.label), self.logger.logs])
 
+        if not self.is_static():
+            self.user_dump_queue.put([self.host_label, "EndTime", end_time])
+
         # End device if application ends.
         if self.bond_end_with_device:
             signal.EndDeviceSignal(self.label).emit(self.device_request_queue)

@@ -140,15 +140,12 @@ class Kernel(layer.Layer):
             else:
                 raise ValueError("Unrecognized action for kernel. What \"{}\"?".format(action))
 
-        self.logger.warning("Simulation is ended in {} seconds. Raw ~{} seconds.".format(
-            time.time() - start_time, time.time() - start_time - 1.5)
-        )
-
         # Generate simulation result.
         dump_list = dict()
         dump_list["SimulationLogs"] = self.logger.logs
         dump_list["BackendLogs"] = self.backend_wrapper.get_logs()
 
+        times = list()
         while not self.user_dump_queue.empty():
             item = self.user_dump_queue.get()
             if self._running_network.get_device(item[0], _raise=False) is not None:
@@ -156,18 +153,28 @@ class Kernel(layer.Layer):
                 app = item[1]
                 message = [item[i] for i in range(2, item.__len__())]
 
-                try:
-                    _ = dump_list[dev]
-                except KeyError:
-                    dump_list[dev] = dict()
+                if app == "EndTime":
+                    times.append(message[0])
+                else:
+                    try:
+                        _ = dump_list[dev]
+                    except KeyError:
+                        dump_list[dev] = dict()
 
-                try:
-                    _ = dump_list[dev][app]
-                except KeyError:
-                    dump_list[dev][app] = list()
+                    try:
+                        _ = dump_list[dev][app]
+                    except KeyError:
+                        dump_list[dev][app] = list()
 
-                dump_list[dev][app].append(message)
+                    dump_list[dev][app].append(message)
 
+        # Find out max time consumed application.
+        try:
+            max_time = max(times) + 0.055
+        except ValueError:
+            max_time = "Unknown"
+
+        self.logger.warning("Simulation is ended in {} seconds. Raw time: {}".format(time.time() - start_time, max_time))
         return tools.SimulationResults(dump_list)
 
     def __handle_signal(self, signal_: signal.SIGNAL):
