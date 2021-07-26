@@ -99,9 +99,9 @@ class Kernel(layer.Layer):
                 backend_conf.process_count)
         )
 
-        # Prepair modules.
-        for module in self.modules:
-            module.prepair_module()
+        # Start Backend.
+        self.backend_wrapper.start_module(backend_conf, noise_pattern)
+        self.miner_controller.prepair_module()
 
         # Dump devices to processes.
         self.logger.info("Dumping devices to processes...")
@@ -110,9 +110,6 @@ class Kernel(layer.Layer):
 
         # Set running network.
         self._running_network = network
-
-        # Start Backend.
-        self.backend_wrapper.start_module(backend_conf, noise_pattern)
 
         # Start processes.
         self.miner_controller.start_module()
@@ -170,7 +167,8 @@ class Kernel(layer.Layer):
 
         # Find out max time consumed application.
         try:
-            max_time = max(times) + 0.055
+            max_time = max(times)
+            max_time += max_time * 0.05
         except ValueError:
             max_time = "Unknown"
 

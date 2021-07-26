@@ -862,19 +862,18 @@ class Application(layer.Layer):
 
         return QDNS.api.generate_entangle_pairs(self, count)
 
-    def _generate_ghz_pair(self, size, *args):
+    def _generate_ghz_pair(self, size, count):
         """
         Generates ghz entangle pair.
 
         Args:
             size: Qubit count in ghz.
-            args: Backend specific arguments.
 
         Returns:
             Request.
         """
 
-        return QDNS.api.generate_ghz_pair(self, size, *args)
+        return QDNS.api.generate_ghz_pair(self, size, count)
 
     def _run_qkd_protocol(self, target_device, key_lenght, method, side):
         """

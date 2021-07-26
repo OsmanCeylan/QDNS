@@ -24,6 +24,8 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+import numpy as np
+
 from QDNS.device.tools import device_tools
 from QDNS.tools.various_tools import fiber_formula
 
@@ -119,6 +121,7 @@ class QuantumChannel(Channel):
 
         # Calculate altitude.
         self.percentage = default_altitude_formula(self.length)
+        self.percentage = np.around(self.percentage, 3)
 
 
 class ClassicChannel(Channel):

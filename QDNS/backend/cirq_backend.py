@@ -29,6 +29,7 @@ from copy import deepcopy, copy
 from typing import List, Dict
 import multiprocessing
 import numpy as np
+import os
 
 from QDNS.tools.various_tools import tensordot, dev_mode
 from QDNS.backend.tools.virt_qubit import VirtQudit
@@ -37,17 +38,16 @@ from QDNS.backend.tools import config
 from QDNS.backend.tools import noise
 from QDNS.tools import gates
 
-
 # Check if cirq avaible.
 try:
     import cirq
 except ImportError:
     cirq = None
     normal_simulator = None
-    cliffor_simulator = None
+    density_simulator = None
 else:
     normal_simulator = cirq.Simulator()
-    cliffor_simulator = cirq.CliffordSimulator()
+    density_simulator = cirq.DensityMatrixSimulator()
 
 selected_simulator = normal_simulator
 
@@ -626,6 +626,9 @@ class Chunk(object):
             iterate: Iterate circuit.
         """
 
+        if not self._allocated:
+            raise AttributeError("Chunk {} is not allocated.".format(self._index))
+
         channel = get_channel_gate(self._noise_pattern.gate_error_channel)
         line_qids = [cirq.LineQid(qubit, dimension=self._dimension) for qubit in qubits]
 
@@ -647,6 +650,9 @@ class Chunk(object):
         Returns:
              List[int]
         """
+
+        if not self._allocated:
+            raise AttributeError("Chunk {} is not allocated.".format(self._index))
 
         line_qids = [cirq.LineQid(qubit, dimension=self._dimension) for qubit in qubits]
 
@@ -1049,6 +1055,8 @@ class CirqBackendSlave(object):
             """
 
             out_queue.put([pid_index, _command, _message])
+
+        np.random.seed(int.from_bytes(os.urandom(4), byteorder='little'))
 
         cb = CirqBackendSlave(pid_index, configuration, noise_)
         cb.prepair_slave()
@@ -1505,8 +1513,9 @@ class CirqBackend(Backend):
         :arg[1]: Measure dimension.
         """
 
+        placement: Dict[int, List[int]] = dict()
         process_to_chunks: Dict[multiprocessing.Process, List[str]] = dict()
-        for qubit in qubits:
+        for i, qubit in enumerate(qubits):
             pid, dim, chunk_value, index = VirtQudit.qubit_id_resolver(qubit)
 
             try:
@@ -1516,6 +1525,12 @@ class CirqBackend(Backend):
 
             process_to_chunks[self.processes[int(pid) - 1]].append(qubit)
 
+            try:
+                _ = placement[int(pid) - 1]
+            except KeyError:
+                placement[int(pid) - 1] = list()
+            placement[int(pid) - 1].append(i)
+
         for process in process_to_chunks:
             self.put_message(
                 process,
@@ -1523,14 +1538,15 @@ class CirqBackend(Backend):
                 process_to_chunks[process], args
             )
 
-        results = list()
+        results = np.zeros(qubits.__len__())
         if ProcessMessages.Request.MEASURE_QUBITS[1]:
             for _ in range(process_to_chunks.keys().__len__()):
                 pid, command, message = self.income_queue.get()
 
                 if command != ProcessMessages.Respond.MEASURE_QUBITS_DONE:
                     raise ValueError("Cirq master backend expected measure done message but got {}.".format(command))
-                results.extend(message)
+                for i, result in enumerate(message):
+                    results[placement[pid - 1][i]] = result
         return results
 
     def reset_qubits(self, qubits: Sequence[str]):

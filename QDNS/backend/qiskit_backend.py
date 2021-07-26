@@ -1203,8 +1203,9 @@ class QiskitBackend(Backend):
         :arg[0]: Non-destructive
         """
 
+        placement: Dict[int, List[int]] = dict()
         process_to_chunks: Dict[multiprocessing.Process, List[str]] = dict()
-        for qubit in qubits:
+        for i, qubit in enumerate(qubits):
             pid, chunk_value, index = VirtQudit.qubit_id_resolver(qubit)
 
             try:
@@ -1214,6 +1215,12 @@ class QiskitBackend(Backend):
 
             process_to_chunks[self.processes[int(pid) - 1]].append(qubit)
 
+            try:
+                _ = placement[int(pid) - 1]
+            except KeyError:
+                placement[int(pid) - 1] = list()
+            placement[int(pid) - 1].append(i)
+
         for process in process_to_chunks:
             self.put_message(
                 process,
@@ -1221,14 +1228,15 @@ class QiskitBackend(Backend):
                 process_to_chunks[process], args
             )
 
-        results = list()
+        results = np.zeros(qubits.__len__())
         if ProcessMessages.Request.MEASURE_QUBITS[1]:
             for _ in range(process_to_chunks.keys().__len__()):
                 pid, command, message = self.income_queue.get()
 
                 if command != ProcessMessages.Respond.MEASURE_QUBITS_DONE:
                     raise ValueError("Cirq master backend expected measure done message but got {}.".format(command))
-                results.extend(message)
+                for i, result in enumerate(message):
+                    results[placement[pid - 1][i]] = result
         return results
 
     def reset_qubits(self, qubits: Sequence[str]):
