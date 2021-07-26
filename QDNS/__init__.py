@@ -1,7 +1,9 @@
 __all__ = ["backend", "commands", "device", "interactions", "networking", "rtg_apps", "simulation", "tools"]
 
 __version__ = 0.55
-__version_string__ = "{}-git-svn20210808".format(__version__)
+__git__ = "-git-svn20210808"
+__rc__ = "-rc"
+__version_string__ = "{}{}{}".format(__version__, __git__, __rc__)
 
 # FROM Backend
 from QDNS.backend.tools.config import (
