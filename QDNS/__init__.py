@@ -1,8 +1,8 @@
 __all__ = ["backend", "commands", "device", "interactions", "networking", "rtg_apps", "simulation", "tools"]
 
 __version__ = 0.55
-__git__ = "-git-svn20210808"
-__rc__ = "-rc"
+__git__ = "-stable"
+__rc__ = ""
 __version_string__ = "{}{}{}".format(__version__, __git__, __rc__)
 
 # FROM Backend

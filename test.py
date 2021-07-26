@@ -3,7 +3,7 @@ import logging
 
 
 def alice_func(app: QDNS.Application):
-    protocol = app.run_qkd_protocol("Bob", 512, QDNS.BB84_METHOD)
+    protocol = app.run_qkd_protocol("Bob", 256, QDNS.E91_METHOD)
 
     if protocol is None:
         return
@@ -36,7 +36,7 @@ def test():
     frames = {
         2: {
             1: int(512 / core_count) + 1,
-            2: 16,
+            2: int(512 / core_count) + 1,
             3: 8
         },
 
@@ -56,16 +56,8 @@ def test():
     net.add_channels(alice, bob)
 
     k = QDNS.Simulator()
-
-    noise = QDNS.NoisePattern(
-        0, 0, 0,
-        QDNS.no_noise_channel,
-        QDNS.no_noise_channel,
-        QDNS.no_noise_channel,
-        QDNS.no_noise_channel
-    )
     conf = QDNS.BackendConfiguration(QDNS.CIRQ_BACKEND, core_count, frames)
-    res = k.simulate(net, conf, noise)
+    res = k.simulate(net, conf)
     print(res.backend_logs())
 
 
