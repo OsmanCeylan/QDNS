@@ -94,11 +94,11 @@
 <li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Sends.html">Communication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="App.html">Multi Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="App.html">Advanged Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Noise.html">Noise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Qkd.html">QKD Layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Features.html">Result</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="Examples.html">Examples</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="Examples.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Examples.Pair.html">Bell Pair Example</a></li>
@@ -109,7 +109,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Modules.html">Modules References</a></li>
 </ul>
 
             
@@ -181,81 +180,7 @@
             
   <section id="superdense-coding-example">
 <h1>Superdense Coding Example<a class="headerlink" href="#superdense-coding-example" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-Examples.sdc"></span><p>In this example, we run simple superdense coding example between Alice and Bob:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QDNS</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">QDNS.tools.gates</span> <span class="k">as</span> <span class="nn">gates</span>
-
-<span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Device</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-        <span class="n">intended_message</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">my_qubit</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">send_entangle_pairs</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Bob&quot;</span><span class="p">)[</span><span class="s2">&quot;my_pairs&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-
-        <span class="k">if</span> <span class="n">intended_message</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">app</span><span class="o">.</span><span class="n">apply_transformation</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">PauliX</span><span class="p">(),</span> <span class="n">my_qubit</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">intended_message</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">app</span><span class="o">.</span><span class="n">apply_transformation</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">PauliZ</span><span class="p">(),</span> <span class="n">my_qubit</span><span class="p">)</span>
-
-        <span class="n">app</span><span class="o">.</span><span class="n">send_quantum</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">my_qubit</span><span class="p">)</span>
-        <span class="n">app</span><span class="o">.</span><span class="n">put_simulation_result</span><span class="p">(</span><span class="n">intended_message</span><span class="p">)</span>
-
-<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Device</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bob_default_app</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-        <span class="n">my_qubit</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wait_next_qubit</span><span class="p">()[</span><span class="s2">&quot;qubit&quot;</span><span class="p">]</span>
-        <span class="n">alice_qubit</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wait_next_qubit</span><span class="p">()[</span><span class="s2">&quot;qubit&quot;</span><span class="p">]</span>
-
-        <span class="n">app</span><span class="o">.</span><span class="n">apply_transformation</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">CXGate</span><span class="p">(),</span> <span class="n">alice_qubit</span><span class="p">,</span> <span class="n">my_qubit</span><span class="p">)</span>
-        <span class="n">app</span><span class="o">.</span><span class="n">apply_transformation</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">HGate</span><span class="p">(),</span> <span class="n">alice_qubit</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">((</span><span class="n">alice_qubit</span><span class="p">,</span> <span class="n">my_qubit</span><span class="p">))[</span><span class="s2">&quot;results&quot;</span><span class="p">]</span>
-        <span class="n">app</span><span class="o">.</span><span class="n">put_simulation_result</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-
-    <span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">()</span>
-    <span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">()</span>
-
-    <span class="n">net</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
-
-    <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="mi">1</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
-        <span class="mi">2</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
-    <span class="p">}</span>
-
-    <span class="n">QDNS</span><span class="o">.</span><span class="n">change_default_cirq_qframe_configuretion</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
-
-    <span class="c1"># Set all noise to 0% or set pattern to no_noise_channel. Both work.</span>
-    <span class="n">my_noise</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">NoisePattern</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.67</span><span class="p">)</span>
-
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">noise_pattern</span><span class="o">=</span><span class="n">my_noise</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">QDNS</span><span class="o">.</span><span class="n">CIRQ_BACKEND</span><span class="p">)</span>
-
-    <span class="n">alice_sended</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">user_dumpings</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">DEFAULT_APPLICATION_NAME</span><span class="p">)</span>
-    <span class="n">bob_measured</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">user_dumpings</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">DEFAULT_APPLICATION_NAME</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Alice sended: &quot;</span><span class="p">,</span> <span class="n">alice_sended</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob measured: &quot;</span><span class="p">,</span> <span class="n">bob_measured</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">WARNING</span><span class="p">:</span><span class="n">qudns</span><span class="p">:</span><span class="n">Simulation</span> <span class="ow">is</span> <span class="n">ended</span> <span class="ow">in</span> <span class="mf">4.505201816558838</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Raw</span> <span class="mf">0.0024522933959962856</span> <span class="n">seconds</span><span class="o">.</span>
-<span class="n">Alice</span> <span class="n">sended</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="n">Bob</span> <span class="n">measured</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div>
+<p>In this example, we run simple superdense coding example between Alice and Bob:</p>
 </section>
 
 

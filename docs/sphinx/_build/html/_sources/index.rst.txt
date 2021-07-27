@@ -23,7 +23,6 @@ Welcome to QDNS's documentation!
    docs/Attack
    docs/Features
    docs/Examples
-   docs/Modules
 
 Indices and tables
 ==================

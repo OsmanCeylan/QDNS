@@ -104,13 +104,12 @@
 <li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Sends.html">Communication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="App.html">Multi Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="App.html">Advanged Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Noise.html">Noise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Qkd.html">QKD Layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Features.html">Result</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Modules.html">Modules References</a></li>
 </ul>
 
             
@@ -240,11 +239,11 @@ For now, we continue with STIM. In the future, we will have a section that expla
 </section>
 <section id="simulate-network">
 <h3>Simulate Network<a class="headerlink" href="#simulate-network" title="Permalink to this headline">¶</a></h3>
-<p>For the last step we need to create a simulation and call simulate.</p>
-<blockquote>
-<div><p>sim = QDNS.Simulator()
-sim.simulate(net, conf)</p>
-</div></blockquote>
+<p>For the last step we need to create a simulation and call simulate:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
+<span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>After the simulation ends, it writes something like this to the screen.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">application</span> <span class="ow">is</span><span class="p">:</span>  <span class="n">default_app</span>
 <span class="n">This</span> <span class="n">application</span> <span class="n">on</span> <span class="n">device</span><span class="p">:</span>  <span class="n">Device</span> <span class="n">Identifier</span><span class="p">:</span> <span class="n">Alice</span><span class="p">,</span> <span class="mi">91</span><span class="n">f8706c</span><span class="o">-</span><span class="n">ad6f</span><span class="o">-</span><span class="mi">4</span><span class="n">f12</span><span class="o">-</span><span class="mi">9</span><span class="n">dab</span><span class="o">-</span><span class="n">e83c8749be00</span>

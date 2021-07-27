@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Features &mdash; QDNS 0.55-stable documentation</title>
+  <title>Result &mdash; QDNS 0.55-stable documentation</title>
   
 
   
@@ -94,19 +94,16 @@
 <li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Sends.html">Communication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="App.html">Multi Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="App.html">Advanged Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Noise.html">Noise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Qkd.html">QKD Layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Features</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-Features.result">Result</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Features.blocklist">Blocklist</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Features.exits">Exit Codes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Features.default">Defaults</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Result</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#dump-user-data">Dump User Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#internal-logging">Internal Logging</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Modules.html">Modules References</a></li>
 </ul>
 
             
@@ -155,7 +152,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Features</li>
+      <li>Result</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -174,128 +171,144 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="features">
-<h1>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h1>
-<p>There are some features on QDNS that will provide convenience to users.</p>
-<section id="module-Features.result">
-<span id="result"></span><h2>Result<a class="headerlink" href="#module-Features.result" title="Permalink to this headline">¶</a></h2>
-<p>QDNS lets users to put values for end of the simulation. Then combining with the logs simulation results generated:</p>
+  <section id="result">
+<h1>Result<a class="headerlink" href="#result" title="Permalink to this headline">¶</a></h1>
+<p>QDNS presents a simulation result object to end of simulation.
+This result object contains all user data dumpings and all internal logging.</p>
+<section id="dump-user-data">
+<h2>Dump User Data<a class="headerlink" href="#dump-user-data" title="Permalink to this headline">¶</a></h2>
+<p>QDNS lets users to put values for end of the simulation:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QDNS</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
-<span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">message</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Hello Bob!&quot;</span><span class="p">,</span> <span class="s2">&quot;I hope no one sees the message.&quot;</span><span class="p">,</span> <span class="s2">&quot;My secret number is: 45&quot;</span><span class="p">]</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">send_classic_data</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">put_simulation_result</span><span class="p">(</span><span class="s2">&quot;Alice sents message to Bob.&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">waiting</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wait_next_package</span><span class="p">()</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span>
+        <span class="c1"># Generate epr wuth Bob.</span>
+        <span class="n">my_pairs</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">send_entangle_pairs</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">my_pairs</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">waiting</span><span class="p">[</span><span class="s2">&quot;exit_code&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob waited for message but time is out.&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">app</span><span class="o">.</span><span class="n">put_simulation_result</span><span class="p">(</span><span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;package&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="c1"># Put results to end of simulation.</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">put_simulation_result</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bob_default_app</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span>
+        <span class="n">my_pairs</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">wait_next_qubits</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">my_pairs</span><span class="p">)</span>
+
+        <span class="c1"># Put results to end of simulation.</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">put_simulation_result</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
 
-    <span class="n">alice</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s1">&#39;Alice&#39;</span><span class="p">)</span>
-    <span class="n">bob</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s1">&#39;Bob&#39;</span><span class="p">)</span>
-
-    <span class="n">alice</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">alice_default_app</span><span class="p">)</span>
-    <span class="n">bob</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">bob_default_app</span><span class="p">)</span>
+    <span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">()</span>
+    <span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">()</span>
 
     <span class="n">net</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
     <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
 
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">QDNS</span><span class="o">.</span><span class="n">STIM_BACKEND</span><span class="p">)</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="mi">16</span><span class="p">}}</span>
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">BackendConfiguration</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">CIRQ_BACKEND</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">frames</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Alice dumped: &quot;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">user_dumpings</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">DEFAULT_APPLICATION_NAME</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob dumped: &quot;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">user_dumpings</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">DEFAULT_APPLICATION_NAME</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulation Logs: &quot;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">simulation_logs</span><span class="p">())</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Device Logs: &quot;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">device_logs</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">))</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
+    <span class="n">sim_results</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
+
+    <span class="n">alice_res</span> <span class="o">=</span> <span class="n">sim_results</span><span class="o">.</span><span class="n">user_dumpings</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">DEFAULT_APPLICATION_NAME</span><span class="p">)</span>
+    <span class="n">bob_res</span> <span class="o">=</span> <span class="n">sim_results</span><span class="o">.</span><span class="n">user_dumpings</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">DEFAULT_APPLICATION_NAME</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Alice measured: &quot;</span><span class="p">,</span> <span class="n">alice_res</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob measured: &quot;</span><span class="p">,</span> <span class="n">bob_res</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Alice</span> <span class="n">dumped</span><span class="p">:</span>  <span class="n">Alice</span> <span class="n">sents</span> <span class="n">message</span> <span class="n">to</span> <span class="n">Bob</span><span class="o">.</span>
-<span class="n">Bob</span> <span class="n">dumped</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;Hello Bob!&#39;</span><span class="p">,</span> <span class="s1">&#39;I hope no one sees the message.&#39;</span><span class="p">,</span> <span class="s1">&#39;My secret number is: 45&#39;</span><span class="p">]</span>
-<span class="n">Simulation</span> <span class="n">Logs</span><span class="p">:</span>  <span class="mi">07</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">05.912981</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Starting</span> <span class="n">backend</span><span class="o">...</span>
-<span class="mi">07</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">05.913002</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Dumping</span> <span class="n">devices</span> <span class="n">to</span> <span class="n">processes</span><span class="o">...</span>
-<span class="mi">07</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">05.913172</span><span class="p">:</span> <span class="n">LOG</span><span class="p">:</span> <span class="n">Kernel</span> <span class="n">changes</span> <span class="n">state</span> <span class="n">to</span> <span class="s2">&quot;simulation is running&quot;</span>
-<span class="mi">07</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">10.420522</span><span class="p">:</span> <span class="n">LOG</span><span class="p">:</span> <span class="n">Kernel</span> <span class="n">changes</span> <span class="n">state</span> <span class="n">to</span> <span class="s2">&quot;simulation is over&quot;</span>
-<span class="mi">07</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">10.420767</span><span class="p">:</span> <span class="n">WARNING</span><span class="p">:</span> <span class="n">Simulation</span> <span class="ow">is</span> <span class="n">ended</span> <span class="ow">in</span> <span class="mf">4.507566213607788</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Raw</span> <span class="mf">0.0075719356536865234</span> <span class="n">seconds</span><span class="o">.</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span><span class="p">:</span><span class="n">CIRQ</span> <span class="n">backend</span> <span class="ow">is</span> <span class="n">prepaired</span> <span class="k">for</span> <span class="n">simulation</span><span class="o">.</span> <span class="n">Prepairation</span> <span class="n">time</span><span class="p">:</span> <span class="o">~</span><span class="mf">0.0381</span> <span class="n">sec</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Alice</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0025</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Bob</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0017</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">:</span><span class="n">Simulation</span> <span class="ow">is</span> <span class="n">ended</span> <span class="ow">in</span> <span class="mf">1.2543</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Real</span> <span class="n">raw</span> <span class="n">time</span><span class="p">:</span> <span class="mf">0.0111</span>
 
-<span class="n">Device</span> <span class="n">Logs</span><span class="p">:</span>  <span class="mi">07</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">05.907662</span><span class="p">:</span> <span class="n">DEBUG</span><span class="p">:</span> <span class="n">Application</span> <span class="n">manager</span> <span class="n">module</span> <span class="n">of</span> <span class="n">device</span> <span class="n">Alice</span> <span class="ow">is</span> <span class="n">created</span><span class="o">.</span>
-<span class="mi">07</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">05.910140</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Application</span> <span class="n">default_app</span> <span class="ow">is</span> <span class="n">created</span> <span class="n">inside</span> <span class="n">of</span> <span class="n">device</span> <span class="n">Alice</span><span class="o">.</span>
-<span class="mi">07</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">05.916640</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Application</span> <span class="n">Manager</span> <span class="n">module</span> <span class="ow">or</span> <span class="n">device</span> <span class="n">Alice</span> <span class="n">setted</span> <span class="mi">3</span> <span class="n">threads</span><span class="o">.</span>
-<span class="mi">07</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">05.916900</span><span class="p">:</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Device</span> <span class="n">Alice</span> <span class="n">preapaired</span> <span class="k">for</span> <span class="n">simulation</span> <span class="k">with</span> <span class="mi">3</span> <span class="n">application</span><span class="o">.</span>
-<span class="mi">07</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">05.917760</span><span class="p">:</span> <span class="n">LOG</span><span class="p">:</span> <span class="n">Alice</span> <span class="n">changes</span> <span class="n">state</span> <span class="n">to</span> <span class="s2">&quot;device is running&quot;</span>
-<span class="mi">07</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">07.920386</span><span class="p">:</span> <span class="n">LOG</span><span class="p">:</span> <span class="n">Alice</span> <span class="n">changes</span> <span class="n">state</span> <span class="n">to</span> <span class="s2">&quot;device may end&quot;</span>
-<span class="mi">07</span><span class="o">/</span><span class="mi">09</span><span class="o">/</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mf">10.420767</span><span class="p">:</span> <span class="n">WARNING</span><span class="p">:</span> <span class="n">Simulation</span> <span class="ow">is</span> <span class="n">ended</span> <span class="ow">in</span> <span class="mf">4.507566213607788</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Raw</span> <span class="mf">0.0075719356536865234</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">Alice</span> <span class="n">measured</span><span class="p">:</span>  <span class="p">[</span><span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">]</span>
+<span class="n">Bob</span> <span class="n">measured</span><span class="p">:</span>  <span class="p">[</span><span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">1.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">]</span>
 </pre></div>
 </div>
 </section>
-<section id="module-Features.blocklist">
-<span id="blocklist"></span><h2>Blocklist<a class="headerlink" href="#module-Features.blocklist" title="Permalink to this headline">¶</a></h2>
-<p>QDNS allows users to create, update or remove blocklist for every application.
-These methods still can be used  in simulation run time:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">block_list</span><span class="o">.</span><span class="n">add_device</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">all_communication</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">all_packages</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">all_protocols</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">all_qubit_streams</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">block_list</span><span class="o">.</span><span class="n">update_device</span><span class="p">(</span><span class="s2">&quot;Charlie&quot;</span><span class="p">,</span> <span class="n">all_communication</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">all_packages</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">all_protocols</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">all_qubit_streams</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">block_list</span><span class="o">.</span><span class="n">remove_device</span><span class="p">(</span><span class="s2">&quot;Charlie&quot;</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accept communication with Bob is: &quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">block_list</span><span class="o">.</span><span class="n">get_all_communication</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Blocked count: &quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">block_list</span><span class="o">.</span><span class="n">blocked_count</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Alice filtered device count: &quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">block_list</span><span class="o">.</span><span class="n">device_count</span><span class="p">)</span>
+<section id="internal-logging">
+<h2>Internal Logging<a class="headerlink" href="#internal-logging" title="Permalink to this headline">¶</a></h2>
+<p>QDNS also holds a special logging in the integral parts of framework.
+This internal logging settings can be changed before simulation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">QDNS</span><span class="o">.</span><span class="n">change_logger_name</span><span class="p">(</span><span class="s2">&quot;QDNS&quot;</span><span class="p">)</span>
+<span class="n">QDNS</span><span class="o">.</span><span class="n">change_logger_format</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">QDNS</span><span class="o">.</span><span class="n">change_default_logger_level</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="module-Features.exits">
-<span id="exit-codes"></span><h2>Exit Codes<a class="headerlink" href="#module-Features.exits" title="Permalink to this headline">¶</a></h2>
-<p>As this documentation has covered so far, many methods that run at simulation time give an exit code.
-With using this code users can identify the problem as shown in the below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">waiting</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wait_next_package</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">waiting</span><span class="p">[</span><span class="s2">&quot;exit_code&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">exit_code_desription</span><span class="p">(</span><span class="n">waiting</span><span class="p">[</span><span class="s2">&quot;exit_code&quot;</span><span class="p">]))</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Wait</span> <span class="n">package</span> <span class="n">timeout</span><span class="o">.</span>
-</pre></div>
-</div>
-</section>
-<section id="module-Features.default">
-<span id="defaults"></span><h2>Defaults<a class="headerlink" href="#module-Features.default" title="Permalink to this headline">¶</a></h2>
-<p>QDNS uses default settings in many places. For most of them, QDNS lets users to change them.
-Some of them is shown in the below:</p>
+<p>Now we run the same exapmle in the previous section.
+But this time we add some lines in the main function:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">QDNS</span><span class="o">.</span><span class="n">change_bb84_values</span><span class="p">(</span><span class="n">goods_fidelity</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">sample_fidelity</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">sample_divisor</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">QDNS</span><span class="o">.</span><span class="n">change_default_application_settings</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">ApplicationSettings</span><span class="p">(</span><span class="n">static</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">end_device_if_terminated</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">delayed_start_time</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-    <span class="n">QDNS</span><span class="o">.</span><span class="n">change_deafault_miner_controller_settings</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">MinerControllerSettings</span><span class="p">(</span><span class="n">max_cpu_core_count</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">use_real_cores</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-    <span class="n">QDNS</span><span class="o">.</span><span class="n">change_default_connection_length</span><span class="p">(</span><span class="mf">10.0</span><span class="p">)</span>  <span class="c1">#10 km.</span>
-    <span class="n">QDNS</span><span class="o">.</span><span class="n">change_logger_name</span><span class="p">(</span><span class="s2">&quot;QDNS&quot;</span><span class="p">)</span>
-    <span class="n">QDNS</span><span class="o">.</span><span class="n">change_default_ping_time</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>  <span class="c1"># Ping time out = 3.0 sec.</span>
-    <span class="n">QDNS</span><span class="o">.</span><span class="n">change_default_device_settings</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">DeviceSettings</span><span class="p">(</span><span class="n">otg_device</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">observe_capability</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idle_after_device_ends</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">start_after_delay</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-    <span class="n">QDNS</span><span class="o">.</span><span class="n">change_default_altitude_formula</span><span class="p">(</span><span class="n">new_method</span><span class="p">)</span>
-    <span class="n">QDNS</span><span class="o">.</span><span class="n">change_default_socket_settings</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">SocketSettings</span><span class="p">(</span><span class="n">max_cc_count</span><span class="o">=</span><span class="mi">99</span><span class="p">,</span> <span class="n">max_qc_count</span><span class="o">=</span><span class="mi">99</span><span class="p">,</span> <span class="n">auto_ping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">clear_route_cache</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">enable_routing</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-
     <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
 
-    <span class="n">alice</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s1">&#39;Alice&#39;</span><span class="p">)</span>
-    <span class="n">bob</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s1">&#39;Bob&#39;</span><span class="p">)</span>
-
-    <span class="n">alice</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">alice_default_app</span><span class="p">)</span>
-    <span class="n">bob</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">bob_default_app</span><span class="p">)</span>
+    <span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">()</span>
+    <span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">()</span>
 
     <span class="n">net</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
     <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
 
+    <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="mi">16</span><span class="p">}}</span>
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">BackendConfiguration</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">CIRQ_BACKEND</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">frames</span><span class="p">)</span>
+
     <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">QDNS</span><span class="o">.</span><span class="n">STIM_BACKEND</span><span class="p">)</span>
+    <span class="n">sim_results</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Simulation Logs: &quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sim_results</span><span class="o">.</span><span class="n">simulation_logs</span><span class="p">())</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Backend Logs: &quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sim_results</span><span class="o">.</span><span class="n">backend_logs</span><span class="p">())</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Alice Device Logs: &quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sim_results</span><span class="o">.</span><span class="n">device_logs</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Alice Default Application Logs: &quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sim_results</span><span class="o">.</span><span class="n">application_logs</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">DEFAULT_APPLICATION_NAME</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Simulation</span> <span class="n">Logs</span><span class="p">:</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.484488</span><span class="p">:</span> <span class="n">Kernel</span> <span class="o">|</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Reserved</span> <span class="n">process</span> <span class="n">counts</span><span class="p">(</span><span class="n">devices</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span> <span class="mi">3</span><span class="p">,</span><span class="mi">4</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.526788</span><span class="p">:</span> <span class="n">Kernel</span> <span class="o">|</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Dumping</span> <span class="n">devices</span> <span class="n">to</span> <span class="n">processes</span><span class="o">...</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.544541</span><span class="p">:</span> <span class="n">Kernel</span> <span class="o">|</span> <span class="n">LOG</span><span class="p">:</span> <span class="p">:</span><span class="n">State</span><span class="p">:</span> <span class="s2">&quot;simulation is not started&quot;</span> <span class="o">---&gt;</span> <span class="s2">&quot;simulation is running&quot;</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mf">01.047818</span><span class="p">:</span> <span class="n">Kernel</span> <span class="o">|</span> <span class="n">LOG</span><span class="p">:</span> <span class="p">:</span><span class="n">State</span><span class="p">:</span> <span class="s2">&quot;simulation is running&quot;</span> <span class="o">---&gt;</span> <span class="s2">&quot;simulation is over&quot;</span>
+
+<span class="n">Backend</span> <span class="n">Logs</span><span class="p">:</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.524106</span><span class="p">:</span> <span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span> <span class="o">|</span> <span class="n">WARNING</span><span class="p">:</span> <span class="n">CIRQ</span> <span class="n">backend</span> <span class="ow">is</span> <span class="n">prepaired</span> <span class="k">for</span> <span class="n">simulation</span><span class="o">.</span> <span class="n">Prepairation</span> <span class="n">time</span><span class="p">:</span> <span class="o">~</span><span class="mf">0.0395</span> <span class="n">sec</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.745018</span><span class="p">:</span> <span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span> <span class="o">|</span> <span class="n">DEBUG</span><span class="p">:</span> <span class="n">Generate</span> <span class="n">GHZ</span> <span class="n">Pairs</span> <span class="p">(</span><span class="mi">10</span><span class="n">x2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="mi">1020000000</span> <span class="o">...</span> <span class="mi">4020000101</span><span class="p">]</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.753237</span><span class="p">:</span> <span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span> <span class="o">|</span> <span class="n">DEBUG</span><span class="p">:</span> <span class="n">Measure</span> <span class="n">qubits</span> <span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="mi">1020000000</span> <span class="o">...</span> <span class="mi">4020000100</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="mf">1.0</span> <span class="o">...</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.753890</span><span class="p">:</span> <span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span> <span class="o">|</span> <span class="n">DEBUG</span><span class="p">:</span> <span class="n">Apply</span> <span class="n">channel</span> <span class="n">error</span> <span class="n">percent</span> <span class="p">(</span><span class="mf">0.026</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="n">qubits</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.757961</span><span class="p">:</span> <span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span> <span class="o">|</span> <span class="n">DEBUG</span><span class="p">:</span> <span class="n">Measure</span> <span class="n">qubits</span> <span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="mi">1020000001</span> <span class="o">...</span> <span class="mi">4020000101</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="mf">1.0</span> <span class="o">...</span> <span class="mf">1.0</span><span class="p">]</span>
+
+<span class="n">Alice</span> <span class="n">Device</span> <span class="n">Logs</span><span class="p">:</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.481388</span><span class="p">:</span> <span class="n">Alice</span> <span class="o">|</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Device</span> <span class="ow">is</span> <span class="n">composed</span><span class="o">.</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.537650</span><span class="p">:</span> <span class="n">Alice</span> <span class="o">|</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Device</span> <span class="ow">is</span> <span class="n">preapaired</span> <span class="k">for</span> <span class="n">simulation</span> <span class="k">with</span> <span class="mi">3</span> <span class="n">application</span><span class="o">.</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.538684</span><span class="p">:</span> <span class="n">Alice</span> <span class="o">|</span> <span class="n">LOG</span><span class="p">:</span> <span class="p">:</span><span class="n">State</span><span class="p">:</span> <span class="s2">&quot;device not started&quot;</span> <span class="o">---&gt;</span> <span class="s2">&quot;device is running&quot;</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mf">00.544802</span><span class="p">:</span> <span class="n">Alice</span> <span class="o">|</span> <span class="n">LOG</span><span class="p">:</span> <span class="p">:</span><span class="n">State</span><span class="p">:</span> <span class="s2">&quot;device is running&quot;</span> <span class="o">---&gt;</span> <span class="s2">&quot;device may end&quot;</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mf">00.545608</span><span class="p">:</span> <span class="n">Alice</span> <span class="o">|</span> <span class="n">WARNING</span><span class="p">:</span> <span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0019</span> <span class="n">seconds</span><span class="o">.</span>
+
+<span class="n">Alice</span> <span class="n">Default</span> <span class="n">Application</span> <span class="n">Logs</span><span class="p">:</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.481868</span><span class="p">:</span> <span class="n">Alice</span><span class="p">::</span><span class="n">default_app</span> <span class="o">|</span> <span class="n">DEBUG</span><span class="p">:</span> <span class="n">Application</span> <span class="ow">is</span> <span class="n">created</span><span class="o">.</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.537624</span><span class="p">:</span> <span class="n">Alice</span><span class="p">::</span><span class="n">default_app</span> <span class="o">|</span> <span class="n">DEBUG</span><span class="p">:</span> <span class="n">Application</span> <span class="n">prepaired</span> <span class="n">successfuly</span><span class="o">.</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.743651</span><span class="p">:</span> <span class="n">Alice</span><span class="p">::</span><span class="n">default_app</span> <span class="o">|</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Application</span> <span class="ow">is</span> <span class="n">starting</span><span class="o">...</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.743703</span><span class="p">:</span> <span class="n">Alice</span><span class="p">::</span><span class="n">default_app</span> <span class="o">|</span> <span class="n">LOG</span><span class="p">:</span> <span class="p">:</span><span class="n">State</span><span class="p">:</span> <span class="s2">&quot;application is not started&quot;</span> <span class="o">---&gt;</span> <span class="s2">&quot;application is running&quot;</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.754323</span><span class="p">:</span> <span class="n">Alice</span><span class="p">::</span><span class="n">default_app</span> <span class="o">|</span> <span class="n">INFO</span><span class="p">:</span> <span class="n">Application</span> <span class="ow">is</span> <span class="n">ended</span> <span class="ow">in</span> <span class="mf">0.0105</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="mi">23</span><span class="p">:</span><span class="mi">49</span><span class="p">:</span><span class="mf">59.754345</span><span class="p">:</span> <span class="n">Alice</span><span class="p">::</span><span class="n">default_app</span> <span class="o">|</span> <span class="n">LOG</span><span class="p">:</span> <span class="p">:</span><span class="n">State</span><span class="p">:</span> <span class="s2">&quot;application is running&quot;</span> <span class="o">---&gt;</span> <span class="s2">&quot;application is finished&quot;</span>
 </pre></div>
 </div>
 </section>

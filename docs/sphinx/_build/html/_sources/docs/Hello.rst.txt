@@ -67,7 +67,7 @@ For now, we continue with STIM. In the future, we will have a section that expla
 Simulate Network
 #####
 
-For the last step we need to create a simulation and call simulate.
+For the last step we need to create a simulation and call simulate::
 
     sim = QDNS.Simulator()
     sim.simulate(net, conf)

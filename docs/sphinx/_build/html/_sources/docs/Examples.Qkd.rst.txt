@@ -1,7 +1,5 @@
 QKD Example
 ===============
 
-.. automodule:: Examples.qkd
-   :members:
-   :undoc-members:
-   :show-inheritance:
+In this example, we generate keys with using the QKD protocol. Then Alice sends an encrypted message to Bob::
+

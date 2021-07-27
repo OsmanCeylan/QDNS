@@ -1,7 +1,5 @@
 Superdense Coding Example
 ===============
 
-.. automodule:: Examples.sdc
-   :members:
-   :undoc-members:
-   :show-inheritance:
+In this example, we run simple superdense coding example between Alice and Bob::
+

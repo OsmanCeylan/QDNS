@@ -94,11 +94,11 @@
 <li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Sends.html">Communication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="App.html">Multi Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="App.html">Advanged Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Noise.html">Noise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Qkd.html">QKD Layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Features.html">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Features.html">Result</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="Examples.html">Examples</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="Examples.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Examples.Pair.html">Bell Pair Example</a></li>
@@ -109,7 +109,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Modules.html">Modules References</a></li>
 </ul>
 
             
@@ -179,77 +178,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="module-Examples.qkd">
-<span id="qkd-example"></span><h1>QKD Example<a class="headerlink" href="#module-Examples.qkd" title="Permalink to this headline">¶</a></h1>
+  <section id="qkd-example">
+<h1>QKD Example<a class="headerlink" href="#qkd-example" title="Permalink to this headline">¶</a></h1>
 <p>In this example, we generate keys with using the QKD protocol. Then Alice sends an encrypted message to Bob:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QDNS</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-
-<span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Device</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-        <span class="n">protocol</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">run_qkd_protocol</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">BB84_METHOD</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">protocol</span><span class="p">[</span><span class="s2">&quot;exit_code&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Key generation is failed.&quot;</span><span class="p">)</span>
-            <span class="k">return</span>
-
-        <span class="n">key</span> <span class="o">=</span> <span class="n">protocol</span><span class="p">[</span><span class="s2">&quot;key&quot;</span><span class="p">]</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Hello Bob! I encrypted this message.&quot;</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">string_encode</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-        <span class="n">app</span><span class="o">.</span><span class="n">send_classic_data</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-
-<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Device</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bob_default_app</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-        <span class="n">protocol</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wait_qkd</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="n">protocol</span><span class="p">[</span><span class="s2">&quot;exit_code&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Key generation is failed.&quot;</span><span class="p">)</span>
-            <span class="k">return</span>
-
-        <span class="n">key</span> <span class="o">=</span> <span class="n">protocol</span><span class="p">[</span><span class="s2">&quot;key&quot;</span><span class="p">]</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wait_next_package</span><span class="p">()[</span><span class="s2">&quot;package&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob recieved message is: &quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob decrypts message: &quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">string_decode</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">message</span><span class="p">))</span>
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-
-    <span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">()</span>
-    <span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">()</span>
-
-    <span class="n">net</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
-
-    <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="mi">1</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
-        <span class="mi">2</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
-    <span class="p">}</span>
-
-    <span class="n">QDNS</span><span class="o">.</span><span class="n">change_default_cirq_qframe_configuretion</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
-
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">QDNS</span><span class="o">.</span><span class="n">CIRQ_BACKEND</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>Bob recieved message is:  xQs RPzQ£ª¡¥P¤¤Q¤¤^
-Bob decrypts message:  Hello!Bob! I encrypted this message.
-WARNING:qudns:Simulation is ended in 4.506694078445435 seconds. Raw 0.003496224212646837 seconds.
-</pre></div>
-</div>
 </section>
 
 
