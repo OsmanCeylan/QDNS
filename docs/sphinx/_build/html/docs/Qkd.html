@@ -1,56 +1,56 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QKD Layer &mdash; QDNS 0.55-stable documentation</title>
   
-  <title>QKD Layer &mdash; QDNS 0.51 documentation</title>
+
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
 
   
   
 
   
+  
 
   
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="QDNS 0.51 documentation" href="../index.html"/>
-        <link rel="next" title="Eavesdropping" href="Attack.html"/>
-        <link rel="prev" title="Noise" href="Noise.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Eavesdropping" href="Attack.html" />
+    <link rel="prev" title="Noise" href="Noise.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -77,24 +77,29 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Design.html">Design Principles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Hello.html">Hello QDNS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="App.html">Application Writing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="App.html">Advanged Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Noise.html">Noise</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">QKD Layer</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-Qkd.generate">Quantum Key Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Qkd.other">Other Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#qkd-methods">QKD Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generating-keys">Generating Keys</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-operations">Other Operations</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
@@ -106,13 +111,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">QDNS</a>
@@ -120,10 +126,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -143,14 +152,14 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>QKD Layer</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/docs/Qkd.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -164,184 +173,201 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="qkd-layer">
+  <section id="qkd-layer">
 <h1>QKD Layer<a class="headerlink" href="#qkd-layer" title="Permalink to this headline">¶</a></h1>
 <p>Each device has an QKD layer. Thanks to this layer, QKD protocol can be run with remote devices in the network.</p>
-<div class="section" id="module-Qkd.generate">
-<span id="quantum-key-generation"></span><h2>Quantum Key Generation<a class="headerlink" href="#module-Qkd.generate" title="Permalink to this headline">¶</a></h2>
-<p>Generating key using QKD layer can be seen in the example below:</p>
+<section id="qkd-methods">
+<h2>QKD Methods<a class="headerlink" href="#qkd-methods" title="Permalink to this headline">¶</a></h2>
+<p>QKD Layer coded to run BB84 and E91 protocols. QDNS allows to change threshold values of protocols.
+Default thresholds are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BB84 Good Bits Fidelity: &quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">BB84_GOODS_FIDELITY</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BB84 Sample Divisor: &quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">BB84_SAMPLE_DIVISOR</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BB84 Sample Fidelity: &quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">BB84_SAMPLE_FIDELITY</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;E91 Sample Divisor: &quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">E91_SAMPLE_FIDELITY</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;E91 Sample Fidelity: &quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">E91_SAMPLE_DIVISOR</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">BB84</span> <span class="n">Good</span> <span class="n">Bits</span> <span class="n">Fidelity</span><span class="p">:</span>  <span class="mf">0.45</span>
+<span class="n">BB84</span> <span class="n">Sample</span> <span class="n">Divisor</span><span class="p">:</span>  <span class="mi">6</span>
+<span class="n">BB84</span> <span class="n">Sample</span> <span class="n">Fidelity</span><span class="p">:</span>  <span class="mf">0.66</span>
+<span class="n">E91</span> <span class="n">Sample</span> <span class="n">Divisor</span><span class="p">:</span>  <span class="mf">0.66</span>
+<span class="n">E91</span> <span class="n">Sample</span> <span class="n">Fidelity</span><span class="p">:</span>  <span class="mi">4</span>
+</pre></div>
+</div>
+<p>With the following method calls we can change the protocol threshold values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># For BB84</span>
+<span class="n">QDNS</span><span class="o">.</span><span class="n">change_bb84_values</span><span class="p">(</span>
+    <span class="n">goods_fidelity</span><span class="o">=</span><span class="mf">0.70</span><span class="p">,</span>
+    <span class="n">sample_fidelity</span><span class="o">=</span><span class="mf">0.55</span><span class="p">,</span>
+    <span class="n">sample_divisor</span><span class="o">=</span><span class="mi">8</span>
+<span class="p">)</span>
+
+<span class="c1"># For E91</span>
+<span class="n">QDNS</span><span class="o">.</span><span class="n">change_e91_values</span><span class="p">(</span>
+    <span class="n">sample_fidelity</span><span class="o">=</span><span class="mf">0.55</span><span class="p">,</span>
+    <span class="n">sample_divisor</span><span class="o">=</span><span class="mi">8</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="generating-keys">
+<h2>Generating Keys<a class="headerlink" href="#generating-keys" title="Permalink to this headline">¶</a></h2>
+<p>Every device have only one QKD layer. So generated keys bounded to the device.
+So all applications on the device uses the same key as long as key is not replaced by request.
+A key generation between devices as simple as:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QDNS</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
+<span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">protocol</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">run_qkd_protocol</span><span class="p">(</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">BB84_METHOD</span><span class="p">)</span>  <span class="c1">#Also supports E91 Method.</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="c1"># Lets try to generate with 256 qubits.</span>
+        <span class="n">operation</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">run_qkd_protocol</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">BB84_METHOD</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">protocol</span><span class="p">[</span><span class="s1">&#39;exit_code&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Generating key is failed.&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">host_label</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Key: &#39;</span><span class="p">,</span> <span class="n">protocol</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">])</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Length: &#39;</span><span class="p">,</span> <span class="n">protocol</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">operation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;QKD is failed to establish.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
 
+        <span class="n">key</span> <span class="o">=</span> <span class="n">operation</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">key_len</span> <span class="o">=</span> <span class="n">operation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Alice Key: &quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="s2">&quot;Len: &quot;</span><span class="p">,</span> <span class="n">key_len</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">waiting</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wait_qkd</span><span class="p">()</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;exit_code&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Generating key is failed.&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">host_label</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Key: &#39;</span><span class="p">,</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">])</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Length: &#39;</span><span class="p">,</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">])</span>
+        <span class="c1"># Basic string encode.</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Hello Bob! This is private message&quot;</span>
+        <span class="n">encoded_message</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">string_encode</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+        <span class="c1"># Send encoded message to Bob.</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">send_classic_data</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">encoded_message</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bob_default_app</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="c1"># Lets request qkd layer for genertion.</span>
+        <span class="n">operation</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">wait_qkd</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">operation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;QKD is failed to establish.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">key</span> <span class="o">=</span> <span class="n">operation</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">key_len</span> <span class="o">=</span> <span class="n">operation</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob Key:&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="s2">&quot;Len: &quot;</span><span class="p">,</span> <span class="n">key_len</span><span class="p">)</span>
+
+        <span class="c1"># Now wait for encoded message from Alice.</span>
+        <span class="n">encoded_message</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">wait_next_package</span><span class="p">()</span><span class="o">.</span><span class="n">data</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob recieves encoded: &quot;</span><span class="p">,</span> <span class="n">encoded_message</span><span class="p">)</span>
+
+        <span class="c1"># Now decode message.</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob decodes message: &quot;</span><span class="p">,</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">string_decode</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">encoded_message</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
 
-    <span class="n">alice</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s1">&#39;Alice&#39;</span><span class="p">)</span>
-    <span class="n">bob</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s1">&#39;Bob&#39;</span><span class="p">)</span>
-
-    <span class="n">alice</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">alice_default_app</span><span class="p">)</span>
-    <span class="n">bob</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">bob_default_app</span><span class="p">)</span>
-
+    <span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">()</span>
+    <span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">()</span>
     <span class="n">net</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
+
+    <span class="c1"># Lets add more length between them.</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mf">15.0</span><span class="p">)</span> <span class="c1">#km</span>
+
+    <span class="c1"># Set the frames. We need total 256*1 frames.</span>
+    <span class="n">core_count</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="p">{</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="mi">256</span> <span class="o">/</span> <span class="n">core_count</span><span class="p">),</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="mi">128</span> <span class="o">/</span> <span class="n">core_count</span><span class="p">),</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">BackendConfiguration</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">CIRQ_BACKEND</span><span class="p">,</span> <span class="n">core_count</span><span class="p">,</span> <span class="n">frames</span><span class="p">)</span>
 
     <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">QDNS</span><span class="o">.</span><span class="n">STIM_BACKEND</span><span class="p">)</span>
-
+    <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Alice</span>
-<span class="n">Key</span><span class="p">:</span>  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
-<span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">Length</span><span class="p">:</span>  <span class="mi">137</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span><span class="p">:</span><span class="n">CIRQ</span> <span class="n">backend</span> <span class="ow">is</span> <span class="n">prepaired</span> <span class="k">for</span> <span class="n">simulation</span><span class="o">.</span> <span class="n">Prepairation</span> <span class="n">time</span><span class="p">:</span> <span class="o">~</span><span class="mf">0.1812</span> <span class="n">sec</span>
 
-<span class="n">Bob</span>
-<span class="n">Key</span><span class="p">:</span>  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
-<span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">Length</span><span class="p">:</span>  <span class="mi">137</span>
-<span class="n">DEBUG</span><span class="p">:</span><span class="n">qudns</span><span class="p">:</span><span class="n">Device</span> <span class="n">Alice</span><span class="p">::</span><span class="n">QKD</span> <span class="n">verification</span> <span class="n">success</span><span class="o">.</span> <span class="n">Passed</span> <span class="n">time</span><span class="p">:</span> <span class="mf">0.011062591552734375</span><span class="o">.</span>
+<span class="n">Alice</span> <span class="n">Key</span><span class="p">:</span>   <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+              <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+              <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+              <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+              <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="n">Len</span><span class="p">:</span> <span class="mi">117</span>
+
+<span class="n">Bob</span> <span class="n">Key</span><span class="p">:</span>     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+              <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+              <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+              <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+              <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="n">Len</span><span class="p">:</span> <span class="mi">117</span>
+
+<span class="n">Bob</span> <span class="n">recieves</span> <span class="n">encoded</span><span class="p">:</span>  <span class="s1">&#39;wqPClcKMwp3Cj1FiwqDCglFAwoXCiMKawpNQwonCpEDCocKSwpnClsKSwpTClUDCncKFwqPCk8KSwofClQ==&#39;</span>
+<span class="n">Bob</span> <span class="n">decodes</span> <span class="n">message</span><span class="p">:</span>  <span class="s1">&#39;Hello!Bob! This is private message&#39;</span>
+
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Alice</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0017</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Bob</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0017</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">:</span><span class="n">Simulation</span> <span class="ow">is</span> <span class="n">ended</span> <span class="ow">in</span> <span class="mf">1.2553</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Real</span> <span class="n">raw</span> <span class="n">time</span><span class="p">:</span> <span class="mf">0.1441</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">Generated</span> <span class="pre">keys</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">used</span> <span class="pre">device-wide.</span></code></p>
-<p>QDNS also provides basic string encode and string decode methods suitable with these keys.</p>
-<dl class="py function">
-<dt id="Qkd.generate.run_qkd_protocol">
-<code class="sig-prename descclassname"><span class="pre">Qkd.generate.</span></code><code class="sig-name descname"><span class="pre">run_qkd_protocol</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_lenght</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Qkd/generate.html#run_qkd_protocol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Qkd.generate.run_qkd_protocol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes qkd protocol request to application.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>target_device</strong> – Identitier of device.</p></li>
-<li><p><strong>key_lenght</strong> – Key length.</p></li>
-<li><p><strong>method</strong> – QKD method.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{exit_code, key, lenght}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="Qkd.generate.wait_qkd">
-<code class="sig-prename descclassname"><span class="pre">Qkd.generate.</span></code><code class="sig-name descname"><span class="pre">wait_qkd</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Qkd/generate.html#wait_qkd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Qkd.generate.wait_qkd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apllication waits QKD from source.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>source</strong> – Initiater device identifier.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{exit_code, key, lenght}</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-<div class="section" id="module-Qkd.other">
-<span id="other-operations"></span><h2>Other Operations<a class="headerlink" href="#module-Qkd.other" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="other-operations">
+<h2>Other Operations<a class="headerlink" href="#other-operations" title="Permalink to this headline">¶</a></h2>
 <p>Any application on the device can request the key or flush the key:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">request</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">current_qkd_key</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Key: &#39;</span><span class="p">,</span> <span class="n">request</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Length: &#39;</span><span class="p">,</span> <span class="n">request</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+    <span class="o">...</span>
 
-    <span class="n">app</span><span class="o">.</span><span class="n">flush_qkd_key</span><span class="p">()</span>
-    <span class="n">request</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">current_qkd_key</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Key: &#39;</span><span class="p">,</span> <span class="n">request</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Length: &#39;</span><span class="p">,</span> <span class="n">request</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">])</span>
+    <span class="n">default_app</span><span class="o">.</span><span class="n">flush_qkd_key</span><span class="p">()</span>
+    <span class="c1"># Key lenght will be 0</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">default_app</span><span class="o">.</span><span class="n">current_qkd_key</span><span class="p">())</span>
+
+    <span class="o">...</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Key</span><span class="p">:</span>  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
-<span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">Length</span><span class="p">:</span>  <span class="mi">137</span>
-
-<span class="n">Key</span><span class="p">:</span> <span class="kc">None</span>
-<span class="n">Length</span><span class="p">:</span> <span class="mi">0</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">([],</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Also QDNS lets users to change default QKD match rates on QKD protocols such as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use before simulation.</span>
-<span class="n">QDNS</span><span class="o">.</span><span class="n">change_bb84_values</span><span class="p">(</span><span class="n">goods_fidelity</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">sample_fidelity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">sample_divisor</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-</pre></div>
-</div>
-<dl class="py function">
-<dt id="Qkd.other.current_qkd_key">
-<code class="sig-prename descclassname"><span class="pre">Qkd.other.</span></code><code class="sig-name descname"><span class="pre">current_qkd_key</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Qkd/other.html#current_qkd_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Qkd.other.current_qkd_key" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes current qkd key request to QKD Layer.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{exit_code, key, lenght}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="Qkd.other.flush_qkd_key">
-<code class="sig-prename descclassname"><span class="pre">Qkd.other.</span></code><code class="sig-name descname"><span class="pre">flush_qkd_key</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Qkd/other.html#flush_qkd_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Qkd.other.flush_qkd_key" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apllication requests to remove key in QKD Layer.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="Attack.html" class="btn btn-neutral float-right" title="Eavesdropping" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="Noise.html" class="btn btn-neutral" title="Noise" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="Attack.html" class="btn btn-neutral float-right" title="Eavesdropping" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Noise.html" class="btn btn-neutral float-left" title="Noise" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2021, COMU Team.
+        &#169; Copyright 2021, COMU Team.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -350,37 +376,15 @@
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.51',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

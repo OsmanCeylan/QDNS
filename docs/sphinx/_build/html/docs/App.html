@@ -1,56 +1,56 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanged Applications &mdash; QDNS 0.55-stable documentation</title>
   
-  <title>Application Writing &mdash; QDNS 0.51 documentation</title>
+
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
 
   
   
 
   
+  
 
   
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="QDNS 0.51 documentation" href="../index.html"/>
-        <link rel="next" title="Hardware Control" href="Hardware.html"/>
-        <link rel="prev" title="Hello QDNS" href="Hello.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Noise" href="Noise.html" />
+    <link rel="prev" title="Communication" href="Sends.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -77,27 +77,29 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Design.html">Design Principles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Hello.html">Hello QDNS</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Application Writing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-App.multi">Multi Application</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#create-new-application">Create new application</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-App.app_method">Application method</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Sends.html">Communication</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanged Applications</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#multi-application">Multi Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-new-applications">Creating new applications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#application-manager">Application Manager</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Noise.html">Noise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Qkd.html">QKD Layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
@@ -109,13 +111,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">QDNS</a>
@@ -123,10 +126,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -146,14 +152,14 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Application Writing</li>
+      <li>Advanged Applications</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/docs/App.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -167,160 +173,174 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="application-writing">
-<h1>Application Writing<a class="headerlink" href="#application-writing" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-App.multi">
-<span id="multi-application"></span><h2>Multi Application<a class="headerlink" href="#module-App.multi" title="Permalink to this headline">¶</a></h2>
+  <section id="advanged-applications">
+<h1>Advanged Applications<a class="headerlink" href="#advanged-applications" title="Permalink to this headline">¶</a></h1>
+<section id="multi-application">
+<h2>Multi Application<a class="headerlink" href="#multi-application" title="Permalink to this headline">¶</a></h2>
 <p>QDNS allows multiple applications to run on one device at same time.
 With this design, one application can run a protocol with a target device, while another application in same device can run a different protocol with any device it is connected to.</p>
 <img alt="alternate text" class="align-left" src="../_images/mult.png" />
-<span class="target" id="module-App.multi_after"></span><p>We need to create more applications along side to default application to enable this design.
-Creating Alice applications:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="c1"># Using localhost queue</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">put_localhost</span><span class="p">(</span><span class="s2">&quot;Hello second application!&quot;</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">alice_second_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">localhost_queue</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
-</pre></div>
-</div>
-<p>Creating Bob applications:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This application is </span><span class="si">{}</span><span class="s2"> and hosted in </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
-
-<span class="k">def</span> <span class="nf">bob_second_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This application is </span><span class="si">{}</span><span class="s2"> and hosted in </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">host_label</span><span class="p">))</span>
-</pre></div>
-</div>
-<p>Application creation:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
-
-    <span class="n">alice</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
-    <span class="n">bob</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
-
-    <span class="c1"># Default apps.</span>
-    <span class="n">alice</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">alice_default_app</span><span class="p">)</span>
-    <span class="n">bob</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">bob_default_app</span><span class="p">)</span>
-
-    <span class="c1"># Sencondary apps.</span>
-    <span class="n">alice</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">alice_second_app</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;second&#39;</span><span class="p">)</span>
-    <span class="n">bob</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">bob_second_app</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;second&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="section" id="create-new-application">
-<h3>Create new application<a class="headerlink" href="#create-new-application" title="Permalink to this headline">¶</a></h3>
-<dl class="py function">
-<dt id="App.multi_after.create_new_application">
-<code class="sig-prename descclassname"><span class="pre">App.multi_after.</span></code><code class="sig-name descname"><span class="pre">create_new_application</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">static</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_device_if_terminated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_end_with_device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delayed_start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/App/multi_after.html#create_new_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#App.multi_after.create_new_application" title="Permalink to this definition">¶</a></dt>
-<dd><p>The complete function of create_new_application()</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>function</strong> – Function of application.</p></li>
-<li><p><strong>*args</strong> – User arguments to pass simulation.</p></li>
-<li><p><strong>label</strong> – Label of application, default is “default”.</p></li>
-<li><p><strong>static</strong> – Setts application static.</p></li>
-<li><p><strong>enabled</strong> – Setts application enabled.</p></li>
-<li><p><strong>end_device_if_terminated</strong> – Ends device simulation if application is termiated.</p></li>
-<li><p><strong>bond_end_with_device</strong> – Ends device simulation if application is finished.</p></li>
-<li><p><strong>delayed_start_time</strong> – Starts application after delay.</p></li>
-</ul>
-</dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: bob_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: alice_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;alice_app&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: bob_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: bob_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>See QDNS/device/application.Application() for more details.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – Same name application in device.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Application or None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-</div>
-<div class="section" id="module-App.app_method">
-<span id="application-method"></span><h2>Application method<a class="headerlink" href="#module-App.app_method" title="Permalink to this headline">¶</a></h2>
-<p>Assume a application method that linked to device and ready to simulation like below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="k">pass</span>
-</pre></div>
-</div>
-<p>Parameter “app” refers to the current application in this scope. And <a href="#id1"><span class="problematic" id="id2">*</span></a>user_args is the arguments passed from the creation of application by user before the simulation.
-Most of the usefull functions is embeded to application class. Some have an easy job, while others do more complex operations. So most operations returns a dictionary with exit code.</p>
-<p>Lets look device, connection and port information on application:</p>
+<p>In the following application Alice will send data from default application to Bob.
+Bob will then send this data to its secondary application via localhost.
+The secondary application will resend the data it receives to Alice:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QDNS</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
-<span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">reveal_device_information</span><span class="p">())</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">reveal_connection_information</span><span class="p">(</span><span class="n">get_uuids</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">reveal_port_information</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">search_classic</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_second_app</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;second_app&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="c1"># Send Bob a data.</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">send_classic_data</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="s2">&quot;Hello </span><span class="si">{}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">default_app</span><span class="o">.</span><span class="n">label</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_second_app</span><span class="p">(</span><span class="n">second_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="c1"># Wait data from Bob.</span>
+        <span class="n">package</span> <span class="o">=</span> <span class="n">second_app</span><span class="o">.</span><span class="n">wait_next_package</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">::</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">second_app</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="n">second_app</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">package</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bob_default_app</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bob_second_app</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;second_app&quot;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="c1"># Wait data from Alice.</span>
+        <span class="n">package</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">wait_next_package</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">::</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">default_app</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="n">default_app</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">package</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">put_localhost</span><span class="p">(</span><span class="n">package</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bob_second_app</span><span class="p">(</span><span class="n">second_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="c1"># Wait data from localhost.</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">second_app</span><span class="o">.</span><span class="n">localhost_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">::</span><span class="si">{}</span><span class="s2"> Local: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">second_app</span><span class="o">.</span><span class="n">host_label</span><span class="p">,</span> <span class="n">second_app</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+        <span class="n">second_app</span><span class="o">.</span><span class="n">send_classic_data</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
 
-    <span class="n">alice</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
-    <span class="n">bob</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
-
-    <span class="n">alice</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">alice_default_app</span><span class="p">)</span>
-
+    <span class="n">alice</span> <span class="o">=</span> <span class="n">Alice</span><span class="p">()</span>
+    <span class="n">bob</span> <span class="o">=</span> <span class="n">Bob</span><span class="p">()</span>
     <span class="n">net</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
     <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
 
+    <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span><span class="mi">2</span><span class="p">:</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">}}</span>
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">BackendConfiguration</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">CIRQ_BACKEND</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">frames</span><span class="p">)</span>
     <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;exit_code&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;device_label&#39;</span><span class="p">:</span> <span class="s1">&#39;Alice&#39;</span><span class="p">,</span> <span class="s1">&#39;device_unique_id&#39;</span><span class="p">:</span> <span class="n">UUID</span><span class="p">(</span><span class="s1">&#39;d7f341dc-8661-4077-9df0-8495af0556db&#39;</span><span class="p">)}</span>
-<span class="p">{</span><span class="s1">&#39;exit_code&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;classic_connections_group&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Bob&#39;</span><span class="p">],</span> <span class="s1">&#39;quantum_connections_group&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Bob&#39;</span><span class="p">]}</span>
-<span class="p">{</span><span class="s1">&#39;exit_code&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;Classic port type&#39;</span><span class="p">,</span> <span class="s1">&#39;active&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;connected&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;channel_id&#39;</span><span class="p">:</span> <span class="s1">&#39;AS2L82LIWOE59D09&#39;</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;latency&#39;</span><span class="p">:</span> <span class="mf">0.00017</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span><span class="p">:</span><span class="n">CIRQ</span> <span class="n">backend</span> <span class="ow">is</span> <span class="n">prepaired</span> <span class="k">for</span> <span class="n">simulation</span><span class="o">.</span> <span class="n">Prepairation</span> <span class="n">time</span><span class="p">:</span> <span class="o">~</span><span class="mf">0.103</span> <span class="n">sec</span>
+<span class="n">Bob</span><span class="p">::</span><span class="n">default_app</span><span class="p">:</span> <span class="s1">&#39;Hello default_app!&#39;</span>
+<span class="n">Bob</span><span class="p">::</span><span class="n">second_app</span> <span class="n">Local</span><span class="p">:</span> <span class="s1">&#39;Hello default_app!&#39;</span>
+<span class="n">Alice</span><span class="p">::</span><span class="n">second_app</span><span class="p">:</span> <span class="s1">&#39;Hello default_app!&#39;</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Alice</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0019</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Bob</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0013</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">:</span><span class="n">Simulation</span> <span class="ow">is</span> <span class="n">ended</span> <span class="ow">in</span> <span class="mf">1.2555</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Real</span> <span class="n">raw</span> <span class="n">time</span><span class="p">:</span> <span class="mf">0.0164</span>
 </pre></div>
 </div>
-<p>As can be seen above, many methods embedded in the application class returns a dictionary containing an exit code. Positive exit codes means operation is successful.</p>
-<p>As we continue, we will describe the important methods in application class.</p>
+</section>
+<section id="creating-new-applications">
+<h2>Creating new applications<a class="headerlink" href="#creating-new-applications" title="Permalink to this headline">¶</a></h2>
+<p>There is actually no need to create a whole class for Nodes as our examples does.
+The only thing Node needs to know is application method and bind it.
+Below is how a node can create an application:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_new_application</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">static</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_device_if_terminated</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">bond_end_with_device</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delayed_start_time</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates new application.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        function: Function of application.</span>
+<span class="sd">        label: Label of application, default is &quot;default&quot;.</span>
+<span class="sd">        static: Setts application static.</span>
+<span class="sd">        enabled: Setts application enabled.</span>
+<span class="sd">        end_device_if_terminated: Ends device simulation if application is termiated.</span>
+<span class="sd">        bond_end_with_device: Ends device simulation if application is finished.</span>
+<span class="sd">        delayed_start_time: Starts application after delay.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    =================================================</span>
+<span class="sd">    &gt;&gt;&gt; self.create_new_application(&quot;function: bob_run&quot;, *args)</span>
+<span class="sd">    &gt;&gt;&gt; self.create_new_application(&quot;function: alice_run&quot;, *args, label=&quot;alice_app&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; self.create_new_application(&quot;function: bob_run&quot;, *args, static=True)</span>
+<span class="sd">    &gt;&gt;&gt; self.create_new_application(&quot;function: bob_run&quot;, *args, enabled=False)</span>
+
+<span class="sd">    See QDNS/device/applicaion.Application() for more details.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Same name application in device.</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">        Application or None.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
 </div>
+<p>Static flag marks the application for state tracking.
+With this mark, application manager can detect applications that contains never ending while loops.
+So even threads of these kind of applications shows as alive, simulation kernel terminates them when simulation going to be over soon.</p>
+</section>
+<section id="application-manager">
+<h2>Application Manager<a class="headerlink" href="#application-manager" title="Permalink to this headline">¶</a></h2>
+<p>When a device is created, an application manager module is created.
+This module manages how applications can be created, treated, terminated.
+Here is how to set new application manager settings:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">new_setting</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">ApplicationManagerSettings</span><span class="p">(</span>
+    <span class="n">max_application_count</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">enable_localhost</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">disable_user_apps</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="n">alice</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Device</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">app_manager_settings</span><span class="o">=</span><span class="n">new_setting</span><span class="p">)</span>
+
+<span class="c1"># OR QDNS.change_default_application_manager_settings(new_setting)</span>
+</pre></div>
 </div>
+</section>
+</section>
 
 
            </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="Hardware.html" class="btn btn-neutral float-right" title="Hardware Control" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="Hello.html" class="btn btn-neutral" title="Hello QDNS" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="Noise.html" class="btn btn-neutral float-right" title="Noise" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Sends.html" class="btn btn-neutral float-left" title="Communication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2021, COMU Team.
+        &#169; Copyright 2021, COMU Team.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -329,37 +349,15 @@ Most of the usefull functions is embeded to application class. Some have an easy
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.51',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

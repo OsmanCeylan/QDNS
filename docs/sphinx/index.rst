@@ -13,11 +13,11 @@ Welcome to QDNS's documentation!
    docs/Install
    docs/Design
    docs/Hello
-   docs/App
-   docs/Hardware
-   docs/Quantum
    docs/Backend
+   docs/Quantum
+   docs/Hardware
    docs/Sends
+   docs/App
    docs/Noise
    docs/Qkd
    docs/Attack

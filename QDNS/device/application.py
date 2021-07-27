@@ -29,6 +29,8 @@ from multiprocessing import Queue as MQueue
 from queue import Queue as TQueue
 from queue import SimpleQueue as TSimpleQueue
 
+import numpy as np
+
 import QDNS
 from QDNS.device.tools.blocklist import BlockList
 from QDNS.device.tools.listener import Listener
@@ -151,6 +153,7 @@ class Application(layer.Layer):
         self.change_state(application_tools.APPLICATION_IS_RUNNING)
         self._function(self, *self.arguments)
         end_time = time.time() - start_time
+        end_time = np.around(end_time, 4)
 
         # End application.
         self.logger.info("Application is ended in {} seconds.".format(end_time))

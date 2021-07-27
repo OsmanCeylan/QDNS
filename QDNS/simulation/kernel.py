@@ -26,6 +26,7 @@
 
 from typing import Optional
 import multiprocessing
+import numpy as np
 import threading
 import time
 
@@ -169,10 +170,11 @@ class Kernel(layer.Layer):
         try:
             max_time = max(times)
             max_time += max_time * 0.05
+            max_time = np.around(max_time, 4)
         except ValueError:
             max_time = "Unknown"
 
-        self.logger.warning("Simulation is ended in {} seconds. Raw time: {}".format(time.time() - start_time, max_time))
+        self.logger.warning("Simulation is ended in {} seconds. Real raw time: {}".format(np.around(time.time() - start_time, 4), max_time))
         return tools.SimulationResults(dump_list)
 
     def __handle_signal(self, signal_: signal.SIGNAL):

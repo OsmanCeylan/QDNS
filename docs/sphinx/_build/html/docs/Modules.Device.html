@@ -1,57 +1,56 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Device package &mdash; QDNS 0.55-stable documentation</title>
   
-  <title>Device package &mdash; QDNS 0.51 documentation</title>
+
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
 
   
   
 
   
+  
 
   
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="QDNS 0.51 documentation" href="../index.html"/>
-        <link rel="up" title="Modules References" href="Modules.html"/>
-        <link rel="next" title="Layers package" href="Modules.Layers.html"/>
-        <link rel="prev" title="Modules References" href="Modules.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Layers package" href="Modules.Layers.html" />
+    <link rel="prev" title="Modules References" href="Modules.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -78,20 +77,24 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Design.html">Design Principles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Hello.html">Hello QDNS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="App.html">Application Writing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="App.html">Advanged Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Noise.html">Noise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Qkd.html">QKD Layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
@@ -100,11 +103,11 @@
 <li class="toctree-l1 current"><a class="reference internal" href="Modules.html">Modules References</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="Modules.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Device package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#module-Modules.Device.application">Device.application module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-Modules.Device.application_manager">Device.application_manager module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-Modules.Device.channel">Device.channel module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-Modules.Device.device">Device.device module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-Modules.Device.network_adapter">Device.network_adapter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#device-application-module">Device.application module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#device-application-manager-module">Device.application_manager module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#device-channel-module">Device.channel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#device-device-module">Device.device module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#device-network-adapter-module">Device.network_adapter module</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="Modules.Layers.html">Layers package</a></li>
@@ -119,13 +122,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">QDNS</a>
@@ -133,10 +137,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -156,7 +163,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="Modules.html">Modules References</a> &raquo;</li>
         
@@ -165,7 +172,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/docs/Modules.Device.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -179,1609 +186,53 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="device-package">
+  <section id="device-package">
 <h1>Device package<a class="headerlink" href="#device-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-Modules.Device.application">
-<span id="device-application-module"></span><h2>Device.application module<a class="headerlink" href="#module-Modules.Device.application" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="Modules.Device.application.Application">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Device.application.</span></code><code class="sig-name descname"><span class="pre">Application</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function_</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.tools.application_tools.ApplicationSettings</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.architecture_tools.Layer</span></code></p>
-<dl class="py method">
-<dt id="Modules.Device.application.Application.activate_port">
-<code class="sig-name descname"><span class="pre">activate_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_classic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_quantum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.activate_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.activate_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Activates port on socket.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>port_key</strong> – Port from key. (Index, Channel UUID, Target UUID, Target Label)</p></li>
-<li><p><strong>search_classic</strong> – Search in classic ports.</p></li>
-<li><p><strong>search_quantum</strong> – Search in quantum ports.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “state_changed”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.active_requests">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">active_requests</span></code><a class="headerlink" href="#Modules.Device.application.Application.active_requests" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.allocate_qframe">
-<code class="sig-name descname"><span class="pre">allocate_qframe</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_size</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.allocate_qframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.allocate_qframe" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes allocate qframe request to simulation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>frame_size</strong> – Qubit count of frame.</p></li>
-<li><p><strong>*args</strong> – Backend specific arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “qubits”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.allocate_qframes">
-<code class="sig-name descname"><span class="pre">allocate_qframes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.allocate_qframes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.allocate_qframes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes allocate qframes request to simulation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>frame_size</strong> – Qubit count of frame.</p></li>
-<li><p><strong>count</strong> – Count of qubit.</p></li>
-<li><p><strong>*args</strong> – Backend specific arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “qubits”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.allocate_qubit">
-<code class="sig-name descname"><span class="pre">allocate_qubit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.allocate_qubit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.allocate_qubit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes allocate qubit request to simulation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>*args</strong> – Backend specific arguments.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “qubit”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.allocate_qubits">
-<code class="sig-name descname"><span class="pre">allocate_qubits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.allocate_qubits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.allocate_qubits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes allocate qubits request to simulation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>count</strong> – Count of qubit.</p></li>
-<li><p><strong>*args</strong> – Backend specific arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “qubits”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.allocated_qubits">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">allocated_qubits</span></code><a class="headerlink" href="#Modules.Device.application.Application.allocated_qubits" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.application_end_socket">
-<code class="sig-name descname"><span class="pre">application_end_socket</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.application_end_socket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.application_end_socket" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes end socket signal to socket.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.application_settings">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">application_settings</span></code><a class="headerlink" href="#Modules.Device.application.Application.application_settings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.apply_serial_transformations">
-<code class="sig-name descname"><span class="pre">apply_serial_transformations</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_of_gates</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.apply_serial_transformations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.apply_serial_transformations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes apply serial transformation request to simulation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>list_of_gates</strong> – List[Gate, GateArgs, List[Qubits]]</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.apply_transformation">
-<code class="sig-name descname"><span class="pre">apply_transformation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">QDNS.tools.gates.Gate</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">qubits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.apply_transformation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.apply_transformation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes apply transformation request to simulation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>qubits</strong> – Qubits to measure.</p></li>
-<li><p><strong>gate</strong> – Gate object.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.arguments">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">arguments</span></code><a class="headerlink" href="#Modules.Device.application.Application.arguments" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.bind_block_list">
-<code class="sig-name descname"><span class="pre">bind_block_list</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_block_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">QDNS.tools.application_tools.BlockList</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.bind_block_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.bind_block_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates blocklist of application.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>new_block_list</strong> – New block list object.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if operation is success.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.block_list">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">block_list</span></code><a class="headerlink" href="#Modules.Device.application.Application.block_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.bond_end_with_device">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">bond_end_with_device</span></code><a class="headerlink" href="#Modules.Device.application.Application.bond_end_with_device" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.broadcast_ghz_state">
-<code class="sig-name descname"><span class="pre">broadcast_ghz_state</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.broadcast_ghz_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.broadcast_ghz_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>Broadcasts ghz state to quantum connected nodes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{exit_code, my_qubit}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.calculate_time_delta">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">calculate_time_delta</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datetime_old</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datetime_new</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.calculate_time_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.calculate_time_delta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates timedelta between two dates.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>datetime_old</strong> – Old time in datatime format.</p></li>
-<li><p><strong>datetime_new</strong> – New time in datatime format. Default is now().</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Date differance in seconds.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.change_host_device">
-<code class="sig-name descname"><span class="pre">change_host_device</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_host</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.change_host_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.change_host_device" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes or sets host device of application.
-Do not call manually! Let application manager handles it.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.close_communication">
-<code class="sig-name descname"><span class="pre">close_communication</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.close_communication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.close_communication" title="Permalink to this definition">¶</a></dt>
-<dd><p>Application closes communication on socket.
-When communication is closed, nothing can pass thought the device socket, brokes route.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{“exit_code”, “state_changed”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.current_qkd_key">
-<code class="sig-name descname"><span class="pre">current_qkd_key</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.current_qkd_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.current_qkd_key" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes current qkd key request to QKD Layer.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{exit_code, key, lenght}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.deactivate_port">
-<code class="sig-name descname"><span class="pre">deactivate_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_classic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_quantum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.deactivate_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.deactivate_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dectivates port on socket.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>port_key</strong> – Port from key. (Index, Channel UUID, Target UUID, Target Label)</p></li>
-<li><p><strong>search_classic</strong> – Search in classic ports.</p></li>
-<li><p><strong>search_quantum</strong> – Search in quantum ports.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>Port still can be pinged. Brokes the routing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{“exit_code”, “state_changed”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.deallocate_qubits">
-<code class="sig-name descname"><span class="pre">deallocate_qubits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">qubits</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.deallocate_qubits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.deallocate_qubits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deallocate qframes from app.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>qubits</strong> – Qubits for deallocation.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.delayed_start_time">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">delayed_start_time</span></code><a class="headerlink" href="#Modules.Device.application.Application.delayed_start_time" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.device_request_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">device_request_queue</span></code><a class="headerlink" href="#Modules.Device.application.Application.device_request_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.end_device_if_terminated">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">end_device_if_terminated</span></code><a class="headerlink" href="#Modules.Device.application.Application.end_device_if_terminated" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.end_device_simulation">
-<code class="sig-name descname"><span class="pre">end_device_simulation</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.end_device_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.end_device_simulation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Ends device simulation of an Application.
-Also terminates socket simulation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.extend_qframe">
-<code class="sig-name descname"><span class="pre">extend_qframe</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_of_frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.extend_qframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.extend_qframe" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exntend frame of qubit from back by 1.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>qubit_of_frame</strong> – Qubit of frame.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “qubit”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.flush_qkd_key">
-<code class="sig-name descname"><span class="pre">flush_qkd_key</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.flush_qkd_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.flush_qkd_key" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apllication requests to remove key in QKD Layer.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.flush_route_data">
-<code class="sig-name descname"><span class="pre">flush_route_data</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.flush_route_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.flush_route_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flushes socket routing data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>True if sending signal success.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.function">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">function</span></code><a class="headerlink" href="#Modules.Device.application.Application.function" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.generate_entangle_pairs">
-<code class="sig-name descname"><span class="pre">generate_entangle_pairs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.generate_entangle_pairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.generate_entangle_pairs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates entangle pairs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>count</strong> – Count of pairs.</p></li>
-<li><p><strong>args</strong> – Backend specific arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “pairs”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.generate_ghz_pair">
-<code class="sig-name descname"><span class="pre">generate_ghz_pair</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.generate_ghz_pair"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.generate_ghz_pair" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates entangle pairs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> – Qubit count in ghz state.</p></li>
-<li><p><strong>args</strong> – Backend specific arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “qubits”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.global_date">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">global_date</span></code><a class="headerlink" href="#Modules.Device.application.Application.global_date" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.global_time">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">global_time</span></code><a class="headerlink" href="#Modules.Device.application.Application.global_time" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.host_device">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_device</span></code><a class="headerlink" href="#Modules.Device.application.Application.host_device" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.host_label">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_label</span></code><a class="headerlink" href="#Modules.Device.application.Application.host_label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.host_uuid">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_uuid</span></code><a class="headerlink" href="#Modules.Device.application.Application.host_uuid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.income_package_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">income_package_queue</span></code><a class="headerlink" href="#Modules.Device.application.Application.income_package_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.income_qubit_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">income_qubit_queue</span></code><a class="headerlink" href="#Modules.Device.application.Application.income_qubit_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.is_disabled">
-<code class="sig-name descname"><span class="pre">is_disabled</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.is_disabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.is_disabled" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.is_enabled">
-<code class="sig-name descname"><span class="pre">is_enabled</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.is_enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.is_enabled" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.is_static">
-<code class="sig-name descname"><span class="pre">is_static</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.is_static"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.is_static" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.label">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">label</span></code><a class="headerlink" href="#Modules.Device.application.Application.label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.listener_interrupt">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">listener_interrupt</span></code><a class="headerlink" href="#Modules.Device.application.Application.listener_interrupt" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.listener_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">listener_queue</span></code><a class="headerlink" href="#Modules.Device.application.Application.listener_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.localhost_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">localhost_queue</span></code><a class="headerlink" href="#Modules.Device.application.Application.localhost_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.measure_qubits">
-<code class="sig-name descname"><span class="pre">measure_qubits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubits</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.measure_qubits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.measure_qubits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Measures given qubits.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>qubits</strong> – Qubits to measure.</p></li>
-<li><p><strong>args</strong> – Backend specific arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “results”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.old_packages">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">old_packages</span></code><a class="headerlink" href="#Modules.Device.application.Application.old_packages" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.old_qubits">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">old_qubits</span></code><a class="headerlink" href="#Modules.Device.application.Application.old_qubits" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.old_responses">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">old_responses</span></code><a class="headerlink" href="#Modules.Device.application.Application.old_responses" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.open_communication">
-<code class="sig-name descname"><span class="pre">open_communication</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.open_communication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.open_communication" title="Permalink to this definition">¶</a></dt>
-<dd><p>Application opens communication on socket.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{“exit_code”, “state_changed”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.pause_socket">
-<code class="sig-name descname"><span class="pre">pause_socket</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.pause_socket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.pause_socket" title="Permalink to this definition">¶</a></dt>
-<dd><p>Pauses socket request to socket.</p>
-<p class="rubric">Notes</p>
-<p>Applications of host device of socket cannot use socket. Did not interrupt incoming communication or routing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{“exit_code”, “state_changed”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.prepair_layer">
-<code class="sig-name descname"><span class="pre">prepair_layer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim_request_queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_dump_queue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.prepair_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.prepair_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prepair the layer for simulation.
-Must run right before simulation.
-Layers must override this method.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.put_localhost">
-<code class="sig-name descname"><span class="pre">put_localhost</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.put_localhost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.put_localhost" title="Permalink to this definition">¶</a></dt>
-<dd><p>Puts values to application localhost.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>values</strong> – Values.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.put_simulation_result">
-<code class="sig-name descname"><span class="pre">put_simulation_result</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.put_simulation_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.put_simulation_result" title="Permalink to this definition">¶</a></dt>
-<dd><p>Puts values to simulation result.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>values</strong> – Values.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.reset_qubits">
-<code class="sig-name descname"><span class="pre">reset_qubits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubits</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.reset_qubits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.reset_qubits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Measures given qubits.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>qubits</strong> – Qubits to measure.</p></li>
-<li><p><strong>args</strong> – Backend specific arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.resume_socket">
-<code class="sig-name descname"><span class="pre">resume_socket</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.resume_socket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.resume_socket" title="Permalink to this definition">¶</a></dt>
-<dd><p>Resumes socket request to socket.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{“exit_code”, “state_changed”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.reveal_connection_information">
-<code class="sig-name descname"><span class="pre">reveal_connection_information</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">get_uuids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.reveal_connection_information"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.reveal_connection_information" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract connection information.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>get_uuids</strong> – Get target device uuids insetead of label.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “classic_connections_group”, “quantum_connections_group”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.reveal_connectivity_information">
-<code class="sig-name descname"><span class="pre">reveal_connectivity_information</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">get_uuids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.reveal_connectivity_information"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.reveal_connectivity_information" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract connectivity information.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>get_uuids</strong> – Get target device uuids insetead of label.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “classic_targets”, “quantum_targets”, “communication_state”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.reveal_device_information">
-<code class="sig-name descname"><span class="pre">reveal_device_information</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.reveal_device_information"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.reveal_device_information" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract device information of an Application.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{“exit_code”, “device_label”, “device_unique_id”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.reveal_port_information">
-<code class="sig-name descname"><span class="pre">reveal_port_information</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_classic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_quantum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.reveal_port_information"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.reveal_port_information" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract port information request to socket.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>port_key</strong> – Port from key. (Index, Channel UUID, Target UUID, Target Label)</p></li>
-<li><p><strong>search_classic</strong> – Search in classic ports.</p></li>
-<li><p><strong>search_quantum</strong> – Search in quantum ports.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “index”, “type”, “active”, “connected”, “channel_id”, “target”, “latency”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.reveal_socket_information">
-<code class="sig-name descname"><span class="pre">reveal_socket_information</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yield_all_string</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.reveal_socket_information"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.reveal_socket_information" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract socket information of the device of an Application.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>yield_all_string</strong> – Yields SocketInformation object string.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>{</dt><dd><p>“exit_code”, “socket_state”, “classic_port_count”, “quantum_port_count”,
-“connected_classic_port”, “connected_quantum_port”, “object_string”</p>
-</dd>
-</dl>
-<p>}</p>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.run">
-<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.run_qkd_protocol">
-<code class="sig-name descname"><span class="pre">run_qkd_protocol</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_lenght</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.run_qkd_protocol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.run_qkd_protocol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes qkd protocol request to application.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>target_device</strong> – Identitier of device.</p></li>
-<li><p><strong>key_lenght</strong> – Key length.</p></li>
-<li><p><strong>method</strong> – QKD method.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{exit_code, key, lenght}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.send_classic_data">
-<code class="sig-name descname"><span class="pre">send_classic_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reciever</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">broadcast</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">routing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.send_classic_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.send_classic_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Send classical data to target node.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>reciever</strong> – Reciever node identifier.</p></li>
-<li><p><strong>data</strong> – Data.</p></li>
-<li><p><strong>broadcast</strong> – Broadcast flag.</p></li>
-<li><p><strong>routing</strong> – Routing flag.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>Reciever must be node label or node id.
-Data must be pickable Python object.
-Broadcast flag disable target.
-Routing capability of device socket must be enabled for using this flag.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{exit_code, target_count}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.send_entangle_pairs">
-<code class="sig-name descname"><span class="pre">send_entangle_pairs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">routing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.send_entangle_pairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.send_entangle_pairs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends entangle pairs to node.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>count</strong> – Count of pairs.</p></li>
-<li><p><strong>target</strong> – Target node.</p></li>
-<li><p><strong>routing</strong> – Routing enable flag.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{exit_code, my_pairs}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.send_quantum">
-<code class="sig-name descname"><span class="pre">send_quantum</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">routing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.send_quantum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.send_quantum" title="Permalink to this definition">¶</a></dt>
-<dd><p>Send quantum bits to another node.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>target</strong> – Target node.</p></li>
-<li><p><strong>qubits</strong> – Qubits to send.</p></li>
-<li><p><strong>routing</strong> – Routing enable flag.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>Reciever must be node label or node id.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{exit_code}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.set_disable">
-<code class="sig-name descname"><span class="pre">set_disable</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.set_disable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.set_disable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.set_enable">
-<code class="sig-name descname"><span class="pre">set_enable</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.set_enable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.set_enable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.sim_request_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">sim_request_queue</span></code><a class="headerlink" href="#Modules.Device.application.Application.sim_request_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.sleep">
-<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">sleep</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seconds</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.sleep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.sleep" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.socket_request_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">socket_request_queue</span></code><a class="headerlink" href="#Modules.Device.application.Application.socket_request_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.terminate_socket">
-<code class="sig-name descname"><span class="pre">terminate_socket</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.terminate_socket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.terminate_socket" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes terminate socket signal to socket.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.unconnect_channel">
-<code class="sig-name descname"><span class="pre">unconnect_channel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_classic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_quantum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.unconnect_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.unconnect_channel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Unconnects channel request to socket.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>channel_key</strong> – Channel from key. (Port Index, Channel UUID, Target UUID, Target Label)</p></li>
-<li><p><strong>search_classic</strong> – Search in classic ports.</p></li>
-<li><p><strong>search_quantum</strong> – Search in quantum ports.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “state_changed”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.user_dump_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">user_dump_queue</span></code><a class="headerlink" href="#Modules.Device.application.Application.user_dump_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.wait_next_package">
-<code class="sig-name descname"><span class="pre">wait_next_package</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_old_packages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.wait_next_package"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.wait_next_package" title="Permalink to this definition">¶</a></dt>
-<dd><p>Application waits next package from hinted device.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>source</strong> – Hinted device.</p></li>
-<li><p><strong>timeout</strong> – Expire time.</p></li>
-<li><p><strong>check_old_packages</strong> – Checks old packages first.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “package”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.wait_next_protocol_package">
-<code class="sig-name descname"><span class="pre">wait_next_protocol_package</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_old_packages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.wait_next_protocol_package"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.wait_next_protocol_package" title="Permalink to this definition">¶</a></dt>
-<dd><p>Application waits next protocol package from hinted device.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>source</strong> – Hinted device.</p></li>
-<li><p><strong>timeout</strong> – Expire time.</p></li>
-<li><p><strong>check_old_packages</strong> – Checks old packages first.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “package”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.wait_next_qubit">
-<code class="sig-name descname"><span class="pre">wait_next_qubit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_old_qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.wait_next_qubit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.wait_next_qubit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Application waits qubit from hinted device.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>source</strong> – Hinted device.</p></li>
-<li><p><strong>timeout</strong> – Expire time.</p></li>
-<li><p><strong>check_old_qubits</strong> – Check old unprocessed qubits..</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “port_index”, “sender”, “time”, “qubit”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.wait_next_qubits">
-<code class="sig-name descname"><span class="pre">wait_next_qubits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_old_qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.wait_next_qubits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.wait_next_qubits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Application waits qubits from hinted device.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>count</strong> – Qubit count.</p></li>
-<li><p><strong>source</strong> – Hinted device.</p></li>
-<li><p><strong>timeout</strong> – Expire time.</p></li>
-<li><p><strong>check_old_qubits</strong> – Check old unprocessed qubits..</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “qubits”, “count”}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application.Application.wait_qkd">
-<code class="sig-name descname"><span class="pre">wait_qkd</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application.html#Application.wait_qkd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application.Application.wait_qkd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apllication waits QKD from source.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>source</strong> – Initiater device identifier.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{exit_code, key, lenght}</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-Modules.Device.application_manager">
-<span id="device-application-manager-module"></span><h2>Device.application_manager module<a class="headerlink" href="#module-Modules.Device.application_manager" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="Modules.Device.application_manager.ApplicationManager">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Device.application_manager.</span></code><code class="sig-name descname"><span class="pre">ApplicationManager</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host_device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_manager_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.tools.device_tools.ApplicationManagerSettings</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.device_tools.DeviceModule</span></code></p>
-<dl class="py attribute">
-<dt id="Modules.Device.application_manager.ApplicationManager.APP_MAN_NAME">
-<code class="sig-name descname"><span class="pre">APP_MAN_NAME</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'Application</span> <span class="pre">Manager'</span></em><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.APP_MAN_NAME" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.all_application_list">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">all_application_list</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.all_application_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.append_application">
-<code class="sig-name descname"><span class="pre">append_application</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">QDNS.device.application.Application</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_raise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.append_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.append_application" title="Permalink to this definition">¶</a></dt>
-<dd><p>Appends new application to this device.
-Must call before any simulations.
-Append method add application to DEFAULT_APPS list.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>application</strong> – Application</p></li>
-<li><p><strong>_raise</strong> – Raise flag.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError if device had same labeled applicaion.</strong> – </p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>True if succesess.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.application_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">application_count</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.application_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.application_states">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">application_states</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.application_states" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.application_thread_dict">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">application_thread_dict</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.application_thread_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.create_new_application">
-<code class="sig-name descname"><span class="pre">create_new_application</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">static</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_device_if_terminated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_end_with_device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delayed_start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">QDNS.device.application.Application</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.create_new_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.create_new_application" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates new application.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>function</strong> – Function of application.</p></li>
-<li><p><strong>label</strong> – Label of application, default is “default”.</p></li>
-<li><p><strong>static</strong> – Setts application static.</p></li>
-<li><p><strong>enabled</strong> – Setts application enabled.</p></li>
-<li><p><strong>end_device_if_terminated</strong> – Ends device simulation if application is termiated.</p></li>
-<li><p><strong>bond_end_with_device</strong> – Ends device simulation if application is finished.</p></li>
-<li><p><strong>delayed_start_time</strong> – Starts application after delay.</p></li>
-</ul>
-</dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: bob_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: alice_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;alice_app&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: bob_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: bob_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>See QDNS/device/applicaion.Application() for more details.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – Same name application in device.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Application or None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.create_qkd_app">
-<code class="sig-name descname"><span class="pre">create_qkd_app</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.create_qkd_app"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.create_qkd_app" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creater qkd app. No user shall create qkd app manually.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.create_routing_app">
-<code class="sig-name descname"><span class="pre">create_routing_app</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.create_routing_app"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.create_routing_app" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creater routing app. No user shall create route app manually.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.default_apps_dict">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">default_apps_dict</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.default_apps_dict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.disable_user_apps">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">disable_user_apps</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.disable_user_apps" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.enable_localhost">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">enable_localhost</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.enable_localhost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.enabled_application_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">enabled_application_count</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.enabled_application_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.enabled_application_list">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">enabled_application_list</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.enabled_application_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.get_application_from">
-<code class="sig-name descname"><span class="pre">get_application_from</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">QDNS.device.application.Application</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_raise</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.device.application.Application</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.get_application_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.get_application_from" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find and gets application from given list in this device.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>item</strong> – Unique identifier of application.</p></li>
-<li><p><strong>_raise</strong> – Raise if cannot found.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Application or None.</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>ValueError if cannot find the application from given key while raise flag active.</strong> – </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.host_device">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_device</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.host_device" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.host_label">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_label</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.host_label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.is_device_endable">
-<code class="sig-name descname"><span class="pre">is_device_endable</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.is_device_endable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.is_device_endable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks application states for if device simulation is endable.
-Returns true if device simulation can enable.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.is_have_this_application">
-<code class="sig-name descname"><span class="pre">is_have_this_application</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">QDNS.device.application.Application</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.is_have_this_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.is_have_this_application" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks if application is exist in this device.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>item</strong> – Unique Identifier of application.</p>
-</dd>
-</dl>
-<p>Item can be int, string, Application.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>True if application found in this device.
-False if applicaion cannot found in this device.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.localhost_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">localhost_queue</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.localhost_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.logger">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">logger</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.logger" title="Permalink to this definition">¶</a></dt>
-<dd><p>Application Manager and its Device shares same logger instance.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.manager_settings">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">manager_settings</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.manager_settings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.max_application_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">max_application_count</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.max_application_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.prepair_module">
-<code class="sig-name descname"><span class="pre">prepair_module</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">from_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.prepair_module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.prepair_module" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prepairs module.
-Defaults enabled application list if from list is None.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.qkd_app">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">qkd_app</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.qkd_app" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.route_app">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">route_app</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.route_app" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.start_applications">
-<code class="sig-name descname"><span class="pre">start_applications</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.device.application.Application</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.start_applications"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.start_applications" title="Permalink to this definition">¶</a></dt>
-<dd><p>Starts applications.
-! Threads must be setted before.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.static_application_list">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">static_application_list</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.static_application_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.terminate_all_applications">
-<code class="sig-name descname"><span class="pre">terminate_all_applications</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.terminate_all_applications"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.terminate_all_applications" title="Permalink to this definition">¶</a></dt>
-<dd><p>Tries to terminate all applications.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.terminate_application">
-<code class="sig-name descname"><span class="pre">terminate_application</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">applications</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_raise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.terminate_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.terminate_application" title="Permalink to this definition">¶</a></dt>
-<dd><p>Terminates the given application.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>applications</strong> – Tuple / List of applications.</p></li>
-<li><p><strong>_raise</strong> – Raise flag.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if termination successfull.</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>KeyError if application not found when raise flag active.</strong> – </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.update_application_matched_states">
-<code class="sig-name descname"><span class="pre">update_application_matched_states</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.update_application_matched_states"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.update_application_matched_states" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates application states in dict.
-This is needed for tracking terminated applications.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.update_application_state">
-<code class="sig-name descname"><span class="pre">update_application_state</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">QDNS.device.application.Application</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/application_manager.html#ApplicationManager.update_application_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.update_application_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates state of application.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>application</strong> – Application object.</p></li>
-<li><p><strong>new_state</strong> – New state of application.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>KeyError if application is not found.</strong> – </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.application_manager.ApplicationManager.user_applications">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">user_applications</span></code><a class="headerlink" href="#Modules.Device.application_manager.ApplicationManager.user_applications" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-Modules.Device.channel">
-<span id="device-channel-module"></span><h2>Device.channel module<a class="headerlink" href="#module-Modules.Device.channel" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="Modules.Device.channel.Channel">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Device.channel.</span></code><code class="sig-name descname"><span class="pre">Channel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/channel.html#Channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.channel.Channel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt id="Modules.Device.channel.Channel.channel_id">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">channel_id</span></code><a class="headerlink" href="#Modules.Device.channel.Channel.channel_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.channel.Channel.devL_ID">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">devL_ID</span></code><a class="headerlink" href="#Modules.Device.channel.Channel.devL_ID" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.channel.Channel.devR_ID">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">devR_ID</span></code><a class="headerlink" href="#Modules.Device.channel.Channel.devR_ID" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.channel.Channel.label">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">label</span></code><a class="headerlink" href="#Modules.Device.channel.Channel.label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.channel.Channel.length">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">length</span></code><a class="headerlink" href="#Modules.Device.channel.Channel.length" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.channel.Channel.uuid">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">uuid</span></code><a class="headerlink" href="#Modules.Device.channel.Channel.uuid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Device.channel.ClassicChannel">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Device.channel.</span></code><code class="sig-name descname"><span class="pre">ClassicChannel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/channel.html#ClassicChannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.channel.ClassicChannel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#Modules.Device.channel.Channel" title="Modules.Device.channel.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Modules.Device.channel.Channel</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Device.channel.QuantumChannel">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Device.channel.</span></code><code class="sig-name descname"><span class="pre">QuantumChannel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/channel.html#QuantumChannel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.channel.QuantumChannel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#Modules.Device.channel.Channel" title="Modules.Device.channel.Channel"><code class="xref py py-class docutils literal notranslate"><span class="pre">Modules.Device.channel.Channel</span></code></a></p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Device.channel.change_default_altitude_formula">
-<code class="sig-prename descclassname"><span class="pre">Modules.Device.channel.</span></code><code class="sig-name descname"><span class="pre">change_default_altitude_formula</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_formula_function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/channel.html#change_default_altitude_formula"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.channel.change_default_altitude_formula" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes the channel altitude calculation formula.
-Formula must take only one parameter: length.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Device.channel.change_default_connection_length">
-<code class="sig-prename descclassname"><span class="pre">Modules.Device.channel.</span></code><code class="sig-name descname"><span class="pre">change_default_connection_length</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_length</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/channel.html#change_default_connection_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.channel.change_default_connection_length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes the default length of channels in km.
-Make sure use before the construct of network object.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-Modules.Device.device">
-<span id="device-device-module"></span><h2>Device.device module<a class="headerlink" href="#module-Modules.Device.device" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="Modules.Device.device.Device">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Device.device.</span></code><code class="sig-name descname"><span class="pre">Device</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.tools.device_tools.DeviceSettings</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_manager_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.tools.device_tools.ApplicationManagerSettings</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">socket_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.tools.socket_tools.SocketSettings</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/device.html#Device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.device.Device" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.architecture_tools.Layer</span></code></p>
-<dl class="py method">
-<dt id="Modules.Device.device.Device.activate">
-<code class="sig-name descname"><span class="pre">activate</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/device.html#Device.activate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.device.Device.activate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Activates device and causes device will simulate.
-Call before simulation.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.active">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">active</span></code><a class="headerlink" href="#Modules.Device.device.Device.active" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.appman">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">appman</span></code><a class="headerlink" href="#Modules.Device.device.Device.appman" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.check_finalize">
-<code class="sig-name descname"><span class="pre">check_finalize</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/device.html#Device.check_finalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.device.Device.check_finalize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks if device can endable in another thread.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.create_new_application">
-<code class="sig-name descname"><span class="pre">create_new_application</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">static</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_device_if_terminated</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_end_with_device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delayed_start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/device.html#Device.create_new_application"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.device.Device.create_new_application" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates new application.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>function</strong> – Function of application.</p></li>
-<li><p><strong>label</strong> – Label of application, default is “default”.</p></li>
-<li><p><strong>static</strong> – Setts application static.</p></li>
-<li><p><strong>enabled</strong> – Setts application enabled.</p></li>
-<li><p><strong>end_device_if_terminated</strong> – Ends device simulation if application is termiated.</p></li>
-<li><p><strong>bond_end_with_device</strong> – Ends device simulation if application is finished.</p></li>
-<li><p><strong>delayed_start_time</strong> – Starts application after delay.</p></li>
-</ul>
-</dd>
-</dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: bob_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: alice_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;alice_app&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: bob_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">static</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="s2">&quot;function: bob_run&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>See QDNS/device/applicaion.Application() for more details.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – Same name application in device.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Application or None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.deactivate">
-<code class="sig-name descname"><span class="pre">deactivate</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/device.html#Device.deactivate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.device.Device.deactivate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deactivates device and causes device will not simulate.
-Call before simulation.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.device_id">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">device_id</span></code><a class="headerlink" href="#Modules.Device.device.Device.device_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.device_settings">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">device_settings</span></code><a class="headerlink" href="#Modules.Device.device.Device.device_settings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.end_check_thread">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">end_check_thread</span></code><a class="headerlink" href="#Modules.Device.device.Device.end_check_thread" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.idle_after_device_ends">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">idle_after_device_ends</span></code><a class="headerlink" href="#Modules.Device.device.Device.idle_after_device_ends" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.is_device_active">
-<code class="sig-name descname"><span class="pre">is_device_active</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/device.html#Device.is_device_active"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.device.Device.is_device_active" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.label">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">label</span></code><a class="headerlink" href="#Modules.Device.device.Device.label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.localhost">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">localhost</span></code><a class="headerlink" href="#Modules.Device.device.Device.localhost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.miner_request_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">miner_request_queue</span></code><a class="headerlink" href="#Modules.Device.device.Device.miner_request_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.ntwk_socket">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">ntwk_socket</span></code><a class="headerlink" href="#Modules.Device.device.Device.ntwk_socket" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.observe_capability">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">observe_capability</span></code><a class="headerlink" href="#Modules.Device.device.Device.observe_capability" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.otg_device">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">otg_device</span></code><a class="headerlink" href="#Modules.Device.device.Device.otg_device" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.prepair_layer">
-<code class="sig-name descname"><span class="pre">prepair_layer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim_request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">miner_request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_dump_queue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/device.html#Device.prepair_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.device.Device.prepair_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prepair device layer, modules and sub-layers for simulation.
-Do not call manually. Only kernel should call.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sim_request</strong> – Kernel request queue.</p></li>
-<li><p><strong>miner_request</strong> – Miner request queue.</p></li>
-<li><p><strong>user_dump_queue</strong> – User dump queue.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.qkd_app">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">qkd_app</span></code><a class="headerlink" href="#Modules.Device.device.Device.qkd_app" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.route_app">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">route_app</span></code><a class="headerlink" href="#Modules.Device.device.Device.route_app" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.run">
-<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/device.html#Device.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.device.Device.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Runs the device. Only simulation kernel should call this method.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.start_after_delay">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">start_after_delay</span></code><a class="headerlink" href="#Modules.Device.device.Device.start_after_delay" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.user_dump_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">user_dump_queue</span></code><a class="headerlink" href="#Modules.Device.device.Device.user_dump_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.device.Device.uuid">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">uuid</span></code><a class="headerlink" href="#Modules.Device.device.Device.uuid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Device.device.Node">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Device.device.</span></code><code class="sig-name descname"><span class="pre">Node</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/device.html#Node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.device.Node" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#Modules.Device.device.Device" title="Modules.Device.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Modules.Device.device.Device</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Device.device.Observer">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Device.device.</span></code><code class="sig-name descname"><span class="pre">Observer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/device.html#Observer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.device.Observer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#Modules.Device.device.Device" title="Modules.Device.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Modules.Device.device.Device</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Device.device.Router">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Device.device.</span></code><code class="sig-name descname"><span class="pre">Router</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/device.html#Router"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.device.Router" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#Modules.Device.device.Device" title="Modules.Device.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Modules.Device.device.Device</span></code></a></p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-Modules.Device.network_adapter">
-<span id="device-network-adapter-module"></span><h2>Device.network_adapter module<a class="headerlink" href="#module-Modules.Device.network_adapter" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="Modules.Device.network_adapter.NetworkSocket">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Device.network_adapter.</span></code><code class="sig-name descname"><span class="pre">NetworkSocket</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host_device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">socket_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.tools.socket_tools.SocketSettings</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/network_adapter.html#NetworkSocket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.architecture_tools.Layer</span></code></p>
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.auto_ping">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">auto_ping</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.auto_ping" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.connect_classic_channel">
-<code class="sig-name descname"><span class="pre">connect_classic_channel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">QDNS.device.channel.ClassicChannel</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.tools.socket_tools.Port</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Device/network_adapter.html#NetworkSocket.connect_classic_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.connect_classic_channel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Connects channel to port.
-This operation must be done in two steps.
-Must be setted queues after connect.
-Redirects Port Manger module.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>channel</strong> – Channel.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Port or None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.connect_quantum_channel">
-<code class="sig-name descname"><span class="pre">connect_quantum_channel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">QDNS.device.channel.QuantumChannel</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.tools.socket_tools.Port</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Device/network_adapter.html#NetworkSocket.connect_quantum_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.connect_quantum_channel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Connects channel to port.
-This operation must be done in two steps.
-Must be setted queues after connect.
-Redirects Port Manger module.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>channel</strong> – Channel.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Port or None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.device_default_app">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">device_default_app</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.device_default_app" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.host_device">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_device</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.host_device" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.host_device_id">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_device_id</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.host_device_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.host_label">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_label</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.host_label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.host_request_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_request_queue</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.host_request_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.host_uuid">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_uuid</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.host_uuid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.income_classic_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">income_classic_queue</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.income_classic_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.income_quantum_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">income_quantum_queue</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.income_quantum_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.is_routing_enabled">
-<code class="sig-name descname"><span class="pre">is_routing_enabled</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/network_adapter.html#NetworkSocket.is_routing_enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.is_routing_enabled" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.max_cc_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">max_cc_count</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.max_cc_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.max_qc_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">max_qc_count</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.max_qc_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.observer_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">observer_queue</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.observer_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.ping_handle_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">ping_handle_queue</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.ping_handle_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.ping_request_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">ping_request_queue</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.ping_request_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.ping_time">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">ping_time</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.ping_time" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.port_manager">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">port_manager</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.port_manager" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.prepair_layer">
-<code class="sig-name descname"><span class="pre">prepair_layer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim_request_queue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/network_adapter.html#NetworkSocket.prepair_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.prepair_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets threads and queues for simulation.
-Must call before its simulation.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.remove_future_package">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">remove_future_package</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.remove_future_package" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.run">
-<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_job</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/network_adapter.html#NetworkSocket.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.sim_request_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">sim_request_queue</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.sim_request_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.socket_settings">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">socket_settings</span></code><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.socket_settings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.start_socket">
-<code class="sig-name descname"><span class="pre">start_socket</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/network_adapter.html#NetworkSocket.start_socket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.start_socket" title="Permalink to this definition">¶</a></dt>
-<dd><p>Starts socket simulation.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Device.network_adapter.NetworkSocket.terminate_socket">
-<code class="sig-name descname"><span class="pre">terminate_socket</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Device/network_adapter.html#NetworkSocket.terminate_socket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Device.network_adapter.NetworkSocket.terminate_socket" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
-</div>
+<section id="device-application-module">
+<h2>Device.application module<a class="headerlink" href="#device-application-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="device-application-manager-module">
+<h2>Device.application_manager module<a class="headerlink" href="#device-application-manager-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="device-channel-module">
+<h2>Device.channel module<a class="headerlink" href="#device-channel-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="device-device-module">
+<h2>Device.device module<a class="headerlink" href="#device-device-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="device-network-adapter-module">
+<h2>Device.network_adapter module<a class="headerlink" href="#device-network-adapter-module" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
 
 
            </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="Modules.Layers.html" class="btn btn-neutral float-right" title="Layers package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="Modules.html" class="btn btn-neutral" title="Modules References" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="Modules.Layers.html" class="btn btn-neutral float-right" title="Layers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Modules.html" class="btn btn-neutral float-left" title="Modules References" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2021, COMU Team.
+        &#169; Copyright 2021, COMU Team.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -1790,37 +241,15 @@ Must call before its simulation.</p>
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.51',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

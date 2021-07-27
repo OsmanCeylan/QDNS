@@ -35,7 +35,7 @@ from QDNS.interactions import signal
 from QDNS.tools.layer import ID_SOCKET
 from QDNS.tools.module import Module, ModuleSettings
 from QDNS.tools.state_handler import StateHandler
-from docs.sphinx.source.Modules.Tools import various_tools
+from QDNS.tools import various_tools
 
 COMMUNICATION_UP = "\"communication is up\""
 COMMUNICATION_DOWN = "\"communication is down\""

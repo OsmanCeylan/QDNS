@@ -11,10 +11,11 @@ from QDNS.backend.tools.config import (
     CIRQ_BACKEND,
     QISKIT_BACKEND,
     STIM_BACKEND,
-    SDQS_BACKEND
+    SDQS_BACKEND,
+    supported_backends,
+    avaible_backends
 )
 from QDNS.backend.tools.noise import (
-    channels,
     depolarisation_channel,
     bit_flip_channel,
     phase_flip_channel,
@@ -25,6 +26,7 @@ from QDNS.backend.tools.noise import (
     change_default_noise_pattern,
     NoisePattern
 )
+from QDNS.backend.tools.noise import channels as noise_channels
 from QDNS.backend.cirq_backend import change_cirq_simulator
 from QDNS.backend.qiskit_backend import change_qiskit_simulator
 

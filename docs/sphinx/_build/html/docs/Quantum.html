@@ -1,56 +1,56 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Operations &mdash; QDNS 0.55-stable documentation</title>
   
-  <title>Quantum Operations &mdash; QDNS 0.51 documentation</title>
+
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
 
   
   
 
   
+  
 
   
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="QDNS 0.51 documentation" href="../index.html"/>
-        <link rel="next" title="Backends" href="Backend.html"/>
-        <link rel="prev" title="Hardware Control" href="Hardware.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Hardware Control" href="Hardware.html" />
+    <link rel="prev" title="Backends" href="Backend.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -77,30 +77,34 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Design.html">Design Principles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Hello.html">Hello QDNS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="App.html">Application Writing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Backend.html">Backends</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quantum Operations</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#qframe-vs-qubit">QFrame vs Qubit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Quantum.allocate">Allocate Qubits</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Quantum.deallocate">Deallocate Qubits</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Quantum.extend">Extend QFrame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Quantum.measure">Measure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Quantum.gates">Gates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Quantum.reset">Reset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Quantum.pairs">Generating Pairs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#allocate-qubit">Allocate Qubit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deallocate-qubits">Deallocate Qubits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#measure-qubits">Measure Qubits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gates">Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reset">Reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generating-pairs">Generating Pairs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#full-test">Full Test</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="App.html">Multi Application</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Noise.html">Noise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Qkd.html">QKD Layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
@@ -112,13 +116,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">QDNS</a>
@@ -126,10 +131,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -149,14 +157,14 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Quantum Operations</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/docs/Quantum.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -170,212 +178,409 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="quantum-operations">
+  <section id="quantum-operations">
 <h1>Quantum Operations<a class="headerlink" href="#quantum-operations" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="qframe-vs-qubit">
+<section id="qframe-vs-qubit">
 <h2>QFrame vs Qubit<a class="headerlink" href="#qframe-vs-qubit" title="Permalink to this headline">¶</a></h2>
-<p>Allocate qubit operations must be called differently according to different backends. Since Cirq and Sdqs are circuit simulators, qubits allocated as circuit blocks. STIM supports all invocation methods. More about backends covered
-in the next section.</p>
+<p>Allocate qubit operations must be called differently according to different backends.
+Since Cirq, Qiskit and Sdqs are circuit simulators, qubits allocated as circuit blocks.
+STIM supports all invocation methods.</p>
 <img alt="alternate text" class="align-left" src="../_images/framex.png" />
-</div>
-<div class="section" id="module-Quantum.allocate">
-<span id="allocate-qubits"></span><h2>Allocate Qubits<a class="headerlink" href="#module-Quantum.allocate" title="Permalink to this headline">¶</a></h2>
-<p>As expected from a quantum network simulator, QDNS can perform allocate qubit operations with different backends:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+</section>
+<section id="allocate-qubit">
+<h2>Allocate Qubit<a class="headerlink" href="#allocate-qubit" title="Permalink to this headline">¶</a></h2>
+<p>As expected from a quantum network simulator, QDNS can perform allocate qubit operations with different backends.
+Allocate operation gets application unique qubit pointer from backend.
+In the example below, Alice node is doing allocate operations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
 
-    <span class="c1"># STIM backend.</span>
-    <span class="n">qubit</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">allocate_qubit</span><span class="p">()[</span><span class="s1">&#39;qubit&#39;</span><span class="p">]</span>
-    <span class="n">qubits</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">allocate_qubits</span><span class="p">(</span><span class="mi">10</span><span class="p">)[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
 
-    <span class="c1"># Cirq and sdqs backend.</span>
-    <span class="n">qubits</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">2</span><span class="p">)[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span>
-    <span class="n">qubits</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">allocate_qframes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allocate_qframe in below:</span>
+<span class="sd">            Allocates 3 qubit circit in Cirq, Qiskit or Sdqs</span>
+<span class="sd">            Allocates 3 qubit in Stim</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubits</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Allocated 3x1 frame: &quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Qubit pointers: &#39;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">allocated_qubits</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allocate_qframes in below:</span>
+<span class="sd">            Allocates 3 qubit 3 circit in Cirq, Qiskit or Sdqs</span>
+<span class="sd">            Allocates 9 qubit in Stim</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubit_frames</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qframes</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Allocated 3x3 frame: &quot;</span><span class="p">,</span> <span class="n">qubit_frames</span><span class="p">)</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allocate_qframe in below:</span>
+<span class="sd">            Allocates 2 qutrit circuit in Cirq</span>
+<span class="sd">            Allocates 2 qubit circit in Qiskit or Sdqs</span>
+<span class="sd">            Allocates 2 qubit in Stim</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qutrits</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Allocated qutrits: &quot;</span><span class="p">,</span> <span class="n">qutrits</span><span class="p">)</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allocate_qubit in below:</span>
+<span class="sd">            Allocates 1 qubit circit in Cirq, Qiskit or Sdqs</span>
+<span class="sd">            Allocates 1 qubit in Stim</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubit</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qubit</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Allocated qubit: &quot;</span><span class="p">,</span> <span class="n">qubit</span><span class="p">)</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allocate_qubits in below:</span>
+<span class="sd">            Allocates 4 qubit circit in Cirq, Qiskit or Sdqs</span>
+<span class="sd">            Allocates 4 qubit in Stim</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubits</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qubits</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Allocated qubit: &quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total allocated qubits in app: &quot;</span><span class="p">,</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocated_qubits</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Qubit</span> <span class="n">pointers</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;000000&#39;</span><span class="p">,</span> <span class="s1">&#39;000001&#39;</span><span class="p">,</span> <span class="s1">&#39;000002&#39;</span><span class="p">,</span> <span class="s1">&#39;000003&#39;</span><span class="p">,</span> <span class="s1">&#39;000004&#39;</span><span class="p">,</span> <span class="s1">&#39;000005&#39;</span><span class="p">,</span> <span class="s1">&#39;000006&#39;</span><span class="p">,</span> <span class="s1">&#39;000007&#39;</span><span class="p">,</span> <span class="s1">&#39;000008&#39;</span><span class="p">,</span> <span class="s1">&#39;000009&#39;</span><span class="p">,</span> <span class="s1">&#39;000010&#39;</span><span class="p">,</span> <span class="s1">&#39;000011&#39;</span><span class="p">,</span> <span class="s1">&#39;000012&#39;</span><span class="p">,</span> <span class="s1">&#39;000013&#39;</span><span class="p">,</span> <span class="s1">&#39;000014&#39;</span><span class="p">,</span> <span class="s1">&#39;000015&#39;</span><span class="p">,</span> <span class="s1">&#39;000016&#39;</span><span class="p">,</span> <span class="s1">&#39;000017&#39;</span><span class="p">,</span> <span class="s1">&#39;000018&#39;</span><span class="p">,</span> <span class="s1">&#39;000019&#39;</span><span class="p">,</span> <span class="s1">&#39;000020&#39;</span><span class="p">,</span> <span class="s1">&#39;000021&#39;</span><span class="p">,</span> <span class="s1">&#39;000022&#39;</span><span class="p">,</span>
-<span class="s1">&#39;000023&#39;</span><span class="p">,</span> <span class="s1">&#39;000024&#39;</span><span class="p">,</span> <span class="s1">&#39;000025&#39;</span><span class="p">,</span> <span class="s1">&#39;000026&#39;</span><span class="p">,</span> <span class="s1">&#39;000027&#39;</span><span class="p">,</span> <span class="s1">&#39;000028&#39;</span><span class="p">,</span> <span class="s1">&#39;000029&#39;</span><span class="p">,</span> <span class="s1">&#39;000030&#39;</span><span class="p">,</span> <span class="s1">&#39;000031&#39;</span><span class="p">,</span> <span class="s1">&#39;000032&#39;</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Allocated</span> <span class="mi">3</span><span class="n">x1</span> <span class="n">frame</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;1020000000&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000001&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000002&#39;</span><span class="p">]</span>
+<span class="n">Allocated</span> <span class="mi">3</span><span class="n">x3</span> <span class="n">frame</span><span class="p">:</span>  <span class="p">[[</span><span class="s1">&#39;1020000100&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000101&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000102&#39;</span><span class="p">],</span>
+                       <span class="p">[</span><span class="s1">&#39;1020000200&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000201&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000202&#39;</span><span class="p">],</span>
+                       <span class="p">[</span><span class="s1">&#39;1020000300&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000301&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000302&#39;</span><span class="p">]]</span>
+<span class="n">Allocated</span> <span class="n">qutrits</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;1030000000&#39;</span><span class="p">,</span> <span class="s1">&#39;1030000001&#39;</span><span class="p">]</span>
+<span class="n">Allocated</span> <span class="n">qubit</span><span class="p">:</span>  <span class="s1">&#39;1020000400&#39;</span>
+<span class="n">Allocated</span> <span class="n">qubits</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;1020000500&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000501&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000502&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000503&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000504&#39;</span><span class="p">]</span>
+
+<span class="n">Total</span> <span class="n">allocated</span> <span class="n">qubits</span> <span class="ow">in</span> <span class="n">app</span><span class="p">:</span>
+<span class="p">[</span>
+    <span class="s1">&#39;1020000000&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000001&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000002&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000100&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000101&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;1020000102&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000200&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000201&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000202&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000300&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;1020000301&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000302&#39;</span><span class="p">,</span> <span class="s1">&#39;1030000000&#39;</span><span class="p">,</span> <span class="s1">&#39;1030000001&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000400&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;1020000500&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000501&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000502&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000503&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000504&#39;</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">allocate_qframe(s)</span> <span class="pre">function</span> <span class="pre">works</span> <span class="pre">as</span> <span class="pre">allocate_qubit(s)</span> <span class="pre">on</span> <span class="pre">STIM.</span></code></p>
-</div>
-<div class="section" id="module-Quantum.deallocate">
-<span id="deallocate-qubits"></span><h2>Deallocate Qubits<a class="headerlink" href="#module-Quantum.deallocate" title="Permalink to this headline">¶</a></h2>
-<p>In order to use the hardware resources more effectively, the qubits whose work is finished should be released:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="c1"># Cirq and sdqs backend.</span>
-    <span class="n">qubits</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">2</span><span class="p">)[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span>
-    <span class="n">qubits</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">allocate_qframes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span>
+</section>
+<section id="deallocate-qubits">
+<h2>Deallocate Qubits<a class="headerlink" href="#deallocate-qubits" title="Permalink to this headline">¶</a></h2>
+<p>In order to use the hardware resources more effectively, the qubits whose work is finished should be released.
+The code below continues from previous sections:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
 
-    <span class="n">app</span><span class="o">.</span><span class="n">deallocate_qubits</span><span class="p">(</span><span class="o">*</span><span class="n">qubits</span><span class="p">)</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="o">...</span>
+        <span class="o">...</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">deallocate_qubits</span><span class="p">(</span><span class="o">*</span><span class="n">qubits</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">This</span> <span class="pre">process</span> <span class="pre">is</span> <span class="pre">especially</span> <span class="pre">necessary</span> <span class="pre">in</span> <span class="pre">circuit</span> <span class="pre">simulators</span> <span class="pre">such</span> <span class="pre">as</span> <span class="pre">Cirq</span> <span class="pre">and</span> <span class="pre">Sdqs</span> <span class="pre">backends.</span></code></p>
-</div>
-<div class="section" id="module-Quantum.extend">
-<span id="extend-qframe"></span><h2>Extend QFrame<a class="headerlink" href="#module-Quantum.extend" title="Permalink to this headline">¶</a></h2>
-<p>This method extends the frame of qubit from back by one qubit. Extend function is only effective on Cirq and Sdqs backend:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="c1"># 2 Qubit Frame --&gt; 3 Qubit Frame</span>
-    <span class="n">qubits</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">2</span><span class="p">)[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">extend_qframe</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="module-Quantum.measure">
-<span id="measure"></span><h2>Measure<a class="headerlink" href="#module-Quantum.measure" title="Permalink to this headline">¶</a></h2>
-<p>Measurements on QNDS are made as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">qubits</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">5</span><span class="p">)[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span>
+</section>
+<section id="measure-qubits">
+<h2>Measure Qubits<a class="headerlink" href="#measure-qubits" title="Permalink to this headline">¶</a></h2>
+<p>With this operation we can measure qubits. The code below continues from previous sections:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
 
-    <span class="n">operation</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">operation</span><span class="p">[</span><span class="s1">&#39;exit_code&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Measure qubits is failed.&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Results: &#39;</span><span class="p">,</span> <span class="n">operation</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">])</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="o">...</span>
+        <span class="o">...</span>
 
-    <span class="c1"># More simple.</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Results: &#39;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">)[</span><span class="s1">&#39;results&#39;</span><span class="p">])</span>
+        <span class="c1"># Lets measure all qubits allocated by this application.</span>
+        <span class="c1"># True Flag = Do non-destructive measures.</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results: &quot;</span><span class="p">,</span> <span class="n">default_app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">default_app</span><span class="o">.</span><span class="n">allocated_qubits</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Results</span><span class="p">:</span>  <span class="p">[</span><span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="gates">
+<h2>Gates<a class="headerlink" href="#gates" title="Permalink to this headline">¶</a></h2>
+<p>QDNS contains various operators preapired for users:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">QDNS</span> <span class="kn">import</span> <span class="n">gates</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gate Count: &quot;</span><span class="p">,</span> <span class="n">gates</span><span class="o">.</span><span class="n">predefined_gates</span><span class="o">.</span><span class="fm">__len__</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gates: &quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">gate</span><span class="o">.</span><span class="n">gate_name</span> <span class="k">for</span> <span class="n">gate</span> <span class="ow">in</span> <span class="n">gates</span><span class="o">.</span><span class="n">predefined_gates</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Gate</span> <span class="n">Count</span><span class="p">:</span>  <span class="mi">37</span>
+<span class="n">Gates</span><span class="p">:</span>  <span class="p">[</span>
+    <span class="s1">&#39;IDGate&#39;</span><span class="p">,</span> <span class="s1">&#39;RXGate&#39;</span><span class="p">,</span> <span class="s1">&#39;RYGate&#39;</span><span class="p">,</span> <span class="s1">&#39;RZ&#39;</span><span class="p">,</span> <span class="s1">&#39;PauliX&#39;</span><span class="p">,</span> <span class="s1">&#39;PauliY&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;PauliZ&#39;</span><span class="p">,</span> <span class="s1">&#39;SGate&#39;</span><span class="p">,</span> <span class="s1">&#39;TGate&#39;</span><span class="p">,</span> <span class="s1">&#39;HGate&#39;</span><span class="p">,</span> <span class="s1">&#39;Psedo-HGate&#39;</span><span class="p">,</span> <span class="s1">&#39;CRXGate&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;CXGate&#39;</span><span class="p">,</span> <span class="s1">&#39;CRYGate&#39;</span><span class="p">,</span> <span class="s1">&#39;CYGate&#39;</span><span class="p">,</span> <span class="s1">&#39;CRZGate&#39;</span><span class="p">,</span> <span class="s1">&#39;CYGate&#39;</span><span class="p">,</span> <span class="s1">&#39;CSGate&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;CTGate&#39;</span><span class="p">,</span> <span class="s1">&#39;CHGate&#39;</span><span class="p">,</span> <span class="s1">&#39;IIGate&#39;</span><span class="p">,</span> <span class="s1">&#39;SWAPGate&#39;</span><span class="p">,</span> <span class="s1">&#39;iSWAPGate&#39;</span><span class="p">,</span> <span class="s1">&#39;XXGate&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;YYGate&#39;</span><span class="p">,</span> <span class="s1">&#39;ZZGate&#39;</span><span class="p">,</span> <span class="s1">&#39;MSGate&#39;</span><span class="p">,</span> <span class="s1">&#39;MagicGate&#39;</span><span class="p">,</span> <span class="s1">&#39;CVGate&#39;</span><span class="p">,</span> <span class="s1">&#39;XYGate&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DCXGate&#39;</span><span class="p">,</span> <span class="s1">&#39;bSWAPGate&#39;</span><span class="p">,</span> <span class="s1">&#39;QFTGate&#39;</span><span class="p">,</span> <span class="s1">&#39;WGate&#39;</span><span class="p">,</span> <span class="s1">&#39;CCXGate&#39;</span><span class="p">,</span> <span class="s1">&#39;CSWAPGate&#39;</span><span class="p">,</span> <span class="s1">&#39;CCZGate&#39;</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Applying gates to qubits follows as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
 
-    <span class="c1"># Non-destructive</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Results: &#39;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="kc">True</span><span class="p">)[</span><span class="s1">&#39;results&#39;</span><span class="p">])</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="o">...</span>
+        <span class="o">...</span>
 
-    <span class="c1"># Measure in other dimensions. Works on CIRQ</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Results: &#39;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[</span><span class="s1">&#39;results&#39;</span><span class="p">])</span>
+        <span class="n">qubits</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">apply_transformation</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">HGate</span><span class="p">(),</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">apply_transformation</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">CXGate</span><span class="p">(),</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results: &quot;</span><span class="p">,</span> <span class="n">default_app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Results</span><span class="p">:</span>  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">Results</span><span class="p">:</span>  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="n">Results</span><span class="p">:</span>  <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="n">Results</span><span class="p">:</span>  <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Results</span><span class="p">:</span>  <span class="p">[</span><span class="mf">1.</span> <span class="mf">1.</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="module-Quantum.gates">
-<span id="gates"></span><h2>Gates<a class="headerlink" href="#module-Quantum.gates" title="Permalink to this headline">¶</a></h2>
-<p>QDNS predefines many gates for users to use.
-“QDNS.tools.gates” module must be imported to use transformations on qubit:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QDNS.tools.gates</span> <span class="k">as</span> <span class="nn">gates</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">gate_id_to_gate_name</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="mi">10</span><span class="p">:</span> <span class="s1">&#39;IDGate&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span> <span class="s1">&#39;RXGate&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="s1">&#39;RYGate&#39;</span><span class="p">,</span> <span class="mi">13</span><span class="p">:</span> <span class="s1">&#39;RZ&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">:</span> <span class="s1">&#39;PauliX&#39;</span><span class="p">,</span> <span class="mi">15</span><span class="p">:</span> <span class="s1">&#39;PauliY&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">:</span> <span class="s1">&#39;PauliZ&#39;</span><span class="p">,</span> <span class="mi">17</span><span class="p">:</span> <span class="s1">&#39;SGate&#39;</span><span class="p">,</span> <span class="mi">18</span><span class="p">:</span> <span class="s1">&#39;TGate&#39;</span><span class="p">,</span> <span class="mi">19</span><span class="p">:</span> <span class="s1">&#39;HGate&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span> <span class="s1">&#39;Psedo-HGate&#39;</span><span class="p">,</span> <span class="mi">21</span><span class="p">:</span> <span class="s1">&#39;CRXGate&#39;</span><span class="p">,</span> <span class="mi">22</span><span class="p">:</span> <span class="s1">&#39;CXGate&#39;</span><span class="p">,</span> <span class="mi">23</span><span class="p">:</span> <span class="s1">&#39;CRYGate&#39;</span><span class="p">,</span> <span class="mi">24</span><span class="p">:</span> <span class="s1">&#39;CYGate&#39;</span><span class="p">,</span> <span class="mi">25</span><span class="p">:</span> <span class="s1">&#39;CRZGate&#39;</span><span class="p">,</span>
-<span class="mi">26</span><span class="p">:</span> <span class="s1">&#39;CYGate&#39;</span><span class="p">,</span> <span class="mi">27</span><span class="p">:</span> <span class="s1">&#39;CSGate&#39;</span><span class="p">,</span> <span class="mi">28</span><span class="p">:</span> <span class="s1">&#39;CTGate&#39;</span><span class="p">,</span> <span class="mi">29</span><span class="p">:</span> <span class="s1">&#39;CHGate&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">:</span> <span class="s1">&#39;IIGate&#39;</span><span class="p">,</span> <span class="mi">31</span><span class="p">:</span> <span class="s1">&#39;SWAPGate&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">:</span> <span class="s1">&#39;iSWAPGate&#39;</span><span class="p">,</span> <span class="mi">33</span><span class="p">:</span> <span class="s1">&#39;XXGate&#39;</span><span class="p">,</span> <span class="mi">34</span><span class="p">:</span> <span class="s1">&#39;YYGate&#39;</span><span class="p">,</span> <span class="mi">35</span><span class="p">:</span> <span class="s1">&#39;ZZGate&#39;</span><span class="p">,</span> <span class="mi">36</span><span class="p">:</span> <span class="s1">&#39;MSGate&#39;</span><span class="p">,</span> <span class="mi">37</span><span class="p">:</span> <span class="s1">&#39;MagicGate&#39;</span><span class="p">,</span> <span class="mi">38</span><span class="p">:</span> <span class="s1">&#39;CVGate&#39;</span><span class="p">,</span> <span class="mi">39</span><span class="p">:</span> <span class="s1">&#39;XYGate&#39;</span><span class="p">,</span> <span class="mi">40</span><span class="p">:</span> <span class="s1">&#39;DCXGate&#39;</span><span class="p">,</span>
-<span class="mi">41</span><span class="p">:</span> <span class="s1">&#39;bSWAPGate&#39;</span><span class="p">,</span> <span class="mi">42</span><span class="p">:</span> <span class="s1">&#39;QFTGate&#39;</span><span class="p">,</span> <span class="mi">43</span><span class="p">:</span> <span class="s1">&#39;WGate&#39;</span><span class="p">,</span> <span class="mi">44</span><span class="p">:</span> <span class="s1">&#39;CCXGate&#39;</span><span class="p">,</span> <span class="mi">45</span><span class="p">:</span> <span class="s1">&#39;CSWAPGate&#39;</span><span class="p">,</span> <span class="mi">46</span><span class="p">:</span> <span class="s1">&#39;CCZGate&#39;</span><span class="p">}</span>
-</pre></div>
-</div>
-<p>Apply gates on application:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">qubits</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">2</span><span class="p">)[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">apply_transformation</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">HGate</span><span class="p">(),</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">apply_transformation</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">CXGate</span><span class="p">(),</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Results: &#39;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">)[</span><span class="s1">&#39;results&#39;</span><span class="p">])</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Results</span><span class="p">:</span>  <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="module-Quantum.reset">
-<span id="reset"></span><h2>Reset<a class="headerlink" href="#module-Quantum.reset" title="Permalink to this headline">¶</a></h2>
-<p>Resetting qubits on QNDS are made as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">qubits</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">2</span><span class="p">)[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">apply_transformation</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">PauliX</span><span class="p">(),</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">apply_transformation</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">PauliX</span><span class="p">(),</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">app</span><span class="o">.</span><span class="n">reset_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Results: &#39;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">)[</span><span class="s1">&#39;results&#39;</span><span class="p">])</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Results</span><span class="p">:</span>  <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="module-Quantum.pairs">
-<span id="generating-pairs"></span><h2>Generating Pairs<a class="headerlink" href="#module-Quantum.pairs" title="Permalink to this headline">¶</a></h2>
-<p>We recommend using these functions to create bell:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">pairs</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">generate_entangle_pairs</span><span class="p">(</span><span class="mi">5</span><span class="p">)[</span><span class="s1">&#39;pairs&#39;</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pairs&#39;</span><span class="p">:</span> <span class="n">pairs</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Pairs</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;020025600&#39;</span><span class="p">,</span> <span class="s1">&#39;020025601&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;020025700&#39;</span><span class="p">,</span> <span class="s1">&#39;020025701&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;020025800&#39;</span><span class="p">,</span> <span class="s1">&#39;020025801&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;020025900&#39;</span><span class="p">,</span> <span class="s1">&#39;020025901&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;020026000&#39;</span><span class="p">,</span> <span class="s1">&#39;020026001&#39;</span><span class="p">]]</span>
-</pre></div>
-</div>
-<p>We recommend using these functions to create ghz state:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">qubits</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">generate_ghz_pair</span><span class="p">(</span><span class="mi">3</span><span class="p">)[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Qubits&#39;</span><span class="p">:</span> <span class="n">qubits</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Qubits</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;020038400&#39;</span><span class="p">,</span> <span class="s1">&#39;020038401&#39;</span><span class="p">,</span> <span class="s1">&#39;020038402&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-<dl class="py function">
-<dt id="Quantum.pairs.generate_entangle_pairs">
-<code class="sig-prename descclassname"><span class="pre">Quantum.pairs.</span></code><code class="sig-name descname"><span class="pre">generate_entangle_pairs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Quantum/pairs.html#generate_entangle_pairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Quantum.pairs.generate_entangle_pairs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates entangle pairs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>count</strong> – Count of pairs.</p></li>
-<li><p><strong>args</strong> – Backend specific arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “pairs”}</p>
-</dd>
-</dl>
-</dd></dl>
+</section>
+<section id="reset">
+<h2>Reset<a class="headerlink" href="#reset" title="Permalink to this headline">¶</a></h2>
+<p>QDNS allows users to reset qubits in every backend:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
 
-<dl class="py function">
-<dt id="Quantum.pairs.generate_ghz_pair">
-<code class="sig-prename descclassname"><span class="pre">Quantum.pairs.</span></code><code class="sig-name descname"><span class="pre">generate_ghz_pair</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Quantum/pairs.html#generate_ghz_pair"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Quantum.pairs.generate_ghz_pair" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates entangle pairs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> – Qubit count in ghz state.</p></li>
-<li><p><strong>args</strong> – Backend specific arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “qubits”}</p>
-</dd>
-</dl>
-</dd></dl>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="o">...</span>
+        <span class="o">...</span>
 
+        <span class="c1"># Lets reset epr qubits from top.</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">reset_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;After Reset Result: &quot;</span><span class="p">,</span> <span class="n">default_app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">))</span>
+</pre></div>
 </div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Results</span><span class="p">:</span>  <span class="p">[</span><span class="mf">0.</span> <span class="mf">0.</span><span class="p">]</span>
+</pre></div>
 </div>
+</section>
+<section id="generating-pairs">
+<h2>Generating Pairs<a class="headerlink" href="#generating-pairs" title="Permalink to this headline">¶</a></h2>
+<p>QDNS has built in epr and ghz pair generation process that faster than doing this manually:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="o">...</span>
+        <span class="o">...</span>
+
+        <span class="n">epr_frames</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">generate_entangle_pairs</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">ghz_frames</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">generate_ghz_pair</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;EPR&#39;s: &quot;</span><span class="p">,</span> <span class="n">epr_frames</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;GHZ&#39;s: &quot;</span><span class="p">,</span> <span class="n">ghz_frames</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">EPR</span><span class="s1">&#39;s:  [</span>
+    <span class="p">[</span><span class="s1">&#39;1020012900&#39;</span><span class="p">,</span> <span class="s1">&#39;1020012901&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1020013000&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013001&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;1020013100&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013101&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1020013200&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013201&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;1020013300&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013301&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1020013400&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013401&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;1020013500&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013501&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1020013600&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013601&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;1020013700&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013701&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1020013800&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013801&#39;</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">GHZ</span><span class="s1">&#39;s:  [</span>
+<span class="p">[</span><span class="s1">&#39;1020019600&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019601&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019602&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1020019700&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019701&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019702&#39;</span><span class="p">],</span>
+<span class="p">[</span><span class="s1">&#39;1020019800&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019801&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019802&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1020019900&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019901&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019902&#39;</span><span class="p">],</span>
+<span class="p">[</span><span class="s1">&#39;1020020000&#39;</span><span class="p">,</span> <span class="s1">&#39;1020020001&#39;</span><span class="p">,</span> <span class="s1">&#39;1020020002&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1020020100&#39;</span><span class="p">,</span> <span class="s1">&#39;1020020101&#39;</span><span class="p">,</span> <span class="s1">&#39;1020020102&#39;</span><span class="p">],</span>
+<span class="p">[</span><span class="s1">&#39;1020020200&#39;</span><span class="p">,</span> <span class="s1">&#39;1020020201&#39;</span><span class="p">,</span> <span class="s1">&#39;1020020202&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1020020300&#39;</span><span class="p">,</span> <span class="s1">&#39;1020020301&#39;</span><span class="p">,</span> <span class="s1">&#39;1020020302&#39;</span><span class="p">],</span>
+<span class="p">[</span><span class="s1">&#39;1020020400&#39;</span><span class="p">,</span> <span class="s1">&#39;1020020401&#39;</span><span class="p">,</span> <span class="s1">&#39;1020020402&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1020020500&#39;</span><span class="p">,</span> <span class="s1">&#39;1020020501&#39;</span><span class="p">,</span> <span class="s1">&#39;1020020502&#39;</span><span class="p">]</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="full-test">
+<h2>Full Test<a class="headerlink" href="#full-test" title="Permalink to this headline">¶</a></h2>
+<p>The following codes contain all the tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QDNS</span>
+<span class="kn">from</span> <span class="nn">QDNS</span> <span class="kn">import</span> <span class="n">gates</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allocate_qframe in below:</span>
+<span class="sd">            Allocates 3 qubit circit in Cirq, Qiskit or Sdqs</span>
+<span class="sd">            Allocates 3 qubit in Stim</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubits</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Allocated 3x1 frame: &quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="p">)</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allocate_qframes in below:</span>
+<span class="sd">            Allocates 3 qubit 3 circit in Cirq, Qiskit or Sdqs</span>
+<span class="sd">            Allocates 9 qubit in Stim</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubit_frames</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qframes</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Allocated 3x3 frames: &quot;</span><span class="p">,</span> <span class="n">qubit_frames</span><span class="p">)</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allocate_qframe in below:</span>
+<span class="sd">            Allocates 2 qutrit circuit in Cirq</span>
+<span class="sd">            Allocates 2 qubit circit in Qiskit or Sdqs</span>
+<span class="sd">            Allocates 2 qubit in Stim</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qutrits</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Allocated qutrits: &quot;</span><span class="p">,</span> <span class="n">qutrits</span><span class="p">)</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allocate_qubit in below:</span>
+<span class="sd">            Allocates 1 qubit circit in Cirq, Qiskit or Sdqs</span>
+<span class="sd">            Allocates 1 qubit in Stim</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubit</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qubit</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Allocated qubit: &quot;</span><span class="p">,</span> <span class="n">qubit</span><span class="p">)</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allocate_qubits in below:</span>
+<span class="sd">            Allocates 4 qubit circit in Cirq, Qiskit or Sdqs</span>
+<span class="sd">            Allocates 4 qubit in Stim</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">qubits</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qubits</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Allocated qubits: &quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total allocated qubits in app: &quot;</span><span class="p">,</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocated_qubits</span><span class="p">)</span>
+
+        <span class="c1"># Deallocate some qubits</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">deallocate_qubits</span><span class="p">(</span><span class="o">*</span><span class="n">qubits</span><span class="p">)</span>
+
+        <span class="c1"># Lets measure all qubits allocated by this application</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results: &quot;</span><span class="p">,</span> <span class="n">default_app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">default_app</span><span class="o">.</span><span class="n">allocated_qubits</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+
+        <span class="c1"># Lets create manually epr</span>
+        <span class="n">qubits</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">apply_transformation</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">HGate</span><span class="p">(),</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">apply_transformation</span><span class="p">(</span><span class="n">gates</span><span class="o">.</span><span class="n">CXGate</span><span class="p">(),</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Results: &quot;</span><span class="p">,</span> <span class="n">default_app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">))</span>
+
+        <span class="c1"># Lets reset epr qubits from top</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">reset_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;After Reset Result: &quot;</span><span class="p">,</span> <span class="n">default_app</span><span class="o">.</span><span class="n">measure_qubits</span><span class="p">(</span><span class="n">qubits</span><span class="p">))</span>
+
+        <span class="c1"># Lets generate epr and ghz auto</span>
+        <span class="n">epr_frames</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">generate_entangle_pairs</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">ghz_frames</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">generate_ghz_pair</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;EPR&#39;s: &quot;</span><span class="p">,</span> <span class="n">epr_frames</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;GHZ&#39;s: &quot;</span><span class="p">,</span> <span class="n">ghz_frames</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+
+    <span class="n">net</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Network</span><span class="p">()</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">add_device</span><span class="p">(</span><span class="n">Alice</span><span class="p">())</span>
+
+    <span class="n">frames</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="p">{</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+            <span class="mi">3</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+            <span class="mi">4</span><span class="p">:</span> <span class="mi">32</span>
+        <span class="p">},</span>
+
+        <span class="mi">3</span><span class="p">:</span> <span class="p">{</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="mi">16</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">BackendConfiguration</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">CIRQ_BACKEND</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">frames</span><span class="p">)</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
+    <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span><span class="p">:</span><span class="n">CIRQ</span> <span class="n">backend</span> <span class="ow">is</span> <span class="n">prepaired</span> <span class="k">for</span> <span class="n">simulation</span><span class="o">.</span> <span class="n">Prepairation</span> <span class="n">time</span><span class="p">:</span> <span class="o">~</span><span class="mf">0.1609</span> <span class="n">sec</span>
+<span class="n">Allocated</span> <span class="mi">3</span><span class="n">x1</span> <span class="n">frame</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;1020019200&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019201&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019202&#39;</span><span class="p">]</span>
+<span class="n">Allocated</span> <span class="mi">3</span><span class="n">x3</span> <span class="n">frames</span><span class="p">:</span> <span class="p">[[</span><span class="s1">&#39;1020019300&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019301&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019302&#39;</span><span class="p">],</span>
+                       <span class="p">[</span><span class="s1">&#39;3020019200&#39;</span><span class="p">,</span> <span class="s1">&#39;3020019201&#39;</span><span class="p">,</span> <span class="s1">&#39;3020019202&#39;</span><span class="p">],</span>
+                       <span class="p">[</span><span class="s1">&#39;2020019200&#39;</span><span class="p">,</span> <span class="s1">&#39;2020019201&#39;</span><span class="p">,</span> <span class="s1">&#39;2020019202&#39;</span><span class="p">]]</span>
+
+<span class="n">Allocated</span> <span class="n">qutrits</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;1030000000&#39;</span><span class="p">,</span> <span class="s1">&#39;1030000001&#39;</span><span class="p">]</span>
+<span class="n">Allocated</span> <span class="n">qubit</span><span class="p">:</span>  <span class="mi">1020000000</span>
+<span class="n">Allocated</span> <span class="n">qubits</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;1020022400&#39;</span><span class="p">,</span> <span class="s1">&#39;1020022401&#39;</span><span class="p">,</span> <span class="s1">&#39;1020022402&#39;</span><span class="p">,</span> <span class="s1">&#39;1020022403&#39;</span><span class="p">]</span>
+
+<span class="n">Total</span> <span class="n">allocated</span> <span class="n">qubits</span> <span class="ow">in</span> <span class="n">app</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;1020019200&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019201&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019202&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019300&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;1020019301&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019302&#39;</span><span class="p">,</span> <span class="s1">&#39;3020019200&#39;</span><span class="p">,</span> <span class="s1">&#39;3020019201&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;3020019202&#39;</span><span class="p">,</span> <span class="s1">&#39;2020019200&#39;</span><span class="p">,</span> <span class="s1">&#39;2020019201&#39;</span><span class="p">,</span> <span class="s1">&#39;2020019202&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;1030000000&#39;</span><span class="p">,</span> <span class="s1">&#39;1030000001&#39;</span><span class="p">,</span> <span class="s1">&#39;1020000000&#39;</span><span class="p">,</span> <span class="s1">&#39;1020022400&#39;</span><span class="p">,</span>
+                                 <span class="s1">&#39;1020022401&#39;</span><span class="p">,</span> <span class="s1">&#39;1020022402&#39;</span><span class="p">,</span> <span class="s1">&#39;1020022403&#39;</span><span class="p">]</span>
+
+<span class="n">Results</span><span class="p">:</span>  <span class="p">[</span><span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span> <span class="mf">0.</span><span class="p">]</span>
+
+<span class="n">Results</span><span class="p">:</span>  <span class="p">[</span><span class="mf">1.</span> <span class="mf">1.</span><span class="p">]</span>
+
+<span class="n">After</span> <span class="n">Reset</span> <span class="n">Result</span><span class="p">:</span>  <span class="p">[</span><span class="mf">0.</span> <span class="mf">0.</span><span class="p">]</span>
+
+<span class="n">EPR</span><span class="s1">&#39;s: [</span>
+         <span class="p">[</span><span class="s1">&#39;1020012900&#39;</span><span class="p">,</span> <span class="s1">&#39;1020012901&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1020013000&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013001&#39;</span><span class="p">],</span>
+         <span class="p">[</span><span class="s1">&#39;2020012800&#39;</span><span class="p">,</span> <span class="s1">&#39;2020012801&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;2020012900&#39;</span><span class="p">,</span> <span class="s1">&#39;2020012901&#39;</span><span class="p">],</span>
+         <span class="p">[</span><span class="s1">&#39;3020012800&#39;</span><span class="p">,</span> <span class="s1">&#39;3020012801&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;3020012900&#39;</span><span class="p">,</span> <span class="s1">&#39;3020012901&#39;</span><span class="p">],</span>
+         <span class="p">[</span><span class="s1">&#39;4020012800&#39;</span><span class="p">,</span> <span class="s1">&#39;4020012801&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;4020012900&#39;</span><span class="p">,</span> <span class="s1">&#39;4020012901&#39;</span><span class="p">],</span>
+         <span class="p">[</span><span class="s1">&#39;5020012800&#39;</span><span class="p">,</span> <span class="s1">&#39;5020012801&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;5020012900&#39;</span><span class="p">,</span> <span class="s1">&#39;5020012901&#39;</span><span class="p">]</span>
+       <span class="p">]</span>
+<span class="n">GHZ</span><span class="s1">&#39;s: [</span>
+         <span class="p">[</span><span class="s1">&#39;1020019400&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019401&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019402&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;1020019500&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019501&#39;</span><span class="p">,</span> <span class="s1">&#39;1020019502&#39;</span><span class="p">],</span>
+         <span class="p">[</span><span class="s1">&#39;2020019300&#39;</span><span class="p">,</span> <span class="s1">&#39;2020019301&#39;</span><span class="p">,</span> <span class="s1">&#39;2020019302&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;2020019400&#39;</span><span class="p">,</span> <span class="s1">&#39;2020019401&#39;</span><span class="p">,</span> <span class="s1">&#39;2020019402&#39;</span><span class="p">],</span>
+         <span class="p">[</span><span class="s1">&#39;5020019200&#39;</span><span class="p">,</span> <span class="s1">&#39;5020019201&#39;</span><span class="p">,</span> <span class="s1">&#39;5020019202&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;5020019300&#39;</span><span class="p">,</span> <span class="s1">&#39;5020019301&#39;</span><span class="p">,</span> <span class="s1">&#39;5020019302&#39;</span><span class="p">],</span>
+         <span class="p">[</span><span class="s1">&#39;3020019300&#39;</span><span class="p">,</span> <span class="s1">&#39;3020019301&#39;</span><span class="p">,</span> <span class="s1">&#39;3020019302&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;3020019400&#39;</span><span class="p">,</span> <span class="s1">&#39;3020019401&#39;</span><span class="p">,</span> <span class="s1">&#39;3020019402&#39;</span><span class="p">],</span>
+         <span class="p">[</span><span class="s1">&#39;4020019200&#39;</span><span class="p">,</span> <span class="s1">&#39;4020019201&#39;</span><span class="p">,</span> <span class="s1">&#39;4020019202&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;4020019300&#39;</span><span class="p">,</span> <span class="s1">&#39;4020019301&#39;</span><span class="p">,</span> <span class="s1">&#39;4020019302&#39;</span><span class="p">]</span>
+       <span class="p">]</span>
+
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Alice</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0017</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">:</span><span class="n">Simulation</span> <span class="ow">is</span> <span class="n">ended</span> <span class="ow">in</span> <span class="mf">1.2541</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Real</span> <span class="n">raw</span> <span class="n">time</span><span class="p">:</span> <span class="mf">0.0485</span>
+</pre></div>
+</div>
+</section>
+</section>
 
 
            </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="Backend.html" class="btn btn-neutral float-right" title="Backends" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="Hardware.html" class="btn btn-neutral" title="Hardware Control" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="Hardware.html" class="btn btn-neutral float-right" title="Hardware Control" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Backend.html" class="btn btn-neutral float-left" title="Backends" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2021, COMU Team.
+        &#169; Copyright 2021, COMU Team.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -384,37 +589,15 @@ in the next section.</p>
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.51',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

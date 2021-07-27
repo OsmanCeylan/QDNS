@@ -3,11 +3,12 @@ from QDNS import __version__
 
 setup(
     name='QDNS',
-    version=str(__version__),
-    packages=['QDNS', 'QDNS.tools', 'QDNS.device', 'QDNS.backend', 'QDNS.commands', 'QDNS.rtg_apps', 'QDNS.networking', 'QDNS.simulation', 'QDNS.interactions'],
-    url='github.com/OsmanCeylan/QDNS',
+    version=__version__,
+    packages=['QDNS', 'QDNS.tools', 'QDNS.device', 'QDNS.device.tools', 'QDNS.backend', 'QDNS.backend.tools', 'QDNS.commands', 'QDNS.rtg_apps', 'QDNS.networking', 'QDNS.simulation',
+              'QDNS.interactions'],
+    url='https://github.com/OsmanCeylan/QDNS',
     license='BSD',
-    author='COMU Team',
-    author_email='osman.semi.ceylan@gmail.com',
-    description='QDNS - Quantum Network Simulator on Python'
+    author='osman semi ceylan',
+    author_email='osman.semi.ceylanq@gmail.com',
+    description='QDNS - Quantum Dynamic Network Simulator'
 )

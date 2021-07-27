@@ -1,56 +1,55 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tools package &mdash; QDNS 0.55-stable documentation</title>
   
-  <title>Tools package &mdash; QDNS 0.51 documentation</title>
+
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
 
   
   
 
   
+  
 
   
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="QDNS 0.51 documentation" href="../index.html"/>
-        <link rel="up" title="Modules References" href="Modules.html"/>
-        <link rel="prev" title="Network package" href="Modules.Network.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Network package" href="Modules.Network.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -77,20 +76,24 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Design.html">Design Principles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Hello.html">Hello QDNS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="App.html">Application Writing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="App.html">Advanged Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Noise.html">Noise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Qkd.html">QKD Layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
@@ -102,16 +105,16 @@
 <li class="toctree-l3"><a class="reference internal" href="Modules.Layers.html">Layers package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Modules.Network.html">Network package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">Tools package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#module-Modules.Tools.application_tools">Tools.application_tools module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tools-application-tools-module">Tools.application_tools module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-Modules.Tools.architecture_tools">Tools.architecture_tools module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-Modules.Tools.command_tools">Tools.command_tools module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-Modules.Tools.communication_tools">Tools.communication_tools module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-Modules.Tools.device_tools">Tools.device_tools module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tools-device-tools-module">Tools.device_tools module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-Modules.Tools.exit_codes">Tools.exit_codes module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-Modules.Tools.gates">Tools.gates module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-Modules.Tools.instance_logger">Tools.instance_logger module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-Modules.Tools.simulation_tools">Tools.simulation_tools module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-Modules.Tools.socket_tools">Tools.socket_tools module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tools-simulation-tools-module">Tools.simulation_tools module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tools-socket-tools-module">Tools.socket_tools module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-Modules.Tools.various_tools">Tools.various_tools module</a></li>
 </ul>
 </li>
@@ -124,13 +127,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">QDNS</a>
@@ -138,10 +142,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -161,7 +168,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="Modules.html">Modules References</a> &raquo;</li>
         
@@ -170,7 +177,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/docs/Modules.Tools.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -184,416 +191,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="tools-package">
+  <section id="tools-package">
 <h1>Tools package<a class="headerlink" href="#tools-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-Modules.Tools.application_tools">
-<span id="tools-application-tools-module"></span><h2>Tools.application_tools module<a class="headerlink" href="#module-Modules.Tools.application_tools" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="Modules.Tools.application_tools.ApplicationSettings">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.application_tools.</span></code><code class="sig-name descname"><span class="pre">ApplicationSettings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">static</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_device_if_terminated</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_end_with_device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delayed_start_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.15</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#ApplicationSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.ApplicationSettings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.architecture_tools.AnySettings</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.ApplicationSettings.bond_end_with_device">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">bond_end_with_device</span></code><a class="headerlink" href="#Modules.Tools.application_tools.ApplicationSettings.bond_end_with_device" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.ApplicationSettings.change_enabled">
-<code class="sig-name descname"><span class="pre">change_enabled</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_flag</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#ApplicationSettings.change_enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.ApplicationSettings.change_enabled" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.ApplicationSettings.change_end_device_if_terminated">
-<code class="sig-name descname"><span class="pre">change_end_device_if_terminated</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_flag</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#ApplicationSettings.change_end_device_if_terminated"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.ApplicationSettings.change_end_device_if_terminated" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.ApplicationSettings.change_static">
-<code class="sig-name descname"><span class="pre">change_static</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_flag</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#ApplicationSettings.change_static"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.ApplicationSettings.change_static" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.ApplicationSettings.delayed_start_time">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">delayed_start_time</span></code><a class="headerlink" href="#Modules.Tools.application_tools.ApplicationSettings.delayed_start_time" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.ApplicationSettings.disable">
-<code class="sig-name descname"><span class="pre">disable</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#ApplicationSettings.disable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.ApplicationSettings.disable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.ApplicationSettings.enable">
-<code class="sig-name descname"><span class="pre">enable</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#ApplicationSettings.enable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.ApplicationSettings.enable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.ApplicationSettings.enabled">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">enabled</span></code><a class="headerlink" href="#Modules.Tools.application_tools.ApplicationSettings.enabled" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.ApplicationSettings.end_device_if_terminated">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">end_device_if_terminated</span></code><a class="headerlink" href="#Modules.Tools.application_tools.ApplicationSettings.end_device_if_terminated" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.ApplicationSettings.static">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">static</span></code><a class="headerlink" href="#Modules.Tools.application_tools.ApplicationSettings.static" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.application_tools.BlockList">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.application_tools.</span></code><code class="sig-name descname"><span class="pre">BlockList</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.architecture_tools.Module</span></code></p>
-<dl class="py attribute">
-<dt id="Modules.Tools.application_tools.BlockList.DEFAULT_ALL_COMMUNICATION">
-<code class="sig-name descname"><span class="pre">DEFAULT_ALL_COMMUNICATION</span></code><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.DEFAULT_ALL_COMMUNICATION" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="Modules.Tools.application_tools.BlockList.DEFAULT_ALL_PACKAGES">
-<code class="sig-name descname"><span class="pre">DEFAULT_ALL_PACKAGES</span></code><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.DEFAULT_ALL_PACKAGES" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="Modules.Tools.application_tools.BlockList.DEFAULT_ALL_PROTOCOLS">
-<code class="sig-name descname"><span class="pre">DEFAULT_ALL_PROTOCOLS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.DEFAULT_ALL_PROTOCOLS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="Modules.Tools.application_tools.BlockList.DEFAULT_ALL_QUBIT_STREAMS">
-<code class="sig-name descname"><span class="pre">DEFAULT_ALL_QUBIT_STREAMS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.DEFAULT_ALL_QUBIT_STREAMS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="Modules.Tools.application_tools.BlockList.DEFAULT_BLOCKED_PROTOCOLS">
-<code class="sig-name descname"><span class="pre">DEFAULT_BLOCKED_PROTOCOLS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">[]</span></em><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.DEFAULT_BLOCKED_PROTOCOLS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="Modules.Tools.application_tools.BlockList.MODULE_NAME">
-<code class="sig-name descname"><span class="pre">MODULE_NAME</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'BlockList'</span></em><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.MODULE_NAME" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.add_blocked_count">
-<code class="sig-name descname"><span class="pre">add_blocked_count</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.add_blocked_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.add_blocked_count" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates blocked count of device.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>device_label</strong> – Device label.</p></li>
-<li><p><strong>add_value</strong> – Plus value.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if operation is success.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.add_device">
-<code class="sig-name descname"><span class="pre">add_device</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_communication</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_packages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_protocols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_qubit_streams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocked_protocols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.add_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.add_device" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds new blacklisted device to application blacklist.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>device_label</strong> – Device label.</p></li>
-<li><p><strong>all_communication</strong> – Block all communication.</p></li>
-<li><p><strong>all_packages</strong> – Bloack all packages.</p></li>
-<li><p><strong>all_protocols</strong> – Block all protocols.</p></li>
-<li><p><strong>all_qubit_streams</strong> – Block qubit streams.</p></li>
-<li><p><strong>blocked_protocols</strong> – Specify blocked protocols.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">BlockList</span><span class="p">()</span><span class="o">.</span><span class="n">add_device</span><span class="p">(</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">all_communication</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">all_packages</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">all_protocols</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">all_qubit_streams</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">blocked_protocols</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.all_communication">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">all_communication</span></code><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.all_communication" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.all_packages">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">all_packages</span></code><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.all_packages" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.all_protocols">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">all_protocols</span></code><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.all_protocols" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.all_qubit_streams">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">all_qubit_streams</span></code><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.all_qubit_streams" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.blocked_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">blocked_count</span></code><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.blocked_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.blocked_protocols">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">blocked_protocols</span></code><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.blocked_protocols" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.clear_blocklist">
-<code class="sig-name descname"><span class="pre">clear_blocklist</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.clear_blocklist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.clear_blocklist" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.clear_counts">
-<code class="sig-name descname"><span class="pre">clear_counts</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.clear_counts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.clear_counts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Clears the blocked counts.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.device_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">device_count</span></code><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.device_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.devices">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">devices</span></code><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.devices" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.disable_module">
-<code class="sig-name descname"><span class="pre">disable_module</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.disable_module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.disable_module" title="Permalink to this definition">¶</a></dt>
-<dd><p>Disables Module.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>True if module can disable.
-False if module cannot disable.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.enable_module">
-<code class="sig-name descname"><span class="pre">enable_module</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.enable_module"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.enable_module" title="Permalink to this definition">¶</a></dt>
-<dd><p>Enables Module.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>True if module state changed to enabled.
-False if module state is not changed.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.get_all_communication">
-<code class="sig-name descname"><span class="pre">get_all_communication</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.get_all_communication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.get_all_communication" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets all communication property of device in black list.
-:returns: Boolean or None.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.get_all_packages">
-<code class="sig-name descname"><span class="pre">get_all_packages</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.get_all_packages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.get_all_packages" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets all packages property of device in black list.
-:returns: Boolean or None.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.get_all_protocols">
-<code class="sig-name descname"><span class="pre">get_all_protocols</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.get_all_protocols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.get_all_protocols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets all protocols property of device in black list.
-:returns: Boolean or None.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.get_all_qubit_stream">
-<code class="sig-name descname"><span class="pre">get_all_qubit_stream</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.get_all_qubit_stream"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.get_all_qubit_stream" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets all qubit_stream property of device in black list.
-:returns: Boolean or None.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.get_blocked_count">
-<code class="sig-name descname"><span class="pre">get_blocked_count</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.get_blocked_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.get_blocked_count" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the block count of device.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.get_blocked_protocols">
-<code class="sig-name descname"><span class="pre">get_blocked_protocols</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.get_blocked_protocols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.get_blocked_protocols" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets blocked protocols. property of device in black list.
-:returns: Boolean or None.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.is_protocol_blocked">
-<code class="sig-name descname"><span class="pre">is_protocol_blocked</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">protocol</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.is_protocol_blocked"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.is_protocol_blocked" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find if specified protocol is blocked.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>device_label</strong> – Device label.</p></li>
-<li><p><strong>protocol</strong> – Protocol.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Boolean or None.</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>Errors related list and dict operations.</strong> – </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.remove_device">
-<code class="sig-name descname"><span class="pre">remove_device</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.remove_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.remove_device" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes device from block list.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p>Error if anything happen with lists.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if operation is successes.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.BlockList.update_device">
-<code class="sig-name descname"><span class="pre">update_device</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_communication</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_packages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_protocols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_qubit_streams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocked_protocols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#BlockList.update_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.BlockList.update_device" title="Permalink to this definition">¶</a></dt>
-<dd><p>Updates blacklisted device in application blacklist.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>device_label</strong> – Device label.</p></li>
-<li><p><strong>all_communication</strong> – Block all communication.</p></li>
-<li><p><strong>all_packages</strong> – Bloack all packages.</p></li>
-<li><p><strong>all_protocols</strong> – Block all protocols.</p></li>
-<li><p><strong>all_qubit_streams</strong> – Block qubit streams.</p></li>
-<li><p><strong>blocked_protocols</strong> – Specify blocked protocols.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">BlockList</span><span class="p">()</span><span class="o">.</span><span class="n">update_device</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">all_packages</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">blocked_protocols</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">BlockList</span><span class="p">()</span><span class="o">.</span><span class="n">update_device</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">all_packages</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blocked_protocols</span><span class="o">=</span><span class="nb">list</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">BlockList</span><span class="p">()</span><span class="o">.</span><span class="n">update_device</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">all_packages</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">all_qubit_streams</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blocked_protocols</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.application_tools.Listener">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.application_tools.</span></code><code class="sig-name descname"><span class="pre">Listener</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">application</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#Listener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.Listener" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.Listener.drop_item">
-<code class="sig-name descname"><span class="pre">drop_item</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#Listener.drop_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.Listener.drop_item" title="Permalink to this definition">¶</a></dt>
-<dd><p>Drops the item.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.Listener.get_communication_item">
-<code class="sig-name descname"><span class="pre">get_communication_item</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#Listener.get_communication_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.Listener.get_communication_item" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the traffic item from socket.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.Listener.interrupt">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">interrupt</span></code><a class="headerlink" href="#Modules.Tools.application_tools.Listener.interrupt" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.Listener.listen_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">listen_queue</span></code><a class="headerlink" href="#Modules.Tools.application_tools.Listener.listen_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.Listener.print_item">
-<code class="sig-name descname"><span class="pre">print_item</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#Listener.print_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.Listener.print_item" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prints package or qupack.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.Listener.release_item">
-<code class="sig-name descname"><span class="pre">release_item</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#Listener.release_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.Listener.release_item" title="Permalink to this definition">¶</a></dt>
-<dd><p>Releases the last item.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.Listener.release_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">release_queue</span></code><a class="headerlink" href="#Modules.Tools.application_tools.Listener.release_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.Listener.set_interrupt">
-<code class="sig-name descname"><span class="pre">set_interrupt</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_flag</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#Listener.set_interrupt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.Listener.set_interrupt" title="Permalink to this definition">¶</a></dt>
-<dd><p>Interrupt flag.
-If the flag set True, traffic will interrupted.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.Listener.set_listen_queue">
-<code class="sig-name descname"><span class="pre">set_listen_queue</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_queue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#Listener.set_listen_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.Listener.set_listen_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.application_tools.Listener.set_release_queue">
-<code class="sig-name descname"><span class="pre">set_release_queue</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_queue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#Listener.set_release_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.Listener.set_release_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py data">
-<dt id="Modules.Tools.application_tools.application_states">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.application_tools.</span></code><code class="sig-name descname"><span class="pre">application_states</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('&quot;application</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">started&quot;',</span> <span class="pre">'&quot;application</span> <span class="pre">is</span> <span class="pre">running&quot;',</span> <span class="pre">'&quot;application</span> <span class="pre">is</span> <span class="pre">stopped&quot;',</span> <span class="pre">'&quot;application</span> <span class="pre">is</span> <span class="pre">paused&quot;',</span> <span class="pre">'&quot;application</span> <span class="pre">is</span> <span class="pre">finished&quot;',</span> <span class="pre">'&quot;applicatin</span> <span class="pre">is</span> <span class="pre">terinated&quot;')</span></em><a class="headerlink" href="#Modules.Tools.application_tools.application_states" title="Permalink to this definition">¶</a></dt>
-<dd><p>##==========================================  APPLICATION SETTINGS  ==================================================##</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Tools.application_tools.change_block_list_defaults">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.application_tools.</span></code><code class="sig-name descname"><span class="pre">change_block_list_defaults</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_communication</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_packages</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_protocols</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_qubit_streams</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocked_protocols</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#change_block_list_defaults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.change_block_list_defaults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes the defaults in BlockList constructor.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>all_communication</strong> – Change all communication default.</p></li>
-<li><p><strong>all_packages</strong> – Change all packages default.</p></li>
-<li><p><strong>all_protocols</strong> – Change all protocols default.</p></li>
-<li><p><strong>all_qubit_streams</strong> – Change all qubit stream default.</p></li>
-<li><p><strong>blocked_protocols</strong> – Change all blocked protocols default.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Tools.application_tools.change_default_application_settings">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.application_tools.</span></code><code class="sig-name descname"><span class="pre">change_default_application_settings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_application_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.application_tools.ApplicationSettings" title="Modules.Tools.application_tools.ApplicationSettings"><span class="pre">Modules.Tools.application_tools.ApplicationSettings</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#change_default_application_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.change_default_application_settings" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Tools.application_tools.set_default_application_name">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.application_tools.</span></code><code class="sig-name descname"><span class="pre">set_default_application_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/application_tools.html#set_default_application_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.application_tools.set_default_application_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes the default application name for first unlabaled application.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-Modules.Tools.architecture_tools">
+<section id="tools-application-tools-module">
+<h2>Tools.application_tools module<a class="headerlink" href="#tools-application-tools-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-Modules.Tools.architecture_tools">
 <span id="tools-architecture-tools-module"></span><h2>Tools.architecture_tools module<a class="headerlink" href="#module-Modules.Tools.architecture_tools" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="Modules.Tools.architecture_tools.AnySettings">
@@ -1314,8 +917,8 @@ False if module state not changed..</p>
 <dd><p>##===========================================  ANY SETTINGS  =========================================================##</p>
 </dd></dl>
 
-</div>
-<div class="section" id="module-Modules.Tools.command_tools">
+</section>
+<section id="module-Modules.Tools.command_tools">
 <span id="tools-command-tools-module"></span><h2>Tools.command_tools module<a class="headerlink" href="#module-Modules.Tools.command_tools" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="Modules.Tools.command_tools.set_package_expire_time">
@@ -1362,8 +965,8 @@ but changes does not apply in other threads that derived from devices.</p>
 <p>We advise change this value(if needs) before simulation.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="module-Modules.Tools.communication_tools">
+</section>
+<section id="module-Modules.Tools.communication_tools">
 <span id="tools-communication-tools-module"></span><h2>Tools.communication_tools module<a class="headerlink" href="#module-Modules.Tools.communication_tools" title="Permalink to this headline">¶</a></h2>
 <dl class="py data">
 <dt id="Modules.Tools.communication_tools.ACK_DATA">
@@ -1568,104 +1171,11 @@ but changes does not apply in other threads that derived from devices.</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-Modules.Tools.device_tools">
-<span id="tools-device-tools-module"></span><h2>Tools.device_tools module<a class="headerlink" href="#module-Modules.Tools.device_tools" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="Modules.Tools.device_tools.ApplicationManagerSettings">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.device_tools.</span></code><code class="sig-name descname"><span class="pre">ApplicationManagerSettings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_application_count</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_localhost</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_user_apps</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/device_tools.html#ApplicationManagerSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.device_tools.ApplicationManagerSettings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.architecture_tools.AnySettings</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.device_tools.ApplicationManagerSettings.disable_user_apps">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">disable_user_apps</span></code><a class="headerlink" href="#Modules.Tools.device_tools.ApplicationManagerSettings.disable_user_apps" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.device_tools.ApplicationManagerSettings.enable_localhost">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">enable_localhost</span></code><a class="headerlink" href="#Modules.Tools.device_tools.ApplicationManagerSettings.enable_localhost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.device_tools.ApplicationManagerSettings.max_application_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">max_application_count</span></code><a class="headerlink" href="#Modules.Tools.device_tools.ApplicationManagerSettings.max_application_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.device_tools.ChannelIdentification">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.device_tools.</span></code><code class="sig-name descname"><span class="pre">ChannelIdentification</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_uuid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/device_tools.html#ChannelIdentification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.device_tools.ChannelIdentification" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#Modules.Tools.device_tools.DeviceIdentification" title="Modules.Tools.device_tools.DeviceIdentification"><code class="xref py py-class docutils literal notranslate"><span class="pre">Modules.Tools.device_tools.DeviceIdentification</span></code></a></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.device_tools.DeviceIdentification">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.device_tools.</span></code><code class="sig-name descname"><span class="pre">DeviceIdentification</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_uuid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_gen_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">16</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/device_tools.html#DeviceIdentification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.device_tools.DeviceIdentification" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.device_tools.DeviceIdentification.label">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">label</span></code><a class="headerlink" href="#Modules.Tools.device_tools.DeviceIdentification.label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.device_tools.DeviceIdentification.uuid">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">uuid</span></code><a class="headerlink" href="#Modules.Tools.device_tools.DeviceIdentification.uuid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.device_tools.DeviceModule">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.device_tools.</span></code><code class="sig-name descname"><span class="pre">DeviceModule</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">can_disable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">can_removable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">can_restartable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">can_pausable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_state_module</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">special_state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.tools.architecture_tools.StateHandler</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.tools.architecture_tools.ModuleSettings</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/device_tools.html#DeviceModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.device_tools.DeviceModule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.architecture_tools.Module</span></code></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.device_tools.DeviceSettings">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.device_tools.</span></code><code class="sig-name descname"><span class="pre">DeviceSettings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">otg_device</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observe_capability</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idle_after_device_ends</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_after_delay</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/device_tools.html#DeviceSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.device_tools.DeviceSettings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.architecture_tools.AnySettings</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.device_tools.DeviceSettings.idle_after_device_ends">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">idle_after_device_ends</span></code><a class="headerlink" href="#Modules.Tools.device_tools.DeviceSettings.idle_after_device_ends" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.device_tools.DeviceSettings.observe_capability">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">observe_capability</span></code><a class="headerlink" href="#Modules.Tools.device_tools.DeviceSettings.observe_capability" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.device_tools.DeviceSettings.otg_device">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">otg_device</span></code><a class="headerlink" href="#Modules.Tools.device_tools.DeviceSettings.otg_device" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.device_tools.DeviceSettings.start_after_delay">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">start_after_delay</span></code><a class="headerlink" href="#Modules.Tools.device_tools.DeviceSettings.start_after_delay" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Tools.device_tools.change_default_application_manager_settings">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.device_tools.</span></code><code class="sig-name descname"><span class="pre">change_default_application_manager_settings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.device_tools.ApplicationManagerSettings" title="Modules.Tools.device_tools.ApplicationManagerSettings"><span class="pre">Modules.Tools.device_tools.ApplicationManagerSettings</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/device_tools.html#change_default_application_manager_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.device_tools.change_default_application_manager_settings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes the “default_application_manager_settings” in device_tools.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Tools.device_tools.change_default_device_settings">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.device_tools.</span></code><code class="sig-name descname"><span class="pre">change_default_device_settings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_device_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.device_tools.DeviceSettings" title="Modules.Tools.device_tools.DeviceSettings"><span class="pre">Modules.Tools.device_tools.DeviceSettings</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/device_tools.html#change_default_device_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.device_tools.change_default_device_settings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes default application settings.</p>
-</dd></dl>
-
-<dl class="py data">
-<dt id="Modules.Tools.device_tools.device_states">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.device_tools.</span></code><code class="sig-name descname"><span class="pre">device_states</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('&quot;device</span> <span class="pre">not</span> <span class="pre">started&quot;',</span> <span class="pre">'&quot;device</span> <span class="pre">is</span> <span class="pre">running&quot;',</span> <span class="pre">'&quot;device</span> <span class="pre">is</span> <span class="pre">stopped&quot;',</span> <span class="pre">'&quot;device</span> <span class="pre">is</span> <span class="pre">finished&quot;',</span> <span class="pre">'&quot;device</span> <span class="pre">is</span> <span class="pre">terminated&quot;',</span> <span class="pre">'&quot;device</span> <span class="pre">may</span> <span class="pre">end&quot;')</span></em><a class="headerlink" href="#Modules.Tools.device_tools.device_states" title="Permalink to this definition">¶</a></dt>
-<dd><p>##==============================================  DEVICE INFO  =====================================================##</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-Modules.Tools.exit_codes">
+</section>
+<section id="tools-device-tools-module">
+<h2>Tools.device_tools module<a class="headerlink" href="#tools-device-tools-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-Modules.Tools.exit_codes">
 <span id="tools-exit-codes-module"></span><h2>Tools.exit_codes module<a class="headerlink" href="#module-Modules.Tools.exit_codes" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="Modules.Tools.exit_codes.exit_code_desription">
@@ -1673,8 +1183,8 @@ but changes does not apply in other threads that derived from devices.</p>
 <dd><p>Gets the description of exit code.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="module-Modules.Tools.gates">
+</section>
+<section id="module-Modules.Tools.gates">
 <span id="tools-gates-module"></span><h2>Tools.gates module<a class="headerlink" href="#module-Modules.Tools.gates" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="Modules.Tools.gates.BSWAPGate">
@@ -3007,8 +2517,8 @@ but changes does not apply in other threads that derived from devices.</p>
 <dd><p>alias of <a class="reference internal" href="#Modules.Tools.gates.CCZGate" title="Modules.Tools.gates.CCZGate"><code class="xref py py-class docutils literal notranslate"><span class="pre">Modules.Tools.gates.CCZGate</span></code></a></p>
 </dd></dl>
 
-</div>
-<div class="section" id="module-Modules.Tools.instance_logger">
+</section>
+<section id="module-Modules.Tools.instance_logger">
 <span id="tools-instance-logger-module"></span><h2>Tools.instance_logger module<a class="headerlink" href="#module-Modules.Tools.instance_logger" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="Modules.Tools.instance_logger.SubLogger">
@@ -3103,948 +2613,14 @@ Call this before simulations.</p>
 <dd><p>Returns library logger</p>
 </dd></dl>
 
-</div>
-<div class="section" id="module-Modules.Tools.simulation_tools">
-<span id="tools-simulation-tools-module"></span><h2>Tools.simulation_tools module<a class="headerlink" href="#module-Modules.Tools.simulation_tools" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="Modules.Tools.simulation_tools.KernelModule">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.simulation_tools.</span></code><code class="sig-name descname"><span class="pre">KernelModule</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">can_disable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">can_removable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">can_restartable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">can_pausable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_state_module</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">special_state</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.tools.architecture_tools.StateHandler</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">QDNS.tools.architecture_tools.ModuleSettings</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#KernelModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.KernelModule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.architecture_tools.Module</span></code></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.simulation_tools.MinerControllerSettings">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.simulation_tools.</span></code><code class="sig-name descname"><span class="pre">MinerControllerSettings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_cpu_core_count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_real_cores</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">miner_daemons</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#MinerControllerSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.MinerControllerSettings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.architecture_tools.ModuleSettings</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.simulation_tools.MinerControllerSettings.max_process_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">max_process_count</span></code><a class="headerlink" href="#Modules.Tools.simulation_tools.MinerControllerSettings.max_process_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.simulation_tools.MinerControllerSettings.processes_daemons">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">processes_daemons</span></code><a class="headerlink" href="#Modules.Tools.simulation_tools.MinerControllerSettings.processes_daemons" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.simulation_tools.MinerControllerSettings.use_real_core_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">use_real_core_count</span></code><a class="headerlink" href="#Modules.Tools.simulation_tools.MinerControllerSettings.use_real_core_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.simulation_tools.NoisePattern">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.simulation_tools.</span></code><code class="sig-name descname"><span class="pre">NoisePattern</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sp_probability</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measure_probability</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_error_probability</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scramble_probability</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bit_flip_channel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measure_channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bit_flip_channel'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'depolarisation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scramble_channel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'depolarisation'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#NoisePattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.NoisePattern" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.simulation_tools.SimulationResults">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.simulation_tools.</span></code><code class="sig-name descname"><span class="pre">SimulationResults</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">readings</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#SimulationResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.SimulationResults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.simulation_tools.SimulationResults.application_logs">
-<code class="sig-name descname"><span class="pre">application_logs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#SimulationResults.application_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.SimulationResults.application_logs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Logs of given application of given device.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.simulation_tools.SimulationResults.device_logs">
-<code class="sig-name descname"><span class="pre">device_logs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#SimulationResults.device_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.SimulationResults.device_logs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Logs of given device.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.simulation_tools.SimulationResults.simulation_logs">
-<code class="sig-name descname"><span class="pre">simulation_logs</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#SimulationResults.simulation_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.SimulationResults.simulation_logs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Logs of simulation instance.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.simulation_tools.SimulationResults.user_dumpings">
-<code class="sig-name descname"><span class="pre">user_dumpings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">application_label</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#SimulationResults.user_dumpings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.SimulationResults.user_dumpings" title="Permalink to this definition">¶</a></dt>
-<dd><p>User outputs of given application of given device.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.simulation_tools.TerminatableThread">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.simulation_tools.</span></code><code class="sig-name descname"><span class="pre">TerminatableThread</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_method</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daemon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#TerminatableThread"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.TerminatableThread" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">threading.Thread</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.simulation_tools.TerminatableThread.data">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">data</span></code><a class="headerlink" href="#Modules.Tools.simulation_tools.TerminatableThread.data" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.simulation_tools.TerminatableThread.data_">
-<code class="sig-name descname"><span class="pre">data_</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#TerminatableThread.data_"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.TerminatableThread.data_" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.simulation_tools.TerminatableThread.terminate">
-<code class="sig-name descname"><span class="pre">terminate</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#TerminatableThread.terminate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.TerminatableThread.terminate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Tools.simulation_tools.change_deafault_miner_controller_settings">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.simulation_tools.</span></code><code class="sig-name descname"><span class="pre">change_deafault_miner_controller_settings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.simulation_tools.MinerControllerSettings" title="Modules.Tools.simulation_tools.MinerControllerSettings"><span class="pre">Modules.Tools.simulation_tools.MinerControllerSettings</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#change_deafault_miner_controller_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.change_deafault_miner_controller_settings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes default miner controller module settings.
-Must call before simulation.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Tools.simulation_tools.change_default_noise_pattern">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.simulation_tools.</span></code><code class="sig-name descname"><span class="pre">change_default_noise_pattern</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_pattern</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.simulation_tools.NoisePattern" title="Modules.Tools.simulation_tools.NoisePattern"><span class="pre">Modules.Tools.simulation_tools.NoisePattern</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#change_default_noise_pattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.change_default_noise_pattern" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes default noise pattern.</p>
-</dd></dl>
-
-<dl class="py data">
-<dt id="Modules.Tools.simulation_tools.miner_states">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.simulation_tools.</span></code><code class="sig-name descname"><span class="pre">miner_states</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('&quot;miner</span> <span class="pre">process</span> <span class="pre">not</span> <span class="pre">started&quot;',</span> <span class="pre">'&quot;miner</span> <span class="pre">process</span> <span class="pre">is</span> <span class="pre">running&quot;',</span> <span class="pre">'&quot;miner</span> <span class="pre">process</span> <span class="pre">may</span> <span class="pre">end&quot;',</span> <span class="pre">'&quot;miner</span> <span class="pre">is</span> <span class="pre">finished&quot;')</span></em><a class="headerlink" href="#Modules.Tools.simulation_tools.miner_states" title="Permalink to this definition">¶</a></dt>
-<dd><p>##==============================================  KERNEL MODULE ======================================================##</p>
-</dd></dl>
-
-<dl class="py data">
-<dt id="Modules.Tools.simulation_tools.simulation_states">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.simulation_tools.</span></code><code class="sig-name descname"><span class="pre">simulation_states</span></code><em class="property"> <span class="pre">=</span> <span class="pre">('&quot;simulation</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">started&quot;',</span> <span class="pre">'&quot;simulation</span> <span class="pre">is</span> <span class="pre">running&quot;',</span> <span class="pre">'&quot;simulation</span> <span class="pre">is</span> <span class="pre">over&quot;',</span> <span class="pre">'&quot;simulation</span> <span class="pre">is</span> <span class="pre">stopped&quot;',</span> <span class="pre">'&quot;simulation</span> <span class="pre">is</span> <span class="pre">terminated&quot;',</span> <span class="pre">'&quot;simulation</span> <span class="pre">is</span> <span class="pre">paused&quot;')</span></em><a class="headerlink" href="#Modules.Tools.simulation_tools.simulation_states" title="Permalink to this definition">¶</a></dt>
-<dd><p>##===============================================  MINER STATES ======================================================##</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Tools.simulation_tools.terminate_thread">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.simulation_tools.</span></code><code class="sig-name descname"><span class="pre">terminate_thread</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thread</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/simulation_tools.html#terminate_thread"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.simulation_tools.terminate_thread" title="Permalink to this definition">¶</a></dt>
-<dd><p>Terminates the thread but not consistent solution,
-this because not always main thread calls this method.
-Child threads mostly call this for another child for most of time.
-Make sure call this function in try, except block.</p>
-</dd></dl>
-
-<dl class="py data">
-<dt id="Modules.Tools.simulation_tools.thread_count">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.simulation_tools.</span></code><code class="sig-name descname"><span class="pre">thread_count</span></code><em class="property"> <span class="pre">=</span> <span class="pre">12</span></em><a class="headerlink" href="#Modules.Tools.simulation_tools.thread_count" title="Permalink to this definition">¶</a></dt>
-<dd><p>##===============================================  TERM. THREAD  =====================================================##</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-Modules.Tools.socket_tools">
-<span id="tools-socket-tools-module"></span><h2>Tools.socket_tools module<a class="headerlink" href="#module-Modules.Tools.socket_tools" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="Modules.Tools.socket_tools.ConnectivityInformation">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.socket_tools.</span></code><code class="sig-name descname"><span class="pre">ConnectivityInformation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port_manager</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.PortManager" title="Modules.Tools.socket_tools.PortManager"><span class="pre">Modules.Tools.socket_tools.PortManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_uuids</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#ConnectivityInformation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.ConnectivityInformation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.ConnectivityInformation.classic_channels">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">classic_channels</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.ConnectivityInformation.classic_channels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.ConnectivityInformation.classic_targets">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">classic_targets</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.ConnectivityInformation.classic_targets" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.ConnectivityInformation.communication_state">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">communication_state</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.ConnectivityInformation.communication_state" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.ConnectivityInformation.quantum_channels">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">quantum_channels</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.ConnectivityInformation.quantum_channels" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.ConnectivityInformation.quantum_targets">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">quantum_targets</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.ConnectivityInformation.quantum_targets" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py data">
-<dt id="Modules.Tools.socket_tools.DROP_PACKAGE">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.socket_tools.</span></code><code class="sig-name descname"><span class="pre">DROP_PACKAGE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'DROP</span> <span class="pre">PACKAGE'</span></em><a class="headerlink" href="#Modules.Tools.socket_tools.DROP_PACKAGE" title="Permalink to this definition">¶</a></dt>
-<dd><p>##===============================================  SOCKET STATES  ====================================================##</p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.socket_tools.Port">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.socket_tools.</span></code><code class="sig-name descname"><span class="pre">Port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">receive_queue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.active">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">active</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.Port.active" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.change_index">
-<code class="sig-name descname"><span class="pre">change_index</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.change_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.change_index" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.channel">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">channel</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.Port.channel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.channel_uuid">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">channel_uuid</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.Port.channel_uuid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.connect_channel">
-<code class="sig-name descname"><span class="pre">connect_channel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">put_queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">override</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.connect_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.connect_channel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.connected">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">connected</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.Port.connected" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.flush_put_queue">
-<code class="sig-name descname"><span class="pre">flush_put_queue</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.flush_put_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.flush_put_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.index">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">index</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.Port.index" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.is_classic_type">
-<code class="sig-name descname"><span class="pre">is_classic_type</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.is_classic_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.is_classic_type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.is_quantum_type">
-<code class="sig-name descname"><span class="pre">is_quantum_type</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.is_quantum_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.is_quantum_type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.is_unconnected">
-<code class="sig-name descname"><span class="pre">is_unconnected</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.is_unconnected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.is_unconnected" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.latency">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">latency</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.Port.latency" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.put_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">put_queue</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.Port.put_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.receive_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">receive_queue</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.Port.receive_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.reconnect_channel">
-<code class="sig-name descname"><span class="pre">reconnect_channel</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.reconnect_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.reconnect_channel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.set_active">
-<code class="sig-name descname"><span class="pre">set_active</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.set_active"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.set_active" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.set_latency">
-<code class="sig-name descname"><span class="pre">set_latency</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latency</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.set_latency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.set_latency" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.set_put_queue">
-<code class="sig-name descname"><span class="pre">set_put_queue</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_queue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.set_put_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.set_put_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.set_queues">
-<code class="sig-name descname"><span class="pre">set_queues</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_put</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_receive</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.set_queues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.set_queues" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.set_receive_queue">
-<code class="sig-name descname"><span class="pre">set_receive_queue</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_queue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.set_receive_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.set_receive_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.set_side">
-<code class="sig-name descname"><span class="pre">set_side</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_side</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.set_side"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.set_side" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.set_target_device_id">
-<code class="sig-name descname"><span class="pre">set_target_device_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.set_target_device_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.set_target_device_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.side">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">side</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.Port.side" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.target_device_id">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">target_device_id</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.Port.target_device_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.type_">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">type_</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.Port.type_" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.Port.unconnect_channel">
-<code class="sig-name descname"><span class="pre">unconnect_channel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#Port.unconnect_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.Port.unconnect_channel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.socket_tools.PortInformation">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.socket_tools.</span></code><code class="sig-name descname"><span class="pre">PortInformation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortInformation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortInformation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortInformation.channel_id">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">channel_id</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortInformation.channel_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortInformation.is_active">
-<code class="sig-name descname"><span class="pre">is_active</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortInformation.is_active"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortInformation.is_active" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortInformation.is_connected">
-<code class="sig-name descname"><span class="pre">is_connected</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortInformation.is_connected"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortInformation.is_connected" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortInformation.latency">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">latency</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortInformation.latency" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortInformation.port_index">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">port_index</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortInformation.port_index" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortInformation.port_type">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">port_type</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortInformation.port_type" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortInformation.target_label">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">target_label</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortInformation.target_label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortInformation.target_uuid">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">target_uuid</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortInformation.target_uuid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.socket_tools.PortManager">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.socket_tools.</span></code><code class="sig-name descname"><span class="pre">PortManager</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cc_port_capacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">99</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qc_port_capacity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">99</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.architecture_tools.Module</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.activate_port">
-<code class="sig-name descname"><span class="pre">activate_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port_</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.activate_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.activate_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Activates a port.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.active_classic_ports">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">active_classic_ports</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.active_classic_ports" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.active_connected_classic_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">active_connected_classic_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.active_connected_classic_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.active_connected_classic_ports">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">active_connected_classic_ports</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.active_connected_classic_ports" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.active_connected_quantum_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">active_connected_quantum_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.active_connected_quantum_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.active_connected_quantum_ports">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">active_connected_quantum_ports</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.active_connected_quantum_ports" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.active_quantum_ports">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">active_quantum_ports</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.active_quantum_ports" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.add_port">
-<code class="sig-name descname"><span class="pre">add_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_port</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.add_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.add_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Not recommended.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.all_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">all_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.all_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.all_ports">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">all_ports</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.all_ports" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.cc_port_capacity">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">cc_port_capacity</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.cc_port_capacity" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.classic_connected_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">classic_connected_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.classic_connected_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.classic_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">classic_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.classic_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.classic_ports">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">classic_ports</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.classic_ports" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.classic_ports_by_uuid">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">classic_ports_by_uuid</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.classic_ports_by_uuid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.classic_receive_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">classic_receive_queue</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.classic_receive_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.close_connectivity">
-<code class="sig-name descname"><span class="pre">close_connectivity</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.close_connectivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.close_connectivity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Closes connectivity.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>True if state changes.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.connect_channel">
-<code class="sig-name descname"><span class="pre">connect_channel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.connect_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.connect_channel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Connects channel to port.
-This operation must be done in two steps.
-Must be setted queues after connect.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>_type</strong> – Channel type.</p></li>
-<li><p><strong>channel</strong> – Channel.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Port or None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.connect_classic_channel">
-<code class="sig-name descname"><span class="pre">connect_classic_channel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.connect_classic_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.connect_classic_channel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Connects channel to port.
-This operation must be done in two steps.
-Must be setted queues after connect.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>channel</strong> – Channel.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Port or None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.connect_quantum_channel">
-<code class="sig-name descname"><span class="pre">connect_quantum_channel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.connect_quantum_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.connect_quantum_channel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Connects channel to port.
-This operation must be done in two steps.
-Must be setted queues after connect.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>channel</strong> – Channel.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Port or None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.connected_classic_channel_uuids">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">connected_classic_channel_uuids</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.connected_classic_channel_uuids" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.connected_classic_ports">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">connected_classic_ports</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.connected_classic_ports" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.connected_quantum_channel_uuids">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">connected_quantum_channel_uuids</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.connected_quantum_channel_uuids" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.connected_quantum_ports">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">connected_quantum_ports</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.connected_quantum_ports" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.deactivate_port">
-<code class="sig-name descname"><span class="pre">deactivate_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port_</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.deactivate_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.deactivate_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deactivates a port.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.find_next_avaible_port">
-<code class="sig-name descname"><span class="pre">find_next_avaible_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">must_active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_raise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.find_next_avaible_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.find_next_avaible_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Tries to find next avaible port on device sokcet.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>classic</strong> – Search classic ports.</p></li>
-<li><p><strong>quantum</strong> – Search quantum ports.</p></li>
-<li><p><strong>must_active</strong> – Must be active port.</p></li>
-<li><p><strong>_raise</strong> – Raises if not found.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Port or None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.flush_income_classic_queue">
-<code class="sig-name descname"><span class="pre">flush_income_classic_queue</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.flush_income_classic_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.flush_income_classic_queue" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flushes income classic ports.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.flush_income_quantum_queue">
-<code class="sig-name descname"><span class="pre">flush_income_quantum_queue</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.flush_income_quantum_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.flush_income_quantum_queue" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flushes income quantum ports.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.flush_income_queues">
-<code class="sig-name descname"><span class="pre">flush_income_queues</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.flush_income_queues"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.flush_income_queues" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flushes income ports.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.generate_ports">
-<code class="sig-name descname"><span class="pre">generate_ports</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.generate_ports"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.generate_ports" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate ports. This must be call after module is created.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.get_classic_receive">
-<code class="sig-name descname"><span class="pre">get_classic_receive</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.get_classic_receive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.get_classic_receive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Waits for classic package.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>block</strong> – Get blocks.</p></li>
-<li><p><strong>timeout</strong> – Get timeout.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>(Port, Package)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.get_port">
-<code class="sig-name descname"><span class="pre">get_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">uuid.UUID</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_raise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.get_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.get_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets port object from given key.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> – Port identifier. Port index or Channel Id.</p></li>
-<li><p><strong>classic</strong> – Search in only classic.</p></li>
-<li><p><strong>quantum</strong> – Search in only quantum.</p></li>
-<li><p><strong>_raise</strong> – Raise if enconter None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Port or None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.get_quantum_receive">
-<code class="sig-name descname"><span class="pre">get_quantum_receive</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.get_quantum_receive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.get_quantum_receive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Waits for quantum package.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>block</strong> – Get blocks.</p></li>
-<li><p><strong>timeout</strong> – Get timeout.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>(Port, Qupack)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.host_label">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_label</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.host_label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.host_uuid">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_uuid</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.host_uuid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.is_connectivity_close">
-<code class="sig-name descname"><span class="pre">is_connectivity_close</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.is_connectivity_close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.is_connectivity_close" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.is_connectivity_open">
-<code class="sig-name descname"><span class="pre">is_connectivity_open</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.is_connectivity_open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.is_connectivity_open" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="Modules.Tools.socket_tools.PortManager.max_cc_port_count">
-<code class="sig-name descname"><span class="pre">max_cc_port_count</span></code><em class="property"> <span class="pre">=</span> <span class="pre">99</span></em><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.max_cc_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="Modules.Tools.socket_tools.PortManager.max_qc_port_count">
-<code class="sig-name descname"><span class="pre">max_qc_port_count</span></code><em class="property"> <span class="pre">=</span> <span class="pre">99</span></em><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.max_qc_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt id="Modules.Tools.socket_tools.PortManager.module_name">
-<code class="sig-name descname"><span class="pre">module_name</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'Port</span> <span class="pre">Manager'</span></em><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.module_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.open_connectivity">
-<code class="sig-name descname"><span class="pre">open_connectivity</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.open_connectivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.open_connectivity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Opens connectivity.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>True if state changes.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.qc_port_capacity">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">qc_port_capacity</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.qc_port_capacity" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.quantum_connected_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">quantum_connected_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.quantum_connected_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.quantum_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">quantum_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.quantum_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.quantum_ports">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">quantum_ports</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.quantum_ports" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.quantum_ports_by_uuid">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">quantum_ports_by_uuid</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.quantum_ports_by_uuid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.quantum_receive_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">quantum_receive_queue</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.quantum_receive_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.reconnect_port">
-<code class="sig-name descname"><span class="pre">reconnect_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.reconnect_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.reconnect_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reconnects a port.
-Port should be in unconnected list.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>port</strong> – Port object.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if reconnect happen.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.send_classic_information">
-<code class="sig-name descname"><span class="pre">send_classic_information</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">information</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.send_classic_information"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.send_classic_information" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends classic information throught port.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>port</strong> – The port.</p></li>
-<li><p><strong>information</strong> – Information.</p></li>
-<li><p><strong>check_active</strong> – Chech port state befre send.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if send processes.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.send_information">
-<code class="sig-name descname"><span class="pre">send_information</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">information</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.send_information"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.send_information" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends information throught port.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>port</strong> – The port.</p></li>
-<li><p><strong>information</strong> – Information.</p></li>
-<li><p><strong>check_active</strong> – Chech port state befre send.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if send processes.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.send_quantum_information">
-<code class="sig-name descname"><span class="pre">send_quantum_information</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">information</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_active</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.send_quantum_information"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.send_quantum_information" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends quantum information throught port.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>port</strong> – The port.</p></li>
-<li><p><strong>information</strong> – Information.</p></li>
-<li><p><strong>check_active</strong> – Chech port state befre send.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if send processes.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.set_sim_request_queue">
-<code class="sig-name descname"><span class="pre">set_sim_request_queue</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">the_queue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.set_sim_request_queue"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.set_sim_request_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.sim_request_queue">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">sim_request_queue</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.sim_request_queue" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.unconnect_port">
-<code class="sig-name descname"><span class="pre">unconnect_port</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.Port" title="Modules.Tools.socket_tools.Port"><span class="pre">Modules.Tools.socket_tools.Port</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">soft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#PortManager.unconnect_port"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.unconnect_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Unconnects a port.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>port</strong> – Port object.</p></li>
-<li><p><strong>soft</strong> – Reconnectable flag.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if unconnect happen.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.PortManager.unconnected_ports">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">unconnected_ports</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.PortManager.unconnected_ports" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.socket_tools.SocketInformation">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.socket_tools.</span></code><code class="sig-name descname"><span class="pre">SocketInformation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">socket_state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_device_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">QDNS.tools.device_tools.DeviceIdentification</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">socket_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.SocketSettings" title="Modules.Tools.socket_tools.SocketSettings"><span class="pre">Modules.Tools.socket_tools.SocketSettings</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_manager</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.PortManager" title="Modules.Tools.socket_tools.PortManager"><span class="pre">Modules.Tools.socket_tools.PortManager</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#SocketInformation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.SocketInformation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketInformation.active_connected_classic_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">active_connected_classic_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketInformation.active_connected_classic_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketInformation.active_connected_quantum_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">active_connected_quantum_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketInformation.active_connected_quantum_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketInformation.classic_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">classic_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketInformation.classic_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketInformation.connected_classic_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">connected_classic_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketInformation.connected_classic_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketInformation.connected_quantum_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">connected_quantum_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketInformation.connected_quantum_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketInformation.host_device_label">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_device_label</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketInformation.host_device_label" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketInformation.host_device_uuid">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">host_device_uuid</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketInformation.host_device_uuid" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketInformation.quantum_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">quantum_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketInformation.quantum_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketInformation.socket_state">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">socket_state</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketInformation.socket_state" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketInformation.total_port_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">total_port_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketInformation.total_port_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="Modules.Tools.socket_tools.SocketSettings">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">Modules.Tools.socket_tools.</span></code><code class="sig-name descname"><span class="pre">SocketSettings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_cc_count</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_qc_count</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_ping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ping_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clear_route_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_future_packages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_routing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_qkd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#SocketSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.SocketSettings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">QDNS.tools.architecture_tools.AnySettings</span></code></p>
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketSettings.auto_ping">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">auto_ping</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketSettings.auto_ping" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketSettings.clear_route_cache">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">clear_route_cache</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketSettings.clear_route_cache" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketSettings.is_qkd_enabled">
-<code class="sig-name descname"><span class="pre">is_qkd_enabled</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#SocketSettings.is_qkd_enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.SocketSettings.is_qkd_enabled" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketSettings.is_routing_enabled">
-<code class="sig-name descname"><span class="pre">is_routing_enabled</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#SocketSettings.is_routing_enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.SocketSettings.is_routing_enabled" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketSettings.max_cc_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">max_cc_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketSettings.max_cc_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketSettings.max_qc_count">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">max_qc_count</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketSettings.max_qc_count" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketSettings.ping_time">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">ping_time</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketSettings.ping_time" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="Modules.Tools.socket_tools.SocketSettings.remove_future_packages">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">remove_future_packages</span></code><a class="headerlink" href="#Modules.Tools.socket_tools.SocketSettings.remove_future_packages" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Tools.socket_tools.change_default_ping_time">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.socket_tools.</span></code><code class="sig-name descname"><span class="pre">change_default_ping_time</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#change_default_ping_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.change_default_ping_time" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes the drafult ping time.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Tools.socket_tools.change_default_port_capacities">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.socket_tools.</span></code><code class="sig-name descname"><span class="pre">change_default_port_capacities</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_cc_port_capacity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_qc_port_capacity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#change_default_port_capacities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.change_default_port_capacities" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes default port_capacities of devices.
-Must run before any simulation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>new_cc_port_capacity</strong> – Maximum classic port capacity.</p></li>
-<li><p><strong>new_qc_port_capacity</strong> – Maximum quantum port capacity.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Tools.socket_tools.change_default_socket_settings">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.socket_tools.</span></code><code class="sig-name descname"><span class="pre">change_default_socket_settings</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_socket_settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#Modules.Tools.socket_tools.SocketSettings" title="Modules.Tools.socket_tools.SocketSettings"><span class="pre">Modules.Tools.socket_tools.SocketSettings</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#change_default_socket_settings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.change_default_socket_settings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes the deafult socket settings.</p>
-</dd></dl>
-
-<dl class="py data">
-<dt id="Modules.Tools.socket_tools.default_ping_time">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.socket_tools.</span></code><code class="sig-name descname"><span class="pre">default_ping_time</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2.5</span></em><a class="headerlink" href="#Modules.Tools.socket_tools.default_ping_time" title="Permalink to this definition">¶</a></dt>
-<dd><p>##=============================================  SOCKET SETTINGS  ====================================================##</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="Modules.Tools.socket_tools.set_use_simple_queue_for_ports">
-<code class="sig-prename descclassname"><span class="pre">Modules.Tools.socket_tools.</span></code><code class="sig-name descname"><span class="pre">set_use_simple_queue_for_ports</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_flag</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Modules/Tools/socket_tools.html#set_use_simple_queue_for_ports"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Modules.Tools.socket_tools.set_use_simple_queue_for_ports" title="Permalink to this definition">¶</a></dt>
-<dd><p>Setts simple queue usage for multiprocess ports.
-Must set before simulations.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-Modules.Tools.various_tools">
+</section>
+<section id="tools-simulation-tools-module">
+<h2>Tools.simulation_tools module<a class="headerlink" href="#tools-simulation-tools-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="tools-socket-tools-module">
+<h2>Tools.socket_tools module<a class="headerlink" href="#tools-socket-tools-module" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-Modules.Tools.various_tools">
 <span id="tools-various-tools-module"></span><h2>Tools.various_tools module<a class="headerlink" href="#module-Modules.Tools.various_tools" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="Modules.Tools.various_tools.fiber_formula">
@@ -4100,34 +2676,36 @@ Must set before simulations.</p>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="Modules.Network.html" class="btn btn-neutral" title="Network package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="Modules.Network.html" class="btn btn-neutral float-left" title="Network package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2021, COMU Team.
+        &#169; Copyright 2021, COMU Team.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -4136,37 +2714,15 @@ Must set before simulations.</p>
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.51',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

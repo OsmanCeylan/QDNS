@@ -13,7 +13,7 @@
 
 import os
 import sys
-import stanford_theme
+
 
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.append('source')
@@ -26,7 +26,7 @@ copyright = '2021, COMU Team'
 author = 'Osman Ceylan'
 
 # The full version, including alpha/beta/rc tags
-release = '0.51'
+release = "0.55-stable"
 
 
 # -- General configuration ---------------------------------------------------
@@ -60,8 +60,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # a list of builtin themes.
 #
 
-html_theme = 'stanford_theme'
-html_theme_path = [stanford_theme.get_html_theme_path()]
+html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

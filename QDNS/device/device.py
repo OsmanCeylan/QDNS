@@ -24,11 +24,12 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+from queue import Queue as TQueue
+from typing import Optional
+import numpy as np
 import threading
 import time
 import uuid
-from queue import Queue as TQueue
-from typing import Optional
 
 from QDNS.device.network_adapter import NetworkSocket
 from QDNS.device.tools.application_manager import ApplicationManager
@@ -187,6 +188,7 @@ class Device(layer.Layer):
             self.change_state(device_tools.DEVICE_MAY_END)
 
             end_time = time.time() - start_time
+            end_time = np.around(end_time, 4)
             self.logger.warning("Device simulation is idled after {} seconds.".format(end_time))
 
             self.user_dump_queue.put([self.label, "DeviceLogs", self.logger.logs])
@@ -210,6 +212,7 @@ class Device(layer.Layer):
         self.__end_socket_simulation()
 
         end_time = time.time() - start_time
+        end_time = np.around(end_time, 4)
         self.logger.warning("Device simulation is ended in {} seconds.".format(end_time))
 
     def __handle_request(self, request_: request.REQUEST):

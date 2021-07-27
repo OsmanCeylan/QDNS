@@ -1,56 +1,56 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Principles &mdash; QDNS 0.55-stable documentation</title>
   
-  <title>Design Principles &mdash; QDNS 0.51 documentation</title>
+
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
 
   
   
 
   
+  
 
   
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="QDNS 0.51 documentation" href="../index.html"/>
-        <link rel="next" title="Hello QDNS" href="Hello.html"/>
-        <link rel="prev" title="Introduction" href="Install.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Hello QDNS" href="Hello.html" />
+    <link rel="prev" title="Introduction" href="Install.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -77,28 +77,29 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Design Principles</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-Design.imp">Software Implementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Design.device">Devices</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#classes-derived-from-the-device">Classes derived from the Device</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Design.channel">Channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#software-implementation">Software Implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#devices">Devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#channels">Channels</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Hello.html">Hello QDNS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="App.html">Application Writing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="App.html">Multi Application</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Noise.html">Noise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Qkd.html">QKD Layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
@@ -110,13 +111,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">QDNS</a>
@@ -124,10 +126,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -147,14 +152,14 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Design Principles</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/docs/Design.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -168,71 +173,69 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="design-principles">
+  <section id="design-principles">
 <h1>Design Principles<a class="headerlink" href="#design-principles" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-Design.imp">
-<span id="software-implementation"></span><h2>Software Implementation<a class="headerlink" href="#module-Design.imp" title="Permalink to this headline">¶</a></h2>
-<p>QDNS is designed as a layered architecture that uses the request and response protocols.
+<section id="software-implementation">
+<h2>Software Implementation<a class="headerlink" href="#software-implementation" title="Permalink to this headline">¶</a></h2>
+<p>QDNS is designed as a layered interactions that uses the request and response protocols.
 Each layer operates on a different processor core, allowing to simulate a topology with a dynamic number of nodes.</p>
 <img alt="alternate text" class="align-left" src="../_images/layers.png" />
-<span class="target" id="module-Design.node"></span><p>As can be seen in the figure above, there is the simulation kernel at the top.
+<p>As can be seen in the figure above, there is the simulation kernel at the top.
 QDNS uses kernel backend handlers with a wrapper. Dynamic connections are allowed because the core hosts the topology.
 Devices are evenly distributed over each processor core except for the simulation kernel.
 The highest performance is obtained when the number of nodes in the topology is equal to or less than the number of cores.</p>
-</div>
-<div class="section" id="module-Design.device">
-<span id="devices"></span><h2>Devices<a class="headerlink" href="#module-Design.device" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="devices">
+<h2>Devices<a class="headerlink" href="#devices" title="Permalink to this headline">¶</a></h2>
 <p>The device class refers to each node in the topology. They derive to other classes in terms of their duties.</p>
 <img alt="alternate text" class="align-left" src="../_images/device.png" />
-<span class="target" id="module-Design.device_last"></span><p>As can be seen in the image above, its internal structure design of a device.
+<p>As can be seen in the image above, its internal structure design of a device.
 Each device has a network socket that performs communication. It has ports according to the socket type.
 On the quantum side, it has a photon pump and quantum memory. These photons are actually pointers to a qubits from backend.
 Every device has an QKD layer that can be used device-wide.
 Since the software allows simulating multiple applications, there is a default application and user applications that are connected via localhost.</p>
-<div class="section" id="classes-derived-from-the-device">
-<h3>Classes derived from the Device<a class="headerlink" href="#classes-derived-from-the-device" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
+<ol class="arabic simple">
 <li><p>Node: Device with generic settings.</p></li>
 <li><p>Router: Device with only routing layer.</p></li>
 <li><p>Observer: Device that capable of middleman attacks.</p></li>
-</ul>
-</div>
-</div>
-<div class="section" id="module-Design.channel">
-<span id="channels"></span><h2>Channels<a class="headerlink" href="#module-Design.channel" title="Permalink to this headline">¶</a></h2>
+</ol>
+</section>
+<section id="channels">
+<h2>Channels<a class="headerlink" href="#channels" title="Permalink to this headline">¶</a></h2>
 <p>With the usage of network class, devices can linked with quantum and classic channels.
 The channel structure can simply shown as the figure below.</p>
 <img alt="alternate text" class="align-left" src="../_images/channel.png" />
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="Hello.html" class="btn btn-neutral float-right" title="Hello QDNS" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="Install.html" class="btn btn-neutral" title="Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="Hello.html" class="btn btn-neutral float-right" title="Hello QDNS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Install.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2021, COMU Team.
+        &#169; Copyright 2021, COMU Team.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -241,37 +244,15 @@ The channel structure can simply shown as the figure below.</p>
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.51',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

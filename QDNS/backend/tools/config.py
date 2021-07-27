@@ -34,8 +34,8 @@ STIM_BACKEND = "STIM backend"
 supported_backends = (
     CIRQ_BACKEND,
     QISKIT_BACKEND,
-    SDQS_BACKEND,
-    STIM_BACKEND
+    STIM_BACKEND,
+    SDQS_BACKEND
 )
 
 avaible_backends = list()

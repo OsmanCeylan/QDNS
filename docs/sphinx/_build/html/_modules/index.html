@@ -1,54 +1,53 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Overview: module code &mdash; QDNS 0.51 documentation</title>
+  <title>Overview: module code &mdash; QDNS 0.55-stable documentation</title>
   
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
 
   
   
 
   
+  
 
   
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="QDNS 0.51 documentation" href="../index.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -75,20 +74,24 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../docs/Install.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docs/Design.html">Design Principles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docs/Hello.html">Hello QDNS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../docs/App.html">Application Writing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../docs/Hardware.html">Hardware Control</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../docs/Quantum.html">Quantum Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docs/Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/Hardware.html">Hardware Control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docs/Sends.html">Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docs/App.html">Advanged Applications</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docs/Noise.html">Noise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docs/Qkd.html">QKD Layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docs/Attack.html">Eavesdropping</a></li>
@@ -100,13 +103,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">QDNS</a>
@@ -114,10 +118,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -137,14 +144,12 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Overview: module code</li>
     
     
       <li class="wy-breadcrumbs-aside">
-        
-            
         
       </li>
     
@@ -157,52 +162,39 @@
            <div itemprop="articleBody">
             
   <h1>All modules for which code is available</h1>
-<ul><li><a href="App/multi_after.html">App.multi_after</a></li>
-<li><a href="Modules/Device/application.html">Modules.Device.application</a></li>
-<li><a href="Modules/Device/application_manager.html">Modules.Device.application_manager</a></li>
-<li><a href="Modules/Device/channel.html">Modules.Device.channel</a></li>
-<li><a href="Modules/Device/device.html">Modules.Device.device</a></li>
-<li><a href="Modules/Device/network_adapter.html">Modules.Device.network_adapter</a></li>
-<li><a href="Modules/Layers/qkd.html">Modules.Layers.qkd</a></li>
-<li><a href="Modules/Layers/routing.html">Modules.Layers.routing</a></li>
-<li><a href="Modules/Network/network.html">Modules.Network.network</a></li>
-<li><a href="Modules/Tools/application_tools.html">Modules.Tools.application_tools</a></li>
+<ul><li><a href="Modules/Network/network.html">Modules.Network.network</a></li>
 <li><a href="Modules/Tools/architecture_tools.html">Modules.Tools.architecture_tools</a></li>
 <li><a href="Modules/Tools/command_tools.html">Modules.Tools.command_tools</a></li>
 <li><a href="Modules/Tools/communication_tools.html">Modules.Tools.communication_tools</a></li>
-<li><a href="Modules/Tools/device_tools.html">Modules.Tools.device_tools</a></li>
 <li><a href="Modules/Tools/exit_codes.html">Modules.Tools.exit_codes</a></li>
 <li><a href="Modules/Tools/gates.html">Modules.Tools.gates</a></li>
 <li><a href="Modules/Tools/instance_logger.html">Modules.Tools.instance_logger</a></li>
-<li><a href="Modules/Tools/simulation_tools.html">Modules.Tools.simulation_tools</a></li>
-<li><a href="Modules/Tools/socket_tools.html">Modules.Tools.socket_tools</a></li>
 <li><a href="Modules/Tools/various_tools.html">Modules.Tools.various_tools</a></li>
-<li><a href="Qkd/generate.html">Qkd.generate</a></li>
-<li><a href="Qkd/other.html">Qkd.other</a></li>
-<li><a href="Quantum/pairs.html">Quantum.pairs</a></li>
-<li><a href="Sends/bell.html">Sends.bell</a></li>
-<li><a href="Sends/broadcast.html">Sends.broadcast</a></li>
-<li><a href="Sends/classic.html">Sends.classic</a></li>
-<li><a href="Sends/qubit.html">Sends.qubit</a></li>
 </ul>
 
            </div>
+           
           </div>
           <footer>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2021, COMU Team.
+        &#169; Copyright 2021, COMU Team.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -211,37 +203,15 @@
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.51',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

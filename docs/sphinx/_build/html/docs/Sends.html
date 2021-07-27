@@ -1,56 +1,56 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Communication &mdash; QDNS 0.55-stable documentation</title>
   
-  <title>Communication &mdash; QDNS 0.51 documentation</title>
+
   
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
 
   
   
 
   
+  
 
   
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="QDNS 0.51 documentation" href="../index.html"/>
-        <link rel="next" title="Noise" href="Noise.html"/>
-        <link rel="prev" title="Backends" href="Backend.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multi Application" href="App.html" />
+    <link rel="prev" title="Hardware Control" href="Hardware.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -77,26 +77,30 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Design.html">Design Principles</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Hello.html">Hello QDNS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="App.html">Application Writing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Backend.html">Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Quantum.html">Quantum Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hardware.html">Hardware Control</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Communication</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-Sends.classic">Send Classic Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Sends.qubit">Send Qubit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Sends.bell">Send Bell Pair</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-Sends.broadcast">Broadcast GHZ State</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#send-classic-data">Send Classic Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#send-qubits">Send Qubits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#send-bell-pairs">Send Bell Pairs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#broadcast-ghz-state">Broadcast GHZ State</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="App.html">Multi Application</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Noise.html">Noise</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Qkd.html">QKD Layer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Attack.html">Eavesdropping</a></li>
@@ -108,13 +112,14 @@
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">QDNS</a>
@@ -122,10 +127,13 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
+
+
 
 
 
@@ -145,14 +153,14 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../index.html">Docs</a> &raquo;</li>
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>Communication</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="../_sources/docs/Sends.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -166,310 +174,191 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="communication">
+  <section id="communication">
 <h1>Communication<a class="headerlink" href="#communication" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-Sends.classic">
-<span id="send-classic-data"></span><h2>Send Classic Data<a class="headerlink" href="#module-Sends.classic" title="Permalink to this headline">¶</a></h2>
-<p>The code below contains a classic communication example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QDNS</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<p>QDNS offers tools for applications to communicate with each others.</p>
+<section id="send-classic-data">
+<h2>Send Classic Data<a class="headerlink" href="#send-classic-data" title="Permalink to this headline">¶</a></h2>
+<p>Sending a classic data follows as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Hello Bob!&#39;</span><span class="p">,</span> <span class="s1">&#39;I am Alice!&#39;</span><span class="p">]</span>
-    <span class="n">send_op</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">send_classic_data</span><span class="p">(</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">broadcast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">routing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Hello Bob!&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s2">&quot;AnyPickable&quot;</span><span class="p">]</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">send_classic_data</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">broadcast</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">routing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">send_op</span><span class="p">[</span><span class="s1">&#39;exit_code&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sending message to Bob is failed!&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bob_default_app</span><span class="p">)</span>
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="n">package</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">wait_next_package</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob prints: &quot;</span><span class="p">,</span> <span class="n">package</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">waiting</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wait_next_package</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;exit_code&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Waited for message but time expired.&#39;</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Message: &#39;</span><span class="p">,</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;package&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-
-    <span class="n">alice</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
-    <span class="n">bob</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
-
-    <span class="n">alice</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">alice_default_app</span><span class="p">)</span>
-    <span class="n">bob</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">bob_default_app</span><span class="p">)</span>
-
-    <span class="n">net</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
-
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
+        <span class="c1"># Also the following paramaters accepted.</span>
+        <span class="c1"># default_app.wait_next_package(source=&quot;Alice&quot;)</span>
+        <span class="c1"># default_app.wait_next_package(timeout=1.0)</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Message</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Hello Bob!&#39;</span><span class="p">,</span> <span class="s1">&#39;I am Alice!&#39;</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span><span class="p">:</span><span class="n">CIRQ</span> <span class="n">backend</span> <span class="ow">is</span> <span class="n">prepaired</span> <span class="k">for</span> <span class="n">simulation</span><span class="o">.</span> <span class="n">Prepairation</span> <span class="n">time</span><span class="p">:</span> <span class="o">~</span><span class="mf">0.1001</span> <span class="n">sec</span>
+<span class="n">Bob</span> <span class="n">prints</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;Hello Bob!&#39;</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;AnyPickable&#39;</span><span class="p">]</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Alice</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0017</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Bob</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0016</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">:</span><span class="n">Simulation</span> <span class="ow">is</span> <span class="n">ended</span> <span class="ow">in</span> <span class="mf">1.2541</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Real</span> <span class="n">raw</span> <span class="n">time</span><span class="p">:</span> <span class="mf">0.0104</span>
 </pre></div>
 </div>
-<dl class="py function">
-<dt id="Sends.classic.wait_next_package">
-<code class="sig-prename descclassname"><span class="pre">Sends.classic.</span></code><code class="sig-name descname"><span class="pre">wait_next_package</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_old_packages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Sends/classic.html#wait_next_package"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Sends.classic.wait_next_package" title="Permalink to this definition">¶</a></dt>
-<dd><p>Application waits next package from hinted device.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>source</strong> – Hinted device identification.</p></li>
-<li><p><strong>timeout</strong> – Expire time.</p></li>
-<li><p><strong>check_old_packages</strong> – Checks old packages first.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “package”}</p>
-</dd>
-</dl>
-</dd></dl>
+</section>
+<section id="send-qubits">
+<h2>Send Qubits<a class="headerlink" href="#send-qubits" title="Permalink to this headline">¶</a></h2>
+<p>Sending a qubits follows as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
 
-</div>
-<div class="section" id="module-Sends.qubit">
-<span id="send-qubit"></span><h2>Send Qubit<a class="headerlink" href="#module-Sends.qubit" title="Permalink to this headline">¶</a></h2>
-<p>The code below contains a send qubits example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QDNS</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="n">qubits</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">default_app</span><span class="o">.</span><span class="n">send_quantum</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">routing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">qubits</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">allocate_qframe</span><span class="p">(</span><span class="mi">2</span><span class="p">)[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span>
-    <span class="n">send_op</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">send_quantum</span><span class="p">(</span><span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">qubits</span><span class="p">,</span> <span class="n">routing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bob_default_app</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">send_op</span><span class="p">[</span><span class="s1">&#39;exit_code&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sending qubits to Bob is failed!&#39;</span><span class="p">)</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="n">port</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">qubit</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">wait_next_qubit</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob prints: &quot;</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">qubit</span><span class="p">)</span>
 
-
-<span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">waiting</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wait_next_qubits</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;exit_code&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Waited for qubits but time is out.&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">qubits</span> <span class="o">=</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;qubits&#39;</span><span class="p">]</span>
-        <span class="n">count</span> <span class="o">=</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Qubits: &#39;</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="s1">&#39;Count: &#39;</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-
-    <span class="n">alice</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
-    <span class="n">bob</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
-
-    <span class="n">alice</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">alice_default_app</span><span class="p">)</span>
-    <span class="n">bob</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">bob_default_app</span><span class="p">)</span>
-
-    <span class="n">net</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
-
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
+        <span class="c1"># Also usable, waits counted qubits.</span>
+        <span class="c1"># default_app.wait_next_qubits(1)</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Qubits</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;000000&#39;</span><span class="p">,</span> <span class="s1">&#39;000001&#39;</span><span class="p">]</span> <span class="n">Count</span><span class="p">:</span> <span class="mi">2</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span><span class="p">:</span><span class="n">CIRQ</span> <span class="n">backend</span> <span class="ow">is</span> <span class="n">prepaired</span> <span class="k">for</span> <span class="n">simulation</span><span class="o">.</span> <span class="n">Prepairation</span> <span class="n">time</span><span class="p">:</span> <span class="o">~</span><span class="mf">0.0953</span> <span class="n">sec</span>
+<span class="n">Bob</span> <span class="n">prints</span><span class="p">:</span> <span class="mi">0</span> <span class="n">Alice</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">27</span> <span class="mi">05</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mf">15.025744</span> <span class="mi">1020012800</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Alice</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0016</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Bob</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0017</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">:</span><span class="n">Simulation</span> <span class="ow">is</span> <span class="n">ended</span> <span class="ow">in</span> <span class="mf">1.2542</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Real</span> <span class="n">raw</span> <span class="n">time</span><span class="p">:</span> <span class="mf">0.0055</span>
 </pre></div>
 </div>
-<dl class="py function">
-<dt id="Sends.qubit.wait_next_qubits">
-<code class="sig-prename descclassname"><span class="pre">Sends.qubit.</span></code><code class="sig-name descname"><span class="pre">wait_next_qubits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_old_qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Sends/qubit.html#wait_next_qubits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Sends.qubit.wait_next_qubits" title="Permalink to this definition">¶</a></dt>
-<dd><p>Application waits qubits from hinted device.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>count</strong> – Qubit count.</p></li>
-<li><p><strong>source</strong> – Hinted device.</p></li>
-<li><p><strong>timeout</strong> – Expire time.</p></li>
-<li><p><strong>check_old_qubits</strong> – Check old unprocessed qubits..</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{“exit_code”, “qubits”, “count”}</p>
-</dd>
-</dl>
-</dd></dl>
+</section>
+<section id="send-bell-pairs">
+<h2>Send Bell Pairs<a class="headerlink" href="#send-bell-pairs" title="Permalink to this headline">¶</a></h2>
+<p>Sending epr pairs follows as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
 
-</div>
-<div class="section" id="module-Sends.bell">
-<span id="send-bell-pair"></span><h2>Send Bell Pair<a class="headerlink" href="#module-Sends.bell" title="Permalink to this headline">¶</a></h2>
-<p>The code below contains a send bell pair example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QDNS</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="n">my_pairs</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">send_entangle_pairs</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">routing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Alice pairs: &quot;</span><span class="p">,</span> <span class="n">my_pairs</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">send_op</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">send_entangle_pairs</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="n">routing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bob_default_app</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">send_op</span><span class="p">[</span><span class="s1">&#39;exit_code&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cannot send qubits to Bob!&quot;</span><span class="p">)</span>
-        <span class="k">return</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">my_pairs</span> <span class="o">=</span> <span class="n">send_op</span><span class="p">[</span><span class="s1">&#39;my_pairs&#39;</span><span class="p">]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Alice pairs: &#39;</span><span class="p">,</span> <span class="n">my_pairs</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">waiting</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wait_next_qubits</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;exit_code&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Waited for qubits but time expired.&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Bob pairs: &#39;</span><span class="p">,</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;qubits&#39;</span><span class="p">])</span>
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-
-    <span class="n">alice</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
-    <span class="n">bob</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
-
-    <span class="n">alice</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">alice_default_app</span><span class="p">)</span>
-    <span class="n">bob</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">bob_default_app</span><span class="p">)</span>
-
-    <span class="n">net</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
-
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="n">my_pairs</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">wait_next_qubits</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob pairs: &quot;</span><span class="p">,</span> <span class="n">my_pairs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Count: &quot;</span><span class="p">,</span> <span class="n">my_pairs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Alice</span> <span class="n">pairs</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;020025600&#39;</span><span class="p">,</span> <span class="s1">&#39;020025700&#39;</span><span class="p">,</span> <span class="s1">&#39;020025800&#39;</span><span class="p">,</span> <span class="s1">&#39;020025900&#39;</span><span class="p">,</span> <span class="s1">&#39;020026000&#39;</span><span class="p">,</span> <span class="s1">&#39;020026100&#39;</span><span class="p">]</span>
-<span class="n">Bob</span> <span class="n">pairs</span><span class="p">:</span>  <span class="p">[</span><span class="s1">&#39;020025601&#39;</span><span class="p">,</span> <span class="s1">&#39;020025701&#39;</span><span class="p">,</span> <span class="s1">&#39;020025801&#39;</span><span class="p">,</span> <span class="s1">&#39;020025901&#39;</span><span class="p">,</span> <span class="s1">&#39;020026001&#39;</span><span class="p">,</span> <span class="s1">&#39;020026101&#39;</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span><span class="p">:</span><span class="n">CIRQ</span> <span class="n">backend</span> <span class="ow">is</span> <span class="n">prepaired</span> <span class="k">for</span> <span class="n">simulation</span><span class="o">.</span> <span class="n">Prepairation</span> <span class="n">time</span><span class="p">:</span> <span class="o">~</span><span class="mf">0.1007</span> <span class="n">sec</span>
+<span class="n">Alice</span> <span class="n">pairs</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;1020012800&#39;</span><span class="p">,</span> <span class="s1">&#39;1020012900&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013000&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013100&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013200&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013300&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013400&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013500&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;1020013600&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013700&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013800&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013900&#39;</span><span class="p">,</span> <span class="s1">&#39;1020014000&#39;</span><span class="p">,</span> <span class="s1">&#39;1020014100&#39;</span><span class="p">,</span> <span class="s1">&#39;1020014200&#39;</span><span class="p">,</span> <span class="s1">&#39;1020014300&#39;</span><span class="p">]</span>
+<span class="n">Bob</span> <span class="n">pairs</span><span class="p">:</span>   <span class="p">[</span><span class="s1">&#39;1020012801&#39;</span><span class="p">,</span> <span class="s1">&#39;1020012901&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013001&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013101&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013201&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013301&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013401&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013501&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;1020013601&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013701&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013801&#39;</span><span class="p">,</span> <span class="s1">&#39;1020013901&#39;</span><span class="p">,</span> <span class="s1">&#39;1020014001&#39;</span><span class="p">,</span> <span class="s1">&#39;1020014101&#39;</span><span class="p">,</span> <span class="s1">&#39;1020014201&#39;</span><span class="p">,</span> <span class="s1">&#39;1020014301&#39;</span><span class="p">]</span>
+<span class="n">Count</span><span class="p">:</span>  <span class="mi">16</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Alice</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.002</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Bob</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0017</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">:</span><span class="n">Simulation</span> <span class="ow">is</span> <span class="n">ended</span> <span class="ow">in</span> <span class="mf">1.2556</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Real</span> <span class="n">raw</span> <span class="n">time</span><span class="p">:</span> <span class="mf">0.0224</span>
 </pre></div>
 </div>
-<dl class="py function">
-<dt id="Sends.bell.send_entangle_pairs">
-<code class="sig-prename descclassname"><span class="pre">Sends.bell.</span></code><code class="sig-name descname"><span class="pre">send_entangle_pairs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">count</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">routing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Sends/bell.html#send_entangle_pairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Sends.bell.send_entangle_pairs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends entangle pairs to node.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>count</strong> – Count of pairs.</p></li>
-<li><p><strong>target</strong> – Target node identifier.</p></li>
-<li><p><strong>routing</strong> – Routing enable flag.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>{exit_code, my_pairs}</p>
-</dd>
-</dl>
-</dd></dl>
+</section>
+<section id="broadcast-ghz-state">
+<h2>Broadcast GHZ State<a class="headerlink" href="#broadcast-ghz-state" title="Permalink to this headline">¶</a></h2>
+<p>Broadcasting ghz state follows as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Alice</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alice_default_app</span><span class="p">)</span>
 
-</div>
-<div class="section" id="module-Sends.broadcast">
-<span id="broadcast-ghz-state"></span><h2>Broadcast GHZ State<a class="headerlink" href="#module-Sends.broadcast" title="Permalink to this headline">¶</a></h2>
-<p>Initiater node prepairs ghz state and broadcast each of them to connected nodes.
-The code below contains a broadcast ghz state example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">QDNS</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="n">size</span><span class="p">,</span> <span class="n">my_qubit</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">broadcast_ghz_state</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;GHZ size: &quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="s2">&quot;Alice qubit: &quot;</span><span class="p">,</span> <span class="n">my_qubit</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">alice_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="c1"># Charlie &lt; --- Alice --- &gt; Bob</span>
-    <span class="n">op</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">broadcast_ghz_state</span><span class="p">()</span>
+<span class="k">class</span> <span class="nc">Bob</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bob_default_app</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">op</span><span class="p">[</span><span class="s1">&#39;exit_code&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Broadcasting GHZ state is failed!&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Alice qubit: &#39;</span><span class="p">,</span> <span class="n">op</span><span class="p">[</span><span class="s1">&#39;my_qubit&#39;</span><span class="p">])</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="p">,</span> <span class="n">_</span> <span class="p">,</span> <span class="n">qubit</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">wait_next_qubit</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Bob qubit: &quot;</span><span class="p">,</span> <span class="n">qubit</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">bob_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">waiting</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wait_next_qubit</span><span class="p">()</span>
+<span class="k">class</span> <span class="nc">Charlie</span><span class="p">(</span><span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s2">&quot;Charlie&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">charlie_default_app</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;exit_code&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Waited for qubit but time is out!&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Bob qubit: &#39;</span><span class="p">,</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;qubit&#39;</span><span class="p">])</span>
-
-<span class="k">def</span> <span class="nf">charlie_default_app</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
-    <span class="n">waiting</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">wait_next_qubit</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;exit_code&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Waited for qubit but time is out!&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Charlie qubit: &#39;</span><span class="p">,</span> <span class="n">waiting</span><span class="p">[</span><span class="s1">&#39;qubit&#39;</span><span class="p">])</span>
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
-
-    <span class="n">alice</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Alice&quot;</span><span class="p">)</span>
-    <span class="n">bob</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">)</span>
-    <span class="n">charlie</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="s2">&quot;Charlie&quot;</span><span class="p">)</span>
-
-    <span class="n">alice</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">alice_default_app</span><span class="p">)</span>
-    <span class="n">bob</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">bob_default_app</span><span class="p">)</span>
-    <span class="n">charlie</span><span class="o">.</span><span class="n">create_new_application</span><span class="p">(</span><span class="n">charlie_default_app</span><span class="p">)</span>
-
-    <span class="n">net</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Network</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">,</span> <span class="n">charlie</span><span class="p">)</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">bob</span><span class="p">)</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">add_channels</span><span class="p">(</span><span class="n">alice</span><span class="p">,</span> <span class="n">charlie</span><span class="p">)</span>
-
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Simulator</span><span class="p">()</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">charlie_default_app</span><span class="p">(</span><span class="n">default_app</span><span class="p">:</span> <span class="n">QDNS</span><span class="o">.</span><span class="n">Application</span><span class="p">,</span> <span class="o">*</span><span class="n">user_args</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="p">,</span> <span class="n">_</span> <span class="p">,</span> <span class="n">qubit</span> <span class="o">=</span> <span class="n">default_app</span><span class="o">.</span><span class="n">wait_next_qubit</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Charlie qubit: &quot;</span><span class="p">,</span> <span class="n">qubit</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Alice</span> <span class="n">qubit</span><span class="p">:</span>  <span class="mi">020038400</span>
-<span class="n">Bob</span> <span class="n">qubit</span><span class="p">:</span>  <span class="mi">020038401</span>
-<span class="n">Charlie</span> <span class="n">qubit</span><span class="p">:</span>  <span class="mi">020038402</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">::</span><span class="n">Backend</span><span class="p">:</span><span class="n">CIRQ</span> <span class="n">backend</span> <span class="ow">is</span> <span class="n">prepaired</span> <span class="k">for</span> <span class="n">simulation</span><span class="o">.</span> <span class="n">Prepairation</span> <span class="n">time</span><span class="p">:</span> <span class="o">~</span><span class="mf">0.0938</span> <span class="n">sec</span>
+<span class="n">GHZ</span> <span class="n">size</span><span class="p">:</span> <span class="mi">2</span> <span class="n">Alice</span> <span class="n">qubit</span><span class="p">:</span> <span class="mi">1020019200</span>
+<span class="n">Bob</span> <span class="n">qubit</span><span class="p">:</span> <span class="mi">1020019201</span>
+<span class="n">Charlie</span> <span class="n">qubit</span><span class="p">:</span> <span class="mi">1020019202</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Alice</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0018</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Bob</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0009</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Charlie</span><span class="p">:</span><span class="n">Device</span> <span class="n">simulation</span> <span class="ow">is</span> <span class="n">idled</span> <span class="n">after</span> <span class="mf">1.0019</span> <span class="n">seconds</span><span class="o">.</span>
+<span class="n">WARNING</span><span class="p">:</span><span class="n">QDNS</span><span class="p">::</span><span class="n">Kernel</span><span class="p">:</span><span class="n">Simulation</span> <span class="ow">is</span> <span class="n">ended</span> <span class="ow">in</span> <span class="mf">1.505</span> <span class="n">seconds</span><span class="o">.</span> <span class="n">Real</span> <span class="n">raw</span> <span class="n">time</span><span class="p">:</span> <span class="mf">0.0156</span>
 </pre></div>
 </div>
-<dl class="py function">
-<dt id="Sends.broadcast.broadcast_ghz_state">
-<code class="sig-prename descclassname"><span class="pre">Sends.broadcast.</span></code><code class="sig-name descname"><span class="pre">broadcast_ghz_state</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/Sends/broadcast.html#broadcast_ghz_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Sends.broadcast.broadcast_ghz_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>Broadcasts ghz state to quantum connected nodes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>{exit_code, my_qubit}</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
+           
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="Noise.html" class="btn btn-neutral float-right" title="Noise" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="Backend.html" class="btn btn-neutral" title="Backends" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="App.html" class="btn btn-neutral float-right" title="Multi Application" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="Hardware.html" class="btn btn-neutral float-left" title="Hardware Control" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2021, COMU Team.
+        &#169; Copyright 2021, COMU Team.
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> and ❤️  using a custom <a href="https://github.com/LinxiFan/Stanford-theme">theme</a> based on <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -478,37 +367,15 @@ The code below contains a broadcast ghz state example:</p>
   </div>
   
 
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.51',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>
