@@ -25,11 +25,15 @@ pip install .
 
 ## Documentation
 
-Sphinx documentation can be found in **docs/sphinx/_build** folder.
+Sphinx documentation can be found in **docs/sphinx** folder.
+```
+cd docs/sphinx
+make html
+```
 
 ## Examples
 
-Few examples can be found in **example** folder. All examples are in Python notebook format.
+Few examples can be found in both documentation and **examples** folder. All examples are in Python notebook format.
 
 ## License
 
