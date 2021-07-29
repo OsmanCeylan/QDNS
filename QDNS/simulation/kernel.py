@@ -166,6 +166,8 @@ class Kernel(layer.Layer):
 
                     dump_list[dev][app].append(message)
 
+        self.backend_wrapper.terminate_backend()
+
         # Find out max time consumed application.
         try:
             max_time = max(times)

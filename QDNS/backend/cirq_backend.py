@@ -592,7 +592,9 @@ class Chunk(object):
 
         channel = get_channel_gate(method)
         line_qids = [cirq.LineQid(qubit, dimension=self._dimension) for qubit in qubits]
-        self._circuit.append(channel(percent, dim=self._dimension).on_each(*line_qids))
+        for qid in line_qids:
+            channel_obj = channel(percent, dim=self._dimension)
+            self._circuit.append(channel_obj.on(qid))
 
     def extend_chunk(self, size: int):
         """
@@ -977,7 +979,7 @@ class CirqBackendSlave(object):
         """
 
         # This value is already cheked few times to make sure not raise.
-        if percent < 0.001 or percent > 1.0:
+        if percent < 0.001 or percent > 1.001:
             raise ValueError("Percent must be in range of 0 and 1.")
 
         chunks = dict()
@@ -1538,7 +1540,7 @@ class CirqBackend(Backend):
                 process_to_chunks[process], args
             )
 
-        results = np.zeros(qubits.__len__())
+        results = np.zeros(qubits.__len__(), dtype=int)
         if ProcessMessages.Request.MEASURE_QUBITS[1]:
             for _ in range(process_to_chunks.keys().__len__()):
                 pid, command, message = self.income_queue.get()

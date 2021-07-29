@@ -105,15 +105,18 @@ def int2base(x, count, base):
 
 
 # 1680 nanometer Rayleigh scattering on Fibre cable.
-def fiber_formula(length, loss_rate=11.447):
+def fiber_formula(length, loss_rate=11.334):
     total = 1 - np.power(10, ((-1 * length * loss_rate / 100) / 10))
 
     # Add slight randomness.
-    total = np.random.uniform(total * 91 / 100, total)
+    total = np.random.uniform(total * 4 / 5, total)
 
     # Probability limits.
     if total > 1:
         total = 0.99
+
+    if total <= 0:
+        total = 0.01
 
     return total
 

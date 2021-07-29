@@ -396,7 +396,7 @@ class Chunk(qiskit.QuantumCircuit):
             self._noise_pattern.gate_error_probability, _all=False
         )
 
-        self.append(gate, reversed(qubits), [])
+        self.append(gate, qubits[::-1], [])
 
         if iterate:
             self.iterate_circuit()
@@ -859,7 +859,7 @@ class QiskitBackendSlave(object):
                 log("Process-{}: Apply serial ({}) gates".format(pid_index, count))
 
             else:
-                raise ValueError("Cirq backend slave runner cannot recognize the command: {}?".format(command))
+                raise ValueError("Qiskit backend slave runner cannot recognize the command: {}?".format(command))
 
 
 # QISKIT BACKEND MASTER
@@ -1054,7 +1054,7 @@ class QiskitBackend(Backend):
 
         process_to_frame = self.figure_allocation(frame_size, frame_count)
         if process_to_frame == {}:
-            raise OverflowError("Cirq master backend cannot allocate more qubits.")
+            raise OverflowError("Qiskit master backend cannot allocate more qubits.")
 
         for process in process_to_frame:
             self.put_message(
@@ -1143,7 +1143,7 @@ class QiskitBackend(Backend):
         if ProcessMessages.Request.EXTEND_CIRCUIT[1]:
             pid, command, message = self.income_queue.get()
             if command != ProcessMessages.Respond.EXTEND_CIRCUIT_DONE:
-                raise ValueError("Cirq master backend expected extend done message but got {}.".format(command))
+                raise ValueError("Qiskit master backend expected extend done message but got {}.".format(command))
             results.extend(message)
         return results
 
@@ -1187,7 +1187,7 @@ class QiskitBackend(Backend):
             for _ in range(process_to_chunks.keys().__len__()):
                 pid, command, message = self.income_queue.get()
                 if command != ProcessMessages.Respond.APPLY_GATE_DONE:
-                    raise ValueError("Cirq master backend expected apply gate done message but got {}.".format(command))
+                    raise ValueError("Qiskit master backend expected apply gate done message but got {}.".format(command))
 
     def measure_qubits(self, qubits: Sequence[str], *args):
         """
@@ -1228,13 +1228,13 @@ class QiskitBackend(Backend):
                 process_to_chunks[process], args
             )
 
-        results = np.zeros(qubits.__len__())
+        results = np.zeros(qubits.__len__(), dtype=int)
         if ProcessMessages.Request.MEASURE_QUBITS[1]:
             for _ in range(process_to_chunks.keys().__len__()):
                 pid, command, message = self.income_queue.get()
 
                 if command != ProcessMessages.Respond.MEASURE_QUBITS_DONE:
-                    raise ValueError("Cirq master backend expected measure done message but got {}.".format(command))
+                    raise ValueError("Qiskit master backend expected measure done message but got {}.".format(command))
                 for i, result in enumerate(message):
                     results[placement[pid - 1][i]] = result
         return results
@@ -1270,7 +1270,7 @@ class QiskitBackend(Backend):
                 pid, command, message = self.income_queue.get()
 
                 if command != ProcessMessages.Respond.MEASURE_QUBITS_DONE:
-                    raise ValueError("Cirq master backend expected reset done message but got {}.".format(command))
+                    raise ValueError("Qiskit master backend expected reset done message but got {}.".format(command))
 
     def generate_ghz_pair(self, size: int, count: int):
         """
@@ -1326,7 +1326,7 @@ class QiskitBackend(Backend):
             for _ in range(process_to_chunks.keys().__len__()):
                 pid, command, message = self.income_queue.get()
                 if command != ProcessMessages.Respond.APPLY_CHANNEL_ERROR_DONE:
-                    raise ValueError("Cirq master backend expected apply channel error done message but got {}.".format(command))
+                    raise ValueError("Qiskit master backend expected apply channel error done message but got {}.".format(command))
 
     def apply_serial_transformations(self, list_of_gates: Sequence[List], *args):
         """
@@ -1359,4 +1359,4 @@ class QiskitBackend(Backend):
             for _ in range(process_to_chunks.keys().__len__()):
                 pid, command, message = self.income_queue.get()
                 if command != ProcessMessages.Respond.APPLY_SERIAL_GATE_DONE:
-                    raise ValueError("Cirq master backend expected apply serial gate done message but got {}.".format(command))
+                    raise ValueError("Qiskit master backend expected apply serial gate done message but got {}.".format(command))

@@ -8,15 +8,15 @@ class Alice(QDNS.Node):
         self.create_new_application(self.alice_default_app)
 
     @staticmethod
-    def alice_default_app(default_app: QDNS.Application):
-        message = "Hello Bob! I hope no one will read this message."
+    def alice_default_app(app: QDNS.Application):
+        my_pairs = app.send_entangle_pairs(512, "Bob")
 
-        # Send message to Bob.
-        default_app.send_classic_data("Bob", message)
+        if my_pairs is None:
+            print("Sending pairs is failed.")
+            return
 
-        # Send bob a qubit.
-        qubit = default_app.allocate_qubit()
-        default_app.send_quantum("Bob", qubit)
+        results = app.measure_qubits(my_pairs)
+        app.put_simulation_result(results)
 
 
 class Bob(QDNS.Node):
@@ -25,74 +25,85 @@ class Bob(QDNS.Node):
         self.create_new_application(self.bob_default_app)
 
     @staticmethod
-    def bob_default_app(default_app: QDNS.Application):
-        # Wait for package.
-        package = default_app.wait_next_package()
+    def bob_default_app(app: QDNS.Application):
+        op = app.wait_next_qubits(512)
+        my_pairs, pair_length = op
 
-        if package is None:
-            print("Bob did not received package.")
-        else:
-            print("Bob prints: ", package.data)
-
-        # Wait for qubit.
-        op = default_app.wait_next_qubit()
-        if op is None:
-            print("Bob did not receive qubit.")
-        else:
-            print("Qubit: ", op)
+        results = app.measure_qubits(my_pairs)
+        app.put_simulation_result(results)
 
 
-class Eve(QDNS.Observer):
-    def __init__(self):
-        super().__init__("Eve")
-        self.create_new_application(self.eve_app, static=True, delayed_start_time=0)
-
-    @staticmethod
-    def eve_app(app: QDNS.Application):
-        # Set listener interrupt mode.
-        app.listener.set_interrupt(True)
-
-        while True:
-            communication = app.listener.get_communication_item()
-
-            if communication is None:
-                break
-            else:
-                app.listener.print_item(communication)
-
-            # Releases the packages on traffic.
-            # Drops the qubits on traffic.
-            if isinstance(communication, QDNS.Package):
-                app.listener.release_item()
-            else:
-                app.listener.drop_item()
-
-        print("Eve listening is over.")
-
-
-def main():
+def main(backend, length_: float):
     logging.basicConfig(level=logging.WARNING)
 
-    alice = Alice()
-    bob = Bob()
-    eve = Eve()
+    # Build network
+    alice, bob = Alice(), Bob()
+    net = QDNS.Network(alice, bob)
+    net.add_channels(alice, bob, length=length_)  # km
 
-    net = QDNS.Network(alice, bob, eve)
+    # Set needed quantum resources.
+    if backend == QDNS.STIM_BACKEND:
+        frames = {2: 10000}
+        core_count = 1
+    else:
+        core_count = int(QDNS.core_count / 2)
+        frames = {
+            2: {
+                1: 64,
+                2: 512
+            }
+        }
 
-    # Add eve between them.
-    net.add_channels(alice, eve)
-    net.add_channels(eve, bob)
+    # Create backend confuguration.
+    backend_conf = QDNS.BackendConfiguration(backend, core_count, frames)
 
-    frames = {2: {1: 1}}
-    conf = QDNS.BackendConfiguration(QDNS.CIRQ_BACKEND, 1, frames)
+    # Simulate network.
+    noise_pattern = QDNS. NoisePattern(
+        0, 0, 0,
+        scramble_channel=QDNS.bit_flip_channel,
+    )
+
     sim = QDNS.Simulator()
-    res = sim.simulate(net, conf)
+    results = sim.simulate(net, backend_conf, noise_pattern)
+
+    # Get the user values.
+    alice_results = results.user_dumpings(alice.label, QDNS.DEFAULT_APPLICATION_NAME)
+    bob_results = results.user_dumpings(bob.label, QDNS.DEFAULT_APPLICATION_NAME)
+
+    # Return error rate.
+    count = 0
+    for i in range(alice_results.__len__()):
+        if alice_results[i] == bob_results[i]:
+            count += 1
+    return count / alice_results.__len__()
+
+
+def stub(length_: float):
+    errors_ = list()
+    rate = main(QDNS.QISKIT_BACKEND, length_)
+    errors_.append(rate)
+    rate = main(QDNS.CIRQ_BACKEND, length_)
+    errors_.append(rate)
+    rate = main(QDNS.STIM_BACKEND, length_)
+    errors_.append(rate)
+    return errors_
+
+
+def test():
+    error_rates = list()
+    for i in range(1, 101, 25):
+        error_rates.append([i, stub(i)])
+    return error_rates
 
 
 if __name__ == '__main__':
-    main()
+    lengths = list()
+    plot_cirq = list()
+    plot_qiskit = list()
+    plot_stim = list()
 
+    for errors in test():
+        length, rates = errors
+        qiskit, cirq, stim = rates
 
-QDNS.change_logger_name("QDNS")
-QDNS.change_logger_format("%H:%M:%S.%f")
-QDNS.change_default_logger_level(logging.DEBUG)
+        print("L: ", length, "Q: ", qiskit, "C: ", cirq, "S: ", stim)

@@ -24,7 +24,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-default_scramble_percent = 0.577
+default_scramble_percent = 0.5
 
 # Implemented channels.
 reset_channel = "reset channel"
@@ -93,11 +93,11 @@ class NoisePattern(object):
 
 
 default_noise_pattern = NoisePattern(
-    0.005, 0.005, 0.005,
-    sp_channel=bit_flip_channel,
-    measure_channel=bit_flip_channel,
+    0.00375, 0.00425, 0.00175,
+    sp_channel=reset_channel,
+    measure_channel=bit_and_phase_flip_channel,
     gate_channel=phase_flip_channel,
-    scramble_channel=depolarisation_channel,
+    scramble_channel=bit_flip_channel,
 )
 
 

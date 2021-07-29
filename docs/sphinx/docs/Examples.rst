@@ -10,4 +10,5 @@ Subpackages
    Examples.Pair
    Examples.Sdc
    Examples.Qkd
+   Examples.Noise
    Examples.Eavesdropping

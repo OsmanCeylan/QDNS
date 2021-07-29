@@ -272,7 +272,7 @@ class StimBackend(Backend):
         del self._qubit_memory_index
         del self._qubit_memory_allocation
         global tableau_simulator
-        tableau_simulator = None
+        tableau_simulator = stim.TableauSimulator()
 
     def allocate_qubits(self, count: int, *args) -> List[str]:
         """
@@ -336,7 +336,9 @@ class StimBackend(Backend):
         :arg[0] Apply gate noise flag.
         """
 
-        apply_noise = False if args.__len__() > 0 and args[0] else True
+        apply_noise = True
+        if args.__len__() > 0 and args[0]:
+            apply_noise = False
 
         if gate_id not in supported_operations.keys():
             raise AttributeError("Gate {} is not supported on STIM.".format(gate_id))
@@ -423,7 +425,8 @@ class StimBackend(Backend):
         for qubit in qubits:
             for gate in channel.get_gates():
                 if gate == "R":
-                    self.reset_qubits((qubit,))
+                    index = VirtQudit.qubit_id_resolver(qubit)
+                    tableau_simulator.reset(index)
                 else:
                     self.apply_transformation(gate.gate_id, (), (qubit,), True)
 
