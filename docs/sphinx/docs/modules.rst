@@ -16,4 +16,5 @@ source
    Qkd
    Attack
    Features
-   Exapmles
+   Examples
+   Modules

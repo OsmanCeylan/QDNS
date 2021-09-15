@@ -634,7 +634,9 @@ class Chunk(object):
         channel = get_channel_gate(self._noise_pattern.gate_error_channel)
         line_qids = [cirq.LineQid(qubit, dimension=self._dimension) for qubit in qubits]
 
-        self._circuit.append(channel(self._noise_pattern.gate_error_probability, dim=self._dimension).on_each(*line_qids))
+        for qid in line_qids:
+            channel_onj = channel(self._noise_pattern.gate_error_probability, dim=self._dimension)
+            self._circuit.append(channel_onj.on(qid))
         self._circuit.append(gate.on(*line_qids))
 
         if iterate:
