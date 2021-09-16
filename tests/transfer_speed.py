@@ -9,14 +9,13 @@ class Alice(QDNS.Node):
 
     @staticmethod
     def alice_default_app(app: QDNS.Application):
-        my_pairs = app.send_entangle_pairs(512, "Bob")
+        qubits = app.allocate_qubits(10000)
+        app.send_quantum("Bob", *qubits, routing=True)
+        app.put_simulation_result(["Alice send Bob time", app.global_time])
 
-        if my_pairs is None:
-            print("Something gone wrong on Alice side.")
-            return
-
-        result = app.measure_qubits(my_pairs)
-        app.put_simulation_result(result)
+        qubits = app.allocate_qubits(10000)
+        app.send_quantum("Charlie", *qubits, routing=True)
+        app.put_simulation_result(["Alice send Charlie time", app.global_time])
 
 
 class Bob(QDNS.Node):
@@ -26,33 +25,60 @@ class Bob(QDNS.Node):
 
     @staticmethod
     def bob_default_app(app: QDNS.Application):
-        op = app.wait_next_qubits(512)
+        iterable = app.wait_next_qubits(10000)
 
-        if op is None:
-            print("Bob did not receive qubits.")
-            return
+        if iterable is None:
+            raise AttributeError("Bob did not reieved qubits!")
 
-        my_pairs, count = op[0], op[1]
+        if iterable[1] < 10000:
+            raise ValueError("Bob did not receive 1000 qubits!")
 
-        result = app.measure_qubits(my_pairs)
-        app.put_simulation_result(result)
+        app.put_simulation_result(["Bob recieve time", app.global_time])
 
 
-def main(length_):
+class Charlie(QDNS.Node):
+    def __init__(self):
+        super().__init__("Charlie")
+        self.create_new_application(self.charlie_default_app)
+
+    @staticmethod
+    def charlie_default_app(app: QDNS.Application):
+        iterable = app.wait_next_qubits(10000)
+
+        if iterable is None:
+            raise AttributeError("Bob did not reieved qubits!")
+
+        if iterable[1] < 10000:
+            raise ValueError("Bob did not receive 1000 qubits!")
+
+        app.put_simulation_result(["Charlie recieve time", app.global_time])
+
+
+class Eve(QDNS.Node):
+    def __init__(self):
+        super().__init__("Bob")
+        self.create_new_application(self.eve_default_app)
+
+    @staticmethod
+    def eve_default_app(app: QDNS.Application):
+        pass
+
+
+def main():
     logging.basicConfig(level=logging.WARNING)
 
-    alice, bob = Alice(), Bob()
-    net = QDNS.Network(alice, bob)
-    net.add_channels(alice, bob, length=length_)  # km
+    alice, bob, charlie, eve = Alice(), Bob(), Charlie(), Eve()
+    r1, r2 = QDNS.Router("R1"), QDNS.Router("R2")
+    net = QDNS.Network(alice, bob, charlie, eve, r1, r2)
 
-    # Create configuration, we need 512x2 frames.
-    core_count = 4
-    frames = {
-        2: {
-            2: int(600 / core_count)
-        }
-    }
-    backend_conf = QDNS.BackendConfiguration(QDNS.CIRQ_BACKEND, core_count, frames)
+    net.add_channels(alice, bob)
+    net.add_channels(bob, r1)
+    net.add_channels(r1, charlie)
+    net.add_channels(charlie, r2)
+    net.add_channels(r2, eve)
+
+    frames = {2: 100000}
+    backend_conf = QDNS.BackendConfiguration(QDNS.STIM_BACKEND, 1, frames)
 
     sim = QDNS.Simulator()
     results = sim.simulate(net, backend_conf)
@@ -60,14 +86,11 @@ def main(length_):
     # Grap results from Alice and Bob.
     alice_res = results.user_dumpings(alice.label, QDNS.DEFAULT_APPLICATION_NAME)
     bob_res = results.user_dumpings(bob.label, QDNS.DEFAULT_APPLICATION_NAME)
+    charlie_res = results.user_dumpings(charlie.label, QDNS.DEFAULT_APPLICATION_NAME)
+    # eve_res = results.user_dumpings(eve.label, QDNS.DEFAULT_APPLICATION_NAME)
 
-    count = 0
-    for i in range(alice_res.__len__()):
-        if alice_res[i] == bob_res[i]:
-            count += 1
-    rate = count / alice_res.__len__() * 100
-    return rate
+    print(alice_res, bob_res, charlie_res)
 
 
 if __name__ == '__main__':
-    print("Match rate: ", main(10.0))
+    main()
