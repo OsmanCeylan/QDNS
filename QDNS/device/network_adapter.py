@@ -29,16 +29,17 @@ from copy import deepcopy
 from datetime import timedelta
 from queue import Queue as TQueue, Empty
 from typing import Union, Dict
+
 import numpy as np
 
+from QDNS.commands.api import make_channel_error_request
+from QDNS.device.channel import ClassicChannel, QuantumChannel
+from QDNS.device.tools import socket_info
 from QDNS.device.tools import socket_tools
 from QDNS.device.tools.application_tools import DEFAULT_APPLICATION_NAME
 from QDNS.device.tools.port import Port
 from QDNS.device.tools.port_manager import PortManager, PortManagerSetting
-from QDNS.device.tools import socket_info
 from QDNS.interactions import request, signal, respond
-from QDNS.commands.api import make_channel_error_request
-from QDNS.device.channel import ClassicChannel, QuantumChannel
 from QDNS.rtg_apps.routing import RoutingLayer
 from QDNS.tools import layer, queue_manager, communication
 from QDNS.tools.state_handler import StateHandler

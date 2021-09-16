@@ -24,21 +24,22 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from typing import Optional
 import multiprocessing
-import numpy as np
 import threading
 import time
+from typing import Optional
 
+import numpy as np
+
+from QDNS.backend.backend_wrapper import BackendWrapper
 from QDNS.backend.tools.config import BackendConfiguration
 from QDNS.backend.tools.noise import default_noise_pattern
 from QDNS.interactions import request, signal, respond
-from QDNS.backend.backend_wrapper import BackendWrapper
 from QDNS.networking.network import Network
 from QDNS.rtg_apps.routing import RoutingLayer
+from QDNS.simulation import tools
 from QDNS.simulation.controller import MinerController
 from QDNS.tools import layer, queue_manager
-from QDNS.simulation import tools
 from QDNS.tools.state_handler import StateHandler
 
 

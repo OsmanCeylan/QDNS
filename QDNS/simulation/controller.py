@@ -27,10 +27,10 @@
 from typing import List, Dict, Union
 
 from QDNS.device.device import Device
+from QDNS.simulation import tools
 from QDNS.simulation.miner import Process
 from QDNS.tools.layer import ID_SIMULATION
 from QDNS.tools.module import Module
-from QDNS.simulation import tools
 
 
 class MinerController(Module):

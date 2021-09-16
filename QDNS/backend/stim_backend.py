@@ -25,12 +25,13 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from typing import Union, Type, List, Sequence, Tuple
+
 import numpy as np
 
-from QDNS.backend.tools.virt_qubit import VirtQudit
-from QDNS.backend.tools.backend import Backend
 from QDNS.backend.tools import config
 from QDNS.backend.tools import noise
+from QDNS.backend.tools.backend import Backend
+from QDNS.backend.tools.virt_qubit import VirtQudit
 from QDNS.tools import gates
 
 # Check if avaible.

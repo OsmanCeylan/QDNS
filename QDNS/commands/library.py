@@ -27,11 +27,11 @@
 import time
 from copy import copy
 
-from QDNS.device.application import Application
 from QDNS.commands import api
 from QDNS.commands import tools as command_tools
-from QDNS.tools import communication
+from QDNS.device.application import Application
 from QDNS.rtg_apps.qkd import SENDER_SIDE, RECIEVER_SIDE
+from QDNS.tools import communication
 
 
 def application_wait_next_package(

@@ -24,19 +24,20 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from typing import Union, Type, Sequence, Tuple
+import multiprocessing
+import os
 from copy import deepcopy, copy
 from typing import List, Dict
-import multiprocessing
-import numpy as np
-import os
+from typing import Union, Type, Sequence, Tuple
 
-from QDNS.tools.various_tools import tensordot, dev_mode
-from QDNS.backend.tools.virt_qubit import VirtQudit
-from QDNS.backend.tools.backend import Backend
+import numpy as np
+
 from QDNS.backend.tools import config
 from QDNS.backend.tools import noise
+from QDNS.backend.tools.backend import Backend
+from QDNS.backend.tools.virt_qubit import VirtQudit
 from QDNS.tools import gates
+from QDNS.tools.various_tools import tensordot, dev_mode
 
 # Check if cirq avaible.
 try:

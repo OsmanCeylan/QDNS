@@ -25,8 +25,8 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import uuid
-from QDNS.tools import various_tools
 
+from QDNS.tools import various_tools
 # Device states.
 from QDNS.tools.any_settings import AnySettings
 from QDNS.tools.module import ModuleSettings

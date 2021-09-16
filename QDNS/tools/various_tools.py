@@ -24,11 +24,12 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import ctypes
 import base64
+import ctypes
 import random
 import string
 import threading
+
 import numpy as np
 
 # Dev mode.

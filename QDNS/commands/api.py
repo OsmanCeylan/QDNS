@@ -25,13 +25,13 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import time
-from typing import Union
 from datetime import datetime
 from queue import Empty
+from typing import Union
 
-from QDNS.interactions import request, signal
-from QDNS.device.application import Application
 from QDNS.commands import tools
+from QDNS.device.application import Application
+from QDNS.interactions import request, signal
 
 
 def calculate_time_delta(datetime_old, datetime_new=None):

@@ -24,17 +24,16 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from typing import Tuple, Dict, Optional, Any, Union, List
 import logging
+from typing import Tuple, Dict, Optional, Any, Union, List
 
 from QDNS.interactions.signal import StateReportSignal
+from QDNS.tools import queue_manager
 from QDNS.tools.any_settings import AnySettings
 from QDNS.tools.any_settings import default_any_setting
-from QDNS.tools import queue_manager
 from QDNS.tools.instance_logger import SubLogger
 from QDNS.tools.module import Module
 from QDNS.tools.state_handler import StateHandler
-
 
 # Layer types.
 THREAD_LAYER = "This layer run in a thread"

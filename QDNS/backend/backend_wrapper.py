@@ -24,23 +24,21 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from typing import List, Sequence, Tuple, Optional
 import logging
 import time
-
-from QDNS.simulation.tools import kernel_layer_label
-from QDNS.tools.module import Module
-from QDNS.tools.module import ModuleSettings
-from QDNS.tools.layer import ID_SIMULATION
-
-from QDNS.backend.tools.backend import Backend
-from QDNS.backend.tools import config
-from QDNS.backend.tools import noise
+from typing import List, Sequence, Tuple, Optional
 
 from QDNS.backend.cirq_backend import CirqBackend
 from QDNS.backend.qiskit_backend import QiskitBackend
 from QDNS.backend.sdqs_backend import SdqsBackend
 from QDNS.backend.stim_backend import StimBackend
+from QDNS.backend.tools import config
+from QDNS.backend.tools import noise
+from QDNS.backend.tools.backend import Backend
+from QDNS.simulation.tools import kernel_layer_label
+from QDNS.tools.layer import ID_SIMULATION
+from QDNS.tools.module import Module
+from QDNS.tools.module import ModuleSettings
 
 # Backend flags to object.
 backend_flag_to_object = {

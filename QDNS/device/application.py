@@ -32,12 +32,12 @@ from queue import SimpleQueue as TSimpleQueue
 import numpy as np
 
 import QDNS
+from QDNS.device.tools import application_tools
 from QDNS.device.tools.blocklist import BlockList
 from QDNS.device.tools.listener import Listener
 from QDNS.interactions import signal
-from QDNS.tools.state_handler import StateHandler
-from QDNS.device.tools import application_tools
 from QDNS.tools import layer, queue_manager, gates
+from QDNS.tools.state_handler import StateHandler
 
 
 class Application(layer.Layer):

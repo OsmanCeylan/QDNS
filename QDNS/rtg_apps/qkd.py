@@ -25,13 +25,13 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import threading
-import numpy as np
 
-from QDNS.interactions import signal, request, respond
-from QDNS.tools import gates, layer
+import numpy as np
 
 from QDNS.device.application import Application
 from QDNS.device.tools.application_tools import ApplicationSettings
+from QDNS.interactions import signal, request, respond
+from QDNS.tools import gates, layer
 
 BB84_METHOD = "BB84 QKD METHOD"
 E91_METHOD = "E91 QKD METHOD"

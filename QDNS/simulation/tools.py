@@ -25,6 +25,7 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from typing import Union
+
 from psutil import cpu_count
 
 from QDNS.tools.module import ModuleSettings

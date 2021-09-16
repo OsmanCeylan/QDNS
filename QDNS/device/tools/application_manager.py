@@ -28,12 +28,12 @@ import threading
 from queue import Queue as TQueue
 from typing import Optional, List, Dict, Union
 
-from QDNS.device.tools import device_tools
-from QDNS.device.tools import application_tools
-from QDNS.interactions import signal
 from QDNS.device.application import Application
-from QDNS.rtg_apps.routing import RoutingLayer
+from QDNS.device.tools import application_tools
+from QDNS.device.tools import device_tools
+from QDNS.interactions import signal
 from QDNS.rtg_apps.qkd import QKDLayer
+from QDNS.rtg_apps.routing import RoutingLayer
 from QDNS.tools.layer import ID_DEVICE
 from QDNS.tools.module import Module
 from QDNS.tools.various_tools import TerminatableThread

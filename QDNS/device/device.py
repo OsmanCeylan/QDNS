@@ -24,17 +24,18 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from queue import Queue as TQueue
-from typing import Optional
-import numpy as np
 import threading
 import time
 import uuid
+from queue import Queue as TQueue
+from typing import Optional
+
+import numpy as np
 
 from QDNS.device.network_adapter import NetworkSocket
-from QDNS.device.tools.application_manager import ApplicationManager
 from QDNS.device.tools import device_tools
 from QDNS.device.tools import socket_tools
+from QDNS.device.tools.application_manager import ApplicationManager
 from QDNS.interactions import request, respond, signal
 from QDNS.tools import layer, queue_manager
 from QDNS.tools.state_handler import StateHandler

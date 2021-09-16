@@ -5,6 +5,9 @@ __git__ = "-stable"
 __rc__ = ""
 __version_string__ = "{}{}{}".format(__version__, __git__, __rc__)
 
+from QDNS.backend.cirq_backend import change_cirq_simulator
+from QDNS.backend.qiskit_backend import change_qiskit_simulator
+
 # FROM Backend
 from QDNS.backend.tools.config import (
     BackendConfiguration,
@@ -15,6 +18,8 @@ from QDNS.backend.tools.config import (
     supported_backends,
     avaible_backends
 )
+
+from QDNS.backend.tools.noise import channels as noise_channels
 from QDNS.backend.tools.noise import (
     depolarisation_channel,
     bit_flip_channel,
@@ -26,9 +31,6 @@ from QDNS.backend.tools.noise import (
     change_default_noise_pattern,
     NoisePattern
 )
-from QDNS.backend.tools.noise import channels as noise_channels
-from QDNS.backend.cirq_backend import change_cirq_simulator
-from QDNS.backend.qiskit_backend import change_qiskit_simulator
 
 # FROM Commands
 from QDNS.commands import api
@@ -44,6 +46,15 @@ from QDNS.commands.tools import (
     set_qubit_stream_capacity
 )
 
+from QDNS.device.application import Application
+from QDNS.device.device import (
+    Device,
+    Router,
+    Observer,
+    Node
+)
+
+from QDNS.device.network_adapter import NetworkSocket
 # FROM Device
 from QDNS.device.tools.application_manager import ApplicationManager
 from QDNS.device.tools.application_tools import (
@@ -54,6 +65,7 @@ from QDNS.device.tools.application_tools import (
     default_application_settings,
     change_default_application_settings
 )
+
 from QDNS.device.tools.blocklist import BlockList
 from QDNS.device.tools.device_tools import (
     device_states,
@@ -66,12 +78,14 @@ from QDNS.device.tools.device_tools import (
     default_device_settings,
     change_default_device_settings
 )
+
 from QDNS.device.tools.listener import Listener
 from QDNS.device.tools.port import (
     CLASSIC_PORT,
     QUANTUM_PORT,
     Port
 )
+
 from QDNS.device.tools.port_manager import (
     port_manager_states,
     use_simple_queue_for_ports,
@@ -86,6 +100,7 @@ from QDNS.device.tools.socket_info import (
     ConnectivityInformation,
     PortInformation
 )
+
 from QDNS.device.tools.socket_tools import (
     socket_states,
     default_ping_time,
@@ -96,14 +111,6 @@ from QDNS.device.tools.socket_tools import (
     change_default_socket_settings,
     change_default_ping_time
 )
-from QDNS.device.application import Application
-from QDNS.device.device import (
-    Device,
-    Router,
-    Observer,
-    Node
-)
-from QDNS.device.network_adapter import NetworkSocket
 
 # FROM Interactions
 from QDNS.interactions import (
@@ -147,6 +154,8 @@ from QDNS.simulation.tools import (
     SimulationResults
 )
 
+from QDNS.tools import gates
+
 # FROM Tools
 from QDNS.tools.any_settings import AnySettings
 from QDNS.tools.communication import (
@@ -156,7 +165,7 @@ from QDNS.tools.communication import (
     ApplicationLayer,
     Package
 )
-from QDNS.tools import gates
+
 from QDNS.tools.instance_logger import (
     default_logger_name,
     default_logger_format,
@@ -167,6 +176,7 @@ from QDNS.tools.instance_logger import (
     get_logger,
     SubLogger
 )
+
 from QDNS.tools.layer import (
     THREAD_LAYER,
     PROCESS_LAYER,
@@ -174,6 +184,7 @@ from QDNS.tools.layer import (
     layers,
     Layer
 )
+
 from QDNS.tools.module import (
     ModuleSettings,
     default_module_setting,
@@ -181,9 +192,10 @@ from QDNS.tools.module import (
     MODULE_STATES,
     Module
 )
+
 from QDNS.tools.queue_manager import QueueManager
-from QDNS.tools.state_handler import StateHandler
 from QDNS.tools.state_handler import GENERAL_STATE_FLAGS
+from QDNS.tools.state_handler import StateHandler
 from QDNS.tools.various_tools import (
     dev_mode,
     string_encode,
