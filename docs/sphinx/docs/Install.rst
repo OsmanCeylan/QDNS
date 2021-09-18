@@ -18,7 +18,7 @@ Requirtments
 
 .. code-block:: python
 
-    * Python >= 3.6
+    * Python >= 3.9
     * numpy
     * psutil
     * cirq
@@ -36,7 +36,6 @@ Commands
 
     $ git clone https://github.com/OsmanCeylan/QDNS.git
     $ cd QDNS
-    $ pip install -r requirements.txt
     $ pip install .
 
 Troubleshot
@@ -50,14 +49,12 @@ If something goes wrong, you can install package in new python environment.
              $ .\env\Scripts\\activate
              $ git clone https://github.com/OsmanCeylan/QDNS.git
              $ cd QDNS
-             $ py -m pip install -r requirements.txt
              $ py -m pip install .
 
     Unix   : $ python3 -m venv env
              $ source env/bin/activate
              $ git clone https://github.com/OsmanCeylan/QDNS.git
              $ cd QDNS
-             $ pip install -r requirements.txt
              $ pip install .
 
 In addition, QDNS can be used by placing the framework folder to next to the executable code.

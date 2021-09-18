@@ -1,9 +1,5 @@
 wheel>=0.2.0
-qiskit>=0.20.0
-cirq>=0.9.1
-stim>=1.2.0
 numpy>=1.17.3
 psutil>=5.0.0
 matplotlib>=3.0.0
 networkx>=2.0.0
-setuptools>=46.0.0

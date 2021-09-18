@@ -9,13 +9,21 @@ class Alice(QDNS.Node):
 
     @staticmethod
     def alice_default_app(app: QDNS.Application):
-        qubits = app.allocate_qubits(10000)
-        app.send_quantum("Bob", *qubits, routing=True)
-        app.put_simulation_result(["Alice send Bob time", app.global_time])
+        qubits_bob = app.allocate_qubits(1000)
+        app.put_simulation_result(["AtoE", app.global_time])
+        app.send_quantum("Bob", *qubits_bob, routing=True)
 
-        qubits = app.allocate_qubits(10000)
-        app.send_quantum("Charlie", *qubits, routing=True)
-        app.put_simulation_result(["Alice send Charlie time", app.global_time])
+        qubits_charlie = app.allocate_qubits(1000)
+        app.put_simulation_result(["AtoC", app.global_time])
+        app.send_quantum("Charlie", *qubits_charlie, routing=True)
+
+        qubits_eve = app.allocate_qubits(1000)
+        app.put_simulation_result(["AtoE", app.global_time])
+        app.send_quantum("Eve", *qubits_eve, routing=True)
+
+        qubits_freya = app.allocate_qubits(1000)
+        app.put_simulation_result(["AtoF", app.global_time])
+        app.send_quantum("Freya", *qubits_freya, routing=True)
 
 
 class Bob(QDNS.Node):
@@ -25,12 +33,12 @@ class Bob(QDNS.Node):
 
     @staticmethod
     def bob_default_app(app: QDNS.Application):
-        iterable = app.wait_next_qubits(10000)
+        iterable = app.wait_next_qubits(1000)
 
         if iterable is None:
             raise AttributeError("Bob did not reieved qubits!")
 
-        if iterable[1] < 10000:
+        if iterable[1] < 1000:
             raise ValueError("Bob did not receive 1000 qubits!")
 
         app.put_simulation_result(["Bob recieve time", app.global_time])
@@ -43,42 +51,73 @@ class Charlie(QDNS.Node):
 
     @staticmethod
     def charlie_default_app(app: QDNS.Application):
-        iterable = app.wait_next_qubits(10000)
+        iterable = app.wait_next_qubits(1000)
 
         if iterable is None:
-            raise AttributeError("Bob did not reieved qubits!")
+            raise AttributeError("Charlie did not reieved qubits!")
 
-        if iterable[1] < 10000:
-            raise ValueError("Bob did not receive 1000 qubits!")
+        if iterable[1] < 1000:
+            raise ValueError("Charlie did not receive 1000 qubits!")
 
         app.put_simulation_result(["Charlie recieve time", app.global_time])
 
 
 class Eve(QDNS.Node):
     def __init__(self):
-        super().__init__("Bob")
+        super().__init__("Eve")
         self.create_new_application(self.eve_default_app)
 
     @staticmethod
     def eve_default_app(app: QDNS.Application):
-        pass
+        iterable = app.wait_next_qubits(1000)
+
+        if iterable is None:
+            raise AttributeError("Eve did not reieved qubits!")
+
+        if iterable[1] < 1000:
+            raise ValueError("Eve did not receive 1000 qubits!")
+
+        app.put_simulation_result(["Eve recieve time", app.global_time])
+
+
+class Freya(QDNS.Node):
+    def __init__(self):
+        super().__init__("Freya")
+        self.create_new_application(self.freya_default_app)
+
+    @staticmethod
+    def freya_default_app(app: QDNS.Application):
+        iterable = app.wait_next_qubits(1000)
+
+        if iterable is None:
+            raise AttributeError("Freya did not reieved qubits!")
+
+        if iterable[1] < 1000:
+            raise ValueError("Freya did not receive 1000 qubits!")
+
+        app.put_simulation_result(["Freya recieve time", app.global_time])
 
 
 def main():
     logging.basicConfig(level=logging.WARNING)
 
-    alice, bob, charlie, eve = Alice(), Bob(), Charlie(), Eve()
-    r1, r2 = QDNS.Router("R1"), QDNS.Router("R2")
-    net = QDNS.Network(alice, bob, charlie, eve, r1, r2)
+    alice, bob, charlie, eve, freya = Alice(), Bob(), Charlie(), Eve(), Freya()
+    r1, r2, r3 = QDNS.Router("R1"), QDNS.Router("R2"), QDNS.Router("R3")
+    net = QDNS.Network(alice, bob, charlie, eve, freya, r1, r2, r3)
 
     net.add_channels(alice, bob)
     net.add_channels(bob, r1)
     net.add_channels(r1, charlie)
     net.add_channels(charlie, r2)
     net.add_channels(r2, eve)
+    net.add_channels(eve, r3)
+    net.add_channels(r3, freya)
 
-    frames = {2: 100000}
+    frames = {2: 50000}
     backend_conf = QDNS.BackendConfiguration(QDNS.STIM_BACKEND, 1, frames)
+
+    QDNS.set_respond_expire_time(10.0)
+    QDNS.set_qubit_expire_time(10.0)
 
     sim = QDNS.Simulator()
     results = sim.simulate(net, backend_conf)
@@ -87,9 +126,23 @@ def main():
     alice_res = results.user_dumpings(alice.label, QDNS.DEFAULT_APPLICATION_NAME)
     bob_res = results.user_dumpings(bob.label, QDNS.DEFAULT_APPLICATION_NAME)
     charlie_res = results.user_dumpings(charlie.label, QDNS.DEFAULT_APPLICATION_NAME)
-    # eve_res = results.user_dumpings(eve.label, QDNS.DEFAULT_APPLICATION_NAME)
+    eve_res = results.user_dumpings(eve.label, QDNS.DEFAULT_APPLICATION_NAME)
+    freya_res = results.user_dumpings(freya.label, QDNS.DEFAULT_APPLICATION_NAME)
 
-    print(alice_res, bob_res, charlie_res)
+    to_bob = alice_res[0][0][1]
+    to_charlie = alice_res[1][0][1]
+    to_eve = alice_res[2][0][1]
+    to_freya = alice_res[3][0][1]
+
+    bob_time = bob_res[1]
+    charlie_time = charlie_res[1]
+    eve_time = eve_res[1]
+    freya_time = freya_res[1]
+
+    print(bob_time - to_bob)
+    print(charlie_time - to_charlie)
+    print(eve_time - to_eve)
+    print(freya_time - to_freya)
 
 
 if __name__ == '__main__':

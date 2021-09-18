@@ -1,6 +1,14 @@
 from setuptools import setup
 from QDNS import __version__
 
+import os
+thelibFolder = os.path.dirname(os.path.realpath(__file__))
+requirementPath = thelibFolder + '/requirements.txt'
+install_requires = [] # Here we'll get: ["gunicorn", "docutils>=0.3", "lxml==0.5a7"]
+if os.path.isfile(requirementPath):
+    with open(requirementPath) as f:
+        install_requires = f.read().splitlines()
+
 setup(
     name='QDNS',
     version=__version__,
@@ -10,5 +18,12 @@ setup(
     license='BSD',
     author='osman semi ceylan',
     author_email='osman.semi.ceylanq@gmail.com',
-    description='QDNS - Quantum Dynamic Network Simulator'
+    description='QDNS - Quantum Dynamic Network Simulator',
+    python_requires='>=3.9',
+    install_requires=install_requires,
+    extras_require={
+        'cirq': ['cirq>=0.9.1'],
+        'qiskit': ['qiskit>=0.20.0'],
+        'stim': ['stim>=1.2.0']
+    }
 )

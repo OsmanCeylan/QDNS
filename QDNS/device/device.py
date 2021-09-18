@@ -462,7 +462,7 @@ class Router(Device):
         """
 
         device_setting = device_tools.DeviceSettings(
-            otg_device=False, observe_capability=True,
+            otg_device=False, observe_capability=False,
             idle_after_device_ends=True, start_after_delay=0
         )
         application_mananger_setting = device_tools.ApplicationManagerSettings(

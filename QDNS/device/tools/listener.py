@@ -79,7 +79,7 @@ class Listener(Module):
         self.logger.info("Traffic on device is now interrupted.")
         self._interrupt = new_flag
 
-    def get_communication_item(self, timeout=3.0):
+    def get_communication_item(self, timeout=5.0):
         """
         Gets the traffic item from socket.
         """
