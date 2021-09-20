@@ -52,10 +52,12 @@ def log(message: str):
 try:
     import qiskit
     from qiskit.circuit import library
+    from qiskit import QuantumCircuit
 except ImportError:
     qiskit = None
     selected_simulator = None
     library = None
+    QuantumCircuit = object
 else:
     simulator_string = "aer_simulator_statevector"
     aer_vector_simulator = qiskit.Aer.get_backend(simulator_string)
@@ -293,7 +295,7 @@ class VirtQudit(VirtQudit):
 
 # CIRCUIT CHUNK
 
-class Chunk(qiskit.QuantumCircuit):
+class Chunk(QuantumCircuit):
     def __init__(
             self, index: int, qubit_count: int,
             noise_pattern: noise.NoisePattern,
@@ -327,7 +329,8 @@ class Chunk(qiskit.QuantumCircuit):
         """ Iterates / Flush circuit of chunk. """
 
         self.save_statevector()
-        res = simulator.run(self, shots=1, memory=True).result()
+        circ = qiskit.transpile(self, aer_vector_simulator)
+        res = simulator.run(circ, shots=1, memory=True).result()
         self._circuit_state = res.get_statevector(self)
 
         self.data.clear()
@@ -392,12 +395,12 @@ class Chunk(qiskit.QuantumCircuit):
             iterate: Iterate circuit.
         """
 
+        self.append(gate, qubits, [])
+
         self.scramble_qubits(
             qubits, self._noise_pattern.gate_error_channel,
             self._noise_pattern.gate_error_probability, _all=False
         )
-
-        self.append(gate, qubits[::-1], [])
 
         if iterate:
             self.iterate_circuit()
@@ -420,17 +423,16 @@ class Chunk(qiskit.QuantumCircuit):
                 qubits, self._noise_pattern.measure_error_channel,
                 self._noise_pattern.measure_error_probability, _all=False
             )
-
         self.measure(qubits, qubits)
-
         if not non_destructive:
-            self.scramble_qubits(qubits, self._noise_pattern.scramble_channel, 0.56, _all=False)
+            self.scramble_qubits(qubits, self._noise_pattern.scramble_channel, 0.57, _all=False)
 
         if non_destructive:
             self._circuit_state = old_state
 
         to_return = list()
         results = [int(i) for i in self.iterate_circuit().get_memory()[0]][::-1]
+
         for i, res in enumerate(results):
             if i in qubits:
                 to_return.append(res)
@@ -613,8 +615,7 @@ class QiskitBackendSlave(object):
         if gate.qubit_shape != qubits.__len__():
             raise ArithmeticError("Qubit count must be match with gate. {} != {}.".format(gate.qubit_shape, qubits.__len__()))
 
-        gate = qiskit.extensions.UnitaryGate(gate.matrix, label=gate.gate_name)
-        chunk.apply_transformation(gate, indexes, iterate=False)
+        chunk.apply_transformation(gate.get_qiskit_gate(), indexes, iterate=False)
 
     def measure_qubits(self, qubits: Sequence[str], non_destructive=False):
         """

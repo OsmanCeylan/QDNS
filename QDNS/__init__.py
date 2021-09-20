@@ -5,8 +5,6 @@ __git__ = "-stable"
 __rc__ = ""
 __version_string__ = "{}{}{}".format(__version__, __git__, __rc__)
 
-from QDNS.backend.cirq_backend import change_cirq_simulator
-from QDNS.backend.qiskit_backend import change_qiskit_simulator
 
 # FROM Backend
 from QDNS.backend.tools.config import (
@@ -31,6 +29,9 @@ from QDNS.backend.tools.noise import (
     change_default_noise_pattern,
     NoisePattern
 )
+
+from QDNS.backend.cirq_backend import change_cirq_simulator
+from QDNS.backend.qiskit_backend import change_qiskit_simulator
 
 # FROM Commands
 from QDNS.commands import api

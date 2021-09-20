@@ -58,7 +58,7 @@ else:
 try:
     import stim
 except ImportError:
-    pass
+    stim = None
 else:
     avaible_backends.append(STIM_BACKEND)
 

@@ -26,6 +26,15 @@
 
 import numpy as np
 
+try:
+    from qiskit import QuantumCircuit
+    from qiskit.circuit import library
+    from qiskit.extensions import UnitaryGate
+except ImportError:
+    library = None
+    UnitaryGate = None
+    QuantumCircuit = None
+
 i = np.complex(0, 1)
 
 
@@ -36,8 +45,8 @@ class Gate(object):
     dimension = 2
     stim_alias = None
 
-    def __init__(self, matrix):
-        self.matrix = matrix
+    def __init__(self, cirq_matrix):
+        self.matrix = cirq_matrix
 
     def __int__(self):
         return self.gate_id
@@ -48,8 +57,17 @@ class Gate(object):
     def _unitary_(self):
         return self.matrix
 
-    # Must inherit.
+    def get_qiskit_gate(self):
+        """
+        Gets the qiskit gate.
+        Returns a qiskit gate.
+        """
+
+        pass
+
     def args(self):
+        # Must inherit.
+
         return self.matrix,
 
 
@@ -66,8 +84,11 @@ class IDGate(Gate):
 
     def __init__(self):
         super(IDGate, self).__init__(
-            np.array([[1, 0], [0, 1]], dtype=complex)
+            np.array([[1, 0], [0, 1]], dtype=complex),
         )
+
+    def get_qiskit_gate(self):
+        return library.IGate()
 
     def args(self):
         return ()
@@ -95,6 +116,9 @@ class RXGate(Gate):
         ], dtype=complex)
         super(RXGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.RXGate(self.angle)
+
     def args(self):
         return self.angle,
 
@@ -120,6 +144,9 @@ class RYGate(Gate):
             [np.round(np.sin(angle / 2), 6), np.round(np.cos(angle / 2), 6)]
         ], dtype=complex)
         super(RYGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return library.RYGate(self.angle)
 
     def args(self):
         return self.angle,
@@ -147,6 +174,9 @@ class RZGate(Gate):
         ], dtype=complex)
         super(RZGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.RZGate(self.angle)
+
     def args(self):
         return self.angle,
 
@@ -166,6 +196,9 @@ class PauliX(Gate):
         super(PauliX, self).__init__(
             np.array([[0, 1], [1, 0]], dtype=complex)
         )
+
+    def get_qiskit_gate(self):
+        return library.XGate()
 
     def args(self):
         return ()
@@ -189,6 +222,9 @@ class PauliY(Gate):
         ], dtype=complex)
         super(PauliY, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.YGate()
+
     def args(self):
         return ()
 
@@ -210,6 +246,9 @@ class PauliZ(Gate):
             [0, -1]
         ], dtype=complex)
         super(PauliZ, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return library.ZGate()
 
     def args(self):
         return ()
@@ -233,6 +272,9 @@ class SGate(Gate):
         ], dtype=complex)
         super(SGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.SGate()
+
     def args(self):
         return ()
 
@@ -253,6 +295,9 @@ class TGate(Gate):
             [0, np.round(np.exp(i * np.pi / 4), 6)]
         ], dtype=complex)
         super(TGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return library.TGate()
 
     def args(self):
         return ()
@@ -276,6 +321,9 @@ class HGate(Gate):
         ], dtype=complex) * 1 / np.sqrt(2)
         super(HGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.HGate()
+
     def args(self):
         return ()
 
@@ -296,6 +344,9 @@ class PsedoHGate(Gate):
             [-1, 1]
         ], dtype=complex) * 1 / np.sqrt(2)
         super(PsedoHGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return UnitaryGate(self.matrix, label=self.gate_name)
 
     def args(self):
         return ()
@@ -325,6 +376,9 @@ class CRXGate(Gate):
         ], dtype=complex)
         super(CRXGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.CRXGate(self.angle)
+
     def args(self):
         return self.angle,
 
@@ -348,6 +402,9 @@ class CXGate(Gate):
             [0, 0, 1, 0]
         ], dtype=complex)
         super(CXGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return library.CXGate()
 
     def args(self):
         return ()
@@ -377,6 +434,9 @@ class CRYGate(Gate):
         ], dtype=complex)
         super(CRYGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.CRYGate(self.angle)
+
     def args(self):
         return self.angle,
 
@@ -401,6 +461,9 @@ class CYGate(Gate):
         ], dtype=complex)
 
         super(CYGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return library.CYGate()
 
     def args(self):
         return ()
@@ -430,6 +493,9 @@ class CRZGate(Gate):
         ], dtype=complex)
         super(CRZGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.CRZGate(self.angle)
+
     def args(self):
         return self.angle,
 
@@ -455,6 +521,9 @@ class CZGate(Gate):
 
         super(CZGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.CZGate()
+
     def args(self):
         return ()
 
@@ -478,6 +547,9 @@ class CSGate(Gate):
         ], dtype=complex)
 
         super(CSGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return library.SGate().control(1, label=self.gate_name)
 
     def args(self):
         return ()
@@ -503,6 +575,9 @@ class CTGate(Gate):
 
         super(CTGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.TGate().control(1, label=self.gate_name)
+
     def args(self):
         return ()
 
@@ -527,6 +602,9 @@ class CHGate(Gate):
 
         super(CHGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.CHGate()
+
     def args(self):
         return ()
 
@@ -550,6 +628,12 @@ class IIGate(Gate):
         ], dtype=complex)
 
         super(IIGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        qc = QuantumCircuit(2)
+        qc.id(0)
+        qc.id(1)
+        return qc
 
     def args(self):
         return ()
@@ -576,6 +660,9 @@ class SWAPGate(Gate):
 
         super(SWAPGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.SwapGate()
+
     def args(self):
         return ()
 
@@ -600,6 +687,9 @@ class ISWAPGate(Gate):
         ], dtype=complex)
 
         super(ISWAPGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return library.iSwapGate()
 
     def args(self):
         return ()
@@ -630,6 +720,9 @@ class XXGate(Gate):
 
         super(XXGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.RXXGate(self.angle)
+
     def args(self):
         return self.angle,
 
@@ -658,6 +751,9 @@ class YYGate(Gate):
         ], dtype=complex)
 
         super(YYGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return library.RYYGate(self.angle)
 
     def args(self):
         return self.angle,
@@ -688,6 +784,9 @@ class ZZGate(Gate):
 
         super(ZZGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.RZZGate(self.angle)
+
     def args(self):
         return self.angle,
 
@@ -711,6 +810,9 @@ class MSGate(Gate):
         ], dtype=complex)
 
         super(MSGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return library.RXXGate(np.pi/2)
 
     def args(self):
         return ()
@@ -736,6 +838,9 @@ class MagicGate(Gate):
 
         super(MagicGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.GRX(2, np.pi/2)
+
     def args(self):
         return ()
 
@@ -759,6 +864,13 @@ class CVGate(Gate):
         ], dtype=complex)
 
         super(CVGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        m = np.array([
+            [(1 + i) / 2, (1 - i) / 2],
+            [(1 - i) / 2, (1 + i) / 2]
+        ])
+        return UnitaryGate(m, label=self.gate_name).control(1)
 
     def args(self):
         return ()
@@ -789,6 +901,9 @@ class XYGate(Gate):
 
         super(XYGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return UnitaryGate(self.matrix, label=self.gate_name)
+
     def args(self):
         return self.angle,
 
@@ -812,6 +927,9 @@ class DCXGate(Gate):
         ], dtype=complex)
 
         super(DCXGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return library.DCXGate()
 
     def args(self):
         return ()
@@ -837,6 +955,9 @@ class BSWAPGate(Gate):
 
         super(BSWAPGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return UnitaryGate(self.matrix, label=self.gate_name)
+
     def args(self):
         return ()
 
@@ -860,6 +981,9 @@ class QFTGate(Gate):
         ], dtype=complex) * 1 / 2
 
         super(QFTGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return library.QFT(2)
 
     def args(self):
         return ()
@@ -885,13 +1009,16 @@ class WGate(Gate):
 
         super(WGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return UnitaryGate(self.matrix, label=self.gate_name)
+
     def args(self):
         return ()
 
 
 class CCXGate(Gate):
     """
-      Applies CCXGate gate on two qubits.
+      Applies CCXGate gate on three qubits.
     """
 
     gate_id = 44
@@ -913,13 +1040,16 @@ class CCXGate(Gate):
 
         super(CCXGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.CCXGate()
+
     def args(self):
         return ()
 
 
 class CSWAPGate(Gate):
     """
-      Applies Controlled-SWAP on two qubits.
+      Applies Controlled-SWAP on three qubits.
     """
 
     gate_id = 45
@@ -941,13 +1071,16 @@ class CSWAPGate(Gate):
 
         super(CSWAPGate, self).__init__(_matrix)
 
+    def get_qiskit_gate(self):
+        return library.CSwapGate()
+
     def args(self):
         return ()
 
 
 class CCZGate(Gate):
     """
-      Applies CCZ on two qubits.
+      Applies CCZ on three qubits.
     """
 
     gate_id = 46
@@ -968,6 +1101,9 @@ class CCZGate(Gate):
         ], dtype=complex)
 
         super(CCZGate, self).__init__(_matrix)
+
+    def get_qiskit_gate(self):
+        return library.CCXGate()
 
     def args(self):
         return ()
