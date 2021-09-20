@@ -185,6 +185,7 @@ class QKDLayer(Application):
 
             # Allocate qubits count of key_lenght
             qubit_frames = self.allocate_qframes(1, key_lenght)
+
             if qubit_frames is None:
                 self.logger.debug("QKD is failed to allocate qubits.")
                 respond_fail(request_id, app_label)
@@ -195,6 +196,8 @@ class QKDLayer(Application):
             for frame in qubit_frames:
                 qubits.extend(frame)
             thread_to_qubits[threading.get_ident()] = qubits
+
+            self.logger.debug("Allocated qubits for QKD: {}ms.".format(round((self.global_time - start_time) * 1000, 2)))
 
             # Lets send about qkd protocol deatils first.
             self.logger.debug("QKD sending protocol details to {}.".format(target_device))
@@ -228,6 +231,7 @@ class QKDLayer(Application):
 
             # Apply the gates by serial.
             self.apply_serial_transformations(list_of_gates)
+            self.logger.debug("Serial transformations stage: {}ms.".format(round((self.global_time - start_time) * 1000, 2)))
 
             # Send qubits to target device.
             self.logger.debug("QKD sending qubits to target.")
@@ -258,6 +262,8 @@ class QKDLayer(Application):
                 respond_fail(request_id, app_label)
                 return
 
+            self.logger.debug("Send-Get bases stage: {}ms.".format(round((self.global_time - start_time) * 1000, 2)))
+
             # Select good bits.
             goods = list()
             for q in range(key_lenght):
@@ -287,6 +293,8 @@ class QKDLayer(Application):
                 respond_fail(request_id, app_label)
                 return
 
+            self.logger.debug("Sample stage: {}ms.".format(round((self.global_time - start_time) * 1000, 2)))
+
             # Get Bob's verification.
             self.logger.debug("QKD is waiting target's verification.")
 
@@ -300,11 +308,11 @@ class QKDLayer(Application):
 
             # Check verification.
             if bob_verificication == PTOTOCOL_SUCCESS_MESSAGE:
-                self.logger.debug("QKD verification success. Passed time: {}.".format(self.global_time - start_time))
+                self.logger.debug("QKD verification success. Passed time: {}ms.".format(round((self.global_time - start_time) * 1000, 2)))
                 self._current_key = goods
                 respond_success(request_id, app_label)
             else:
-                self.logger.debug("QKD verification failed. Passed time: {}.".format(self.global_time - start_time))
+                self.logger.debug("QKD verification failed. Passed time: {}ms.".format(round((self.global_time - start_time) * 1000, 2)))
                 self._current_key = None
                 respond_fail(request_id, app_label)
 
