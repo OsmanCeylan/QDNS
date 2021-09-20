@@ -18,7 +18,7 @@ Requirtments
 
 .. code-block:: python
 
-    * Python >= 3.9
+    * Python >= 3.7
     * numpy
     * psutil
     * cirq
@@ -58,3 +58,10 @@ If something goes wrong, you can install package in new python environment.
              $ pip install .
 
 In addition, QDNS can be used by placing the framework folder to next to the executable code.
+
+Stim
+_______
+
+Stim on Windows requeires Visual C++ 14.0 from Visual Studio.
+
+Stim version 1.5 on Linux may fail to install. Try version 1.3.

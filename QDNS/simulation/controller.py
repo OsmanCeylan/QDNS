@@ -172,7 +172,7 @@ class MinerController(Module):
         return self._miner_list
 
     @property
-    def miner_to_device(self) -> dict[Process, list[Device]]:
+    def miner_to_device(self) -> Dict[Process, List[Device]]:
         return self._miner_to_device
 
     @property

@@ -71,7 +71,7 @@ else:
 
 
 class BackendConfiguration(object):
-    def __init__(self, backend: str, process_count: int, frame_config: dict):
+    def __init__(self, backend: str, process_count: int, frame_config):
         """
         Backend configuration.
 
@@ -99,7 +99,7 @@ class BackendConfiguration(object):
         return self._process_count
 
     @property
-    def frame_config(self) -> dict:
+    def frame_config(self):
         return self._frame_config
 
     def __int__(self) -> int:
