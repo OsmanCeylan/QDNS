@@ -1,3 +1,4 @@
 .idea
 docs/sphinx/_build
+docs/article_test
 tests
