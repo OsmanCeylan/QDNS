@@ -94,10 +94,10 @@ class NoisePattern(object):
 
 default_noise_pattern = NoisePattern(
     0.00375, 0.00425, 0.00175,
-    sp_channel=reset_channel,
+    sp_channel=bit_flip_channel,
     measure_channel=bit_and_phase_flip_channel,
     gate_channel=phase_flip_channel,
-    scramble_channel=bit_flip_channel,
+    scramble_channel=depolarisation_channel,
 )
 
 
