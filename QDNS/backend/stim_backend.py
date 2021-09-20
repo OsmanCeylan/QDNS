@@ -34,16 +34,10 @@ from QDNS.backend.tools.backend import Backend
 from QDNS.backend.tools.virt_qubit import VirtQudit
 from QDNS.tools import gates
 
-# Check if avaible.
 try:
-    import stim
+    from stim import TableauSimulator
 except ImportError:
-    stim = None
-    tableau_simulator = None
-else:
-    tableau_simulator = stim.TableauSimulator()
-
-selected_simulator = tableau_simulator
+    TableauSimulator = None
 
 # SUPPORTED GATES
 
@@ -63,7 +57,7 @@ supported_operations[gates.CZGate.gate_id] = gates.CZGate
 
 # QUBIT POINTER
 
-class VirtQudit(VirtQudit):
+class VirtQubit(VirtQudit):
     """
     Virtual qudit template.
     """
@@ -250,6 +244,9 @@ class StimBackend(Backend):
         """
 
         super().__init__(configuration, noise_pattern)
+
+        self.tableau_simulator = TableauSimulator()
+
         self._qubit_memory_index: List[int] = list()
         self._qubit_memory_allocation: List[int] = list()
         self.start_backend()
@@ -262,8 +259,8 @@ class StimBackend(Backend):
         except KeyError:
             raise ValueError("Stim backend expected key 2 from chunk configuration.")
         else:
-            if self.configuration.frame_config[2] >= np.power(10, VirtQudit.qubit_length):
-                raise OverflowError("Stim is limited to allocate 10^^{} qubits.".format(VirtQudit.qubit_length))
+            if self.configuration.frame_config[2] >= np.power(10, VirtQubit.qubit_length):
+                raise OverflowError("Stim is limited to allocate 10^^{} qubits.".format(VirtQubit.qubit_length))
             self._qubit_memory_index = np.arange(self.configuration.frame_config[2])
             self._qubit_memory_allocation = np.zeros(self.configuration.frame_config[2])
 
@@ -272,10 +269,9 @@ class StimBackend(Backend):
 
         del self._qubit_memory_index
         del self._qubit_memory_allocation
-        global tableau_simulator
-        tableau_simulator = stim.TableauSimulator()
+        del self.tableau_simulator
 
-    def allocate_qubits(self, count: int, *args) -> List[str]:
+    def allocate_qubits(self, count: int, *args) -> np.ndarray:
         """
         Allocates qubits.
 
@@ -285,10 +281,11 @@ class StimBackend(Backend):
 
         t = count
         indexes = list()
+
         for i, allocation in enumerate(self._qubit_memory_allocation):
             if allocation == 0:
                 self._qubit_memory_allocation[i] = 1
-                indexes.append(i)
+                indexes.append(VirtQubit.generate_pointer(i))
                 t -= 1
 
             if t <= 0:
@@ -297,26 +294,25 @@ class StimBackend(Backend):
         if indexes.__len__() < count:
             raise OverflowError("There is no space to allocate more qubits.")
 
-        qubits = [VirtQudit.generate_pointer(i) for i in indexes]
-        self.scramble_qubits(self.noise_pattern.state_prepare_error_channel, qubits,
+        self.scramble_qubits(self.noise_pattern.state_prepare_error_channel, indexes,
                              self.noise_pattern.state_prepare_error_probability)
-        return qubits
+        return np.array(indexes)
 
-    def allocate_qframes(self, frame_size: int, frame_count: int, *args) -> List[List[str]]:
+    def allocate_qframes(self, frame_size: int, frame_count: int, *args) -> np.ndarray:
         """ Allocates qframes on backend. """
 
-        return [self.allocate_qubits(frame_size) for _ in range(frame_count)]
+        return self.allocate_qubits(frame_size * frame_count).reshape(frame_count, frame_size)
 
     def deallocate_qubits(self, qubits: Sequence[str]) -> bool:
         """ Deallocates qframes from backend. """
 
-        indexes = [VirtQudit.qubit_id_resolver(i) for i in qubits]
+        indexes = [VirtQubit.qubit_id_resolver(i) for i in qubits]
         self.reset_qubits(qubits)
         for index in indexes:
             self._qubit_memory_allocation[index] = 0
         return True
 
-    def extend_circuit(self, qubit: str, size: int) -> List[str]:
+    def extend_circuit(self, qubit: str, size: int) -> np.ndarray:
         """
         Extend qframe from back.
         Just returns with more allocation.
@@ -344,29 +340,29 @@ class StimBackend(Backend):
         if gate_id not in supported_operations.keys():
             raise AttributeError("Gate {} is not supported on STIM.".format(gate_id))
 
-        indexes = [VirtQudit.qubit_id_resolver(i) for i in qubits]
+        indexes = [VirtQubit.qubit_id_resolver(i) for i in qubits]
         if gate_id == gates.IDGate.gate_id:
             pass
         elif gate_id == gates.PauliX.gate_id:
-            tableau_simulator.x(*indexes)
+            self.tableau_simulator.x(*indexes)
         elif gate_id == gates.PauliY.gate_id:
-            tableau_simulator.y(*indexes)
+            self.tableau_simulator.y(*indexes)
         elif gate_id == gates.PauliZ.gate_id:
-            tableau_simulator.z(*indexes)
+            self.tableau_simulator.z(*indexes)
         elif gate_id == gates.HGate.gate_id:
-            tableau_simulator.h(*indexes)
+            self.tableau_simulator.h(*indexes)
         elif gate_id == gates.SGate.gate_id:
-            tableau_simulator.s(*indexes)
+            self.tableau_simulator.s(*indexes)
         elif gate_id == gates.SWAPGate.gate_id:
-            tableau_simulator.swap(*indexes)
+            self.tableau_simulator.swap(*indexes)
         elif gate_id == gates.ISWAPGate.gate_id:
-            tableau_simulator.iswap(*indexes)
+            self.tableau_simulator.iswap(*indexes)
         elif gate_id == gates.CXGate.gate_id:
-            tableau_simulator.cnot(*indexes)
+            self.tableau_simulator.cnot(*indexes)
         elif gate_id == gates.CYGate.gate_id:
-            tableau_simulator.cy(*indexes)
+            self.tableau_simulator.cy(*indexes)
         elif gate_id == gates.CZGate.gate_id:
-            tableau_simulator.cz(*indexes)
+            self.tableau_simulator.cz(*indexes)
         else:
             raise AttributeError("Gate {} is not supported on STIM.".format(gate_id))
 
@@ -382,7 +378,7 @@ class StimBackend(Backend):
         """
 
         non_destructive = args[0] if args.__len__() > 0 else False
-        indexes = [VirtQudit.qubit_id_resolver(i) for i in qubits]
+        indexes = [VirtQubit.qubit_id_resolver(i) for i in qubits]
 
         if not non_destructive:
             self.scramble_qubits(
@@ -390,16 +386,22 @@ class StimBackend(Backend):
                 self.noise_pattern.measure_error_probability
             )
 
-        to_return = [int(i) for i in tableau_simulator.measure_many(*indexes)]
+        to_return = [int(i) for i in self.tableau_simulator.measure_many(*indexes)]
         if not non_destructive:
             self.scramble_qubits(self.noise_pattern.scramble_channel, qubits, 0.57)
+
+        state = self.tableau_simulator.current_inverse_tableau()
+        del self.tableau_simulator
+
+        self.tableau_simulator = TableauSimulator()
+        self.tableau_simulator.set_inverse_tableau(state)
         return to_return
 
     def reset_qubits(self, qubits: Sequence[str], *args):
         """ Reset Qubits. """
 
-        indexes = [VirtQudit.qubit_id_resolver(i) for i in qubits]
-        tableau_simulator.reset(*indexes)
+        indexes = [VirtQubit.qubit_id_resolver(i) for i in qubits]
+        self.tableau_simulator.reset(*indexes)
 
     def generate_ghz_pair(self, size: int, count: int, *args):
         """ Generates ghz pairs. """
@@ -423,11 +425,12 @@ class StimBackend(Backend):
         """
 
         channel = get_channel_gate(channel)(percent)
+
         for qubit in qubits:
             for gate in channel.get_gates():
                 if gate == "R":
-                    index = VirtQudit.qubit_id_resolver(qubit)
-                    tableau_simulator.reset(index)
+                    index = VirtQubit.qubit_id_resolver(qubit)
+                    self.tableau_simulator.reset(index)
                 else:
                     self.apply_transformation(gate.gate_id, (), (qubit,), True)
 
