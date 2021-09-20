@@ -125,7 +125,7 @@ Below is how a node can create an application::
 Static flag marks the application for state tracking.
 With this mark, application manager can detect applications that contains never ending while loops.
 So even threads of these kind of applications shows as alive, simulation kernel terminates them when simulation going to be over soon.
-``QDNS allows to pass values to application before simulation when creating a new application.``
+``QDNS allows to passing values to application before simulation when creating a new application.``
 
 Application Manager
 -----------------------------

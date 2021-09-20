@@ -91,3 +91,4 @@ But this formula is can be changed easily before simulation::
         QDNS.change_default_altitude_formula(my_channel_error_calculator)
         sim = QDNS.Simulator()
         sim.simulate(...)
+

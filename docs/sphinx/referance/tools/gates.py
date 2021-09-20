@@ -973,7 +973,7 @@ class CCZGate(Gate):
         return ()
 
 
-predefined_gates: list[Gate] = [
+predefined_gates = [
     IDGate, RXGate, RYGate, RZGate, PauliX, PauliY, PauliZ,
     SGate, TGate, HGate, PsedoHGate, CRXGate, CXGate,
     CRYGate, CYGate, CRZGate, CZGate, CSGate, CTGate, CHGate,

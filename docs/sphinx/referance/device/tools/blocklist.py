@@ -472,7 +472,7 @@ class BlockList(Module):
         return self._blocked_protocols_list
 
     @property
-    def blocked_count(self) -> dict[str, int]:
+    def blocked_count(self) -> Dict[str, int]:
         return self._blocked_count
 
     @property
