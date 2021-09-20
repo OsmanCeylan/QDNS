@@ -1,7 +1,7 @@
 # QDNS
 ## Event Driven Dynamic Quantum Network Simulator
 
-Quantum Dynamic Network Simulator (QDNS) is a event driven quantum network simulation framework written in Python. QDNS allows users to program quantum network protocols over a dynamic and uncertain environment.
+Quantum Dynamic Network Simulator (QDNS) is an event driven quantum network simulation framework written in Python. QDNS allows users to program quantum network protocols over a dynamic and uncertain environment.
 
 ## Requirtments
 - Python >= 3.7 Linux, Windows, macOS Environment
