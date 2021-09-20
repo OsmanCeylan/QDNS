@@ -20,7 +20,7 @@ setup(
     author='osman semi ceylan',
     author_email='osman.semi.ceylanq@gmail.com',
     description='QDNS - Quantum Dynamic Network Simulator',
-    python_requires='>=3.9',
+    python_requires='>=3.7',
     install_requires=install_requires,
     extras_require={
         'cirq': ['cirq>=0.9.1'],
