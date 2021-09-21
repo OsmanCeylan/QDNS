@@ -683,7 +683,8 @@ class Chunk(object):
             self.scramble_qubits(
                 qubits,
                 self._noise_pattern.scramble_channel,
-                0.565, _all=False)
+                0.75, _all=False
+            )
 
         # Flush circuit.
         results = self.iterate_circuit()

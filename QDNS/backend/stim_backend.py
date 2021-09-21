@@ -388,7 +388,7 @@ class StimBackend(Backend):
 
         to_return = [int(i) for i in self.tableau_simulator.measure_many(*indexes)]
         if not non_destructive:
-            self.scramble_qubits(self.noise_pattern.scramble_channel, qubits, 0.57)
+            self.scramble_qubits(self.noise_pattern.scramble_channel, qubits, 0.75)
 
         state = self.tableau_simulator.current_inverse_tableau()
         del self.tableau_simulator

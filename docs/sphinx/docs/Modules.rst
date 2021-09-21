@@ -32,17 +32,17 @@ Backend module
 Command module
 ----------------------------------------
 
-.. automodule:: referance.command.api
+.. automodule:: referance.commands.api
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: referance.command.library
+.. automodule:: referance.commands.library
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: referance.command.tools
+.. automodule:: referance.commands.tools
    :members:
    :undoc-members:
    :show-inheritance:

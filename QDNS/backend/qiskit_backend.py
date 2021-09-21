@@ -425,7 +425,7 @@ class Chunk(QuantumCircuit):
             )
         self.measure(qubits, qubits)
         if not non_destructive:
-            self.scramble_qubits(qubits, self._noise_pattern.scramble_channel, 0.57, _all=False)
+            self.scramble_qubits(qubits, self._noise_pattern.scramble_channel, 0.75, _all=False)
 
         if non_destructive:
             self._circuit_state = old_state
