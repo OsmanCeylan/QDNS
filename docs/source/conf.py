@@ -19,8 +19,6 @@ sys.path.append('source')
 
 sys.path.append('../../QDNS')
 
-from QDNS import __version_string__, __version__
-
 # -- Project information -----------------------------------------------------
 
 project = 'QDNS'
@@ -28,8 +26,8 @@ copyright = '2021, COMU Team'
 author = 'Osman Ceylan'
 
 # The full version, including alpha/beta/rc tags
-version = str(__version__)
-release = __version_string__
+version = 0.55
+release = "{}{}{}".format(version, "stable", "")
 
 # -- General configuration ---------------------------------------------------
 
