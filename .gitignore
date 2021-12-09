@@ -1,4 +1,4 @@
 .idea
-docs/sphinx/_build
+docs/source/_build
 docs/article_test
 tests

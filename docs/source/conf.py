@@ -34,17 +34,17 @@ release = __version_string__
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+# extensions coming with Sphinx (named 'source.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.todo',
-    'sphinx.ext.coverage',
-    'sphinx.ext.ifconfig',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.napoleon'
+    'source.ext.autodoc',
+    'source.ext.doctest',
+    'source.ext.intersphinx',
+    'source.ext.todo',
+    'source.ext.coverage',
+    'source.ext.ifconfig',
+    'source.ext.viewcode',
+    'source.ext.napoleon'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

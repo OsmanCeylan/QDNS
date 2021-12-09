@@ -25,9 +25,7 @@ Welcome to QDNS's documentation!
    docs/Examples
    docs/Modules
 
-Indices and tables
+Index
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
