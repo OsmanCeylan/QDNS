@@ -45,8 +45,8 @@ https://qdns.readthedocs.io/en/master/
 Documentations can also compiled from **docs** folder.
 
 ::
-    cd QDNS
 
+    cd QDNS
     sphinx-build -b html docs/source/ docs/build/html
 
 Examples
