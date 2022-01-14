@@ -10,39 +10,27 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+# import os
+# import sys
+# sys.path.insert(0, os.path.abspath('.'))
 
-import os
-import sys
-
-sys.path.insert(0, os.path.abspath('.'))
-sys.path.append('source')
-
-sys.path.append('../../QDNS')
 
 # -- Project information -----------------------------------------------------
 
 project = 'QDNS'
-copyright = '2021, COMU Team'
+copyright = '2022, Osman Ceylan and İhsan Yılmaz'
 author = 'Osman Ceylan'
 
 # The full version, including alpha/beta/rc tags
-version = 0.55
-release = "{}{}{}".format(version, "stable", "")
+release = '0.55-stable'
 
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'source.ext.*') or your custom
+# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'source.ext.autodoc',
-    'source.ext.doctest',
-    'source.ext.intersphinx',
-    'source.ext.todo',
-    'source.ext.coverage',
-    'source.ext.ifconfig',
-    'source.ext.viewcode',
-    'source.ext.napoleon'
+    'sphinx_rtd_theme',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -51,7 +39,7 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = []
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -59,7 +47,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # a list of builtin themes.
 #
 
-html_theme = 'sphinx_rtd_theme'
+html_theme = "sphinx_rtd_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

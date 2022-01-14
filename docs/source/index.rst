@@ -10,20 +10,20 @@ Welcome to QDNS's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   docs/Install
-   docs/Design
-   docs/Hello
-   docs/Backend
-   docs/Quantum
-   docs/Hardware
-   docs/Sends
-   docs/App
-   docs/Noise
-   docs/Qkd
-   docs/Attack
-   docs/Features
-   docs/Examples
-   docs/Modules
+   ind/Install
+   ind/Design
+   ind/Hello
+   ind/Backend
+   ind/Quantum
+   ind/Hardware
+   ind/Sends
+   ind/App
+   ind/Noise
+   ind/Qkd
+   ind/Attack
+   ind/Features
+   ind/Examples
+   ind/Modules
 
 Index
 ==================
