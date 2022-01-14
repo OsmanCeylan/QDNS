@@ -2,3 +2,4 @@ numpy>=1.17.3
 psutil>=5.0.0
 matplotlib>=3.0.0
 networkx>=2.0.0
+source>=1.0.0
