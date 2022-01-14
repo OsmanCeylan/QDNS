@@ -1,4 +1,4 @@
 .idea
-docs/source/_build
+docs/build
 docs/article_test
 tests
