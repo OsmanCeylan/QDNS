@@ -37,12 +37,17 @@ version 1.5 on Linux may fail to install. Try version 1.3.
 Documentation
 -------------
 
-Sphinx documentation can be found in **docs/sphinx** folder.
+Documentation can be found here:
+
+https://qdns.readthedocs.io/en/master/
+
+
+Documentations can also compiled from **docs** folder.
 
 ::
+    cd QDNS
 
-   cd docs/sphinx
-   make html
+    sphinx-build -b html docs/source/ docs/build/html
 
 Examples
 --------
