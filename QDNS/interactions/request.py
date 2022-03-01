@@ -205,14 +205,14 @@ class ConnectivityInformationRequest(REQUEST):
 class PortInformationRequest(REQUEST):
     def __init__(self, asker_app_label: str, port_key, search_classic, search_quantum, want_respond=True):
         """
-        Application request socket to reveal a port information.
+        Application request socket to reveal the port information.
 
         Args:
             asker_app_label: Asker application label.
             port_key: Port Identification.
             search_classic: Search in classic flag.
             search_quantum: Search in quantum flag.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
         """
 
         super().__init__(
@@ -232,7 +232,7 @@ class OpenCommunicationRequest(REQUEST):
 
         Args:
             asker_app_label: Asker application label.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
         """
 
         super().__init__(
@@ -248,7 +248,7 @@ class CloseCommunicationRequest(REQUEST):
 
         Args:
             asker_app_label: Asker application label.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
         """
 
         super().__init__(
@@ -267,7 +267,7 @@ class ActivatePortRequest(REQUEST):
             port_key: Port Identification.
             search_classic: Search in classic flag.
             search_quantum: Search in quantum flag.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
         """
 
         super().__init__(
@@ -290,7 +290,7 @@ class DeactivatePortRequest(REQUEST):
             port_key: Port Identification.
             search_classic: Search in classic flag.
             search_quantum: Search in quantum flag.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
         """
 
         super().__init__(
@@ -326,7 +326,7 @@ class PauseSocketRequest(REQUEST):
 
         Args:
             asker_app_label: Asker application label.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
         """
 
         super().__init__(
@@ -342,7 +342,7 @@ class RefreshConnectionsRequest(REQUEST):
 
         Args:
             asker_app_label: Asker application label.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
         """
 
         super().__init__(
@@ -361,7 +361,7 @@ class UnconnectChannelRequest(REQUEST):
             channel_key: Channel Identification.
             search_classic: Search in classic flag.
             search_quantum: Search in quantum flag.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
         """
 
         super().__init__(
@@ -384,7 +384,7 @@ class ReconnectChannelRequest(REQUEST):
             channel_key: Channel Identification.
             search_classic: Search in classic flag.
             search_quantum: Search in quantum flag.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
         """
 
         super().__init__(
@@ -406,7 +406,7 @@ class SendPackageRequest(REQUEST):
             asker_app: Application label.
             target: Target device identifier.
             package: Package object.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
         """
 
         super().__init__(
@@ -427,7 +427,7 @@ class SendQupackRequest(REQUEST):
             asker_app: Application label.
             target: Target device identifier.
             qupack: Qupack object.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
         """
 
         super().__init__(
@@ -632,7 +632,7 @@ class DeallocateQubitRequest(REQUEST):
 class ExtendQFrameRequest(REQUEST):
     def __init__(self, asker_app, asker_uuid, qubit_of_frame):
         """
-        An application request to extend frame from back by 1..
+        An application request to extend frame from back by 1.
 
         Args:
              asker_app: Asker app label.
@@ -788,7 +788,7 @@ class GenerateGHZRequest(REQUEST):
         self.size = self.data[1]
         self.count = self.data[2]
         self.args = self.data[3]
-        
+
 
 # Literally anyone who knows kernel accsess can use apply channel error.
 # Make sure only right layer use this at right time.
@@ -915,3 +915,24 @@ class FlushQKDKey(REQUEST):
         )
 
         self.asker_app = self.data[0]
+
+
+class ChangeChannelLenght(REQUEST):
+    def __init__(self, asker_uuid, channel_key, new_length: float):
+        """
+        A device request simulation kernel to change a channel lenght.
+
+        Args:
+            asker_uuid: Asker device.
+            channel_key: Unique channel key.
+            new_length: New length for channel.
+        """
+
+        super(ChangeChannelLenght, self).__init__(
+            layer.ID_APPLICATION, layer.ID_SIMULATION,
+            asker_uuid, channel_key, new_length, want_respond=False
+        )
+
+        self.asker_uuid = self.data[0]
+        self.target_channel = self.data[1]
+        self.new_length = self.data[2]

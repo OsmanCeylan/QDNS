@@ -192,6 +192,13 @@ class SimulationResults(object):
     def user_dumpings(self, device_label: str, application_label: str):
         """
         User outputs of given application of given device.
+
+        Args:
+            device_label: Needs exact device name. Other unique keys of device do not work.
+            application_label: Application label.
+
+        Return:
+            Raw dumped data.
         """
 
         if self.readings[device_label][application_label].__len__() <= 1:

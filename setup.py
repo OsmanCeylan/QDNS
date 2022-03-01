@@ -11,7 +11,7 @@ if os.path.isfile(requirementPath):
 
 setup(
     name='QDNS',
-    version='0.55',
+    version='0.56',
     packages=['QDNS', 'QDNS.tools', 'QDNS.device', 'QDNS.device.tools', 'QDNS.backend', 'QDNS.backend.tools', 'QDNS.commands', 'QDNS.rtg_apps', 'QDNS.networking', 'QDNS.simulation',
               'QDNS.interactions'],
     url='https://github.com/OsmanCeylan/QDNS',

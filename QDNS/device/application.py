@@ -338,7 +338,7 @@ class Application(layer.Layer):
             datetime_new: New time in datatime format. Default is now().
 
         Returns:
-            Date differance in seconds.
+            Date difference in seconds.
         """
 
         return QDNS.api.calculate_time_delta(datetime_old, datetime_new=datetime_new)
@@ -413,7 +413,7 @@ class Application(layer.Layer):
             timeout: Expire check time.
 
         Returns:
-            True if an deletion occurred.
+            True if a deletion occurred.
         """
 
         return QDNS.api.update_application_requests(self, timeout=timeout)
@@ -428,7 +428,7 @@ class Application(layer.Layer):
             timeout: Expire check time.
 
         Returns:
-            True if there is an package needs to be deleted.
+            True if there is a package needs to be deleted.
         """
 
         return QDNS.api.update_application_packages(self, timeout=timeout)
@@ -443,7 +443,7 @@ class Application(layer.Layer):
             timeout: Expire check time.
 
         Returns:
-            True if there is an package needs to be deleted.
+            True if there is a package needs to be deleted.
         """
 
         return QDNS.api.update_application_qubits(self, timeout=timeout)
@@ -500,7 +500,7 @@ class Application(layer.Layer):
         Makes get socket information request to socket.
 
         Args:
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
 
         Return:
             Request.
@@ -530,7 +530,7 @@ class Application(layer.Layer):
             port_key: Port from key. (Index, Channel UUID, Target UUID, Target Label)
             search_classic: Search in classic ports.
             search_quantum: Search in quantum ports.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
 
         Return:
             Request.
@@ -572,7 +572,7 @@ class Application(layer.Layer):
             port_key: Port from key. (Index, Channel UUID, Target UUID, Target Label)
             search_classic: Search in classic ports.
             search_quantum: Search in quantum ports.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
 
         Return:
             Request.
@@ -590,7 +590,7 @@ class Application(layer.Layer):
             port_key: Port from key. (Index, Channel UUID, Target UUID, Target Label)
             search_classic: Search in classic ports.
             search_quantum: Search in quantum ports.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
 
         Return:
             Request.
@@ -652,7 +652,7 @@ class Application(layer.Layer):
         Works when Auto_Ping OFF.
 
         Args:
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
 
         Return:
             Request.
@@ -668,7 +668,7 @@ class Application(layer.Layer):
             channel_key: Channel from key. (Port Index, Channel UUID, Target UUID, Target Label)
             search_classic: Search in classic ports.
             search_quantum: Search in quantum ports.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
 
         Return:
             Request.
@@ -685,7 +685,7 @@ class Application(layer.Layer):
         Args:
             target: Target device id.
             package: Package.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
         """
 
         return QDNS.api.send_package_request(self, target, package, want_respond=want_respond)
@@ -709,7 +709,7 @@ class Application(layer.Layer):
         Args:
             start_uuid: Start UUID.
             end_uuid: End UUID.
-            want_respond: Want respond flag.
+            want_respond: Want to respond flag.
 
         Return:
             Request.
@@ -919,13 +919,27 @@ class Application(layer.Layer):
 
     def _flush_qkd_key(self):
         """
-        Apllication requests to remove key in QKD Layer.
+        Application requests to remove key in QKD Layer.
 
         Returns:
             Request or None.
         """
 
         return QDNS.api.flush_qkd_key_request(self)
+
+    def change_channel_lenght(self, channel_key, new_length: float):
+        """
+        Application request to change a connected channel length.
+
+        Args:
+            channel_key: Unique channel identifier.
+            new_length: New length of channel.
+
+        Returns:
+            Request of None.
+        """
+
+        return QDNS.api.change_channel_length_request(self, channel_key, new_length)
 
     """
     ================================================================================================
@@ -992,7 +1006,7 @@ class Application(layer.Layer):
             count: Qubit count.
             source: Hinted device.
             timeout: Expire time.
-            check_old_qubits: Check old unprocessed qubits..
+            check_old_qubits: Check old unprocessed qubits.
 
         Returns:
              (qubits, count) or None
@@ -1323,7 +1337,7 @@ class Application(layer.Layer):
         Measures given qubits.
 
         Args:
-            qubits: Qubits to measure.
+            qubits: List of qubits to measure.
             args: Backend specific arguments.
 
         Return:
@@ -1366,7 +1380,7 @@ class Application(layer.Layer):
         Makes apply transformation request to simulation.
 
         Args:
-            qubits: Qubits to measure.
+            qubits: Qubits to transform.
             gate: Gate object.
 
         Return:

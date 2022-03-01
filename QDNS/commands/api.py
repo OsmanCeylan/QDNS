@@ -43,7 +43,7 @@ def calculate_time_delta(datetime_old, datetime_new=None):
         datetime_new: New time in datatime format. Default is now().
 
     Returns:
-        Date differance in seconds.
+        Date difference in seconds.
     """
 
     if datetime_new is None:
@@ -112,7 +112,7 @@ def application_wait_next_qubit(application: Application, timeout=None):
 
 def application_wait_next_Trespond(application: Application, timeout=None):
     """
-    Application waits next (threaded) respond.
+    Application waits next (threaded) to respond.
 
     Args:
         application: Application.
@@ -135,7 +135,7 @@ def application_wait_next_Trespond(application: Application, timeout=None):
 
 def application_wait_next_Mrespond(application: Application, timeout=None):
     """
-    Application waits next (multiprocessed) respond.
+    Application waits next (multiprocessed) to respond.
 
     Args:
         application: Application.
@@ -167,7 +167,7 @@ def update_application_requests(application: Application, timeout=None) -> bool:
         timeout: Expire check time.
 
     Returns:
-        True if an deletion occurred.
+        True if a deletion occurred.
     """
 
     if timeout is None:
@@ -200,7 +200,7 @@ def update_application_packages(application: Application, timeout=None) -> bool:
         timeout : Expire check time.
 
     Returns:
-        True if there is an package needs to be deleted.
+        True if there is a package needs to be deleted.
     """
 
     if timeout is None:
@@ -233,7 +233,7 @@ def update_application_qubits(application: Application, timeout=None) -> bool:
         timeout : Expire check time.
 
     Returns:
-        True if there is an package needs to be deleted.
+        True if there is a package needs to be deleted.
     """
 
     if timeout is None:
@@ -330,7 +330,7 @@ def reveal_device_information_request(application: Application, want_respond=Tru
 
     Args:
         application: Requester application.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -351,7 +351,7 @@ def reveal_socket_information_request(application: Application, want_respond=Tru
 
     Args:
         application: Requester application.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -373,7 +373,7 @@ def reveal_connectivity_information_request(application: Application, get_uuids=
     Args:
         application: Requester application.
         get_uuids: Get target device uuids insetead of label.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -397,7 +397,7 @@ def reveal_port_information_request(application: Application, port_key, search_c
         port_key: Port from key. (Index, Channel UUID, Target UUID, Target Label)
         search_classic: Search in classic ports.
         search_quantum: Search in quantum ports.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -418,7 +418,7 @@ def open_communication_request(application: Application, want_respond=False) -> 
 
     Args:
         application: Requester application.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -439,7 +439,7 @@ def close_communication_request(application: Application, want_respond=False) ->
 
     Args:
         application: Requester application.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -463,7 +463,7 @@ def activate_port_request(application: Application, port_key, search_classic=Tru
         port_key: Port from key. (Index, Channel UUID, Target UUID, Target Label)
         search_classic: Search in classic ports.
         search_quantum: Search in quantum ports.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -487,7 +487,7 @@ def deactivate_port_request(application: Application, port_key, search_classic=T
         port_key: Port from key. (Index, Channel UUID, Target UUID, Target Label)
         search_classic: Search in classic ports.
         search_quantum: Search in quantum ports.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -508,7 +508,7 @@ def resume_socket_request(application: Application, want_respond=False) -> reque
 
     Args:
         application: Requester application.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -529,7 +529,7 @@ def pause_socket_request(application: Application, want_respond=False) -> reques
 
     Args:
         application: Requester application.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -583,7 +583,7 @@ def refresh_connections_request(application: Application, want_respond=False):
 
     Args:
         application: Requester application.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -607,7 +607,7 @@ def unconnect_channel_request(application: Application, channel_key, search_clas
         channel_key: Channel from key. (Port Index, Channel UUID, Target UUID, Target Label)
         search_classic: Search in classic ports.
         search_quantum: Search in quantum ports.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -631,7 +631,7 @@ def reconnect_channel_request(application: Application, channel_key, search_clas
         channel_key: Channel from key. (Port Index, Channel UUID, Target UUID, Target Label)
         search_classic: Search in classic ports.
         search_quantum: Search in quantum ports.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -654,7 +654,7 @@ def send_package_request(application: Application, target, package, want_respond
         application: Application.
         target: Target device id.
         package: Package.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -677,7 +677,7 @@ def send_qupack_request(application: Application, target, qupack, want_respond=T
         application: Application.
         target: Target device id.
         qupack: Qupack.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -700,7 +700,7 @@ def find_classic_route_request(application: Application, start_uuid, end_uuid, w
         application: Application.
         start_uuid: Start UUID.
         end_uuid: End UUID.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -723,7 +723,7 @@ def find_quantum_route_request(application: Application, start_uuid, end_uuid, w
         application: Application.
         start_uuid: Start UUID.
         end_uuid: End UUID.
-        want_respond: Want respond flag.
+        want_respond: Want to respond flag.
 
     Return:
         Request.
@@ -962,7 +962,7 @@ def apply_transformation(application: Application, gate_id, gate_args, qubits, *
 
     Args:
         application: Application.
-        gate_id: Id of gate.
+        gate_id: ID of gate.
         gate_args: Consturctor args for gate.
         qubits: Qubits to measure.
         *args: Backend specific arguments.
@@ -1178,6 +1178,29 @@ def flush_qkd_key_request(application: Application):
 
     the_request = request.FlushQKDKey(application.label)
     the_request.process(qkd_app.threaded_request_queue)
+
+    if the_request.want_respond:
+        application.active_requests.append(the_request)
+
+    return the_request
+
+
+def change_channel_length_request(application: Application, channel_key, new_length: float):
+    """
+    Makes change channel length request.
+
+    Args:
+        application: Application.
+        channel_key: Unique identification of channel.
+        new_length: New length in float.
+
+    Returns:
+        Request or None.
+    """
+
+    dev_uuid = application.host_uuid
+    the_request = request.ChangeChannelLenght(dev_uuid, channel_key, new_length)
+    the_request.process(application.sim_request_queue)
 
     if the_request.want_respond:
         application.active_requests.append(the_request)

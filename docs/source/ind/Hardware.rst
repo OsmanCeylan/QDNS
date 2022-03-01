@@ -47,6 +47,9 @@ Some useful socket commands used as below by Alice::
             # Other applications in same device will terminate.
             default_app.end_device_simulation()
 
+            # Change channel length for dynamic environments.
+            default_app.change_channel_lenght(channel_key, new_length)
+
 Full Example
 ----------------------
 

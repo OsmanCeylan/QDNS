@@ -22,7 +22,7 @@ copyright = '2022, Osman Ceylan and İhsan Yılmaz'
 author = 'Osman Ceylan'
 
 # The full version, including alpha/beta/rc tags
-release = '0.55-stable'
+release = '0.56-stable'
 
 # -- General configuration ---------------------------------------------------
 

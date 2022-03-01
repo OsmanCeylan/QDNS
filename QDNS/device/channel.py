@@ -62,6 +62,20 @@ class Channel(object):
         # Make sure quantum channel change this.
         self.percentage = 0.0
 
+    def change_length(self, new_length: float):
+        """
+        Changes the channel length to new value.
+        This method works both in simulation and not.
+
+        Args:
+            new_length: New length in float.
+        """
+
+        self._length = new_length
+
+        self.percentage = default_altitude_formula(self.length)
+        self.percentage = np.around(self.percentage, 3)
+
     @property
     def length(self):
         return self._length

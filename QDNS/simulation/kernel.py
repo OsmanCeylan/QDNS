@@ -411,6 +411,21 @@ class Kernel(layer.Layer):
                     ).respond_queue
                 )
 
+        # Change channel length request.
+        elif isinstance(request_, request.ChangeChannelLenght):
+            channel = self._running_network.get_channel(request_.target_channel, raise_=True)
+            channel.change_length(request_.new_length)
+
+            # Else program terminates anyway.
+            exit_code = 0
+
+            if request_.want_respond:
+                respond.ChangeChannelLenghtRespond(request_.generic_id, exit_code).process(
+                    self._running_network.get_device(request_.asker_uuid, _raise=True).appman.get_application_from(
+                        request_.spesific_asker, _raise=True
+                    )
+                )
+
         else:
             raise ValueError("Unrecognized request for kernel. What \"{}\"?".format(request_))
 

@@ -77,9 +77,15 @@ class RESPOND(object):
     def data_(self, index: int) -> Any:
         """
         Returns index of data.
-        :param index: Index.
-        :return: Item.
-        :raises: Key, IndexError.
+
+        Args:
+            index: Index.
+
+        Returns:
+            Items in data.
+
+        Raises:
+            Key, IndexError.
         """
 
         try:
@@ -858,10 +864,26 @@ class CurrentQKDKeyRespond(RESPOND):
         self.key = self.data[0]
 
 
-class FlushQKDKey(RESPOND):
+class FlushQKDKeyRespond(RESPOND):
     def __init__(self, generic_id, exit_code, spesific_target=None):
         """
         QKD Application respond for current key request.
+
+        Args:
+            generic_id: Request ID.
+            exit_code: Exit Code.
+        """
+
+        super().__init__(
+            generic_id, layer.ID_APPLICATION, layer.ID_APPLICATION,
+            exit_code, spesific_target=spesific_target
+        )
+
+
+class ChangeChannelLenghtRespond(RESPOND):
+    def __init__(self, generic_id, exit_code, spesific_target=None):
+        """
+        Simulation kernel respond for channel length change.
 
         Args:
             generic_id: Request ID.

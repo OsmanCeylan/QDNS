@@ -61,7 +61,7 @@ def change_cirq_simulator(new_simulator: cirq.Simulator):
         new_simulator: cirq.Simulator
 
     Notes:
-        New simulator must have simulate()
+        New simulator must have simulated()
         New simulator must yiled final_state_vector in result
     """
 
@@ -887,7 +887,7 @@ class CirqBackendSlave(object):
         Applies transformation on qubits.
 
         Args:
-            gate_id: Gate Id.
+            gate_id: Gate ID.
             gate_arguments: Gate constructor args.
             qubits: Qubits.
         """
@@ -1467,7 +1467,7 @@ class CirqBackend(Backend):
         Applies transformation on qubits.
 
         Args:
-            gate_id: Gate Id.
+            gate_id: Gate ID.
             gate_arguments: Gate constructor args.
             qubits: Qubits.
         """
