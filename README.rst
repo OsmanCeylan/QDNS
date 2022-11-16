@@ -61,6 +61,11 @@ Note
 SDQS Backend benched because of performance regressions. It will back
 after re-optimization patch.
 
+Citiation
+----------
+Please cite this software follows:
+Ceylan, Osman Semi, and İhsan Yılmaz. "QDNS: Quantum Dynamic Network Simulator Based on Event Driving." 2021 International Conference on Information Security and Cryptology (ISCTURKEY). IEEE, 2021.
+
 License
 -------
 
